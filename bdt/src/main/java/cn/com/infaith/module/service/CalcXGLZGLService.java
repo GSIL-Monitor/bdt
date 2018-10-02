@@ -162,11 +162,13 @@ public class CalcXGLZGLService {
             } else if (right(numberMap.get("b") + numberMap.get("d")) == 0 || right(numberMap.get("b") + numberMap.get("d")) == 1 || right(numberMap.get("b") + numberMap.get("d")) == 2) {
                 //5-4-5-1
                 numberMap.put("e", 0);
-                numberMap.put("me", x(numberMap.get("e"), numberMap));
-                numberMap.put("f", 0);
+                numberMap = step5_4_5_2TOstep5_4_5_3(numberMap);
                 numberMap = step5_4_5_4TOstep5_4_5_7(numberMap);
             } else if (right(numberMap.get("b") + numberMap.get("d")) == 3) {
                 //5-4-6-1
+                numberMap.put("e", 0);
+                numberMap.put("me", x(numberMap.get("e"), numberMap));
+
             } else if (right(numberMap.get("b") + numberMap.get("d")) == 4) {
                 //5-4-7-1
             } else if (right(numberMap.get("b") + numberMap.get("d")) == 5) {
@@ -182,6 +184,14 @@ public class CalcXGLZGLService {
         步骤5-2，X(0)=N0,X(1)=N1,X(2)=N2,X(3)=N3,X(4)=N4,X(5)=N5,X(6)=N6,X(7)=N7,X(8)=N8,X(9)=N9。进入步骤5-3-1。
          */
 
+    }
+
+    private Map<String, Integer> step5_4_5_2TOstep5_4_5_3(Map<String, Integer> numberMap) {
+        //5-4-5-2
+        numberMap.put("me", x(numberMap.get("e"), numberMap));
+        //5-4-5-3
+        numberMap.put("f", 0);
+        return numberMap;
     }
 
     public int right(int num) {
@@ -271,7 +281,9 @@ public class CalcXGLZGLService {
             //5-4-5-9
             if (numberMap.get("e") < 9) {
                 //5-4-5-10
-
+                numberMap.put("e", numberMap.get("e") + 1);
+                //5-4-5-2
+                numberMap = step5_4_5_2TOstep5_4_5_3(numberMap);
             } else if (numberMap.get("e") == 9) {
                 //5-5
             }
