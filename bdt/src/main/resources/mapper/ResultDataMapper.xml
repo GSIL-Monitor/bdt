@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.ResultDataMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.ResultData">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="table_no" jdbcType="INTEGER" property="tableNo" />
+    <result column="battle_no" jdbcType="INTEGER" property="battleNo" />
+    <result column="fit_no" jdbcType="INTEGER" property="fitNo" />
+    <result column="tzfx" jdbcType="INTEGER" property="tzfx" />
+    <result column="tzxt" jdbcType="INTEGER" property="tzxt" />
+    <result column="tzzh" jdbcType="VARCHAR" property="tzzh" />
+    <result column="tzje" jdbcType="VARCHAR" property="tzje" />
+    <result column="tzzt" jdbcType="BIT" property="tzzt" />
+    <result column="tzjg" jdbcType="INTEGER" property="tzjg" />
+    <result column="yxje" jdbcType="INTEGER" property="yxje" />
+    <result column="yssy" jdbcType="INTEGER" property="yssy" />
+    <result column="sjsy" jdbcType="INTEGER" property="sjsy" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from result_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.ResultData">
+    insert into result_data (id, create_time, table_no, 
+      battle_no, fit_no, tzfx, 
+      tzxt, tzzh, tzje, tzzt, 
+      tzjg, yxje, yssy, sjsy
+      )
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER}, 
+      #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{tzfx,jdbcType=INTEGER}, 
+      #{tzxt,jdbcType=INTEGER}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=VARCHAR}, #{tzzt,jdbcType=BIT}, 
+      #{tzjg,jdbcType=INTEGER}, #{yxje,jdbcType=INTEGER}, #{yssy,jdbcType=INTEGER}, #{sjsy,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.ResultData">
+    update result_data
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      table_no = #{tableNo,jdbcType=INTEGER},
+      battle_no = #{battleNo,jdbcType=INTEGER},
+      fit_no = #{fitNo,jdbcType=INTEGER},
+      tzfx = #{tzfx,jdbcType=INTEGER},
+      tzxt = #{tzxt,jdbcType=INTEGER},
+      tzzh = #{tzzh,jdbcType=VARCHAR},
+      tzje = #{tzje,jdbcType=VARCHAR},
+      tzzt = #{tzzt,jdbcType=BIT},
+      tzjg = #{tzjg,jdbcType=INTEGER},
+      yxje = #{yxje,jdbcType=INTEGER},
+      yssy = #{yssy,jdbcType=INTEGER},
+      sjsy = #{sjsy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt, 
+    tzjg, yxje, yssy, sjsy
+    from result_data
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt, 
+    tzjg, yxje, yssy, sjsy
+    from result_data
+  </select>
+</mapper>

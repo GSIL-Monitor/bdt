@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.TableDataMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.TableData">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="table_no" jdbcType="INTEGER" property="tableNo" />
+    <result column="battle_no" jdbcType="INTEGER" property="battleNo" />
+    <result column="fit_no" jdbcType="INTEGER" property="fitNo" />
+    <result column="card" jdbcType="VARCHAR" property="card" />
+    <result column="result" jdbcType="INTEGER" property="result" />
+    <result column="xgl" jdbcType="VARCHAR" property="xgl" />
+    <result column="zgl" jdbcType="VARCHAR" property="zgl" />
+    <result column="xtsl" jdbcType="VARCHAR" property="xtsl" />
+    <result column="ztsl" jdbcType="VARCHAR" property="ztsl" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from table_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.TableData">
+    insert into table_data (id, create_time, table_no, 
+      battle_no, fit_no, card, 
+      result, xgl, zgl, xtsl, 
+      ztsl)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER}, 
+      #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{card,jdbcType=VARCHAR}, 
+      #{result,jdbcType=INTEGER}, #{xgl,jdbcType=VARCHAR}, #{zgl,jdbcType=VARCHAR}, #{xtsl,jdbcType=VARCHAR}, 
+      #{ztsl,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TableData">
+    update table_data
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      table_no = #{tableNo,jdbcType=INTEGER},
+      battle_no = #{battleNo,jdbcType=INTEGER},
+      fit_no = #{fitNo,jdbcType=INTEGER},
+      card = #{card,jdbcType=VARCHAR},
+      result = #{result,jdbcType=INTEGER},
+      xgl = #{xgl,jdbcType=VARCHAR},
+      zgl = #{zgl,jdbcType=VARCHAR},
+      xtsl = #{xtsl,jdbcType=VARCHAR},
+      ztsl = #{ztsl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, card, result, xgl, zgl, xtsl, 
+    ztsl
+    from table_data
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, card, result, xgl, zgl, xtsl, 
+    ztsl
+    from table_data
+  </select>
+</mapper>
