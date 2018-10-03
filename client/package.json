@@ -1,14 +1,12 @@
 {
-  "name": "iview-admin",
+  "name": "chrome-view",
   "version": "2.0.0",
-  "author": "Lison<lison.modern@gmail.com>",
+  "author": "caiwendi88@gmail.com>",
   "private": false,
   "scripts": {
     "dev": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.18.0",

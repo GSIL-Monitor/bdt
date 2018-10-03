@@ -16,10 +16,7 @@ export default [
   {
     path: '/login',
     name: 'login',
-    meta: {
-      title: 'Login - 登录',
-      hideInMenu: true
-    },
+    meta: {title: 'Login - 登录', hideInMenu: true},
     component: () => import('@/view/login/login.vue')
   },
   {
@@ -27,55 +24,62 @@ export default [
     name: '_home',
     redirect: '/home',
     component: Main,
-    meta: {
-      hideInMenu: true,
-      notCache: true
-    },
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        meta: {
-          hideInMenu: true,
-          title: '首页',
-          notCache: true
-        },
-        component: () => import('@/view/single-page/home')
-      }
-    ]
+    meta: {hideInMenu: true, notCache: true},
+    children: [{
+      path: '/home',
+      name: 'home',
+      meta: {hideInMenu: true, title: '首页', notCache: true},
+      component: () => import('@/view/single-page/home')
+    }]
   },
   {
-    path: '',
-    name: 'doc',
-    meta: {
-      title: '文档',
-      href: 'https://lison16.github.io/iview-admin-doc/#/',
-      icon: 'ios-book'
-    }
-  },
-  {
-    path: '/join',
-    name: 'join',
+    path: '/',
+    name: '总览',
     component: Main,
-    children: [
-      {
-        path: 'join_page',
-        name: 'join_page',
-        meta: {
-          icon: '_qq',
-          title: 'QQ群'
-        },
-        component: () => import('@/view/join-page.vue')
-      }
-    ]
+    children: [{
+      path: '/overview',
+      name: 'overview',
+      meta: {icon: 'ios-home', title: '总览'},
+      component: () => import('@/view/overview/overview.vue')
+    }]
+  },
+  {
+    path: '/',
+    name: '数据管理',
+    component: Main,
+    children: [{
+      path: '/management',
+      name: 'management',
+      meta: {icon: 'ios-keypad', title: '数据管理'},
+      component: () => import('@/view/overview/management.vue')
+    }]
+  },
+  {
+    path: '/',
+    name: '桌面管理',
+    component: Main,
+    children: [{
+      path: '/desktop',
+      name: 'desktop',
+      meta: {icon: 'ios-browsers', title: '桌面管理'},
+      component: () => import('@/view/overview/desktop.vue')
+    }]
+  },
+  {
+    path: '/',
+    name: '投注数据',
+    component: Main,
+    children: [{
+      path: '/betting',
+      name: 'betting',
+      meta: {icon: 'ios-analytics', title: '投注数据'},
+      component: () => import('@/view/overview/betting.vue')
+    }]
   },
   {
     path: '/components',
     name: 'components',
-    meta: {
-      icon: 'logo-buffer',
-      title: '组件'
-    },
+    meta: {icon: 'logo-buffer', title: '组件'},
     component: Main,
     children: [
       {
@@ -177,7 +181,7 @@ export default [
     name: 'excel',
     meta: {
       icon: 'ios-stats',
-      title: 'EXCEL导入导出'
+      title: '导入导出'
     },
     component: Main,
     children: [
