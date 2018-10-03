@@ -1,6 +1,11 @@
 <template>
   <div class="bdt-overview">
     <Row :gutter="16">
+      <!-- <Content class="content-wrapper">
+       <keep-alive :include="cacheList">
+         <router-view/>
+       </keep-alive>
+     </Content>-->
       <i-col span="8">
         <Card>
           <p slot="title">BDT运行状态</p>
@@ -86,9 +91,46 @@
               </FormItem>
             </Form>
           </div>
-          <p>卡片内容</p>
-          <p>卡片内容</p>
-          <p>卡片内容</p>
+          <div class="">
+            <table class="bdt-table">
+              <thead>
+              <tr>
+                <th><div class="row">账号</div></th>
+                <th><div class="row">投注金额</div></th>
+                <th><div class="row">投注时间限制</div></th>
+                <th><div class="row">投注桌号</div></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(item, index) in tableData">
+                <td class="name">
+                  <div class="row">
+                    <Select size="small" :key="index" v-model="item.name" clearable
+                            style="width:100px">
+                      <Option v-for="op in cityList" :value="op.value" :key="op.value">
+                        {{op.label }}
+                      </Option>
+                    </Select>
+                  </div>
+                </td>
+                <td>
+                  <div class="row">{{index}}</div>
+                </td>
+                <td class="time">
+                  <div class="row">
+                    <Select size="small" :key="index+Math.random()" v-model="item.time" clearable
+                            style="width:150px">
+                      <Option v-for="op1 in timelineData" :value="op1.name" :key="op1.name">
+                        {{op1.name }}
+                      </Option>
+                    </Select>
+                  </div>
+                </td>
+                <td>{{index}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </Card>
       </i-col>
       <i-col span="12">
@@ -118,9 +160,46 @@
               </FormItem>
             </Form>
           </div>
-          <p>卡片内容</p>
-          <p>卡片内容</p>
-          <p>卡片内容</p>
+          <div class="">
+            <table class="bdt-table">
+              <thead>
+              <tr>
+                <th><div class="row">账号</div></th>
+                <th><div class="row">投注金额</div></th>
+                <th><div class="row">投注时间限制</div></th>
+                <th><div class="row">投注桌号</div></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(item, index) in tableData">
+                <td class="name">
+                  <div class="row">
+                    <Select size="small" :key="index" v-model="item.name" clearable
+                            style="width:100px">
+                      <Option v-for="op in cityList" :value="op.value" :key="op.value">
+                        {{op.label }}
+                      </Option>
+                    </Select>
+                  </div>
+                </td>
+                <td>
+                  <div class="row">{{index}}</div>
+                </td>
+                <td class="time">
+                  <div class="row">
+                    <Select size="small" :key="index+Math.random()" v-model="item.time" clearable
+                            style="width:150px">
+                      <Option v-for="op1 in timelineData" :value="op1.name" :key="op1.name">
+                        {{op1.name }}
+                      </Option>
+                    </Select>
+                  </div>
+                </td>
+                <td>{{index}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </Card>
       </i-col>
     </Row>
@@ -132,6 +211,64 @@
     name: 'overview',
     data() {
       return {
+        timelineData: [
+          {name: '00:00~01:00', value: '00:00~01:00'},
+          {name: '01:00~02:00', value: '01:00~02:00'},
+          {name: '02:00~03:00', value: '02:00~03:00'},
+          {name: '03:00~04:00', value: '03:00~04:00'},
+          {name: '04:00~05:00', value: '04:00~05:00'},
+          {name: '05:00~06:00', value: '05:00~06:00'},
+          {name: '06:00~07:00', value: '06:00~07:00'},
+          {name: '07:00~08:00', value: '07:00~08:00'},
+          {name: '08:00~09:00', value: '08:00~09:00'},
+          {name: '09:00~10:00', value: '09:00~10:00'},
+          {name: '10:00~11:00', value: '10:00~11:00'},
+          {name: '11:00~12:00', value: '10:00~11:00'},
+          {name: '12:00~13:00', value: '10:00~11:00'},
+          {name: '13:00~14:00', value: '10:00~11:00'},
+          {name: '14:00~15:00', value: '10:00~11:00'},
+          {name: '15:00~16:00', value: '10:00~11:00'},
+          {name: '16:00~17:00', value: '10:00~11:00'},
+          {name: '17:00~18:00', value: '10:00~11:00'},
+          {name: '18:00~19:00', value: '10:00~11:00'},
+          {name: '19:00~20:00', value: '10:00~11:00'},
+          {name: '20:00~21:00', value: '10:00~11:00'},
+          {name: '21:00~22:00', value: '10:00~11:00'},
+          {name: '22:00~23:00', value: '10:00~11:00'},
+          {name: '23:00~00:00', value: '10:00~11:00'}
+        ],
+        cityList: [
+          {
+            value: 'New York',
+            label: 'New York'
+          },
+          {
+            value: 'London',
+            label: 'London'
+          },
+          {
+            value: 'Sydney',
+            label: 'Sydney'
+          },
+          {
+            value: 'Ottawa',
+            label: 'Ottawa'
+          },
+          {
+            value: 'Paris',
+            label: 'Paris'
+          },
+          {
+            value: 'Canberra',
+            label: 'Canberra'
+          }
+        ],
+        tableData: [
+          {
+            name: '1',
+            time: '1'
+          }
+        ],
         switchValue: false,
         qqFans: '',
         columns1: [
@@ -192,7 +329,42 @@
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  .bdt-table {
+    width: 100%;
+    thead {
+      tr {
+        background: #eeeeee;
+        border-bottom: 1px solid #c3c3c3;
+      }
+      td {
+        padding: 5px;
+      }
+    }
+    tbody {
+      td {
+        text-align: center;
+        &.name {
+          width: 120px;
+        }
+        &.time {
+          width: 150px;
+        }
+      }
+      tr {
+        border-bottom: 1px solid #c3c3c3;
+      }
+    }
+    .row {
+      padding: 5px;
+    }
+  }
+
+  .bdt-overview {
+    min-width: 1200px;
+    min-height: 3000px;
+  }
+
   .qq-group-img {
     display: block;
     margin: 0 auto;

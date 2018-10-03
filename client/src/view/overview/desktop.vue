@@ -12,6 +12,7 @@ export default {
 
 <style lang="less" scoped>
   .desktop {
+    min-width: 1200px;
     height: 1000px;
   }
 </style>

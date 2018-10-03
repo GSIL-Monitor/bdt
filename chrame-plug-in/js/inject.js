@@ -158,45 +158,45 @@ function formatterDateTime() {
 }
 
 function chrome_login() {
-    // let base64Img = document.querySelector('._3IDPG ._1CgIs._1I2Om img').src; // 验证码
-    // $.ajax({
-    //     type: 'post',
-    //     url: 'http://route.showapi.com/184-5',
-    //     dataType: 'json',
-    //     data: {
-    //         "showapi_timestamp": formatterDateTime(),
-    //         "showapi_appid": '75499', //这里需要改成自己的appid
-    //         "showapi_sign": '3be7fb2bd58b4dbca0c8c6a028fbcff0',  //这里需要改成自己的应用的密钥secret
-    //         "img_base64": base64Img,
-    //         "typeId": "34",
-    //         "convert_to_jpg": "0",
-    //         "needMorePrecise": "0"
-    //     },
-    //     success: function (result) {
-    //         let resCode = result.showapi_res_body.Result;
-    //         window.kv = new KeyboardEvent('input', {bubbles: true});
-    //         window.el1 = $("._3IDPG input._3pu_i")[0];
-    //         el1.value = window.chrome_login_User_Obj.userName;
-    //         el1._valueTracker.setValue(el1);
-    //         el1.dispatchEvent(kv);
-    //         window.el2 = $("._3IDPG input._39jpe")[0];
-    //         el2.value = window.chrome_login_User_Obj.password;
-    //         el2._valueTracker.setValue(el2);
-    //         el2.dispatchEvent(kv);
-    //         window.el3 = $("._3IDPG input._2LWcS")[0];
-    //         el3.value = resCode;
-    //         el3._valueTracker.setValue(el3);
-    //         el3.dispatchEvent(kv);
-    //         console.log('123', el1, el2, el3)
-    //         $("._3IDPG button").click();
-    //         setTimeout(() => {
-    //             $('._3IR2e ._3MSiK').click();
-    //         }, 3000)
-    //     },
-    //     error: function (XmlHttpRequest, textStatus, errorThrown) {
-    //         alert("操作失败!");
-    //     }
-    // })
+    let base64Img = document.querySelector('._3IDPG ._1CgIs._1I2Om img').src; // 验证码
+    $.ajax({
+        type: 'post',
+        url: 'http://route.showapi.com/184-5',
+        dataType: 'json',
+        data: {
+            "showapi_timestamp": formatterDateTime(),
+            "showapi_appid": '75499', //这里需要改成自己的appid
+            "showapi_sign": '3be7fb2bd58b4dbca0c8c6a028fbcff0',  //这里需要改成自己的应用的密钥secret
+            "img_base64": base64Img,
+            "typeId": "34",
+            "convert_to_jpg": "0",
+            "needMorePrecise": "0"
+        },
+        success: function (result) {
+            let resCode = result.showapi_res_body.Result;
+            window.kv = new KeyboardEvent('input', {bubbles: true});
+            window.el1 = $("._3IDPG input._3pu_i")[0];
+            el1.value = window.chrome_login_User_Obj.userName;
+            el1._valueTracker.setValue(el1);
+            el1.dispatchEvent(kv);
+            window.el2 = $("._3IDPG input._39jpe")[0];
+            el2.value = window.chrome_login_User_Obj.password;
+            el2._valueTracker.setValue(el2);
+            el2.dispatchEvent(kv);
+            window.el3 = $("._3IDPG input._2LWcS")[0];
+            el3.value = resCode;
+            el3._valueTracker.setValue(el3);
+            el3.dispatchEvent(kv);
+            console.log('123', el1, el2, el3)
+            $("._3IDPG button").click();
+            setTimeout(() => {
+                $('._3IR2e ._3MSiK').click();
+            }, 3000)
+        },
+        error: function (XmlHttpRequest, textStatus, errorThrown) {
+            alert("操作失败!");
+        }
+    })
 }
 
 var callback = function(mutationsList) { 

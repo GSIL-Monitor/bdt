@@ -3,13 +3,13 @@
 </template>
 
 <script>
-export default {
-  name: 'betting'
-}
+  export default {
+    name: 'betting'
+  }
 </script>
 
 <style lang="less" scoped>
   .betting {
-
+    min-width: 1200px;
   }
 </style>
