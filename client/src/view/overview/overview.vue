@@ -1,7 +1,7 @@
 <template>
   <div class="bdt-overview">
     <Row :gutter="16">
-      <i-col span="12">
+      <i-col span="8">
         <Card>
           <p slot="title">BDT运行状态</p>
           <p>卡片内容</p>
@@ -9,7 +9,7 @@
           <p>卡片内容</p>
         </Card>
       </i-col>
-      <i-col span="12">
+      <i-col span="16">
         <Card>
           <p slot="title">百家乐牌桌情况</p>
           <p>卡片内容</p>

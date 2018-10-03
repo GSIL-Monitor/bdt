@@ -39,7 +39,7 @@ export default [
     children: [{
       path: '/overview',
       name: 'overview',
-      meta: {icon: 'ios-home', title: '总览'},
+      meta: {icon: 'ios-home', title: '总览', beforeCloseName: 'before_close_normal'},
       component: () => import('@/view/overview/overview.vue')
     }]
   },
@@ -50,7 +50,7 @@ export default [
     children: [{
       path: '/management',
       name: 'management',
-      meta: {icon: 'ios-keypad', title: '数据管理'},
+      meta: {icon: 'ios-keypad', title: '数据管理', beforeCloseName: 'before_close_normal'},
       component: () => import('@/view/overview/management.vue')
     }]
   },
@@ -61,7 +61,7 @@ export default [
     children: [{
       path: '/desktop',
       name: 'desktop',
-      meta: {icon: 'ios-browsers', title: '桌面管理'},
+      meta: {icon: 'ios-browsers', title: '桌面管理', beforeCloseName: 'before_close_normal'},
       component: () => import('@/view/overview/desktop.vue')
     }]
   },
@@ -72,7 +72,7 @@ export default [
     children: [{
       path: '/betting',
       name: 'betting',
-      meta: {icon: 'ios-analytics', title: '投注数据'},
+      meta: {icon: 'ios-analytics', title: '投注数据', beforeCloseName: 'before_close_normal'},
       component: () => import('@/view/overview/betting.vue')
     }]
   },
