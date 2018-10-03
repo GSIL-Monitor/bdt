@@ -1,37 +1,38 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
-import store from './store/index'
-import ElementUI from 'element-ui'
-import './assets/css/reset.css'
-import './assets/css/element-variables.scss'
-import './assets/css/common.scss'
 import router from './router'
-import transferDom from './directive/transfer-dom'
-//
-import common from './service/common'
-import arrayFun from './service/array'
-import Http from './service/http'
-import Cookie from './service/cookie'
-import Api from './service/api'
+import store from './store'
+import iView from 'iview'
+import i18n from '@/locale'
+import config from '@/config'
+import importDirective from '@/directive'
+import 'iview/dist/styles/iview.css'
+import './index.less'
+import '@/assets/icons/iconfont.css'
+// 实际打包时应该不引入mock
+/* eslint-disable */
+if (process.env.NODE_ENV !== 'production') require('@/mock')
 
-Vue.use(transferDom)
-Vue.use(ElementUI)
-//
+Vue.use(iView, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 Vue.config.productionTip = false
-Vue.prototype.$api = Api
-Vue.prototype.$http = Http
-Vue.prototype.$cookie = Cookie
-Vue.prototype.$common = common
-Vue.prototype.$array = arrayFun
-//
+/**
+ * @description 全局注册应用配置
+ */
+Vue.prototype.$config = config
+/**
+ * 注册指令
+ */
+importDirective(Vue)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  i18n,
   store,
-  components: {App},
-  template: '<App/>'
+  render: h => h(App)
 })
