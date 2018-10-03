@@ -4,21 +4,22 @@ let protocol = document.location.protocol == 'https:' ? 'https:' : 'http:'
 
 const HOSTS = {
   dev: {
-    api: protocol + '//tianfeng.api.in-hope.com.cn/' // 接口地址
+    api: protocol + '//' // 接口地址
   },
   development: {
     // api: protocol + '//192.168.150.238:8081/'
-    api: protocol + '//tianfeng.api.in-hope.com.cn/'
+    api: protocol + '//',
+    host: protocol + '//'
   },
   testing: {
-    api: protocol + '//tianfeng.api.in-hope.com.cn/'
+    api: protocol + '//'
   },
   production: {
-    api: protocol + '//tf.in-hope.cn/'
+    api: protocol + '//'
   }
 }
-const HOST = HOSTS[process.env.XA_ENV].api
-const IP = HOSTS[process.env.XA_ENV].host
+const HOST = HOSTS[process.env.NODE_ENV].api
+const IP = HOSTS[process.env.NODE_ENV].host
 export default {
   // origin: protocol + '//' + document.location.host + '/',
   host: IP,

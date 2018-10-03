@@ -3,11 +3,13 @@
 import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
+import store from './store/index'
 import ElementUI from 'element-ui'
 import './assets/css/reset.css'
 import './assets/css/element-variables.scss'
 import './assets/css/common.scss'
 import router from './router'
+import transferDom from './directive/transfer-dom'
 //
 import common from './service/common'
 import arrayFun from './service/array'
@@ -15,6 +17,7 @@ import Http from './service/http'
 import Cookie from './service/cookie'
 import Api from './service/api'
 
+Vue.use(transferDom)
 Vue.use(ElementUI)
 //
 Vue.config.productionTip = false

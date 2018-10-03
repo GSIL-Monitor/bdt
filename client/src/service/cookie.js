@@ -2,7 +2,6 @@ import cookies from 'js-cookie'
 
 export default {
   get(name) {
-    name = process.env.XA_ENV + '_' + name
     let value = cookies.get(name)
     if (!value) {
       value = ''
@@ -10,20 +9,10 @@ export default {
     return value
   },
   set(name, value) {
-    name = process.env.XA_ENV + '_' + name
-    if (process.env.XA_ENV === 'development') {
-      cookies.set(name, value, {expires: 7})
-    } else {
-      cookies.set(name, value, {expires: 7})
-    }
+    cookies.set(name, value, {expires: 7})
   },
   remove(name) {
-    name = process.env.XA_ENV + '_' + name
-    if (process.env.XA_ENV === 'development') {
-      cookies.set(name, '', {expires: -1})
-    } else {
-      cookies.set(name, '', {expires: -1})
-    }
+    cookies.set(name, '', {expires: -1})
   },
   isLogin() {
     let userId = this.get('TF_TOKEN')
