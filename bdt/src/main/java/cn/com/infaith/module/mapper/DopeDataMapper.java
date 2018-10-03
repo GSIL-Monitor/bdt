@@ -1,6 +1,7 @@
 package cn.com.infaith.module.mapper;
 
 import cn.com.infaith.module.model.DopeData;
+
 import java.util.List;
 
 public interface DopeDataMapper {

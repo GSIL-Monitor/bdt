@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.UserAccountMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.UserAccount">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="ip_region" jdbcType="VARCHAR" property="ipRegion" />
+    <result column="ip_address" jdbcType="VARCHAR" property="ipAddress" />
+    <result column="effective_amount" jdbcType="DECIMAL" property="effectiveAmount" />
+    <result column="login_status" jdbcType="TINYINT" property="loginStatus" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    UPDATE user_account SET is_delete = 1 WHERE id = #{id}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.UserAccount">
+    insert into user_account (id, name, account, 
+      password, ip_region, ip_address, effective_amount, login_status,
+      is_delete)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{effectiveAmount,jdbcType=DECIMAL},
+      0,0)
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.UserAccount">
+    update user_account
+    set
+      is_delete = 0
+    <if test="name != null and name != ''">
+      ,name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="account != null and account != ''">
+      ,account = #{account,jdbcType=VARCHAR}
+    </if>
+    <if test="password != null and password != ''">
+      ,password = #{password,jdbcType=VARCHAR}
+    </if>
+    <if test="ipRegion != null and ipRegion != ''">
+      ,ip_region = #{ipRegion,jdbcType=VARCHAR}
+    </if>
+    <if test="ipAddress != null and ipAddress != ''">
+      ,ip_address = #{ipAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="effectiveAmount != null">
+      ,effective_amount = #{effectiveAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="loginStatus != null">
+      ,login_status = #{loginStatus}
+    </if>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, account, ip_region, ip_address, effective_amount, login_status, is_delete
+    from user_account AND is_delete = 0
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, account, ip_address, effective_amount, is_delete
+    from user_account
+  </select>
+
+  <select id="selectByAccountAndPassWord" resultType="cn.com.infaith.module.model.UserAccount">
+    select id, name, account, ip_region ipRegion, ip_address ipAddress, effective_amount effectiveAmount,
+    login_status loginStatus, is_delete isDelete
+    from user_account
+    where account = #{account} AND password = #{password} AND is_delete = 0
+  </select>
+
+  <select id="selectCountByAccount" resultType="int" parameterType="String">
+    SELECT count(1) FROM user_account WHERE account = #{account}
+  </select>
+</mapper>
