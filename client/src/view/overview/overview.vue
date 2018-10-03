@@ -62,7 +62,11 @@
       return {
         qqFans: ''
       }
-    }
+    },
+    mounted() {
+      console.log(this.$config);
+    },
+    methods: {}
   }
 </script>
 
