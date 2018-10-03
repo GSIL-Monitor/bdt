@@ -1,0 +1,97 @@
+// * element-ui 样式重置 */
+$--color-primary: #ffb148;
+.el-message {
+  top: 40% !important;
+  border: 0;
+  border-width: 0 !important;
+}
+.el-message p {
+  display: inline-block;
+}
+.el-button {
+  font-weight: normal !important;
+}
+.el-message--success {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  //border-left:4px solid green !important;
+  //box-shadow: 0 1px 6px rgba(0,0,0,.2);
+  font-weight: 300;
+}
+.el-message--error {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  //border-left:4px solid red !important;
+  //box-shadow: 0 1px 6px rgba(0,0,0,.2);
+  font-weight: 300;
+}
+.el-message--error .el-message__content, .el-message--warning .el-message__content, .el-message--success .el-message__content {
+  color: #fff !important;
+}
+.el-message .el-icon-error, .el-message .el-icon-warning, .el-message .el-icon-success {
+  color: #fff !important;
+}
+.el-message--warning {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  //box-shadow: 0 1px 6px rgba(0,0,0,.2);
+  font-weight: 300;
+}
+.el-message__content {
+  width: 90%
+}
+// 消除分页控件 字体粗细
+.el-pagination {
+  font-weight: normal !important;
+}
+.el-input__inner {
+  border: 1px solid #e3e3e3;
+}
+//
+@font-face {
+  font-family: 'element-icons';
+  src: url('../fonts/element-icons.eot?t=1530862006619'),
+  url('../fonts/element-icons.eot?t=1530862006619#iefix') format('embedded-opentype'),
+  url('../fonts/element-icons.woff?t=1530862006619') format('woff'),
+  url('../fonts/element-icons.ttf?t=1530862006619') format('truetype'),
+  url('../fonts/element-icons.svg?t=1530862006619#element-iconsOTINA1xY') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+//
+.el-form-item.is-success .el-input__inner {
+  border-color: #e3e3e3 !important;
+}
+.el-input__inner {
+  color: #323232 !important;
+  line-height: 1 !important;
+}
+.el-select {
+  .el-input__inner {
+    text-align: center !important;
+    color: #8d8d8d !important;
+  }
+  .el-input--suffix .el-input__inner {
+    padding-right: 24px !important;
+  }
+}
+.el-input__icon {
+  line-height: 1 !important;
+}
+.el-form-item.is-required .el-form-item__label:before {
+  color: #ffb148 !important;
+}
+.el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus {
+  border-color: #ffb148 !important;
+}
+.el-tooltip__popper {
+  padding: 5px 10px !important;
+}
+.el-tooltip__popper.is-light {
+  border: 1px solid #e3e3e3 !important;
+}
+.el-badge__content {
+  background-color: #fb4319 !important;
+}
+.el-pager li.active + li {
+  border-left: 1px solid #e3e3e3 !important;
+}
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import "~element-ui/packages/theme-chalk/src/index";
