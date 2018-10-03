@@ -47,34 +47,21 @@ export default [
     path: '/',
     name: '数据管理',
     component: Main,
-    children: [{
-      path: '/management',
-      name: 'management',
-      meta: {icon: 'ios-keypad', title: '数据管理', beforeCloseName: 'before_close_normal'},
-      component: () => import('@/view/overview/management.vue')
-    }]
-  },
-  {
-    path: '/',
-    name: '桌面管理',
-    component: Main,
-    children: [{
-      path: '/desktop',
-      name: 'desktop',
-      meta: {icon: 'ios-browsers', title: '桌面管理', beforeCloseName: 'before_close_normal'},
-      component: () => import('@/view/overview/desktop.vue')
-    }]
-  },
-  {
-    path: '/',
-    name: '投注数据',
-    component: Main,
-    children: [{
-      path: '/betting',
-      name: 'betting',
-      meta: {icon: 'ios-analytics', title: '投注数据', beforeCloseName: 'before_close_normal'},
-      component: () => import('@/view/overview/betting.vue')
-    }]
+    meta: {icon: 'ios-keypad', title: '数据管理', beforeCloseName: 'before_close_normal'},
+    children: [
+      {
+        path: '/desktop',
+        name: 'desktop',
+        meta: {icon: 'ios-browsers', title: '桌面管理', beforeCloseName: 'before_close_normal'},
+        component: () => import('@/view/overview/desktop.vue')
+      },
+      {
+        path: '/betting',
+        name: 'betting',
+        meta: {icon: 'ios-analytics', title: '投注数据', beforeCloseName: 'before_close_normal'},
+        component: () => import('@/view/overview/betting.vue')
+      }
+    ]
   },
   {
     path: '/components',
