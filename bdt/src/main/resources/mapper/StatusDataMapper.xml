@@ -54,4 +54,10 @@
     ORDER BY battle_no DESC, fit_no DESC
     limit 1
   </select>
+
+  <update id="updateStatusByTableNo">
+    update status_data
+    set status = #{status}
+    where table_no = #{tableNo} AND is_delete = 0
+  </update>
 </mapper>

@@ -27,6 +27,14 @@ public class TableData {
 
     private String ztsl;
 
+    private String xjz;
+
+    private String zjz;
+
+    private String ljxjz;
+
+    private String ljzjz;
+
     public Integer getId() {
         return id;
     }
@@ -121,5 +129,37 @@ public class TableData {
 
     public void setCreateDate(Long createDate) {
         this.createDate = createDate;
+    }
+
+    public String getXjz() {
+        return xjz;
+    }
+
+    public void setXjz(String xjz) {
+        this.xjz = xjz;
+    }
+
+    public String getZjz() {
+        return zjz;
+    }
+
+    public void setZjz(String zjz) {
+        this.zjz = zjz;
+    }
+
+    public String getLjxjz() {
+        return ljxjz;
+    }
+
+    public void setLjxjz(String ljxjz) {
+        this.ljxjz = ljxjz;
+    }
+
+    public String getLjzjz() {
+        return ljzjz;
+    }
+
+    public void setLjzjz(String ljzjz) {
+        this.ljzjz = ljzjz;
     }
 }

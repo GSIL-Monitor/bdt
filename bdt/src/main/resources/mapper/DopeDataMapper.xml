@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.DopeData">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="tzsj_section" jdbcType="VARCHAR" property="tzsjSection" />
     <result column="table_no" jdbcType="INTEGER" property="tableNo" />
     <result column="battle_no" jdbcType="INTEGER" property="battleNo" />
     <result column="fit_no" jdbcType="INTEGER" property="fitNo" />
@@ -17,13 +18,25 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.DopeData">
-    insert into dope_data (id, create_time, table_no, 
+    insert into dope_data (id, create_time, tzsj_section, table_no,
       battle_no, fit_no, tzfx, 
-      tzxt, tzzh, tzje)
-    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER}, 
+      tzxt, tzzh, tzje, is_delete)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{tzsjSection}, #{tableNo,jdbcType=INTEGER},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{tzfx,jdbcType=INTEGER}, 
-      #{tzxt,jdbcType=INTEGER}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=INTEGER})
+      #{tzxt,jdbcType=INTEGER}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=INTEGER}, 0)
   </insert>
+
+  <insert id="addDopeDataList" parameterType="cn.com.infaith.module.model.DopeData">
+    insert into dope_data (create_time, tzsj_section, table_no,
+      battle_no, fit_no, tzfx,
+      tzxt, tzzh, tzje, is_delete)
+    <foreach collection="list" item="item" separator=",">
+      values (#{item.createTime,jdbcType=TIMESTAMP}, #{item.tzsjSection}, #{item.tableNo,jdbcType=INTEGER},
+      #{item.battleNo,jdbcType=INTEGER}, #{item.fitNo,jdbcType=INTEGER}, #{item.tzfx,jdbcType=INTEGER},
+      #{item.tzxt,jdbcType=INTEGER}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=INTEGER}, 0)
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.DopeData">
     update dope_data
     set create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -34,15 +47,45 @@
       tzxt = #{tzxt,jdbcType=INTEGER},
       tzzh = #{tzzh,jdbcType=VARCHAR},
       tzje = #{tzje,jdbcType=INTEGER}
+      <if test="tzsjSection != null and tzsjSection != ''">
+        ,tzsj_section = #{tzsjSection}
+      </if>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
+    select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
     from dope_data
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
+    select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
     from dope_data
+  </select>
+
+  <select id="getDopeCountByTableNo" resultType="int">
+    select count(1)
+    from dope_data
+    where table_no = #{tableNo}
+    AND tzxt = #{tzSystem}
+    AND is_delete = 0
+  </select>
+
+  <update id="clearAllDopeByTableNoAndTzSystem">
+    UPDATE dope_data SET is_delete = 1
+    WHERE table_no = #{tableNo}
+    AND tzxt = #{tzSystem}
+  </update>
+
+  <select id="getFirstDopeByTableNoAndTzSystem" resultMap="BaseResultMap">
+    select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
+    from dope_data
+    where is_delete = 0 AND table_no = #{tableNo} AND tzxt = #{tzSystem}
+    limit 1
+  </select>
+
+  <select id="getDopeByTableNoAndTzSystem" resultMap="BaseResultMap">
+    select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
+    from dope_data
+    where is_delete = 0 AND table_no = #{tableNo} AND tzxt = #{tzSystem}
   </select>
 </mapper>

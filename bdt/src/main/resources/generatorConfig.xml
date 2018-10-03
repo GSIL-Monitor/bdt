@@ -40,10 +40,10 @@
         <!--</table>-->
         <!--<table tableName="publish_data_source_content"></table>-->
         <!--<table tableName="publish_docket_data_source"></table>-->
-        <table tableName="dope_data"></table>
-        <table tableName="result_data"></table>
-        <table tableName="status_data"></table>
-        <table tableName="table_data"></table>
+        <!--<table tableName="dope_data"></table>-->
+        <!--<table tableName="result_data"></table>-->
+        <!--<table tableName="status_data"></table>-->
+        <table tableName="tz_system"></table>
 
 
 

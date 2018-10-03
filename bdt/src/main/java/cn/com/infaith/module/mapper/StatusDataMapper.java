@@ -19,4 +19,6 @@ public interface StatusDataMapper {
     int addStatusDataList(@Param("list") List<StatusData> statusDataList);
 
     StatusData getStatusByTableNo(int tableNo);
+
+    int updateStatusByTableNo(@Param("tableNo") int tableNo, @Param("status") int status);
 }

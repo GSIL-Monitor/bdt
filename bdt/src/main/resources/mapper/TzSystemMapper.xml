@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.TzSystemMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.TzSystem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tzxt" jdbcType="INTEGER" property="tzxt" />
+    <result column="started" jdbcType="BIT" property="started" />
+    <result column="fh" jdbcType="INTEGER" property="fh" />
+    <result column="xh" jdbcType="VARCHAR" property="xh" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tz_system
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.TzSystem">
+    insert into tz_system (id, tzxt, started, fh, xh
+      )
+    values (#{id,jdbcType=INTEGER}, #{tzxt,jdbcType=INTEGER}, #{started,jdbcType=BIT}, #{fh}, #{xh}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TzSystem">
+    update tz_system
+    set tzxt = #{tzxt,jdbcType=INTEGER},
+      started = #{started,jdbcType=BIT},
+      fh = #{fh},
+      xh = #{xh}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, tzxt, started, fh, xh
+    from tz_system
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, tzxt, started, fh, xh
+    from tz_system
+  </select>
+
+  <update id="updateStartOrClose">
+    update tz_system
+    set started = #{started}
+    <if test="fh != null and fh != 0">
+      ,fh = #{fh}
+    </if>
+    <if test="xh != null and xh != ''">
+      ,xh = #{xh}
+    </if>
+    where tzxt = #{tzxt}
+  </update>
+
+  <select id="getTzSystemInfo" resultMap="BaseResultMap" parameterType="int">
+    select id, tzxt, started, fh, xh
+    from tz_system
+    WHERE tzxt = #{tzxt}
+  </select>
+</mapper>
