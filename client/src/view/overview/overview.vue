@@ -1,26 +1,69 @@
 <template>
   <div class="bdt-overview">
-    <Row :gutter="20">
+    <Row :gutter="16">
       <i-col span="12">
-        <Card title="iview-admin交流QQ群" shadow>
-          <img class="qq-group-img" :src="qqFans" alt="">
-          <p class="qq-group-intro">
-            本群为使用iview-admin或者对iview-admin感兴趣的开发者提供交流平台，在这里，解决你开发中的疑惑，共同进步。</p>
+        <Card>
+          <p slot="title">BDT运行状态</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
         </Card>
       </i-col>
+      <i-col span="12">
+        <Card>
+          <p slot="title">百家乐牌桌情况</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+        </Card>
+      </i-col>
+    </Row>
+    <br style="height: 16px">
+    <Row :gutter="16">
+      <i-col span="8">
+        <Card>
+          <p slot="title">账号登录情况</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+        </Card>
+      </i-col>
+      <i-col span="8">
+        <Card>
+          <p slot="title">投注子系统TZ1</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+        </Card>
+      </i-col>
+      <i-col span="8">
+        <Card>
+          <p slot="title">标准卡片</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+          <p>卡片内容</p>
+        </Card>
+      </i-col>
+    </Row>
+    <br>
+    <Row :gutter="16">
+      <i-col span="6">col-6</i-col>
+      <i-col span="6">col-6</i-col>
+      <i-col span="6">col-6</i-col>
+      <i-col span="6">col-6</i-col>
     </Row>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'overview',
-  data () {
-    return {
-      qqFans: ''
+  export default {
+    name: 'overview',
+    data() {
+      return {
+        qqFans: ''
+      }
     }
   }
-}
 </script>
 
 <style scoped>

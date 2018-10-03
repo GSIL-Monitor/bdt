@@ -21,7 +21,7 @@ export default [
   },
   {
     path: '/',
-    name: '_home',
+    name: '首页',
     redirect: '/home',
     component: Main,
     meta: {hideInMenu: true, notCache: true},
