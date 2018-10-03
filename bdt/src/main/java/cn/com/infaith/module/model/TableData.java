@@ -7,6 +7,8 @@ public class TableData {
 
     private Date createTime;
 
+    private Long createDate;
+
     private Integer tableNo;
 
     private Integer battleNo;
@@ -111,5 +113,13 @@ public class TableData {
 
     public void setZtsl(String ztsl) {
         this.ztsl = ztsl == null ? null : ztsl.trim();
+    }
+
+    public Long getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
     }
 }

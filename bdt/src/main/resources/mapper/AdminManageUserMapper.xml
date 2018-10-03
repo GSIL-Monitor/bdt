@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.AdminManageUserMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.AdminManageUser">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin_manage_user
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.AdminManageUser">
+    insert into admin_manage_user (id, admin_id, user_id, 
+      is_delete)
+    values (#{id}, #{adminId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 0)
+  </insert>
+
+  <insert id="insertList" parameterType="cn.com.infaith.module.model.AdminManageUser">
+    insert into admin_manage_user (id, admin_id, user_id,
+    is_delete)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id}, #{item.adminId,jdbcType=VARCHAR}, #{item.userId,jdbcType=VARCHAR}, 0)
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.AdminManageUser">
+    update admin_manage_user
+    set admin_id = #{adminId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, admin_id, user_id, is_delete
+    from admin_manage_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, admin_id, user_id, is_delete
+    from admin_manage_user
+  </select>
+
+  <select id="getUserByAdmin" parameterType="String" resultType="cn.com.infaith.module.model.UserAccount">
+    SELECT a.id, a.name, a.account, a.ip_region ipRegion, a.ip_address ipAddress, a.effective_amount effectiveAmount,
+    a.login_status loginStatus, a.is_delete isDelete FROM admin_manage_user b, user_account a
+    WHERE b.user_id = a.id AND a.is_delete = 0 AND b.is_delete = 0
+    AND b.admin_id = #{admin}
+    ORDER BY a.login_status DESC
+  </select>
+
+  <update id="deleteAdminManageUser" parameterType="String">
+    update admin_manage_user
+    set  is_delete = 1
+    where id = #{id}
+  </update>
+</mapper>

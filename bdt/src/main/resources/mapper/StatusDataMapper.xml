@@ -13,11 +13,22 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.StatusData">
-    insert into status_data (id, table_no, battle_no, 
-      fit_no, status)
-    values (#{id,jdbcType=INTEGER}, #{tableNo,jdbcType=INTEGER}, #{battleNo,jdbcType=INTEGER}, 
-      #{fitNo,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+    insert into status_data (table_no, battle_no,
+      fit_no, status, is_delete)
+    values (#{tableNo,jdbcType=INTEGER}, #{battleNo,jdbcType=INTEGER},
+      #{fitNo,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 0)
   </insert>
+
+  <insert id="addStatusDataList" parameterType="cn.com.infaith.module.model.StatusData">
+    insert into status_data (table_no, battle_no,
+      fit_no, status, is_delete)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.tableNo,jdbcType=INTEGER}, #{item.battleNo,jdbcType=INTEGER},
+      #{item.fitNo,jdbcType=INTEGER}, #{item.status,jdbcType=INTEGER}, 0)
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.StatusData">
     update status_data
     set table_no = #{tableNo,jdbcType=INTEGER},
@@ -29,10 +40,18 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, table_no, battle_no, fit_no, status
     from status_data
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, table_no, battle_no, fit_no, status
+    from status_data AND is_delete = 0
+  </select>
+
+  <select id="getStatusByTableNo" resultMap="BaseResultMap" parameterType="int">
+    select id, table_no, battle_no, fit_no, status
     from status_data
+    WHERE table_no = #{tableNo} AND is_delete = 0
+    ORDER BY battle_no DESC, fit_no DESC
+    limit 1
   </select>
 </mapper>
