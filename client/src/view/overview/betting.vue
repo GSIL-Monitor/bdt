@@ -111,11 +111,13 @@
     height: 1000px;
     .flex.border-flex {
       height: 40px;
-      background-color: #BFBFBF;
+      background-color: #e3e3e3;
       padding: 3px;
       border-radius: 4px;
       .col {
         margin-right: 30px;
+        color: rgba(0, 0, 0, 0.7);
+        font-weight: bold;
       }
     }
     .flex {
