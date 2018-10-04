@@ -84,11 +84,14 @@
         ]
       }
     },
+    activated() {
+      console.log('activated', 1111);
+    },
     mounted() {
-
+      console.log('mounted', 1111);
     },
     created() {
-
+      console.log('created', 1111);
     },
     methods: {
       exportExcel() {

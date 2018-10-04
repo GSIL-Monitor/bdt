@@ -95,10 +95,18 @@
             <table class="bdt-table">
               <thead>
               <tr>
-                <th><div class="row">账号</div></th>
-                <th><div class="row">投注金额</div></th>
-                <th><div class="row">投注时间限制</div></th>
-                <th><div class="row">投注桌号</div></th>
+                <th>
+                  <div class="row">账号</div>
+                </th>
+                <th>
+                  <div class="row">投注金额</div>
+                </th>
+                <th>
+                  <div class="row">投注时间限制</div>
+                </th>
+                <th>
+                  <div class="row">投注桌号</div>
+                </th>
               </tr>
               </thead>
               <tbody>
@@ -164,10 +172,18 @@
             <table class="bdt-table">
               <thead>
               <tr>
-                <th><div class="row">账号</div></th>
-                <th><div class="row">投注金额</div></th>
-                <th><div class="row">投注时间限制</div></th>
-                <th><div class="row">投注桌号</div></th>
+                <th>
+                  <div class="row">账号</div>
+                </th>
+                <th>
+                  <div class="row">投注金额</div>
+                </th>
+                <th>
+                  <div class="row">投注时间限制</div>
+                </th>
+                <th>
+                  <div class="row">投注桌号</div>
+                </th>
               </tr>
               </thead>
               <tbody>
@@ -223,19 +239,19 @@
           {name: '08:00~09:00', value: '08:00~09:00'},
           {name: '09:00~10:00', value: '09:00~10:00'},
           {name: '10:00~11:00', value: '10:00~11:00'},
-          {name: '11:00~12:00', value: '10:00~11:00'},
-          {name: '12:00~13:00', value: '10:00~11:00'},
-          {name: '13:00~14:00', value: '10:00~11:00'},
-          {name: '14:00~15:00', value: '10:00~11:00'},
-          {name: '15:00~16:00', value: '10:00~11:00'},
-          {name: '16:00~17:00', value: '10:00~11:00'},
-          {name: '17:00~18:00', value: '10:00~11:00'},
-          {name: '18:00~19:00', value: '10:00~11:00'},
-          {name: '19:00~20:00', value: '10:00~11:00'},
-          {name: '20:00~21:00', value: '10:00~11:00'},
-          {name: '21:00~22:00', value: '10:00~11:00'},
-          {name: '22:00~23:00', value: '10:00~11:00'},
-          {name: '23:00~00:00', value: '10:00~11:00'}
+          {name: '11:00~12:00', value: '11:00~12:00'},
+          {name: '12:00~13:00', value: '12:00~13:00'},
+          {name: '13:00~14:00', value: '13:00~14:00'},
+          {name: '14:00~15:00', value: '14:00~15:00'},
+          {name: '15:00~16:00', value: '15:00~16:00'},
+          {name: '16:00~17:00', value: '16:00~17:00'},
+          {name: '17:00~18:00', value: '17:00~18:00'},
+          {name: '18:00~19:00', value: '18:00~19:00'},
+          {name: '19:00~20:00', value: '19:00~20:00'},
+          {name: '20:00~21:00', value: '20:00~21:00'},
+          {name: '21:00~22:00', value: '21:00~22:00'},
+          {name: '22:00~23:00', value: '22:00~23:00'},
+          {name: '23:00~00:00', value: '23:00~00:00'}
         ],
         cityList: [
           {
