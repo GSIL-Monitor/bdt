@@ -37,6 +37,7 @@ export default {
       userName = userName.trim()
       return new Promise((resolve, reject) => {
         login({userName, password}).then(res => {
+          console.log(res);
           const data = res.data
           console.log('data', data);
           commit('setToken', data.token)
