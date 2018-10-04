@@ -13,9 +13,9 @@
     <result column="tzje" jdbcType="VARCHAR" property="tzje" />
     <result column="tzzt" jdbcType="BIT" property="tzzt" />
     <result column="tzjg" jdbcType="INTEGER" property="tzjg" />
-    <result column="yxje" jdbcType="INTEGER" property="yxje" />
-    <result column="yssy" jdbcType="INTEGER" property="yssy" />
-    <result column="sjsy" jdbcType="INTEGER" property="sjsy" />
+    <result column="yxje" jdbcType="DECIMAL" property="yxje" />
+    <result column="yssy" jdbcType="DECIMAL" property="yssy" />
+    <result column="sjsy" jdbcType="DECIMAL" property="sjsy" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from result_data
@@ -30,24 +30,16 @@
     values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER}, 
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{tzfx,jdbcType=INTEGER}, 
       #{tzxt,jdbcType=INTEGER}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=VARCHAR}, #{tzzt,jdbcType=BIT}, 
-      #{tzjg,jdbcType=INTEGER}, #{yxje,jdbcType=INTEGER}, #{yssy,jdbcType=INTEGER}, #{sjsy,jdbcType=INTEGER}
+      #{tzjg,jdbcType=INTEGER}, #{yxje,jdbcType=DECIMAL}, #{yssy,jdbcType=DECIMAL}, #{sjsy,jdbcType=DECIMAL}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.ResultData">
+  <update id="updateById" parameterType="cn.com.infaith.module.model.ResultData">
     update result_data
-    set create_time = #{createTime,jdbcType=TIMESTAMP},
-      table_no = #{tableNo,jdbcType=INTEGER},
-      battle_no = #{battleNo,jdbcType=INTEGER},
-      fit_no = #{fitNo,jdbcType=INTEGER},
-      tzfx = #{tzfx,jdbcType=INTEGER},
-      tzxt = #{tzxt,jdbcType=INTEGER},
-      tzzh = #{tzzh,jdbcType=VARCHAR},
-      tzje = #{tzje,jdbcType=VARCHAR},
-      tzzt = #{tzzt,jdbcType=BIT},
+    set
       tzjg = #{tzjg,jdbcType=INTEGER},
-      yxje = #{yxje,jdbcType=INTEGER},
-      yssy = #{yssy,jdbcType=INTEGER},
-      sjsy = #{sjsy,jdbcType=INTEGER}
+      yxje = #{yxje,jdbcType=DECIMAL},
+      yssy = #{yssy,jdbcType=DECIMAL},
+      sjsy = #{sjsy,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -60,5 +52,14 @@
     select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt, 
     tzjg, yxje, yssy, sjsy
     from result_data
+  </select>
+
+  <select id="getResultJGNullByTable" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt,
+    tzjg, yxje, yssy, sjsy
+    from result_data a,
+    WHERE table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = #{fitNo}
+    AND (tzjg IS NULL OR tzjg = '')
+    ORDER BY account ASC limit 1
   </select>
 </mapper>

@@ -19,4 +19,6 @@ public interface TableDataMapper {
     int addTableDataList(@Param("list") List<TableData> tableDataList);
 
     List<TableData> getTableInfo();
+
+    TableData getNewestTableData(int tableNo);
 }

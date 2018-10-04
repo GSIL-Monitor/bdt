@@ -1,5 +1,6 @@
 package cn.com.infaith.module.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class ResultData {
@@ -25,11 +26,11 @@ public class ResultData {
 
     private Integer tzjg;
 
-    private Integer yxje;
+    private BigDecimal yxje;
 
-    private Integer yssy;
+    private BigDecimal yssy;
 
-    private Integer sjsy;
+    private BigDecimal sjsy;
 
     public Integer getId() {
         return id;
@@ -119,27 +120,27 @@ public class ResultData {
         this.tzjg = tzjg;
     }
 
-    public Integer getYxje() {
+    public BigDecimal getYxje() {
         return yxje;
     }
 
-    public void setYxje(Integer yxje) {
+    public void setYxje(BigDecimal yxje) {
         this.yxje = yxje;
     }
 
-    public Integer getYssy() {
+    public BigDecimal getYssy() {
         return yssy;
     }
 
-    public void setYssy(Integer yssy) {
+    public void setYssy(BigDecimal yssy) {
         this.yssy = yssy;
     }
 
-    public Integer getSjsy() {
+    public BigDecimal getSjsy() {
         return sjsy;
     }
 
-    public void setSjsy(Integer sjsy) {
+    public void setSjsy(BigDecimal sjsy) {
         this.sjsy = sjsy;
     }
 }

@@ -7,6 +7,8 @@ public class DopeData {
 
     private Date createTime;
 
+    private String tzsjSection;
+
     private Integer tableNo;
 
     private Integer battleNo;
@@ -91,5 +93,13 @@ public class DopeData {
 
     public void setTzje(Integer tzje) {
         this.tzje = tzje;
+    }
+
+    public String getTzsjSection() {
+        return tzsjSection;
+    }
+
+    public void setTzsjSection(String tzsjSection) {
+        this.tzsjSection = tzsjSection;
     }
 }
