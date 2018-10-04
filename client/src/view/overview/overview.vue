@@ -361,7 +361,7 @@
   }
 
   .bdt-overview {
-    min-width: 1200px;
+    min-width: 1300px;
     min-height: 3000px;
   }
 

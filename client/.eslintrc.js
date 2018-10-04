@@ -14,9 +14,11 @@ module.exports = {
     'generator-star-spacing': 'off',
     // allow debugger during development
     // 'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'vue/no-parsing-error': [2, { 'x-invalid-end-tag': false }],
+    'vue/no-parsing-error': [2, {'x-invalid-end-tag': false}],
     'no-undef': 'off',
     'no-console': 'off',
+    "space-unary-ops": [2, {"words": true, "nonwords": false}],//一元运算符的前/后要不要加空格
+    'no-multi-spaces': 2,
     // allow paren-less arrow functions
     'arrow-parens': 0,
     // allow async-await

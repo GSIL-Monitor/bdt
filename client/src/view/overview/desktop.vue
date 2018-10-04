@@ -102,7 +102,7 @@
 
 <style lang="less" scoped>
   .desktop {
-    min-width: 1200px;
+    min-width: 1300px;
     height: 1000px;
     .flex {
       display: flex;

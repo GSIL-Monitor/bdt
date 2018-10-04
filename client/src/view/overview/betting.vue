@@ -91,15 +91,23 @@
     },
     mounted() {
 
+
     },
     created() {
-
+      console.log(process, process.env);
+      // console.log(this.$api.getlogin({}));
     },
     methods: {
       exportExcel() {
-        this.$refs.tables.exportCsv({
-          filename: `table-${(new Date()).valueOf()}.csv`
+        let params = {userName: '', password: ''};
+        this.$api.getlogin(params).then(res => {
+          console.log(res);
+        }).catch(err => {
+
         })
+        /* this.$refs.tables.exportCsv({
+           filename: `table-${(new Date()).valueOf()}.csv`
+         })*/
       }
     }
   }
@@ -107,7 +115,7 @@
 
 <style lang="less" scoped>
   .betting {
-    min-width: 1200px;
+    min-width: 1300px;
     height: 1000px;
     .flex.border-flex {
       height: 40px;
