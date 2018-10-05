@@ -20,6 +20,10 @@ module.exports = {
     'no-console': 'off',
     'eol-last': 0,//这句话表示在文件末尾可以不加回车，贴个链接  https://eslint.org/docs/rules/eol-last
     'space-before-function-paren': 0, //这句话表示在函数后可以不加空格
-    'object-curly-spacing': 'off'
+    'object-curly-spacing': 'off',
+    'semi': 0, // 分号
+    'no-unused-vars': 'off',
+    'eqeqeq': 'off',
+    'spaced-comment': 'off'
   }
 }
