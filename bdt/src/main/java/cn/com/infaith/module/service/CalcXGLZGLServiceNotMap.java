@@ -16,9 +16,9 @@ public class CalcXGLZGLServiceNotMap {
     private int n0 = 0, n1 = 0, n2 = 0, n3 = 0, n4 = 0, n5 = 0, n6 = 0, n7 = 0, n8 = 0, n9 = 0;
     private int k0 = 0, k1 = 0, k2 = 0, k3 = 0, k4 = 0, k5 = 0, k6 = 0, k7 = 0, k8 = 0, k9 = 0;
     private int x0 = 0, x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0;
-    private int j4 = 0, j5 = 0, j6 = 0, p4 = 0, p5 = 0, p6 = 0, q4 = 0, q5 = 0, q6 = 0, w4 = 0, w5 = 0, w6 = 0;
+    private BigDecimal j4 = BigDecimal.ZERO, j5 = BigDecimal.ZERO, j6 = BigDecimal.ZERO, p4 = BigDecimal.ZERO, p5 = BigDecimal.ZERO, p6 = BigDecimal.ZERO, q4 = BigDecimal.ZERO, q5 = BigDecimal.ZERO, q6 = BigDecimal.ZERO, w4 = BigDecimal.ZERO, w5 = BigDecimal.ZERO, w6 = BigDecimal.ZERO;
     private int s = 0, e = 0, f = 0;
-    private int ma = 0, mb = 0, mc = 0, md = 0, me = 0, mf = 0;
+    private BigDecimal ma = BigDecimal.ZERO, mb = BigDecimal.ZERO, mc = BigDecimal.ZERO, md = BigDecimal.ZERO, me = BigDecimal.ZERO, mf = BigDecimal.ZERO;
     private int g = 10000;
     //    private int xa = 0, xb = 0, xc = 0, xd = 0,xe = 0, xf = 0,;
     private int a = 0, b = 0, c = 0, d = 0;
@@ -27,7 +27,15 @@ public class CalcXGLZGLServiceNotMap {
 
     public static void main(String[] args) {
         CalcXGLZGLServiceNotMap service = new CalcXGLZGLServiceNotMap();
-        service.calcXgl(1, 8, "5307--");
+        synchronized (service) {
+            service.calcXgl(1, 8, "5307--");
+            service.calcXgl(2, 8, "5090--");
+            service.calcXgl(3, 8, "009640");
+            service.calcXgl(4, 8, "204693");
+            service.calcXgl(5, 8, "50052");
+        }
+//        System.out.println(new BigDecimal(127).multiply(new BigDecimal(126)).multiply(new BigDecimal(125)).multiply(new BigDecimal(124)).multiply(new BigDecimal(32)).multiply(new BigDecimal(31)));
+//        System.out.println(127 * 126 * 125 * 124 * 32 * 31);
 //        System.out.println(12345 % 10000 / 1000);
     }
 
@@ -37,7 +45,9 @@ public class CalcXGLZGLServiceNotMap {
      * @param inputNum 牌面数据
      */
     public void calcXgl(int fitNo, int ps, String inputNum) {
-        startCalcSystem(fitNo, ps, inputNum);
+        synchronized (this) {
+            startCalcSystem(fitNo, ps, inputNum);
+        }
     }
 
     private void startCalcSystem(int fitNo, int ps, String inputNum) {
@@ -58,18 +68,18 @@ public class CalcXGLZGLServiceNotMap {
     }
 
     private void step1(String inputNum) {
-        j4 = 0;
-        j5 = 0;
-        j6 = 0;
-        p4 = 0;
-        p5 = 0;
-        p6 = 0;
-        q4 = 0;
-        q5 = 0;
-        q6 = 0;
-        w4 = 0;
-        w5 = 0;
-        w6 = 0;
+        j4 = BigDecimal.ZERO;
+        j5 = BigDecimal.ZERO;
+        j6 = BigDecimal.ZERO;
+        p4 = BigDecimal.ZERO;
+        p5 = BigDecimal.ZERO;
+        p6 = BigDecimal.ZERO;
+        q4 = BigDecimal.ZERO;
+        q5 = BigDecimal.ZERO;
+        q6 = BigDecimal.ZERO;
+        w4 = BigDecimal.ZERO;
+        w5 = BigDecimal.ZERO;
+        w6 = BigDecimal.ZERO;
         step2(inputNum);
     }
 
@@ -109,18 +119,12 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_1() {
         g = 10000;
-        a = g % 10000 / 1000;
-        b = g % 1000 / 100;
-        c = g % 100 / 10;
-        d = g % 10;
-        e = 0;
-        f = 0;
-        ma = 0;
-        mb = 0;
-        mc = 0;
-        md = 0;
-        me = 0;
-        mf = 0;
+        ma = BigDecimal.ZERO;
+        mb = BigDecimal.ZERO;
+        mc = BigDecimal.ZERO;
+        md = BigDecimal.ZERO;
+        me = BigDecimal.ZERO;
+        mf = BigDecimal.ZERO;
         step5_2();
     }
 
@@ -136,6 +140,10 @@ public class CalcXGLZGLServiceNotMap {
         X[7] = n7;
         X[8] = n8;
         X[9] = n9;
+        a = g % 10000 / 1000;
+        b = g % 1000 / 100;
+        c = g % 100 / 10;
+        d = g % 10;
         //步骤5-3
         step5_3();
     }
@@ -143,19 +151,19 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_3() {
         //步骤5-3-1
         //5-3-2
-        ma = X[a];
+        ma = new BigDecimal(X[a]);
         X[a]--;
         //5-3-3
         //5-3-4
-        mb = X[b];
+        mb = new BigDecimal(X[b]);
         X[b]--;
         //5-3-5
         //5-3-6
-        mc = X[c];
+        mc = new BigDecimal(X[c]);
         X[c]--;
         //5-3-7
         //5-3-8
-        md = X[d];
+        md = new BigDecimal(X[d]);
         X[d]--;
         step5_4_1();
     }
@@ -174,10 +182,10 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_2() {
         //5-4-2
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0) {
-            j4 = ma * mb * mc * md;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0) {
-            j4 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0) {
+            j4 = ma.multiply(mb).multiply(mc).multiply(md);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0) {
+            j4 = BigDecimal.ZERO;
         }
         step_5_4_3();
     }
@@ -185,11 +193,11 @@ public class CalcXGLZGLServiceNotMap {
     private void step_5_4_3() {
         //5-4-3
         if (right(a + c) > right(b + d)) {
-            p4 = p4 + j4;
+            p4 = p4.add(j4);
         } else if (right(a + c) == right(b + d)) {
-            w4 = w4 + j4;
+            w4 = w4.add(j4);
         } else if (right(a + c) < right(b + d)) {
-            q4 = q4 + j4;
+            q4 = q4.add(j4);
         }
         //5-5
         step5_5();
@@ -224,7 +232,7 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_5_2() {
         //5-4-5-2
-        me = X[e];
+        me = new BigDecimal(X[e]);
         step5_4_5_3();
     }
 
@@ -237,19 +245,19 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_5_4() {
         //5-4-5-4
         if (f == e) {
-            mf = X[e] - 1;
+            mf = new BigDecimal(X[e] - 1);
         } else if (f > e || f < e) {
-            mf = X[f];
+            mf = new BigDecimal(X[f]);
         }
         step5_4_5_5();
     }
 
     private void step5_4_5_5() {
         //5-4-5-5
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0 && mf > 0) {
-            j6 = ma * mb * mc * md * me * mf;
-        } else if (ma <= 0 && mb <= 0 && mc <= 0 && md <= 0 && me <= 0 && mf <= 0) {
-            j6 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0 && mf.intValue() > 0) {
+            j6 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf);
+        } else if (ma.intValue() <= 0 && mb.intValue() <= 0 && mc.intValue() <= 0 && md.intValue() <= 0 && me.intValue() <= 0 && mf.intValue() <= 0) {
+            j6 = BigDecimal.ZERO;
         }
         step5_4_5_6();
     }
@@ -257,13 +265,13 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_5_6() {
         //5-4-5-6
         if (right(a + c + e) > right(b + d + f)) {
-            p6 = p6 + j6;
+            p6 = p6.add(j6);
         }
         if (right(a + c + e) == right(b + d + f)) {
-            w6 = w6 + j6;
+            w6 = w6.add(j6);
         }
         if (right(a + c + e) < right(b + d + f)) {
-            q6 = q6 + j6;
+            q6 = q6.add(j6);
         }
         step5_4_5_7();
     }
@@ -309,7 +317,7 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_6_2() {
         //5-4-6-2
-        me = X[e];
+        me = new BigDecimal(X[e]);
         step5_4_6_3();
     }
 
@@ -325,10 +333,10 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_6_4() {
         //5-4-6-4
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0) {
-            j5 = ma * mb * mc * md * me;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0) {
-            j5 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0) {
+            j5 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || me.intValue() <= 0) {
+            j5 = BigDecimal.ZERO;
         }
         step5_4_6_5();
     }
@@ -336,14 +344,24 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_6_5() {
         //5-4-6-5
         if (right(a + c + e) > right(b + d)) {
-            p5 = p5 + j5;
+            p5 = p5.add(j5);
         }
         if (right(a + c + e) == right(b + d)) {
-            w5 = w5 + j5;
+            w5 = w5.add(j5);
         }
         if (right(a + c + e) < right(b + d)) {
-            q5 = q5 + j5;
+            q5 = q5.add(j5);
         }
+//        if (g == 10060) {
+//            System.out.println("step5_4_6_5");
+//            System.out.println("a" + a + "b" + b + "c" + c + "d" + d);
+//            System.out.println(g);
+//            System.out.println("ma" + ma + "mb" + mb + "mc" + mc + "md" + md + "me" + me + "mf" + mf);
+//            System.out.println(ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf));
+//            System.out.println("p4:" + p4 + "p5:" + p5 + "p6:" + p6);
+//            System.out.println("q4:" + q4 + "q5:" + q5 + "q6:" + q6);
+//            System.out.println(s);
+//        }
         step5_4_6_13();
     }
 
@@ -356,19 +374,19 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_6_7() {
         //5-4-6-7
         if (f == e) {
-            mf = X[e] - 1;
+            mf = new BigDecimal(X[e] - 1);
         } else {
-            mf = X[f];
+            mf = new BigDecimal(X[f]);
         }
         step5_4_6_8();
     }
 
     private void step5_4_6_8() {
         //5-4-6-8
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0 && mf > 0) {
-            j6 = ma * mb * mc * md * me;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0 || mf <= 0) {
-            j6 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0 && mf.intValue() > 0) {
+            j6 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || me.intValue() <= 0 || mf.intValue() <= 0) {
+            j6 = BigDecimal.ZERO;
         }
         step5_4_6_9();
     }
@@ -376,13 +394,13 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_6_9() {
         //5-4-6-9
         if (right(a + c + e) > right(b + d + f)) {
-            p6 = p6 + j6;
+            p6 = p6.add(j6);
         }
         if (right(a + c + e) == right(b + d + f)) {
-            w6 = w6 + j6;
+            w6 = w6.add(j6);
         }
         if (right(a + c + e) < right(b + d + f)) {
-            q6 = q6 + j6;
+            q6 = q6.add(j6);
         }
         step5_4_6_10();
     }
@@ -426,7 +444,7 @@ public class CalcXGLZGLServiceNotMap {
     }
 
     private void step5_4_7_2() {
-        me = X[e];
+        me = new BigDecimal(X[e]);
         //5-4-7-3
         step5_4_7_3();
     }
@@ -442,10 +460,10 @@ public class CalcXGLZGLServiceNotMap {
     }
 
     private void step5_4_7_4() {
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0) {
-            j5 = ma * mb * mc * md * me;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0) {
-            j5 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0) {
+            j5 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || me.intValue() <= 0) {
+            j5 = BigDecimal.ZERO;
         }
         step5_4_7_5();
     }
@@ -453,14 +471,24 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_7_5() {
         //5-4-7-5
         if (right(a + c + e) > right(b + d)) {
-            p5 = p5 + j5;
+            p5 = p5.add(j5);
         }
         if (right(a + c + e) == right(b + d)) {
-            w5 = w5 + j5;
+            w5 = w5.add(j5);
         }
         if (right(a + c + e) < right(b + d)) {
-            q5 = q5 + j5;
+            q5 = q5.add(j5);
         }
+//        if (g == 10060) {
+//            System.out.println("step5_4_7_5");
+//            System.out.println("a" + a + "b" + b + "c" + c + "d" + d);
+//            System.out.println(g);
+//            System.out.println("ma" + ma + "mb" + mb + "mc" + mc + "md" + md + "me" + me + "mf" + mf);
+//            System.out.println(ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf));
+//            System.out.println("p4:" + p4 + "p5:" + p5 + "p6:" + p6);
+//            System.out.println("q4:" + q4 + "q5:" + q5 + "q6:" + q6);
+//            System.out.println(s);
+//        }
         step5_4_7_12();
     }
 
@@ -472,19 +500,19 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_7_7() {
         //5-4-7-7
         if (f == e) {
-            mf = X[e] - 1;
+            mf = new BigDecimal(X[e] - 1);
         } else {
-            mf = X[f];
+            mf = new BigDecimal(X[f]);
         }
         step5_4_7_8();
     }
 
     private void step5_4_7_8() {
         //5-4-7-8
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0 && mf > 0) {
-            j6 = ma * mb * mc * md * me * mf;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0 || mf <= 0) {
-            j6 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0 && mf.intValue() > 0) {
+            j6 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || me.intValue() <= 0 || mf.intValue() <= 0) {
+            j6 = BigDecimal.ZERO;
         }
         step5_4_7_9();
 
@@ -493,13 +521,13 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_7_9() {
         //5-4-7-9
         if (right(a + c + e) > right(b + d + f)) {
-            p6 = p6 + j6;
+            p6 = p6.add(j6);
         }
         if (right(a + c + e) == right(b + d + f)) {
-            w6 = w6 + j6;
+            w6 = w6.add(j6);
         }
         if (right(a + c + e) < right(b + d + f)) {
-            q6 = q6 + j6;
+            q6 = q6.add(j6);
         }
         step5_4_7_10();
     }
@@ -546,7 +574,7 @@ public class CalcXGLZGLServiceNotMap {
     }
 
     private void step5_4_8_2() {
-        me = X[e];
+        me = new BigDecimal(X[e]);
         step5_4_8_3();
     }
 
@@ -561,10 +589,10 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_8_4() {
         //5-4-8-4
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0) {
-            j5 = ma * mb * mc * md * me;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0) {
-            j5 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0) {
+            j5 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || me.intValue() <= 0) {
+            j5 = BigDecimal.ZERO;
         }
         step5_4_8_5();
 
@@ -573,14 +601,24 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_8_5() {
         //5-4-8-5
         if (right(a + c + e) > right(b + d)) {
-            p5 = p5 + j5;
+            p5 = p5.add(j5);
         }
         if (right(a + c + e) == right(b + d)) {
-            w5 = w5 + j5;
+            w5 = w5.add(j5);
         }
         if (right(a + c + e) < right(b + d)) {
-            q5 = q5 + j5;
+            q5 = q5.add(j5);
         }
+//        if (g == 10060) {
+//            System.out.println("step5_4_8_5");
+//            System.out.println("a" + a + "b" + b + "c" + c + "d" + d);
+//            System.out.println(g);
+//            System.out.println("ma" + ma + "mb" + mb + "mc" + mc + "md" + md + "me" + me + "mf" + mf);
+//            System.out.println(ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf));
+//            System.out.println("p4:" + p4 + "p5:" + p5 + "p6:" + p6);
+//            System.out.println("q4:" + q4 + "q5:" + q5 + "q6:" + q6);
+//            System.out.println(s);
+//        }
         step5_4_8_12();
     }
 
@@ -593,19 +631,19 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_8_7() {
         if (f == e) {
-            mf = X[e] - 1;
+            mf = new BigDecimal(X[e] - 1);
         } else {
-            mf = X[f];
+            mf = new BigDecimal(X[f]);
         }
         step5_4_8_8();
     }
 
     private void step5_4_8_8() {
         //5-4-8-8
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0 && mf > 0) {
-            j6 = ma * mb * mc * md * me * mf;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0 || mf <= 0) {
-            j6 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0 && mf.intValue() > 0) {
+            j6 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || me.intValue() <= 0 || mf.intValue() <= 0) {
+            j6 = BigDecimal.ZERO;
         }
         step5_4_8_9();
     }
@@ -613,13 +651,13 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_8_9() {
         //5-4-8-9
         if (right(a + c + e) > right(b + d + f)) {
-            p6 = p6 + j6;
+            p6 = p6.add(j6);
         }
         if (right(a + c + e) == right(b + d + f)) {
-            w6 = w6 + j6;
+            w6 = w6.add(j6);
         }
         if (right(a + c + e) < right(b + d + f)) {
-            q6 = q6 + j6;
+            q6 = q6.add(j6);
         }
         step5_4_8_10();
     }
@@ -663,7 +701,7 @@ public class CalcXGLZGLServiceNotMap {
     }
 
     private void step5_4_9_2() {
-        me = X[e];
+        me = new BigDecimal(X[e]);
         step5_4_9_3();
     }
 
@@ -678,10 +716,10 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_9_4() {
         //5-4-9-4
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0) {
-            j5 = ma * mb * mc * md * me;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0) {
-            j5 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0) {
+            j5 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || me.intValue() <= 0) {
+            j5 = BigDecimal.ZERO;
         }
         step5_4_9_5();
     }
@@ -689,14 +727,24 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_9_5() {
         //5-4-9-5
         if (right(a + c + e) > right(b + d)) {
-            p5 = p5 + j5;
+            p5 = p5.add(j5);
         }
         if (right(a + c + e) == right(b + d)) {
-            w5 = w5 + j5;
+            w5 = w5.add(j5);
         }
         if (right(a + c + e) < right(b + d)) {
-            q5 = q5 + j5;
+            q5 = q5.add(j5);
         }
+//        if (g == 10060) {
+//            System.out.println("step5_4_9_5");
+//            System.out.println("a" + a + "b" + b + "c" + c + "d" + d);
+//            System.out.println(g);
+//            System.out.println("ma" + ma + "mb" + mb + "mc" + mc + "md" + md + "me" + me + "mf" + mf);
+//            System.out.println(ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf));
+//            System.out.println("p4:" + p4 + "p5:" + p5 + "p6:" + p6);
+//            System.out.println("q4:" + q4 + "q5:" + q5 + "q6:" + q6);
+//            System.out.println(s);
+//        }
         step5_4_9_12();
     }
 
@@ -708,19 +756,19 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_9_7() {
         if (f == e) {
-            mf = X[e] - 1;
+            mf = new BigDecimal(X[e] - 1);
         } else {
-            mf = X[f];
+            mf = new BigDecimal(X[f]);
         }
         step5_4_9_8();
     }
 
     private void step5_4_9_8() {
         //5-4-9-8
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0 && mf > 0) {
-            j6 = ma * mb * mc * md * me * mf;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0 || mf <= 0) {
-            j6 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0 && mf.intValue() > 0) {
+            j6 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || me.intValue() <= 0 || mf.intValue() <= 0) {
+            j6 = BigDecimal.ZERO;
         }
         step5_4_9_9();
     }
@@ -728,13 +776,13 @@ public class CalcXGLZGLServiceNotMap {
     private void step5_4_9_9() {
         //5-4-9-9
         if (right(a + c + e) > right(b + d + f)) {
-            p6 = p6 + j6;
+            p6 = p6.add(j6);
         }
         if (right(a + c + e) == right(b + d + f)) {
-            w6 = w6 + j6;
+            w6 = w6.add(j6);
         }
         if (right(a + c + e) < right(b + d + f)) {
-            q6 = q6 + j6;
+            q6 = q6.add(j6);
         }
         step5_4_9_10();
     }
@@ -791,32 +839,44 @@ public class CalcXGLZGLServiceNotMap {
 
     private void step5_4_10_3() {
         //5-4-10-3
-        mf = X[f];
+        mf = new BigDecimal(X[f]);
         step5_4_10_4();
 
     }
 
     private void step5_4_10_4() {
         //5-4-10-4
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0 && mf > 0) {
-            j5 = ma * mb * mc * md * me * mf;
-        } else if (ma <= 0 || mb <= 0 || mc <= 0 || md <= 0 || me <= 0 || mf <= 0) {
-            j5 = 0;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && mf.intValue() > 0) {
+            j5 = ma.multiply(mb).multiply(mc).multiply(md).multiply(mf);
+        } else if (ma.intValue() <= 0 || mb.intValue() <= 0 || mc.intValue() <= 0 || md.intValue() <= 0 || mf.intValue() <= 0) {
+            j5 = BigDecimal.ZERO;
         }
         step5_4_10_5();
     }
 
     private void step5_4_10_5() {
+//        if (g == 10060) {
+//            System.out.println("step5_4_10_5");
+//            System.out.println("j5=" + j5);
+//            System.out.println("a" + a + "b" + b + "c" + c + "d" + d);
+//            System.out.println(g);
+//            System.out.println("ma" + ma + "mb" + mb + "mc" + mc + "md" + md + "me" + me + "mf" + mf);
+//            System.out.println(ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf));
+//            System.out.println("p4:" + p4 + "p5:" + p5 + "p6:" + p6);
+//            System.out.println("q4:" + q4 + "q5:" + q5 + "q6:" + q6);
+//            System.out.println(s);
+//        }
         //5-4-10-5
         if (right(a + c) > right(b + d + f)) {
-            p5 = p5 + j5;
+            p5 = p5.add(j5);
         }
         if (right(a + c) == right(b + d + f)) {
-            w5 = w5 + j5;
+            w5 = w5.add(j5);
         }
         if (right(a + c) < right(b + d + f)) {
-            q5 = q5 + j5;
+            q5 = q5.add(j5);
         }
+
         step5_4_10_6();
     }
 
@@ -843,27 +903,37 @@ public class CalcXGLZGLServiceNotMap {
     }
 
     private void step5_4_11_2() {
-        me = X[e];
+        me = new BigDecimal(X[e]);
         step5_4_11_3();
     }
 
     private void step5_4_11_3() {
-        if (ma > 0 && mb > 0 && mc > 0 && md > 0 && me > 0) {
-            j5 = ma * mb * mc * md * me;
+        if (ma.intValue() > 0 && mb.intValue() > 0 && mc.intValue() > 0 && md.intValue() > 0 && me.intValue() > 0) {
+            j5 = ma.multiply(mb).multiply(mc).multiply(md).multiply(me);
         } else {
-            j5 = 0;
+            j5 = BigDecimal.ZERO;
         }
         step5_4_11_4();
     }
 
     private void step5_4_11_4() {
         if (right(a + c + e) > right(b + d)) {
-            p5 = p5 + j5;
+            p5 = p5.add(j5);
         } else if (right(a + c + e) == right(b + d)) {
-            w5 = w5 + j5;
+            w5 = w5.add(j5);
         } else if (right(a + c + e) < right(b + d)) {
-            q5 = q5 + j5;
+            q5 = q5.add(j5);
         }
+//        if (g == 10060) {
+//            System.out.println("step5_4_11_4");
+//            System.out.println("a" + a + "b" + b + "c" + c + "d" + d);
+//            System.out.println(g);
+//            System.out.println("ma" + ma + "mb" + mb + "mc" + mc + "md" + md + "me" + me + "mf" + mf);
+//            System.out.println(ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf));
+//            System.out.println("p4:" + p4 + "p5:" + p5 + "p6:" + p6);
+//            System.out.println("q4:" + q4 + "q5:" + q5 + "q6:" + q6);
+//            System.out.println(s);
+//        }
         step5_4_11_5();
     }
 
@@ -881,6 +951,15 @@ public class CalcXGLZGLServiceNotMap {
     }
 
     private void step5_5() {
+//        if (g == 10060) {
+//            System.out.println("a" + a + "b" + b + "c" + c + "d" + d);
+//            System.out.println(g);
+//            System.out.println("ma" + ma + "mb" + mb + "mc" + mc + "md" + md + "me" + me + "mf" + mf);
+//            System.out.println(ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf));
+//            System.out.println("p4:" + p4 + "p5:" + p5 + "p6:" + p6);
+//            System.out.println("q4:" + q4 + "q5:" + q5 + "q6:" + q6);
+//            System.out.println(s);
+//        }
         if (g < 19999) {
             step5_6();
         } else if (g == 19999) {
@@ -896,31 +975,36 @@ public class CalcXGLZGLServiceNotMap {
     }
 
     private void step6() {
-        System.out.println(p4 + "/" + p5 + "/" + p6);
-        System.out.println(s);
+        System.out.println("=====");
+//        System.out.println(g);
+//        System.out.println("ma" + ma + "mb" + mb + "mc" + mc + "md" + md + "me" + me + "mf" + mf);
+//        System.out.println(ma.multiply(mb).multiply(mc).multiply(md).multiply(me).multiply(mf));
+//        System.out.println("p4:" + p4 + "p5:" + p5 + "p6:" + p6);
+//        System.out.println("q4:" + q4 + "q5:" + q5 + "q6:" + q6);
+//        System.out.println(s);
         BigDecimal s3AddResult = new BigDecimal(s).multiply(new BigDecimal(s - 1)).multiply(new BigDecimal(s - 2)).multiply(new BigDecimal(s - 3));
-        System.out.println("s3AddResult" + s3AddResult);
+//        System.out.println("s3AddResult" + s3AddResult);
         BigDecimal s4AddResult = new BigDecimal(s).multiply(new BigDecimal(s - 1)).multiply(new BigDecimal(s - 2)).multiply(new BigDecimal(s - 3)).multiply(new BigDecimal(s - 4));
-        System.out.println("s4AddResult" + s4AddResult);
+//        System.out.println("s4AddResult" + s4AddResult);
         BigDecimal s5AddResult = new BigDecimal(s).multiply(new BigDecimal(s - 1)).multiply(new BigDecimal(s - 2)).multiply(new BigDecimal(s - 3)).multiply(new BigDecimal(s - 4)).multiply(new BigDecimal(s - 5));
-        System.out.println("s5AddResult" + s5AddResult);
-        BigDecimal p4CalcResult = new BigDecimal(p4).multiply(new BigDecimal(100000)).divide(s3AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        System.out.println("p4CalcResult" + p4CalcResult);
-        BigDecimal p5CalcResult = new BigDecimal(p5).multiply(new BigDecimal(100000)).divide(s4AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        System.out.println("p5CalcResult" + p5CalcResult);
-        BigDecimal p6CalcResult = new BigDecimal(p6).multiply(new BigDecimal(100000)).divide(s5AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        System.out.println("p6CalcResult" + p6CalcResult);
-        BigDecimal q4CalcResult = new BigDecimal(q4).multiply(new BigDecimal(100000)).divide(s3AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        System.out.println("q4CalcResult" + q4CalcResult);
-        BigDecimal q5CalcResult = new BigDecimal(q5).multiply(new BigDecimal(100000)).divide(s4AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        System.out.println("q5CalcResult" + q5CalcResult);
-        BigDecimal q6CalcResult = new BigDecimal(q6).multiply(new BigDecimal(100000)).divide(s5AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        BigDecimal w4CalcResult = new BigDecimal(w4).multiply(new BigDecimal(100000)).divide(s3AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        System.out.println("q4CalcResult" + q4CalcResult);
-        BigDecimal w5CalcResult = new BigDecimal(w5).multiply(new BigDecimal(100000)).divide(s4AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        System.out.println("q5CalcResult" + q5CalcResult);
-        BigDecimal w6CalcResult = new BigDecimal(w6).multiply(new BigDecimal(100000)).divide(s5AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
-        System.out.println("q6CalcResult" + q6CalcResult);
+//        System.out.println("s5AddResult" + s5AddResult);
+        BigDecimal p4CalcResult = p4.multiply(new BigDecimal(100000)).divide(s3AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+//        System.out.println("p4CalcResult" + p4CalcResult);
+        BigDecimal p5CalcResult = p5.multiply(new BigDecimal(100000)).divide(s4AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+//        System.out.println("p5CalcResult" + p5CalcResult);
+        BigDecimal p6CalcResult = p6.multiply(new BigDecimal(100000)).divide(s5AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+//        System.out.println("p6CalcResult" + p6CalcResult);
+        BigDecimal q4CalcResult = q4.multiply(new BigDecimal(100000)).divide(s3AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+//        System.out.println("q4CalcResult" + q4CalcResult);
+        BigDecimal q5CalcResult = q5.multiply(new BigDecimal(100000)).divide(s4AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+//        System.out.println("q5CalcResult" + q5CalcResult);
+        BigDecimal q6CalcResult = q6.multiply(new BigDecimal(100000)).divide(s5AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+        BigDecimal w4CalcResult = w4.multiply(new BigDecimal(100000)).divide(s3AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+//        System.out.println("q4CalcResult" + q4CalcResult);
+        BigDecimal w5CalcResult = w5.multiply(new BigDecimal(100000)).divide(s4AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+//        System.out.println("q5CalcResult" + q5CalcResult);
+        BigDecimal w6CalcResult = w6.multiply(new BigDecimal(100000)).divide(s5AddResult, 5, RoundingMode.HALF_UP).divide(new BigDecimal(100000), 5, RoundingMode.HALF_UP);
+//        System.out.println("q6CalcResult" + q6CalcResult);
         BigDecimal xgl = p4CalcResult.add(p5CalcResult).add(p6CalcResult);
         BigDecimal zgl = q4CalcResult.add(q5CalcResult).add(q6CalcResult);
         BigDecimal hgl = w4CalcResult.add(w5CalcResult).add(w6CalcResult);
@@ -940,6 +1024,7 @@ public class CalcXGLZGLServiceNotMap {
 
         System.out.println(xsy);
         System.out.println(zsy);
+        System.out.println("==========");
     }
 
 
@@ -948,66 +1033,4 @@ public class CalcXGLZGLServiceNotMap {
     }
 
 
-//    private int X(int N) {
-//        switch (N) {
-//            case 0:
-//                return x0;
-//            case 1:
-//                return x1;
-//            case 2:
-//                return x2;
-//            case 3:
-//                return x3;
-//            case 4:
-//                return x4;
-//            case 5:
-//                return x5;
-//            case 6:
-//                return x6;
-//            case 7:
-//                return x7;
-//            case 8:
-//                return x8;
-//            case 9:
-//                return x9;
-//            default:
-//                return 0;
-//        }
-//    }
-//
-//    private void XUpdate(int N) {
-//        switch (N) {
-//            case 0:
-//                x0 -= 1;
-//                break;
-//            case 1:
-//                x1 -= 1;
-//                break;
-//            case 2:
-//                x2 -= 1;
-//                break;
-//            case 3:
-//                x3 -= 1;
-//            case 4:
-//                x4 -= 1;
-//                break;
-//            case 5:
-//                x5 -= 1;
-//                break;
-//            case 6:
-//                x6 -= 1;
-//                break;
-//            case 7:
-//                x7 -= 1;
-//                break;
-//            case 8:
-//                x8 -= 1;
-//                break;
-//            case 9:
-//                x9 -= 1;
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 }
