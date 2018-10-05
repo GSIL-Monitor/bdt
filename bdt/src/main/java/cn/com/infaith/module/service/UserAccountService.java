@@ -94,4 +94,20 @@ public interface UserAccountService {
      * @return
      */
     Boolean deleteAdminManageUser(String id);
+
+    /**
+     * 通过账号，密码登录管理员账号
+     * @param account
+     * @param password
+     * @return
+     */
+    AdminAccount getAdminByAccountAndPassword(String account, String password);
+
+    /**
+     * 检查管理员是否已添加该用户
+     * @param adminId
+     * @param userIds
+     * @return
+     */
+    int checkoutCountByAdminAndUser(String adminId, String userIds);
 }

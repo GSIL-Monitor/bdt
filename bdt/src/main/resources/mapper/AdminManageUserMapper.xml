@@ -56,4 +56,9 @@
     set  is_delete = 1
     where id = #{id}
   </update>
+
+  <select id="checkoutCountByAdminAndUser" resultType="int">
+    SELECT COUNT(1) FROM admin_manage_user
+    WHERE is_delete = 0 AND admin_id = #{adminId} AND user_id = #{userId}
+  </select>
 </mapper>

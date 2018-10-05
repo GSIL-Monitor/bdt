@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
@@ -113,5 +114,27 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public Boolean deleteAdminManageUser(String id) {
         return adminManageUserMapper.deleteAdminManageUser(id) > 0 ? true : false;
+    }
+
+    @Override
+    public AdminAccount getAdminByAccountAndPassword(String account, String password) {
+
+        password = MD5Util.encrypt(password);
+        return adminAccountMapper.getAdminByAccountAndPassword(account, password);
+    }
+
+    @Override
+    public int checkoutCountByAdminAndUser(String adminId, String userIds) {
+
+        String[] userId = userIds.split(",");
+        AtomicInteger count = new AtomicInteger(0);
+        Arrays.asList(userId).forEach(x -> {
+            int result = adminManageUserMapper.checkoutCountByAdminAndUser(adminId, x);
+            if (result > 0) {
+                count.getAndIncrement();
+                return;
+            }
+        });
+        return count.get();
     }
 }
