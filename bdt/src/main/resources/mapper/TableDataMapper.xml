@@ -65,27 +65,27 @@
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, create_time, table_no, battle_no, fit_no, card, result, xgl, zgl, xtsl, 
-    ztsl, xjz, zjz, ljxjz, ljzj
+    ztsl, xjz, zjz, ljxjz, ljzjz
     from table_data
     where id = #{id,jdbcType=INTEGER} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, create_time, table_no, battle_no, fit_no, card, result, xgl, zgl, xtsl, 
-    ztsl, xjz, zjz, ljxjz, ljzj
+    ztsl, xjz, zjz, ljxjz, ljzjz
     from table_data
   </select>
 
   <select id="getTableInfo" resultMap="BaseResultMap">
     select id, create_time, table_no, battle_no, fit_no, card, result, xgl, zgl, xtsl,
-    ztsl, xjz, zjz, ljxjz, ljzj
-    from table_data AND is_delete = 0
+    ztsl, xjz, zjz, ljxjz, ljzjz
+    from table_data WHERE is_delete = 0
     ORDER BY table_no ASC, battle_no DESC, fit_no DESC
   </select>
 
   <select id="getNewestTableData" parameterType="int" resultMap="BaseResultMap">
     select id, create_time, table_no, battle_no, fit_no, card, result, xgl, zgl, xtsl,
-    ztsl, xjz, zjz, ljxjz, ljzj
-    from table_data AND is_delete = 0 AND table_no = #{tableNo}
+    ztsl, xjz, zjz, ljxjz, ljzjz
+    from table_data WHERE is_delete = 0 AND table_no = #{tableNo}
     ORDER BY create_time DESC limit 1
   </select>
 </mapper>

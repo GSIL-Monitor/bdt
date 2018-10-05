@@ -5,10 +5,12 @@ import cn.com.infaith.module.model.UserAccount;
 import cn.com.infaith.module.service.UserAccountService;
 import cn.com.infaith.module.util.ResponseJsonUtil;
 import com.alibaba.fastjson.JSONObject;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -21,7 +23,8 @@ public class UserController {
 
     @ApiOperation(value = "登录百家乐账号", notes = "登录百家乐账号", httpMethod = "POST")
     @PostMapping("/loginUserAccount")
-    public JSONObject loginUserAccount(@RequestParam String account, @RequestParam String password) {
+    public JSONObject loginUserAccount(@RequestParam String account, @RequestParam String password,
+                                       HttpServletRequest request, HttpServletResponse response) {
 
         UserAccount userAccount = userAccountService.getUserByAccountAndPassWord(account, password);
         if (userAccount == null) {
@@ -143,10 +146,17 @@ public class UserController {
         return ResponseJsonUtil.getResponseJson(200, "success", list);
     }
 
-    @ApiOperation(value = "添加管理员所管理的用户", notes = "添加管理员所管理的用户", httpMethod = "POST")
     @PostMapping("/addAdminManageUser")
+    @ApiOperation(value = "添加管理员所管理的用户", notes = "添加管理员所管理的用户", httpMethod = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "200：添加成功  -1 添加失败  0: 已添加，请勿重复添加"),
+    })
     public JSONObject addAdminManageUser(@RequestParam String adminId, @RequestParam String userIds) {
 
+        int count = userAccountService.checkoutCountByAdminAndUser(adminId, userIds);
+        if (count > 0) {
+            return ResponseJsonUtil.getResponseJson(0,"已添加，请勿重复添加", null);
+        }
         Boolean result = userAccountService.addAdminManageUser(adminId, userIds);
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
@@ -163,5 +173,21 @@ public class UserController {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         }
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+    }
+
+    @PostMapping("/loginAdminAccount")
+    @ApiOperation(value = "登录管理员账号", notes = "登录管理员账号", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "account", value = "账号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
+    })
+    public JSONObject loginAdminAccount(@RequestParam String account, @RequestParam String password,
+                                        HttpServletRequest request, HttpServletResponse response) {
+
+        AdminAccount adminAccount = userAccountService.getAdminByAccountAndPassword(account, password);
+        if (adminAccount != null) {
+            return ResponseJsonUtil.getResponseJson(200, "登录成功", adminAccount);
+        }
+        return ResponseJsonUtil.getResponseJson(-1, "登录失败", null);
     }
 }
