@@ -22,4 +22,6 @@ public interface AdminManageUserMapper {
     List<UserAccount> getUserByAdmin(String adminId);
 
     int deleteAdminManageUser(String id);
+
+    int checkoutCountByAdminAndUser(@Param("adminId") String adminId, @Param("userId") String userId);
 }

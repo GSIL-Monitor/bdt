@@ -1,6 +1,7 @@
 package cn.com.infaith.module.mapper;
 
 import cn.com.infaith.module.model.AdminAccount;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface AdminAccountMapper {
     List<AdminAccount> selectAll();
 
     int updateByPrimaryKey(AdminAccount record);
+
+    AdminAccount getAdminByAccountAndPassword(@Param("account") String account, @Param("password") String password);
 }
