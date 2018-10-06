@@ -54,7 +54,7 @@
     },
     methods: {
       handleSubmit() {
-        this.$refs.loginForm.validate((valid) => {
+        this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.$emit('on-success-valid', {
               userName: this.form.userName,

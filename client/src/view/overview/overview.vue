@@ -1,65 +1,61 @@
 <template>
   <div class="bdt-overview">
     <Row :gutter="16">
-      <i-col span="8">
+      <i-col span="6">
         <Card>
           <p slot="title">BDT运行状态</p>
           <p>卡片内容</p>
           <p>卡片内容</p>
           <p>卡片内容</p>
         </Card>
+        <br style="height: 16px">
+        <Card>
+          <p slot="title">账号登录情况</p>
+          <Card style="margin-bottom: 15px" class="" :key="i"
+                v-for="(item, i) in isLoginOverviewData">
+            <template slot="title">
+              <div class="header-box" style="font-size: 16px">
+                <div class="col">账号1</div>
+                <div class="col">{{}}登陆</div>
+                <div class="col" style="text-align: right;flex: inherit">
+                  <Button type="primary" size="small">编辑</Button>
+                </div>
+              </div>
+              <div class="header-box" style="height: 20px"><span class="col">香港/58.121.43.98</span>
+              </div>
+            </template>
+            <div class="header-box">
+              <div class="col">有效金额：2888.88</div>
+              <div class="col" style="text-align: right"><a href="">查看统计</a></div>
+            </div>
+          </Card>
+        </Card>
       </i-col>
-      <i-col span="16">
+      <i-col span="18">
         <Card>
           <p slot="title">百家乐牌桌情况</p>
           <Table :columns="columnsData" :data="rowsData"></Table>
         </Card>
-      </i-col>
-    </Row>
-    <br style="height: 16px">
-    <Row :gutter="16">
-      <i-col span="8">
-        <Card>
-          <p slot="title">账号登录情况</p>
-          <CellGroup>
-            <Cell title="Only show titles"/>
-            <Cell title="Display label content" label="label content"/>
-            <Cell title="Display right content" extra="details"/>
-            <Cell title="Link" extra="details"/>
-            <Cell title="Open link in new window" target="_blank"/>
-            <Cell title="Disabled"/>
-            <Cell title="Selected" selected/>
-            <Cell title="With Badge" to="">
-              <Badge :count="10" slot="extra"/>
-            </Cell>
-            <Cell title="With Switch">
-              <Switch v-model="switchValue" slot="extra"/>
-            </Cell>
-          </CellGroup>
-        </Card>
-      </i-col>
-      <!---->
-      <i-col span="8">
-        <Card>
-          <CellGroup slot="title">
-            <Cell title="LJXJZ" label="现值：10,000"/>
-          </CellGroup>
-          <div>23423</div>
-        </Card>
-      </i-col>
-      <i-col span="8">
-        <Card>
-          <CellGroup slot="title">
-            <Cell title="LJZJZ" label="现值：10,000"/>
-          </CellGroup>
-          <div>23423432</div>
-        </Card>
-      </i-col>
-    </Row>
-    <br>
-    <!---->
-    <Row :gutter="16">
-      <i-col span="12">
+        <br style="height: 16px">
+        <Row :gutter="16">
+          <i-col span="12">
+            <Card>
+              <CellGroup slot="title">
+                <Cell title="LJXJZ" label="现值：10,000"/>
+              </CellGroup>
+              <div>23423</div>
+            </Card>
+          </i-col>
+          <i-col span="12">
+            <Card>
+              <CellGroup slot="title">
+                <Cell title="LJZJZ" label="现值：10,000"/>
+              </CellGroup>
+              <div>23423432</div>
+            </Card>
+          </i-col>
+        </Row>
+        <br style="height: 16px">
         <Card>
           <div slot="title">
             <div>
@@ -135,8 +131,7 @@
             </table>
           </div>
         </Card>
-      </i-col>
-      <i-col span="12">
+        <br style="height: 16px">
         <Card>
           <div slot="title">
             <div>
@@ -212,7 +207,19 @@
             </table>
           </div>
         </Card>
+        <br style="height: 16px">
       </i-col>
+    </Row>
+    <br style="height: 16px">
+    <Row :gutter="16">
+
+      <!---->
+
+    </Row>
+    <br>
+    <!---->
+    <Row :gutter="16">
+
     </Row>
   </div>
 </template>
@@ -306,10 +313,12 @@
         ],
         rowsData: [],
         tz1Data: '',
+        tz2Data: '',
         formInline: {
           user: '',
           password: ''
-        }
+        },
+        isLoginOverviewData: []
       }
     },
     watch: {
@@ -320,7 +329,11 @@
     created() {
       console.log(process.env);
       this.getTableInfo();
-      this.getTzSystemInfo();
+      this.getTzSystemInfo(1);
+      this.getTzSystemInfo(2);
+      this.getAdminAccount();
+      //
+      this.getUserByAdmin();
     },
     activated() {
 
@@ -339,12 +352,36 @@
           }
         })
       },
-      getTzSystemInfo() {
-        let params = {tzxt: '1'}
+      getTzSystemInfo(type) {
+        let params = {tzxt: type}
         this.$api.getTzSystemInfo(params).then(res => {
           console.log(res);
           if (res.returnCode == 200) {
-            this.tz1Data = '';
+            if (type == 1) {
+              this.tz1Data = res.returnObject;
+            } else {
+              this.tz2Data = res.returnObject;
+            }
+          }
+        }).catch(err => {
+
+        })
+      },
+      //
+      getAdminAccount() {
+        let params = {adminId: this.$cookie.get('token')};
+        this.$api.getAdminAccount(params).then(res => {
+          console.log(res);
+        }).catch(err => {
+
+        })
+      },
+      //
+      getUserByAdmin() {
+        let params = {adminId: this.$cookie.get('token')};
+        this.$api.getUserByAdmin(params).then(res => {
+          if (res.returnCode == 200) {
+            this.isLoginOverviewData = res.returnObject;
           }
         }).catch(err => {
 
@@ -388,6 +425,13 @@
   .bdt-overview {
     min-width: 1300px;
     min-height: 3000px;
+    .header-box {
+      display: flex;
+      align-items: center;
+      .col {
+        flex: 1;
+      }
+    }
   }
 
   .qq-group-img {

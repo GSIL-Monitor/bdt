@@ -13,5 +13,15 @@ export default {
   },
   tzSystemStarted(params = {}) {
     return Axios({method: 'POST', url: HOST + 'bjlTable/tzSystemStarted', params: params})
+  },
+  getUserAccount(params = {}) {
+    return Axios({method: 'get', url: HOST + 'account/getUserAccount', params: params})
+  },
+  getAdminAccount(params = {}) {
+    return Axios({method: 'get', url: HOST + 'account/getAdminAccount', params: params})
+  },
+  getUserByAdmin(params = {}) {
+    // 查看管理员所管理的用户 params = {adminId:'##'}
+    return Axios({method: 'get', url: HOST + 'account/getUserByAdmin', params: params})
   }
 }

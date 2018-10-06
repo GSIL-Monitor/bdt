@@ -29,9 +29,10 @@
         this.handleLogin({userName, password}).then(res => {
           if (res.returnCode == 200) {
             this.getUserInfo().then(res => {
-              // console.log('=====>>', res);
               this.$router.push({path: '/home'})
             })
+          } else {
+            // console.log(this.$refs.loginRef);
           }
         })
       }
