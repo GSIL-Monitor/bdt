@@ -143,4 +143,23 @@ public interface TableDataService {
      * @return
      */
     Boolean updateStatusByTableNo(int tableNo, int battleNo, int fitNo, int status);
+
+    /**
+     * 通过日期，桌号，句号查询桌面信息
+     * @param createTime
+     * @param tableNo
+     * @param battleNo
+     * @return
+     */
+    List<TableData> searchTableData(Long createTime, Integer tableNo, Integer battleNo);
+
+    /**
+     * 获取投注结果信息
+     * @param createTime
+     * @param tzxt
+     * @param tzzh
+     * @return
+     */
+    List<ResultData> searchResultData(Long createTime, Integer tzxt, String tzzh);
+
 }

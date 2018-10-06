@@ -135,4 +135,28 @@ public class TableDataServiceImpl implements TableDataService {
     public Boolean updateStatusByTableNo(int tableNo, int battleNo, int fitNo, int status) {
         return statusDataMapper.updateStatusByTableNo(tableNo, status, battleNo, fitNo) > 0 ? true : false;
     }
+
+    @Override
+    public List<TableData> searchTableData(Long createTime, Integer tableNo, Integer battleNo) {
+
+        Date createDate;
+        if (createTime == null || createTime == 0) {
+            createDate = null;
+        } else {
+            createDate = new Date(createTime);
+        }
+        return tableDataMapper.searchTableData(createDate, tableNo, battleNo);
+    }
+
+    @Override
+    public List<ResultData> searchResultData(Long createTime, Integer tzxt, String tzzh) {
+
+        Date createDate;
+        if (createTime == null || createTime == 0) {
+            createDate = null;
+        } else {
+            createDate = new Date(createTime);
+        }
+        return resultDataMapper.searchResultData(createDate, tzxt, tzzh);
+    }
 }

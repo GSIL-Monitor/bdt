@@ -3,6 +3,7 @@ package cn.com.infaith.module.mapper;
 import cn.com.infaith.module.model.TableData;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TableDataMapper {
@@ -21,4 +22,7 @@ public interface TableDataMapper {
     List<TableData> getTableInfo();
 
     TableData getNewestTableData(int tableNo);
+
+    List<TableData> searchTableData(@Param("createTime") Date createTime, @Param("tableNo") Integer tableNo, @Param("battleNo") Integer battleNo);
+
 }

@@ -123,4 +123,21 @@
     from table_data WHERE is_delete = 0 AND table_no = #{tableNo}
     ORDER BY create_time DESC limit 1
   </select>
+
+  <select id="searchTableData" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
+    ztsl, xjz, zjz, ljxjz, ljzjz
+    from table_data WHERE is_delete = 0
+    <if test="tableNo != null and tableNo != 0">
+      AND table_no = #{tableNo}
+    </if>
+    <if test="battleNo != null and battleNo != 0">
+      AND battle_no = #{battleNo}
+    </if>
+    <if test="createTime != null">
+      AND create_time >= #{createTime}
+      AND create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
+    </if>
+    ORDER BY create_time DESC, table_no ASC, battle_no DESC, fit_no DESC
+  </select>
 </mapper>
