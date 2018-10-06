@@ -6,6 +6,7 @@ import cn.com.infaith.module.service.TableDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class TableDataServiceImpl implements TableDataService {
     private TzSystemMapper tzSystemMapper;
     @Autowired
     private ResultDataMapper resultDataMapper;
+    @Autowired
+    private BdtSystemMapper bdtSystemMapper;
 
     @Override
     public int addTableData(TableData tableData) {
@@ -158,5 +161,15 @@ public class TableDataServiceImpl implements TableDataService {
             createDate = new Date(createTime);
         }
         return resultDataMapper.searchResultData(createDate, tzxt, tzzh);
+    }
+
+    @Override
+    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs) {
+        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs);
+    }
+
+    @Override
+    public BdtSystem getBdtSystem() {
+        return bdtSystemMapper.getBdtSystem();
     }
 }
