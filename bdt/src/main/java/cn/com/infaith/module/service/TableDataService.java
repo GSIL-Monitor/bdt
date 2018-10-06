@@ -152,4 +152,14 @@ public interface TableDataService {
      * @return
      */
     List<TableData> searchTableData(Long createTime, Integer tableNo, Integer battleNo);
+
+    /**
+     * 获取投注结果信息
+     * @param createTime
+     * @param tzxt
+     * @param tzzh
+     * @return
+     */
+    List<ResultData> searchResultData(Long createTime, Integer tzxt, String tzzh);
+
 }

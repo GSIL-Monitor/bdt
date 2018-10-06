@@ -147,4 +147,16 @@ public class TableDataServiceImpl implements TableDataService {
         }
         return tableDataMapper.searchTableData(createDate, tableNo, battleNo);
     }
+
+    @Override
+    public List<ResultData> searchResultData(Long createTime, Integer tzxt, String tzzh) {
+
+        Date createDate;
+        if (createTime == null || createTime == 0) {
+            createDate = null;
+        } else {
+            createDate = new Date(createTime);
+        }
+        return resultDataMapper.searchResultData(createDate, tzxt, tzzh);
+    }
 }

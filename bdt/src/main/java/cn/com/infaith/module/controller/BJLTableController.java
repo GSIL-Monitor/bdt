@@ -1,6 +1,7 @@
 package cn.com.infaith.module.controller;
 
 import cn.com.infaith.module.model.DopeData;
+import cn.com.infaith.module.model.ResultData;
 import cn.com.infaith.module.model.TableData;
 import cn.com.infaith.module.model.TzSystem;
 import cn.com.infaith.module.service.BJLDataService;
@@ -124,6 +125,16 @@ public class BJLTableController {
                                       @RequestParam(required = false) Integer battleNo) {
 
         List<TableData> list = tableDataService.searchTableData(createTime, tableNo, battleNo);
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
+    }
+
+    @GetMapping("/searchDopeData")
+    @ApiOperation(value = "获取投注结果数据", notes = "获取投注结果数据", httpMethod = "POST")
+    public JSONObject searchDopeData(@RequestParam(required = false) Long createTime,
+                                      @RequestParam(required = false) Integer tzxt,
+                                      @RequestParam(required = false) String tzzh) {
+
+        List<ResultData> list = tableDataService.searchResultData(createTime, tzxt, tzzh);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
     }
 }

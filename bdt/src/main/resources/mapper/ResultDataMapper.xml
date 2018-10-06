@@ -57,9 +57,27 @@
   <select id="getResultJGNullByTable" resultMap="BaseResultMap">
     select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt,
     tzjg, yxje, yssy, sjsy
-    from result_data a,
+    from result_data
     WHERE table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = #{fitNo}
     AND (tzjg IS NULL OR tzjg = '')
     ORDER BY account ASC limit 1
+  </select>
+
+  <select id="searchResultData" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt,
+    tzjg, yxje, yssy, sjsy
+    from result_data
+    WHERE 1 = 1
+    <if test="createTime != null">
+      AND create_time >= #{createTime}
+      AND create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
+    </if>
+    <if test="tzxt != null and tzxt != 0">
+      tzxt = #{tzxt}
+    </if>
+    <if test="tzzh != null and tzzh != ''">
+      tzzh = #{tzzh}
+    </if>
+    ORDER BY create_time DESC
   </select>
 </mapper>
