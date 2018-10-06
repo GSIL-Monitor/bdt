@@ -79,7 +79,7 @@ public class BJLTableController {
 
         if (started) {
             if (fh == null || fh == 0 || StringUtils.isBlank(xh)) {
-                return ResponseJsonUtil.getResponseJson(400,"缺少fh或xh参数",null);
+                return ResponseJsonUtil.getResponseJson(400, "缺少fh或xh参数", null);
             }
         }
         Boolean result = tableDataService.updateTzStartOrClose(started, tzxt, fh, xh);
@@ -112,8 +112,18 @@ public class BJLTableController {
             bjlDataService.openCard(tableData, phxs, list);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseJsonUtil.getResponseJson(500,"报错",e.getMessage());
+            return ResponseJsonUtil.getResponseJson(500, "报错", e.getMessage());
         }
-        return ResponseJsonUtil.getResponseJson(200,"success",null);
+        return ResponseJsonUtil.getResponseJson(200, "success", null);
+    }
+
+    @GetMapping("/searchTableData")
+    @ApiOperation(value = "获取桌面数据", notes = "获取桌面数据", httpMethod = "POST")
+    public JSONObject searchTableData(@RequestParam(required = false) Long createTime,
+                                      @RequestParam(required = false) Integer tableNo,
+                                      @RequestParam(required = false) Integer battleNo) {
+
+        List<TableData> list = tableDataService.searchTableData(createTime, tableNo, battleNo);
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
     }
 }
