@@ -2,10 +2,16 @@ import Axios from '@/service/axios/index.js'
 import config from '@/config/index.js'
 
 const protocol = document.location.protocol == 'https:' ? 'https:' : 'http:'
-const HOST = process.env.BASE_URL
+const HOST = config.baseUrl.pro
 export default {
-  //  登录
-  getlogin(params = {}) {
-    return Axios({method: 'POST', url: HOST + 'user/login', params: params})
+  //
+  getTableInfo(params = {}) {
+    return Axios({method: 'get', url: HOST + 'bjlTable/getTableInfo', params: params})
+  },
+  getTzSystemInfo(params = {}) {
+    return Axios({method: 'get', url: HOST + 'bjlTable/getTzSystemInfo', params: params})
+  },
+  tzSystemStarted(params = {}) {
+    return Axios({method: 'POST', url: HOST + 'bjlTable/tzSystemStarted', params: params})
   }
 }

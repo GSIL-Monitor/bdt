@@ -1,11 +1,6 @@
 <template>
   <div class="bdt-overview">
     <Row :gutter="16">
-      <!-- <Content class="content-wrapper">
-       <keep-alive :include="cacheList">
-         <router-view/>
-       </keep-alive>
-     </Content>-->
       <i-col span="8">
         <Card>
           <p slot="title">BDT运行状态</p>
@@ -17,7 +12,7 @@
       <i-col span="16">
         <Card>
           <p slot="title">百家乐牌桌情况</p>
-          <Table :columns="columns1" :data="data1"></Table>
+          <Table :columns="columnsData" :data="rowsData"></Table>
         </Card>
       </i-col>
     </Row>
@@ -110,7 +105,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(item, index) in tableData">
+              <tr v-for="(item, index) in tableData" :key="index">
                 <td class="name">
                   <div class="row">
                     <Select size="small" :key="index" v-model="item.name" clearable
@@ -187,7 +182,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(item, index) in tableData">
+              <tr v-for="(item, index) in tableData" :key="index">
                 <td class="name">
                   <div class="row">
                     <Select size="small" :key="index" v-model="item.name" clearable
@@ -287,46 +282,30 @@
         ],
         switchValue: false,
         qqFans: '',
-        columns1: [
+        columnsData: [
           {
-            title: 'Name',
-            key: 'name'
+            title: '桌号',
+            key: 'tableNo'
           },
           {
-            title: 'Age',
-            key: 'age'
+            title: '局号',
+            key: 'battleNo'
           },
           {
-            title: 'Address',
-            key: 'address'
+            title: '副号',
+            key: 'fitNo'
+          },
+          {
+            title: '状态',
+            key: 'card'
+          },
+          {
+            title: '处理结果',
+            key: 'result'
           }
         ],
-        data1: [
-          {
-            name: 'John Brown',
-            age: 18,
-            address: 'New York No. 1 Lake Park',
-            date: '2016-10-03'
-          },
-          {
-            name: 'Jim Green',
-            age: 24,
-            address: 'London No. 1 Lake Park',
-            date: '2016-10-01'
-          },
-          {
-            name: 'Joe Black',
-            age: 30,
-            address: 'Sydney No. 1 Lake Park',
-            date: '2016-10-02'
-          },
-          {
-            name: 'Jon Snow',
-            age: 26,
-            address: 'Ottawa No. 2 Lake Park',
-            date: '2016-10-04'
-          }
-        ],
+        rowsData: [],
+        tz1Data: '',
         formInline: {
           user: '',
           password: ''
@@ -338,10 +317,40 @@
         // console.log(to);
       }
     },
+    created() {
+      console.log(process.env);
+      this.getTableInfo();
+      this.getTzSystemInfo();
+    },
+    activated() {
+
+    },
     mounted() {
       console.log(this.$config);
     },
-    methods: {}
+    methods: {
+      getTableInfo() {
+        let params = {};
+        this.$api.getTableInfo(params).then(res => {
+          console.log(123);
+          if (res.returnCode == 200) {
+            this.rowsData = res.returnObject;
+
+          }
+        })
+      },
+      getTzSystemInfo() {
+        let params = {tzxt: '1'}
+        this.$api.getTzSystemInfo(params).then(res => {
+          console.log(res);
+          if (res.returnCode == 200) {
+            this.tz1Data = '';
+          }
+        }).catch(err => {
+
+        })
+      }
+    }
   }
 </script>
 

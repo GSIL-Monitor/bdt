@@ -12,13 +12,16 @@ import 'iview/dist/styles/iview.css'
 import './index.less'
 import '@/assets/icons/iconfont.css'
 import http from 'axios'
-// import api from '@/service/index.js'
+import api from '@/service/index.js'
+import cookie from 'js-cookie'
 // 实际打包时应该不引入mock
 /* eslint-disable */
-if (process.env.NODE_ENV !== 'production') require('@/mock')
+// if (process.env.NODE_ENV !== 'production') require('@/mock')
 
 Vue.use(iView, {
-  i18n: (key, value) => i18n.t(key, value)
+  i18n: (key, value) => i18n.t(key, value),
+  transfer: true,
+  size: 'large'
 })
 Vue.config.productionTip = false
 /**
@@ -27,7 +30,8 @@ Vue.config.productionTip = false
 Vue.prototype.$config = config
 Vue.prototype.$http = http
 //
-// Vue.prototype.$api = api
+Vue.prototype.$api = api
+Vue.prototype.$cookie = cookie
 /**
  * 注册指令
  */

@@ -24,6 +24,7 @@ module.exports = {
     'semi': 0, // 分号
     'no-unused-vars': 'off',
     'eqeqeq': 'off',
-    'spaced-comment': 'off'
+    'spaced-comment': 'off',
+    'handle-callback-err': 'off'
   }
 }

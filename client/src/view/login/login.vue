@@ -27,11 +27,12 @@
       handleSubmit({userName, password}) {
         console.log(userName, password);
         this.handleLogin({userName, password}).then(res => {
-          console.log('this.handleLogin', res)
-          this.getUserInfo().then(res => {
-            // console.log('=====>>', res);
-            // this.$router.push({path: '/home'})
-          })
+          if (res.returnCode == 200) {
+            this.getUserInfo().then(res => {
+              // console.log('=====>>', res);
+              this.$router.push({path: '/home'})
+            })
+          }
         })
       }
     }
