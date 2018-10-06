@@ -1,9 +1,6 @@
 package cn.com.infaith.module.controller;
 
-import cn.com.infaith.module.model.DopeData;
-import cn.com.infaith.module.model.ResultData;
-import cn.com.infaith.module.model.TableData;
-import cn.com.infaith.module.model.TzSystem;
+import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.BJLDataService;
 import cn.com.infaith.module.service.TableDataService;
 import cn.com.infaith.module.util.ResponseJsonUtil;
@@ -131,10 +128,36 @@ public class BJLTableController {
     @GetMapping("/searchDopeData")
     @ApiOperation(value = "获取投注结果数据", notes = "获取投注结果数据", httpMethod = "POST")
     public JSONObject searchDopeData(@RequestParam(required = false) Long createTime,
-                                      @RequestParam(required = false) Integer tzxt,
-                                      @RequestParam(required = false) String tzzh) {
+                                     @RequestParam(required = false) Integer tzxt,
+                                     @RequestParam(required = false) String tzzh) {
 
         List<ResultData> list = tableDataService.searchResultData(createTime, tzxt, tzzh);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
+    }
+
+    @PostMapping("/bdtSystemStarted")
+    @ApiOperation(value = "bdt系统开关", notes = "bdt系统开关", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "started", value = "开关", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "ps", value = "ps值，当为关闭时可不填", paramType = "query"),
+            @ApiImplicitParam(name = "phxs", value = "phxs值，当为关闭时可不填", paramType = "query"),
+    })
+    public JSONObject bdtSystemStarted(@RequestParam Boolean started,
+                                       @RequestParam(required = false) Integer ps,
+                                       @RequestParam(required = false) BigDecimal phxs) {
+        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs);
+        if (result) {
+            return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
+        } else {
+            return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+        }
+    }
+
+    @GetMapping("/getBdtSystemInfo")
+    @ApiOperation(value = "获取bdt系统信息", notes = "获取bdt系统信息", httpMethod = "GET")
+    public JSONObject getBdtSystemInfo() {
+
+        BdtSystem bdtSystem = tableDataService.getBdtSystem();
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", bdtSystem);
     }
 }

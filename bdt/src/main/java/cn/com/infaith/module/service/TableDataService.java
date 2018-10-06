@@ -3,6 +3,7 @@ package cn.com.infaith.module.service;
 import cn.com.infaith.module.model.*;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -162,4 +163,14 @@ public interface TableDataService {
      */
     List<ResultData> searchResultData(Long createTime, Integer tzxt, String tzzh);
 
+    /**
+     * bdt系统开关
+     * @param started
+     * @param ps
+     * @param phxs
+     * @return
+     */
+    Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs);
+
+    BdtSystem getBdtSystem();
 }
