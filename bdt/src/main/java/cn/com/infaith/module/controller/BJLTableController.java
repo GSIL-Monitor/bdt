@@ -7,6 +7,8 @@ import cn.com.infaith.module.service.BJLDataService;
 import cn.com.infaith.module.service.TableDataService;
 import cn.com.infaith.module.util.ResponseJsonUtil;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,17 @@ public class BJLTableController {
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);
     }
 
+    @ApiOperation(value = "披露添加百家乐桌面信息", notes = "披露添加百家乐桌面信息", httpMethod = "POST")
+    @PostMapping("/addTableDataList")
+    public JSONObject addTableDataList(@RequestBody List<TableData> tableData) {
+
+        Boolean result = tableDataService.addTableDataList(tableData);
+        if (result) {
+            return ResponseJsonUtil.getResponseJson(200, "success", null);
+        }
+        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+    }
+
     @PostMapping("/initTest")
     public JSONObject initTest() {
 
@@ -52,8 +65,14 @@ public class BJLTableController {
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
     }
 
-    @ApiOperation(value = "投注系统开关", notes = "投注系统开关", httpMethod = "POST")
     @PostMapping("/tzSystemStarted")
+    @ApiOperation(value = "投注系统开关", notes = "投注系统开关", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tzxt", value = "投注系统", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "started", value = "开关", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "fh", value = "fh值，当为关闭时可不填", paramType = "query"),
+            @ApiImplicitParam(name = "xh", value = "xh值，当为关闭时可不填", paramType = "query"),
+    })
     public JSONObject tzSystemStarted(@RequestParam int tzxt, @RequestParam Boolean started,
                                       @RequestParam(required = false) Integer fh,
                                       @RequestParam(required = false) String xh) {
@@ -73,7 +92,7 @@ public class BJLTableController {
 
     @ApiOperation(value = "获取投注系统信息", notes = "获取投注系统信息", httpMethod = "GET")
     @GetMapping("/getTzSystemInfo")
-    public JSONObject getTzSystemInfo(int tzxt) {
+    public JSONObject getTzSystemInfo(@RequestParam int tzxt) {
 
         TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt);
         if (tzSystem != null) {

@@ -59,5 +59,6 @@
     update status_data
     set status = #{status}
     where table_no = #{tableNo} AND is_delete = 0
+    AND battle_no = #{battleNo} AND fit_no = #{fitNo}
   </update>
 </mapper>
