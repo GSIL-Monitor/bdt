@@ -138,7 +138,9 @@ public interface TableDataService {
      * 更新状态表
      * @param tableNo
      * @param status
+     * @param battleNo
+     * @param fitNo
      * @return
      */
-    Boolean updateStatusByTableNo(int tableNo, int status);
+    Boolean updateStatusByTableNo(int tableNo, int battleNo, int fitNo, int status);
 }

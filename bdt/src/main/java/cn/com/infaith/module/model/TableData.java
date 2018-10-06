@@ -1,39 +1,47 @@
 package cn.com.infaith.module.model;
 
+import io.swagger.annotations.ApiParam;
+
 import java.util.Date;
 
 public class TableData {
+
+    @ApiParam(hidden = true)
     private Integer id;
-
+    @ApiParam(hidden = true)
     private Date createTime;
-
+    @ApiParam(value = "创建时间")
     private Long createDate;
-
+    @ApiParam(value = "桌号")
     private Integer tableNo;
-
+    @ApiParam(value = "局号")
     private Integer battleNo;
-
+    @ApiParam(value = "副号")
     private Integer fitNo;
-
+    @ApiParam(value = "牌面数据-庄")
     private String card;
-
+    @ApiParam(value = "牌面数据-闲")
+    private String xianCard;
+    @ApiParam(value = "牌面结果")
     private Integer result;
-
+    @ApiParam(hidden = true)
     private String xgl;
-
+    @ApiParam(hidden = true)
     private String zgl;
-
+    @ApiParam(hidden = true)
     private String xtsl;
-
+    @ApiParam(hidden = true)
     private String ztsl;
-
+    @ApiParam(hidden = true)
     private String xjz;
-
+    @ApiParam(hidden = true)
     private String zjz;
-
+    @ApiParam(hidden = true)
     private String ljxjz;
-
+    @ApiParam(hidden = true)
     private String ljzjz;
+    @ApiParam(value = "牌面状态")
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -161,5 +169,21 @@ public class TableData {
 
     public void setLjzjz(String ljzjz) {
         this.ljzjz = ljzjz;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getXianCard() {
+        return xianCard;
+    }
+
+    public void setXianCard(String xianCard) {
+        this.xianCard = xianCard;
     }
 }

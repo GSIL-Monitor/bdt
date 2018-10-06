@@ -20,5 +20,6 @@ public interface StatusDataMapper {
 
     StatusData getStatusByTableNo(int tableNo);
 
-    int updateStatusByTableNo(@Param("tableNo") int tableNo, @Param("status") int status);
+    int updateStatusByTableNo(@Param("tableNo") int tableNo, @Param("status") int status,
+                              @Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
 }

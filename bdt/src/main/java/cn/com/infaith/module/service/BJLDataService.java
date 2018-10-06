@@ -185,19 +185,19 @@ public class BJLDataService {
             //1）副号<TZ1FH，进入步骤11-1。  2）副号>=TZ1FH，进入步骤10-3。
             int step10_2Result = step10_2(tableDataNew, tz1System);
             if (step10_2Result == 1) {
-                step11_1(tableData.getTableNo(), phxs);
+                step11_1(tableData, phxs);
             } else {
                 //1）ZTSL>TZ1XH，进入步骤11-1。  2）ZTSL<=TZ1XH，进入步骤10-4。
                 int step10_3Result = step10_3(tableDataNew, tz1System);
                 if (step10_3Result == 1) {
-                    step11_1(tableData.getTableNo(), phxs);
+                    step11_1(tableData, phxs);
                 } else {
                     step10_4(tableData, list);
                 }
             }
         } else {
             //投注子系统1关闭--进入11-1
-            step11_1(tableData.getTableNo(), phxs);
+            step11_1(tableData, phxs);
         }
 
     }
@@ -384,25 +384,26 @@ public class BJLDataService {
      * 步骤11-1，取《同桌号数据表》最新一条记录中的“桌号、局号、副号、结果”，
      * 比较在《投注结果表》是否有桌号、局号、副号都相同、且“投注结果”为空的记录。
      *
-     * @param tableNo
+     * @param tableData
      */
-    public void step11_1(int tableNo, BigDecimal phxs) {
-        TableData tableDataNew = tableDataService.getNewestTableData(tableNo);
-        ResultData resultData = tableDataService.getResultJGNullByTable(tableNo, tableDataNew.getBattleNo(), tableDataNew.getFitNo());
+    public void step11_1(TableData tableData, BigDecimal phxs) {
+        TableData tableDataNew = tableDataService.getNewestTableData(tableData.getTableNo());
+        ResultData resultData = tableDataService.getResultJGNullByTable(tableData.getTableNo(), tableDataNew.getBattleNo(), tableDataNew.getFitNo());
         if (resultData == null) {
-            //在《投注结果表》中无相应记录。进入步骤xxx。
+            //在《投注结果表》中无相应记录。进入步骤12。
+            step12(tableData);
         } else {
             //在《投注结果表》中有相应记录，按账号顺序取第1条记录。进入步骤11-2。
             int result = step11_2(resultData);
             if (result == 1) {
-                step11_1(tableNo, phxs);
+                step11_1(tableData, phxs);
             } else {
                 int tzjg = step11_3(tableDataNew, resultData);
                 BigDecimal yxje = step11_4(tzjg, resultData.getTzje());
                 resultData.setTzjg(tzjg);
                 resultData.setYxje(yxje);
                 step11_5(resultData, phxs);
-                step12(tableNo);
+                step12(tableData);
             }
         }
     }
@@ -410,8 +411,8 @@ public class BJLDataService {
     /**
      * 步骤12，将《状态表》同桌记录中的状态改为“开牌”。
      */
-    public void step12(int tableNo) {
-        tableDataService.updateStatusByTableNo(tableNo, TableStatusEnum.KP.getIndex());
+    public void step12(TableData tableData) {
+        tableDataService.updateStatusByTableNo(tableData.getTableNo(), tableData.getBattleNo(), tableData.getFitNo(), TableStatusEnum.KP.getIndex());
     }
 
     /**

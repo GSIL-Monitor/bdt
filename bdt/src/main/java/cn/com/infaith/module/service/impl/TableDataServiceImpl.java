@@ -34,6 +34,10 @@ public class TableDataServiceImpl implements TableDataService {
 
     @Override
     public Boolean addTableDataList(List<TableData> tableDataList) {
+
+        tableDataList.forEach(x -> {
+            x.setCreateTime(new Date(x.getCreateDate()));
+        });
         return tableDataMapper.addTableDataList(tableDataList) == tableDataList.size() ? true : false;
     }
 
@@ -128,7 +132,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean updateStatusByTableNo(int tableNo, int status) {
-        return statusDataMapper.updateStatusByTableNo(tableNo, status) > 0 ? true : false;
+    public Boolean updateStatusByTableNo(int tableNo, int battleNo, int fitNo, int status) {
+        return statusDataMapper.updateStatusByTableNo(tableNo, status, battleNo, fitNo) > 0 ? true : false;
     }
 }
