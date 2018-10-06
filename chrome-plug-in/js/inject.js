@@ -62,9 +62,7 @@ winmap["_2hqy3"] = "龙";
 winmap["_3g4fx"] = "和";
 winmap["_1xv2M"] = "虎";
 
-
-
-
+var selectmap = {};
 window.chrome_login_User_Obj = {
     userName: 'nin23801',
     password: 'aabb123123',
@@ -199,11 +197,11 @@ function chrome_login() {
     })
 }
 
-var callback = function(mutationsList) { 
-    for(var mutation of mutationsList) { 
+var callback = function (mutationsList) {
+    for (var mutation of mutationsList) {
         //console.log(mutation); 
         console.log("=====================");
-        if (mutation.type == 'attributes') { 
+        if (mutation.type == 'attributes') {
             var classData = mutation.target.className;
             console.log("classData:" + classData);
             var t = $(mutation.target).parents("._6VpXo");
@@ -213,21 +211,21 @@ var callback = function(mutationsList) {
         }
 
         observer.observe(mutation.target, config);
-    } 
-}; 
+    }
+};
 // var config = { attributes: true}; 
-var config = { attributes: true };
-var observer = new MutationObserver(callback); 
+var config = {attributes: true};
+var observer = new MutationObserver(callback);
 
-function startListen() { 
+function startListen() {
     console.log("start listen");
 
     var targets = $(".qMFBr div[role!='button']:first-child");
     console.log(targets.length);
 
-    for(var i=0;i<targets.length;i++) {
+    for (var i = 0; i < targets.length; i++) {
         console.log(targets[i]);
-        observer.observe(targets[i], config); 
+        observer.observe(targets[i], config);
     }
 }
 
@@ -280,9 +278,9 @@ function analysisData(deskNode) {
     var desk = {};
     desk.left = arrleft;
     desk.right = arrright;
-    
+
     var deskNameData = $(deskNode).find("._3fFvD span");
-    if(deskNameData.length == 2){
+    if (deskNameData.length == 2) {
         desk.name1 = $(deskNameData[0]).text();
         desk.name2 = $(deskNameData[1]).text();
     } else {
@@ -296,7 +294,7 @@ function analysisData(deskNode) {
 
     var winNodes = $(deskNode).find("div._3AxTi > div.i6ChJ > div._3jUwm");
     var winDatas = [];
-    for(var i=0;i<winNodes.length;i++) {
+    for (var i = 0; i < winNodes.length; i++) {
         var index = $(winNodes[i]).attr("class").split(" ")[1];
         var data = winmap[index];
         winDatas.push(data);
@@ -304,4 +302,17 @@ function analysisData(deskNode) {
     desk.windatas = winDatas;
 
     return desk;
+}
+
+
+function selectedYuan() {
+    //
+    //
+    console.log($($("._2oHIg ._2Eb76:not(._3BVsE)")[0]));
+    //
+    $($("._2oHIg ._2Eb76:not(._3BVsE)")[0]).children().click(); // 选择筹码
+    //
+    $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').click(); // 选择牌
+    //
+    $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').find('._1a9j-._1m_7V').click(); // 确认下注
 }

@@ -2,30 +2,29 @@
   <div class="bdt-overview">
     <Row :gutter="16">
       <i-col span="6">
-        <Card>
-          <p slot="title">BDT运行状态</p>
-          <p>卡片内容</p>
-          <p>卡片内容</p>
-          <p>卡片内容</p>
-        </Card>
-        <br style="height: 16px">
+        <bdt-run></bdt-run>
+        <br>
         <Card>
           <p slot="title">账号登录情况</p>
-          <Card style="margin-bottom: 15px" class="" :key="i"
-                v-for="(item, i) in isLoginOverviewData">
+          <Card :key="i" v-for="(item, i) in isLoginOverviewData">
             <template slot="title">
               <div class="header-box" style="font-size: 16px">
-                <div class="col">账号1</div>
-                <div class="col">{{}}登陆</div>
+                <div class="col" style="font-weight: bold;">{{item.name}}</div>
+                <div class="col" v-if="item.loginStatus">
+                  <Button type="primary" ghost size="small">{{'登陆'}}</Button>
+                </div>
+                <div class="col" v-else>
+                  <Button type="error" ghost size="small">{{'未登录'}}</Button>
+                </div>
                 <div class="col" style="text-align: right;flex: inherit">
                   <Button type="primary" size="small">编辑</Button>
                 </div>
               </div>
-              <div class="header-box" style="height: 20px"><span class="col">香港/58.121.43.98</span>
+              <div class="header-box" style="height: 20px"><span class="col">{{item.ipRegion}}/{{item.ipAddress}}</span>
               </div>
             </template>
             <div class="header-box">
-              <div class="col">有效金额：2888.88</div>
+              <div class="col">有效金额：{{item.effectiveAmount}}</div>
               <div class="col" style="text-align: right"><a href="">查看统计</a></div>
             </div>
           </Card>
@@ -36,26 +35,16 @@
           <p slot="title">百家乐牌桌情况</p>
           <Table :columns="columnsData" :data="rowsData"></Table>
         </Card>
-        <br style="height: 16px">
-        <Row :gutter="16">
-          <i-col span="12">
-            <Card>
-              <CellGroup slot="title">
-                <Cell title="LJXJZ" label="现值：10,000"/>
-              </CellGroup>
-              <div>23423</div>
-            </Card>
-          </i-col>
-          <i-col span="12">
-            <Card>
-              <CellGroup slot="title">
-                <Cell title="LJZJZ" label="现值：10,000"/>
-              </CellGroup>
-              <div>23423432</div>
-            </Card>
-          </i-col>
-        </Row>
-        <br style="height: 16px">
+        <br>
+        <Card>
+          <CellGroup slot="title">
+            <Cell title="LJXJZ" label="现值：10,000"/>
+          </CellGroup>
+          <div id="overLine">
+            <example style="height: 310px;"/>
+          </div>
+        </Card>
+        <br>
         <Card>
           <div slot="title">
             <div>
@@ -70,12 +59,12 @@
               </Row>
             </div>
             <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
-              <FormItem prop="user" style="margin:0 5px">
+              <FormItem label="TZ1FH" prop="user" style="margin:0 5px">
                 <Input type="text" v-model="formInline.user" placeholder="Username">
                   <Icon type="ios-person-outline" slot="prepend"></Icon>
                 </Input>
               </FormItem>
-              <FormItem prop="password" style="margin:0 5px">
+              <FormItem label="TZ1XH" prop="password" style="margin:0 5px">
                 <Input type="password" v-model="formInline.password" placeholder="Password">
                   <Icon type="ios-lock-outline" slot="prepend"></Icon>
                 </Input>
@@ -131,7 +120,7 @@
             </table>
           </div>
         </Card>
-        <br style="height: 16px">
+        <br>
         <Card>
           <div slot="title">
             <div>
@@ -207,24 +196,16 @@
             </table>
           </div>
         </Card>
-        <br style="height: 16px">
+        <br>
       </i-col>
-    </Row>
-    <br style="height: 16px">
-    <Row :gutter="16">
-
-      <!---->
-
-    </Row>
-    <br>
-    <!---->
-    <Row :gutter="16">
-
     </Row>
   </div>
 </template>
 
 <script>
+  import bdtRun from './components/bdt-run.vue'
+  import Example from './components/example.vue'
+
   export default {
     name: 'overview',
     data() {
@@ -320,6 +301,10 @@
         },
         isLoginOverviewData: []
       }
+    },
+    components: {
+      Example,
+      bdtRun
     },
     watch: {
       $route: function (to, form) {
