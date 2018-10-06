@@ -4,9 +4,13 @@ import config from '@/config'
 import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 
 export const TOKEN_KEY = 'token'
+export const INFO_KEY = 'USER_INFO'
 
 export const setToken = (token) => {
   Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
+}
+export const setInfo = (info) => {
+  Cookies.set(INFO_KEY, info, { expires: config.cookieExpires || 1 })
 }
 
 export const getToken = () => {

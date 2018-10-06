@@ -1,5 +1,5 @@
 import {login, logout, getUserInfo} from '@/api/user'
-import {setToken, getToken} from '@/libs/util'
+import {setToken, getToken,setInfo} from '@/libs/util'
 import Vue from 'vue'
 import Cookie from 'js-cookie'
 
@@ -44,7 +44,8 @@ export default {
           const data = res.data
           console.log('data', data);
           if (data.returnCode == 200) {
-            Cookie.set('USER_INFO', window.JSON.stringify(data.returnObject));
+            setInfo(window.JSON.stringify(data.returnObject))
+            // Cookie.set('USER_INFO', window.JSON.stringify(data.returnObject),{ expires: config.cookieExpires || 1 });
             commit('setToken', data.returnObject.id)
             commit('setAvator', 'https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png')
             commit('setUserName', data.returnObject.name)
