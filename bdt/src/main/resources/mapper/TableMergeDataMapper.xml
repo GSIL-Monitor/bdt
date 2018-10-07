@@ -56,4 +56,30 @@
     WHERE id != #{id} AND is_delete = 0
     ORDER BY create_time DESC
   </select>
+
+  <select id="getResultInfo" resultType="java.util.HashMap">
+    SELECT
+    fit_no,
+    ljxjz
+    FROM
+    table_merge_data
+    WHERE
+    create_time >= #{startDate}
+    AND create_time  <![CDATA[ < ]]> #{endDate}
+    ORDER BY
+    create_time DESC
+  </select>
+
+  <select id="getLJZJZ" resultType="java.util.HashMap">
+    SELECT
+    fit_no,
+    ljzjz
+    FROM
+    table_merge_data
+    WHERE
+    create_time >= #{startDate}
+    AND create_time  <![CDATA[ < ]]> #{endDate}
+    ORDER BY
+    create_time DESC
+  </select>
 </mapper>

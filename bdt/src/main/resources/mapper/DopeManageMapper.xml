@@ -8,6 +8,7 @@
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="tzje" jdbcType="INTEGER" property="tzje" />
     <result column="tzxt" jdbcType="INTEGER" property="tzxt" />
+    <result column="tzfx" jdbcType="INTEGER" property="tzfx" />
     <result column="tzsj_section1" jdbcType="VARCHAR" property="tzsjSection1" />
     <result column="tzsj_section2" jdbcType="VARCHAR" property="tzsjSection2" />
     <result column="table_no" jdbcType="VARCHAR" property="tableNo" />
@@ -19,21 +20,21 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.DopeManage">
-    insert into dope_manage (id, tzxt, tzzh, tzje,
+    insert into dope_manage (id, tzxt, tzzh, tzje, tzfx,
       tzsj_section1, tzsj_section2, table_no, 
       is_delete, create_time)
-    values (#{id,jdbcType=INTEGER}, #{tzxt}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{tzxt}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=INTEGER}, #{tzfx},
       #{tzsjSection1,jdbcType=VARCHAR}, #{tzsjSection2,jdbcType=VARCHAR}, #{tableNo,jdbcType=VARCHAR},
       0, now())
   </insert>
 
   <insert id="insertList" parameterType="cn.com.infaith.module.model.DopeManage">
-    insert into dope_manage (tzxt, tzzh, tzje,
+    insert into dope_manage (tzxt, tzzh, tzje, tzfx,
       tzsj_section1, tzsj_section2, table_no,
       is_delete, create_time)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.tzxt}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=INTEGER},
+      (#{item.tzxt}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=INTEGER}, #{item.tzfx},
       #{item.tzsjSection1,jdbcType=VARCHAR}, #{item.tzsjSection2,jdbcType=VARCHAR}, #{item.tableNo,jdbcType=VARCHAR},
       0, now())
     </foreach>
@@ -46,17 +47,18 @@
       tzsj_section1 = #{tzsjSection1,jdbcType=VARCHAR},
       tzsj_section2 = #{tzsjSection2,jdbcType=VARCHAR},
       table_no = #{tableNo,jdbcType=VARCHAR},
+      tzfx = #{tzfx},
       0,
       now()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, tzxt, tzzh, tzje, tzsj_section1, tzsj_section2, table_no, is_delete, create_time
+    select id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time
     from dope_manage
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, tzxt, tzzh, tzje, tzsj_section1, tzsj_section2, table_no, is_delete, create_time
+    select id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time
     from dope_manage
   </select>
 
@@ -68,6 +70,7 @@
         b.`name`,
         b.account,
         a.tzje,
+        a.tzfx,
         a.tzsj_section1,
         a.tzsj_section2,
         a.table_no,
@@ -85,5 +88,12 @@
 
     <select id="getDopeManageIdByTzzh" parameterType="String" resultType="Integer">
         SELECT id FROM dope_manage WHERE tzzh = #{tzzh}
+    </select>
+
+    <select id="getDopeManageByTableNoAndTzxt" resultMap="BaseResultMap">
+        select id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time
+        from dope_manage
+        WHERE is_delete = 0 AND table_no LIKE concat('%',#{tableNo},'%')
+        AND tzxt = #{tzxt}
     </select>
 </mapper>

@@ -17,6 +17,8 @@ public class DopeManage {
 
     private Integer tzje;
 
+    private Integer tzfx;
+
     private String tzsjSection1;
 
     private String tzsjSection2;
@@ -26,6 +28,14 @@ public class DopeManage {
     private Boolean isDelete;
 
     private Date createTime;
+
+    public Integer getTzfx() {
+        return tzfx;
+    }
+
+    public void setTzfx(Integer tzfx) {
+        this.tzfx = tzfx;
+    }
 
     public Integer getTzxt() {
         return tzxt;

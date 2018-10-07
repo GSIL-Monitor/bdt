@@ -3,6 +3,11 @@ package cn.com.infaith.module.service.impl;
 import cn.com.infaith.module.mapper.*;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.TableDataService;
+import cn.com.infaith.module.util.ResponseJsonUtil;
+import cn.com.infaith.module.util.TimeUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TableDataServiceImpl implements TableDataService {
@@ -90,6 +96,11 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
+    public DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(int tableNo, int tzSystem) {
+        return dopeDataMapper.getFirstDopeByTableNoAndTzSystemOrderByAccount(tableNo, tzSystem);
+    }
+
+    @Override
     public TableData getNewestTableData(int tableNo) {
         return tableDataMapper.getNewestTableData(tableNo);
     }
@@ -145,7 +156,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public List<TableData> searchTableData(Long createTime, Integer tableNo, Integer battleNo) {
+    public JSONObject searchTableData(Long createTime, Integer tableNo, Integer battleNo, Integer pageNum, Integer pageSize) {
 
         Date createDate;
         if (createTime == null || createTime == 0) {
@@ -153,11 +164,13 @@ public class TableDataServiceImpl implements TableDataService {
         } else {
             createDate = new Date(createTime);
         }
-        return tableDataMapper.searchTableData(createDate, tableNo, battleNo);
+        Page<TableData> page = PageHelper.startPage(pageNum, pageSize, true);
+        List<TableData> list = tableDataMapper.searchTableData(createDate, tableNo, battleNo);
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",list,pageNum,pageSize,page.getTotal());
     }
 
     @Override
-    public List<ResultData> searchResultData(Long createTime, Integer tzxt, String tzzh) {
+    public JSONObject searchResultData(Long createTime, Integer tzxt, String tzzh, Integer pageNum, Integer pageSize) {
 
         Date createDate;
         if (createTime == null || createTime == 0) {
@@ -165,7 +178,9 @@ public class TableDataServiceImpl implements TableDataService {
         } else {
             createDate = new Date(createTime);
         }
-        return resultDataMapper.searchResultData(createDate, tzxt, tzzh);
+        Page<ResultData> page = PageHelper.startPage(pageNum, pageSize, true);
+        List<ResultData> list = resultDataMapper.searchResultData(createDate, tzxt, tzzh);
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",list,pageNum,pageSize,page.getTotal());
     }
 
     @Override
@@ -211,6 +226,11 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
+    public List<DopeManage> getDopeManageByTableNoAndTzxt(String tableNo, int tzxt) {
+        return dopeManageMapper.getDopeManageByTableNoAndTzxt(tableNo, tzxt);
+    }
+
+    @Override
     public Boolean addDopeManage(DopeManage dopeManage) {
         return dopeManageMapper.insert(dopeManage) > 0 ? true : false;
     }
@@ -218,6 +238,42 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public Boolean updateDopeManage(DopeManage dopeManage) {
         return dopeManageMapper.updateByPrimaryKey(dopeManage) > 0 ? true : false;
+    }
+
+    @Override
+    public List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime) {
+
+        Date startDate;
+        if (startTime == null || startTime == 0) {
+            startDate = TimeUtil.getTodayZeroDate();
+        } else {
+            startDate = new Date(startTime);
+        }
+        Date endDate;
+        if (endTime == null || endTime == 0) {
+            endDate = TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), 1);
+        } else {
+            endDate = new Date(endTime);
+        }
+        List<Map<Integer, String>> map = tableMergeDataMapper.getResultInfo(startDate, endDate);
+        return map;
+    }
+
+    @Override
+    public List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime) {
+        Date startDate;
+        if (startTime == null || startTime == 0) {
+            startDate = TimeUtil.getTodayZeroDate();
+        } else {
+            startDate = new Date(startTime);
+        }
+        Date endDate;
+        if (endTime == null || endTime == 0) {
+            endDate = TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), 1);
+        } else {
+            endDate = new Date(endTime);
+        }
+        return tableMergeDataMapper.getLJZJZ(startDate, endDate);
     }
 
 

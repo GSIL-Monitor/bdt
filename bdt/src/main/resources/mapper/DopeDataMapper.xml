@@ -83,6 +83,14 @@
     limit 1
   </select>
 
+  <select id="getFirstDopeByTableNoAndTzSystemOrderByAccount" resultMap="BaseResultMap">
+    select a.id, a.create_time, a.tzsj_section, a.table_no, a.battle_no, a.fit_no, a.tzfx, a.tzxt, a.tzzh, a.tzje
+    from dope_data a, user_account b
+    where a.is_delete = 0 AND a.table_no = #{tableNo} AND a.tzxt = #{tzSystem} AND a.tzzh = b.id
+    ORDER BY b.account ASC
+    limit 1
+  </select>
+
   <select id="getDopeByTableNoAndTzSystem" resultMap="BaseResultMap">
     select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
     from dope_data
