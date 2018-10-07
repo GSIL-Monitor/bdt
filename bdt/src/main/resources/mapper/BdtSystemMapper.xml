@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.BdtSystemMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.BdtSystem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ps" jdbcType="INTEGER" property="ps" />
+    <result column="phxs" jdbcType="DECIMAL" property="phxs" />
+    <result column="started" jdbcType="BIT" property="started" />
+    <result column="yxje" jdbcType="DECIMAL" property="yxje" />
+    <result column="ysje" jdbcType="DECIMAL" property="ysje" />
+    <result column="sjje" jdbcType="DECIMAL" property="sjje" />
+
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bdt_system
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.BdtSystem">
+    insert into bdt_system (id, ps, phxs, 
+      started)
+    values (#{id,jdbcType=INTEGER}, #{ps,jdbcType=INTEGER}, #{phxs,jdbcType=DECIMAL}, 
+      #{started,jdbcType=BIT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.BdtSystem">
+    update bdt_system
+    set ps = #{ps,jdbcType=INTEGER},
+      phxs = #{phxs,jdbcType=DECIMAL},
+      started = #{started,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ps, phxs, started
+    from bdt_system
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ps, phxs, started
+    from bdt_system
+  </select>
+
+  <update id="bdtSystemStarted">
+    update bdt_system
+    set
+      started = #{started}
+      <if test="ps != null and ps != 0">
+        ,ps = #{ps}
+      </if>
+      <if test="phxs != null">
+        ,phxs = #{phxs,jdbcType=DECIMAL}
+      </if>
+  </update>
+
+  <select id="getBdtSystem" resultMap="BaseResultMap">
+    select id, ps, phxs, started
+    from bdt_system limit 1
+  </select>
+</mapper>
