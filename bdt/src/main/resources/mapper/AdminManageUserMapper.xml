@@ -45,9 +45,8 @@
 
   <select id="getUserByAdmin" parameterType="String" resultType="cn.com.infaith.module.model.UserAccount">
     SELECT a.id, a.name, a.account, a.ip_region ipRegion, a.ip_address ipAddress, a.effective_amount effectiveAmount,
-    a.login_status loginStatus, a.is_delete isDelete FROM admin_manage_user b, user_account a
-    WHERE b.user_id = a.id AND a.is_delete = 0 AND b.is_delete = 0
-    AND b.admin_id = #{admin}
+    a.login_status loginStatus, a.is_delete isDelete FROM user_account a
+    WHERE a.is_delete = 0
     ORDER BY a.login_status DESC
   </select>
 

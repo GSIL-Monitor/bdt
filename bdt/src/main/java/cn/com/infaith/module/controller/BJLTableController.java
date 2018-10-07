@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -70,17 +71,29 @@ public class BJLTableController {
             @ApiImplicitParam(name = "started", value = "开关", required = true, paramType = "query"),
             @ApiImplicitParam(name = "fh", value = "fh值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "xh", value = "xh值，当为关闭时可不填", paramType = "query"),
+            @ApiImplicitParam(name = "list", value = "账号信息list，当为关闭时可不填", paramType = "query"),
     })
     public JSONObject tzSystemStarted(@RequestParam int tzxt, @RequestParam Boolean started,
                                       @RequestParam(required = false) Integer fh,
-                                      @RequestParam(required = false) String xh) {
+                                      @RequestParam(required = false) String xh,
+                                      @RequestParam(required = false) List<DopeManage> list) {
 
         if (started) {
-            if (fh == null || fh == 0 || StringUtils.isBlank(xh)) {
+            if (fh == null || fh == 0 || StringUtils.isBlank(xh) || CollectionUtils.isEmpty(list)) {
                 return ResponseJsonUtil.getResponseJson(400, "缺少fh或xh参数", null);
             }
         }
         Boolean result = tableDataService.updateTzStartOrClose(started, tzxt, fh, xh);
+        if (started) {
+            list.forEach(x -> {
+                Integer id = tableDataService.getDopeManageIdByTzzh(x.getTzzh());
+                if (id != null) {
+                    tableDataService.updateDopeManage(x);
+                } else {
+                    tableDataService.addDopeManage(x);
+                }
+            });
+        }
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         } else {
@@ -92,9 +105,13 @@ public class BJLTableController {
     @GetMapping("/getTzSystemInfo")
     public JSONObject getTzSystemInfo(@RequestParam int tzxt) {
 
+        JSONObject json = new JSONObject();
         TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt);
+        List<DopeManage> list = tableDataService.getDopeMangeList(tzxt);
         if (tzSystem != null) {
-            return ResponseJsonUtil.getResponseJson(200, "find data", tzSystem);
+            json.put("tzSystem", tzSystem);
+            json.put("list", list);
+            return ResponseJsonUtil.getResponseJson(200, "find data", json);
         } else {
             return ResponseJsonUtil.getResponseJson(404, "not find", null);
         }
@@ -160,4 +177,5 @@ public class BJLTableController {
         BdtSystem bdtSystem = tableDataService.getBdtSystem();
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", bdtSystem);
     }
+
 }

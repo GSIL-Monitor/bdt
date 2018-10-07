@@ -14,8 +14,8 @@
     <result column="tzje" jdbcType="INTEGER" property="tzje" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from dope_data
-    where id = #{id,jdbcType=INTEGER}
+    UPDATE dope_data SET is_delete = 1
+    WHERE id = #{id}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.DopeData">
     insert into dope_data (id, create_time, tzsj_section, table_no,

@@ -173,4 +173,39 @@ public interface TableDataService {
     Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs);
 
     BdtSystem getBdtSystem();
+
+    Boolean addResultData(ResultData resultData);
+
+    /**
+     * 通过id删除下单信息
+     * @param id
+     * @return
+     */
+    Boolean deleteDopeDataById(int id);
+
+    /**
+     * 添加自动投注信息
+     * @param list
+     * @return
+     */
+    Boolean addDopeManage(List<DopeManage> list);
+
+    /**
+     * 获取自动投注信息
+     * @return
+     */
+    List<DopeManage> getDopeMangeList(int tzxt);
+
+    /**
+     * 通过投注账号获取id
+     * @param tzzh
+     * @return
+     */
+    Integer getDopeManageIdByTzzh(String tzzh);
+
+    Boolean addDopeManage(DopeManage dopeManage);
+
+    Boolean updateDopeManage(DopeManage dopeManage);
+
+
 }
