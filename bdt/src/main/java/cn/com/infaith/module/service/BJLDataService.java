@@ -97,19 +97,20 @@ public class BJLDataService {
     /**
      * 可投注状态
      */
-    public void tzStatus(int tableNo, int battleNo, int fitNo, int status) {
+    public void tzStatus(int tableNo, int battleNo, int fitNo) {
         //查询《TZ1同桌号下单表》中有无记录。
         int step2Result = step2(tableNo, fitNo, 1);
         if (step2Result == 0) {
             //无记录，进入步骤4
-            step4();
+            step4(tableNo, battleNo, fitNo);
         } else if (step2Result == 1) {
             //有记录，当前副号=1。清除表中所有记录。进入步骤4。
             tableDataService.clearAllDopeByTableNoAndTzSystem(tableNo, 1);
-            step4();
+            step4(tableNo, battleNo, fitNo);
         } else {
             //有记录，当前副号>1。进入步骤3。
-            step3(tableNo);
+            step3(tableNo, fitNo);
+            tzStatus(tableNo, battleNo, fitNo);
         }
     }
 
@@ -151,11 +152,57 @@ public class BJLDataService {
      *
      * @return
      */
-    private int step3(int tableNo) {
+    private void step3(int tableNo, int fitNo) {
         //取表中的第1条记录中的“账号、投注方向、投注金额”进行投注
         DopeData dopeData = tableDataService.getFirstDopeByTableNoAndTzSystem(tableNo, 1);
+        for (int i = 0; i < 3; i++) {
+            boolean tzResult = false;
+            //进行投注
+            tzResult = false;
+            if (tzResult) {
+                addResultAndDeleteDopeCommit(dopeData, true);
+                break;
+            } else if (i == 2) {
+                addResultAndDeleteDopeCommit(dopeData, false);
+            }
+        }
+    }
 
-        return 0;
+    public static void main(String[] args) {
+        boolean s = true;
+        int i = 1;
+        do {
+            s = false;
+
+            if (s) {
+                i = 3;
+            } else {
+                i++;
+            }
+        } while (i == 3);
+    }
+
+    /**
+     * 添加结果表记录并删除下单表记录
+     *
+     * @param dopeData
+     */
+    @Transactional
+    public void addResultAndDeleteDopeCommit(DopeData dopeData, boolean tzzt) {
+        //如果投注成功，添加至投注结果表
+        ResultData resultData = new ResultData();
+        resultData.setCreateTime(dopeData.getCreateTime());
+        resultData.setTableNo(dopeData.getTableNo());
+        resultData.setBattleNo(dopeData.getBattleNo());
+        resultData.setFitNo(dopeData.getFitNo());
+        resultData.setTzfx(dopeData.getTzfx());
+        resultData.setTzxt(dopeData.getTzxt());
+        resultData.setTzzh(dopeData.getTzzh());
+        resultData.setTzje(dopeData.getTzje().toString());
+        resultData.setTzzt(tzzt);
+        tableDataService.addResultData(resultData);
+        //并删除该记录
+        tableDataService.deleteDopeDataById(dopeData.getId());
     }
 
     /**
@@ -163,10 +210,52 @@ public class BJLDataService {
      *
      * @return
      */
-    private int step4() {
-        return 0;
+    public void step4(int tableNo, int battleNo, int fitNo) {
+        //获取投注系统2信息
+        TzSystem tzSystem = tableDataService.getTzSystemInfo(2);
+        if (tzSystem.getStarted()) {
+            //处于“启动”状态，进入步骤5-1。
+            int count = step5_1(fitNo, tzSystem);
+            if (count == 1) {
+                step6(tableNo, battleNo, fitNo);
+            } else {
+
+            }
+        } else {
+            //处于“关闭”状态。进入步骤6。
+            step6(tableNo, battleNo, fitNo);
+        }
     }
 
+    /**
+     * 步骤5-1，在管理界面、投注子系统2中取参数TZ2FHA、TZ2FHB，比较当前副号与TZ2FHA、TZ2FHB。
+     *
+     * @param fitNo
+     * @param tzSystem
+     * @return 1 进入步骤6。  2  进入步骤5-2。
+     */
+    public int step5_1(int fitNo, TzSystem tzSystem) {
+        if (fitNo < tzSystem.getFh() || fitNo > Integer.valueOf(tzSystem.getXh())) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    public void step5_2() {
+
+    }
+
+    /**
+     * 步骤6，将《状态表》同桌记录中的状态改为“可投注”。进入步骤15
+     *
+     * @param tableNo
+     * @param battleNo
+     * @param fitNo
+     */
+    public void step6(int tableNo, int battleNo, int fitNo) {
+        tableDataService.updateStatusByTableNo(tableNo, battleNo, fitNo, TableStatusEnum.TZ.getIndex());
+    }
 
     /**
      * 开牌状态
@@ -507,22 +596,22 @@ public class BJLDataService {
         }
     }
 
-    public static void main(String[] args) {
-
-        SimpleDateFormat sf = new SimpleDateFormat("HHmm");
-        Date date = new Date();
-        Integer createTime = Integer.valueOf(sf.format(date));
-
-        String times = "01:00~02:00";
-        String[] time = times.split("~");
-        Integer timeStart = Integer.valueOf(time[0].replace(":", ""));
-        Integer timeEnd = Integer.valueOf(time[1].replace(":", ""));
-        if (createTime >= timeStart && createTime <= timeEnd) {
-            System.out.println("符合");
-        } else {
-            System.out.println("不符合");
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        SimpleDateFormat sf = new SimpleDateFormat("HHmm");
+//        Date date = new Date();
+//        Integer createTime = Integer.valueOf(sf.format(date));
+//
+//        String times = "01:00~02:00";
+//        String[] time = times.split("~");
+//        Integer timeStart = Integer.valueOf(time[0].replace(":", ""));
+//        Integer timeEnd = Integer.valueOf(time[1].replace(":", ""));
+//        if (createTime >= timeStart && createTime <= timeEnd) {
+//            System.out.println("符合");
+//        } else {
+//            System.out.println("不符合");
+//        }
+//    }
 
     //初始状态加入数据库
     @Transactional

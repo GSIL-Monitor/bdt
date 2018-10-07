@@ -3,10 +3,13 @@ package cn.com.infaith.module.service.impl;
 import cn.com.infaith.module.mapper.*;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.TableDataService;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +30,8 @@ public class TableDataServiceImpl implements TableDataService {
     private ResultDataMapper resultDataMapper;
     @Autowired
     private BdtSystemMapper bdtSystemMapper;
+    @Autowired
+    private DopeManageMapper dopeManageMapper;
 
     @Override
     public int addTableData(TableData tableData) {
@@ -172,4 +177,48 @@ public class TableDataServiceImpl implements TableDataService {
     public BdtSystem getBdtSystem() {
         return bdtSystemMapper.getBdtSystem();
     }
+
+    @Override
+    public Boolean addResultData(ResultData resultData) {
+        return resultDataMapper.insert(resultData) > 0 ? true : false;
+    }
+
+    @Override
+    public Boolean deleteDopeDataById(int id) {
+        return dopeDataMapper.deleteByPrimaryKey(id) > 0 ? true : false;
+    }
+
+    @Override
+    public Boolean addDopeManage(List<DopeManage> list) {
+
+        if (CollectionUtils.isNotEmpty(list)) {
+            int count = dopeManageMapper.insertList(list);
+            if (count == list.size()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<DopeManage> getDopeMangeList(int tzxt) {
+        return dopeManageMapper.getDopeMangeList(tzxt);
+    }
+
+    @Override
+    public Integer getDopeManageIdByTzzh(String tzzh) {
+        return dopeManageMapper.getDopeManageIdByTzzh(tzzh);
+    }
+
+    @Override
+    public Boolean addDopeManage(DopeManage dopeManage) {
+        return dopeManageMapper.insert(dopeManage) > 0 ? true : false;
+    }
+
+    @Override
+    public Boolean updateDopeManage(DopeManage dopeManage) {
+        return dopeManageMapper.updateByPrimaryKey(dopeManage) > 0 ? true : false;
+    }
+
+
 }
