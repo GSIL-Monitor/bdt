@@ -27,11 +27,11 @@
   <insert id="insert" parameterType="cn.com.infaith.module.model.TableData" useGeneratedKeys="true" keyProperty="id">
     insert into table_data (create_time, table_no,
       battle_no, fit_no, card, xian_card,
-      result, xgl, zgl, xtsl, 
+      result, xgl, zgl, xtsl,
       ztsl, xjz, zjz, ljxjz, ljzjz, is_delete)
     values (#{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{card,jdbcType=VARCHAR}, #{xianCard},
-      #{result,jdbcType=INTEGER}, #{xgl,jdbcType=VARCHAR}, #{zgl,jdbcType=VARCHAR}, #{xtsl,jdbcType=VARCHAR}, 
+      #{result,jdbcType=INTEGER}, #{xgl,jdbcType=VARCHAR}, #{zgl,jdbcType=VARCHAR}, #{xtsl,jdbcType=VARCHAR},
       #{ztsl,jdbcType=VARCHAR}, #{xjz}, #{zjz}, #{ljxjz}, #{ljzjz}, 0)
   </insert>
   <insert id="addTableDataList" parameterType="cn.com.infaith.module.model.TableData">

@@ -1,10 +1,12 @@
 package cn.com.infaith.module.service;
 
 import cn.com.infaith.module.model.*;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface TableDataService {
@@ -57,12 +59,20 @@ public interface TableDataService {
     Boolean clearAllDopeByTableNoAndTzSystem(int tableNo, int tzSystem);
 
     /**
-     * 根据桌号和投注方向取投注下单表的第1条记录中的“账号、投注方向、投注金额”进行投注。
+     * 根据桌号和投注系统取投注下单表的第1条记录中的“账号、投注方向、投注金额”进行投注。
      * @param tableNo
      * @param tzSystem
      * @return
      */
     DopeData getFirstDopeByTableNoAndTzSystem(int tableNo, int tzSystem);
+
+    /**
+     * 根据桌号和投注系统取投注下单表的第1条记录中的“账号、投注方向、投注金额”进行投注。
+     * @param tableNo
+     * @param tzSystem
+     * @return
+     */
+    DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(int tableNo, int tzSystem);
 
     /**
      * 根据桌号获取最新一条信息
@@ -152,7 +162,7 @@ public interface TableDataService {
      * @param battleNo
      * @return
      */
-    List<TableData> searchTableData(Long createTime, Integer tableNo, Integer battleNo);
+    JSONObject searchTableData(Long createTime, Integer tableNo, Integer battleNo, Integer pageNum, Integer pageSize);
 
     /**
      * 获取投注结果信息
@@ -161,7 +171,7 @@ public interface TableDataService {
      * @param tzzh
      * @return
      */
-    List<ResultData> searchResultData(Long createTime, Integer tzxt, String tzzh);
+    JSONObject searchResultData(Long createTime, Integer tzxt, String tzzh, Integer pageNum, Integer pageSize);
 
     /**
      * bdt系统开关
@@ -203,9 +213,13 @@ public interface TableDataService {
      */
     Integer getDopeManageIdByTzzh(String tzzh);
 
+    List<DopeManage> getDopeManageByTableNoAndTzxt(String tableNo, int tzxt);
+
     Boolean addDopeManage(DopeManage dopeManage);
 
     Boolean updateDopeManage(DopeManage dopeManage);
 
+    List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime);
 
+    List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/bjlTable")
@@ -33,6 +34,7 @@ public class BJLTableController {
         int id = tableDataService.addTableData(tableData);
         if (id != 0) {
             tableData.setId(id);
+//            bjlDataService.JudgeState(tableData);
             return ResponseJsonUtil.getResponseJson(200, "success", tableData);
         }
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);
@@ -43,6 +45,9 @@ public class BJLTableController {
     public JSONObject addTableDataList(@RequestBody List<TableData> tableData) {
 
         Boolean result = tableDataService.addTableDataList(tableData);
+//        tableData.stream().forEach(x -> {
+//            bjlDataService.JudgeState(x);
+//        });
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "success", null);
         }
@@ -52,7 +57,7 @@ public class BJLTableController {
     @PostMapping("/initTest")
     public JSONObject initTest() {
 
-        bjlDataService.initTableData();
+        bjlDataService.initTableData(1);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
     }
 
@@ -120,11 +125,10 @@ public class BJLTableController {
     @ApiOperation(value = "开牌状态接口", notes = "开牌状态接口", httpMethod = "POST")
     @PostMapping("/openCard")
     public JSONObject openCard(@RequestParam TableData tableData,
-                               @RequestParam BigDecimal phxs,
-                               @RequestParam List<DopeData> list) {
+                               @RequestParam BigDecimal phxs) {
 
         try {
-            bjlDataService.openCard(tableData, phxs, list);
+            bjlDataService.openCard(tableData, phxs);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseJsonUtil.getResponseJson(500, "报错", e.getMessage());
@@ -136,20 +140,20 @@ public class BJLTableController {
     @ApiOperation(value = "获取桌面数据", notes = "获取桌面数据", httpMethod = "POST")
     public JSONObject searchTableData(@RequestParam(required = false) Long createTime,
                                       @RequestParam(required = false) Integer tableNo,
-                                      @RequestParam(required = false) Integer battleNo) {
+                                      @RequestParam(required = false) Integer battleNo,
+                                      Integer pageNum, Integer pageSize) {
 
-        List<TableData> list = tableDataService.searchTableData(createTime, tableNo, battleNo);
-        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
+        return tableDataService.searchTableData(createTime, tableNo, battleNo, pageNum, pageSize);
     }
 
     @GetMapping("/searchDopeData")
     @ApiOperation(value = "获取投注结果数据", notes = "获取投注结果数据", httpMethod = "POST")
     public JSONObject searchDopeData(@RequestParam(required = false) Long createTime,
                                      @RequestParam(required = false) Integer tzxt,
-                                     @RequestParam(required = false) String tzzh) {
+                                     @RequestParam(required = false) String tzzh,
+                                     Integer pageNum, Integer pageSize) {
 
-        List<ResultData> list = tableDataService.searchResultData(createTime, tzxt, tzzh);
-        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
+        return tableDataService.searchResultData(createTime, tzxt, tzzh, pageNum, pageSize);
     }
 
     @PostMapping("/bdtSystemStarted")
@@ -176,6 +180,18 @@ public class BJLTableController {
 
         BdtSystem bdtSystem = tableDataService.getBdtSystem();
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", bdtSystem);
+    }
+
+    @GetMapping("/getLJInfo")
+    @ApiOperation(value = "获取累计数据xjz、zjz", notes = "获取累计数据xjz、zjz", httpMethod = "GET")
+    public JSONObject getLJInfo(Long startTime, Long endTime) {
+
+        JSONObject json = new JSONObject();
+        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime);
+        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime);
+        json.put("ljxjz", ljxjz);
+        json.put("ljzjz", ljzjz);
+        return ResponseJsonUtil.getResponseJson(200, "success", json);
     }
 
 }

@@ -22,4 +22,7 @@ public interface DopeManageMapper {
 
     Integer getDopeManageIdByTzzh(String tzzh);
 
+    List<DopeManage> getDopeManageByTableNoAndTzxt(@Param("tableNo") String tableNo, @Param("tzxt") int tzxt);
+
+
 }

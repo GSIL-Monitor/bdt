@@ -21,6 +21,7 @@ public interface DopeDataMapper {
     boolean clearAllDopeByTableNoAndTzSystem(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
 
     DopeData getFirstDopeByTableNoAndTzSystem(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
+    DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
 
     List<DopeData> getDopeByTableNoAndTzSystem(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
 
