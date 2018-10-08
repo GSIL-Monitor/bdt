@@ -55,14 +55,28 @@ datamap["_3LInw"] = "D13";
 var winmap = {};
 winmap["_322Py"] = "闲对";
 winmap["_7vTww"] = "闲";
-winmap["_3xcd"] = "和";
+winmap["_3xcd-"] = "和";
 winmap["ZUikl"] = "庄";
 winmap["EUsyn"] = "庄对";
 winmap["_2hqy3"] = "龙";
 winmap["_3g4fx"] = "和";
 winmap["_1xv2M"] = "虎";
 
-var selectmap = {};
+
+// var statemap = {};
+// statemap["oNBv8"] = "洗牌中";
+// statemap["oNBv8 _2LZqc"] = "结算中";
+// statemap["eVjHq"] = "倒计时开始";
+// statemap["eVjHq _1uWsG"] = "十秒倒计时 红色";
+
+
+var deskstatemap = {};
+deskstatemap["0"] = "洗牌中";
+deskstatemap["1"] = "开始投注";
+deskstatemap["2"] = "停止投注";
+deskstatemap["3"] = "开牌";
+
+
 window.chrome_login_User_Obj = {
     userName: 'nin23801',
     password: 'aabb123123',
@@ -199,38 +213,126 @@ function chrome_login() {
 
 var callback = function (mutationsList) {
     for (var mutation of mutationsList) {
-        //console.log(mutation); 
-        console.log("=====================");
-        if (mutation.type == 'attributes') {
-            var classData = mutation.target.className;
-            console.log("classData:" + classData);
-            var t = $(mutation.target).parents("._6VpXo");
-
-            var rtndata = analysisData(t);
-            console.log(JSON.stringify(rtndata));
+        //过滤无用变更（庄和数字显示）
+        if ('i6ChJ _2T18P' === mutation.oldValue || 'i6ChJ' === mutation.oldValue) {
+            return;
         }
 
-        observer.observe(mutation.target, config);
+        var classData = mutation.target.className;
+        var previousVal = mutation.oldValue;
+        var text = $(mutation.target).text();
+
+        //过滤10秒倒计时监听
+        if ('eVjHq _1uWsG' === classData) {
+            return;
+        }
+
+        //过滤投注时的节点变化
+        if ((classData && classData.indexOf('_2EW6q') != -1) || (previousVal && previousVal.indexOf('_2EW6q') != -1)) {
+            return;
+        }
+
+        //过滤倒计时
+        if (2 == $(mutation.target).text().length) {
+            return;
+        }
+
+
+        // 0"洗牌中";
+        // 1"开始投注";
+        // 2"停止投注";
+        // 3"开牌";
+        var state = -1;
+        if (classData && classData.indexOf('_3jUwm') > -1) {
+            state = 3;
+        } else if (previousVal && previousVal.indexOf('_3jUwm') > -1) {
+            state = 1;
+        } else if ('停止投注' === previousVal) {
+            state = 2;
+        } else if ('洗牌中' === text) {
+            state = 0;
+        }
+
+        if (-1 == state) {
+            return;
+        }
+
+        // if(-1 == state){
+        //     console.log(" ");
+        //     console.log("=====================");
+        //     console.log('Mutation type: ' + mutation.type);
+        //     console.log('Mutation target: ');
+        //     console.log(mutation.target);
+        //     console.log($(mutation.target).html());
+        //     console.log('Previous attribute value: ' + previousVal);
+        //     console.log("=====================");
+        //     console.log("classData:" + classData);
+        //     console.log("text:" + $(mutation.target).text());
+        //     console.log("textlength:" + $(mutation.target).text().length);
+        //     return;
+        // }
+
+
+        var t = $(mutation.target).parents("._6VpXo");
+
+        var rtndata = analysisData(t, classData, state);
+        console.log(JSON.stringify(rtndata));
+
+
     }
+
 };
-// var config = { attributes: true}; 
-var config = {attributes: true};
+
+var configState = {
+    'subtree': true,
+    'attributes': true,
+    'attributeOldValue': true,
+    'characterDataOldValue': true,
+    'attributeName': ['class']
+};
+
+var winState = {
+    'subtree': true,
+    'attributes': true,
+    'attributeOldValue': true,
+    'attributeName': ['class']
+};
+
 var observer = new MutationObserver(callback);
+
+var flag = true;
 
 function startListen() {
     console.log("start listen");
+    var targets = $(".qMFBr");
 
-    var targets = $(".qMFBr div[role!='button']:first-child");
-    console.log(targets.length);
+    // console.log(targets.length);
 
     for (var i = 0; i < targets.length; i++) {
-        console.log(targets[i]);
-        observer.observe(targets[i], config);
+        observer.observe(targets[i], configState);
+        if (2 == i) {
+            break;
+        }
+
     }
+
+    var winStateTargets = $(".i6ChJ");
+    // console.log(winStateTargets.length);
+
+    for (var i = 0; i < winStateTargets.length; i++) {
+        observer.observe(winStateTargets[i], winState);
+        if (2 == i) {
+            break;
+        }
+
+    }
+
+
 }
 
+function analysisData(deskNode, classData, state) {
 
-function analysisData(deskNode) {
+    //console.log("state:"+ statemap[classData]);
 
     var ps = $(deskNode).find(".e93on > ._2Qhx2 > ._1DTtZ._1Z5TM > ._3_Q04 > ._1I_B5");
     var left = $(ps).find("._5yJ9E > ._3QN0V > span");
@@ -293,26 +395,21 @@ function analysisData(deskNode) {
     desk.count2 = countData[1];
 
     var winNodes = $(deskNode).find("div._3AxTi > div.i6ChJ > div._3jUwm");
+    // console.log("winNodes:start");
+    // console.log(winNodes);
+    // console.log("winNodes:end");
+
     var winDatas = [];
     for (var i = 0; i < winNodes.length; i++) {
+        //console.log($(winNodes[i]).attr("class"));
         var index = $(winNodes[i]).attr("class").split(" ")[1];
         var data = winmap[index];
         winDatas.push(data);
     }
     desk.windatas = winDatas;
+    desk.state = state;
+    desk.desc = deskstatemap[state + ''];
 
+    console.info(desk.name1 + desk.name2 + "  " + state + " " + deskstatemap[state + '']);
     return desk;
-}
-
-
-function selectedYuan() {
-    //
-    //
-    console.log($($("._2oHIg ._2Eb76:not(._3BVsE)")[0]));
-    //
-    $($("._2oHIg ._2Eb76:not(._3BVsE)")[0]).children().click(); // 选择筹码
-    //
-    $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').click(); // 选择牌
-    //
-    $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').find('._1a9j-._1m_7V').click(); // 确认下注
 }

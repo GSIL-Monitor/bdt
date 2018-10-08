@@ -25,6 +25,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'eqeqeq': 'off',
     'spaced-comment': 'off',
-    'handle-callback-err': 'off'
+    'handle-callback-err': 'off',
+    'quotes': 'off'
   }
 }

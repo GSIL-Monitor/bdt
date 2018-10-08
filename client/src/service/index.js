@@ -23,5 +23,17 @@ export default {
   getUserByAdmin(params = {}) {
     // 查看管理员所管理的用户 params = {adminId:'##'}
     return Axios({method: 'get', url: HOST + 'account/getUserByAdmin', params: params})
+  },
+  bdtSystemStarted(params = {}) {
+    //
+    return Axios({method: 'post', url: HOST + 'bjlTable/bdtSystemStarted', params: params})
+  },
+  getBdtSystemInfo(params = {}) {
+    //
+    return Axios({method: 'get', url: HOST + 'bjlTable/getBdtSystemInfo', params: params})
+  },
+  addUserAccount(params = {}) {
+    //
+    return Axios({method: 'post', url: HOST + 'account/addUserAccount', params: params})
   }
 }
