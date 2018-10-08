@@ -48,7 +48,7 @@ public class BJLTableController {
 //        tableData.stream().forEach(x -> {
 //            bjlDataService.JudgeState(x);
 //        });
-        if (result) {
+        if (result != null && result) {
             return ResponseJsonUtil.getResponseJson(200, "success", null);
         }
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);

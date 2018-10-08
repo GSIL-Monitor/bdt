@@ -16,7 +16,7 @@ public interface TableDataService {
      * @param tableData
      * @return
      */
-    int addTableData(TableData tableData);
+    Integer addTableData(TableData tableData);
     Boolean addTableDataList(List<TableData> tableDataList);
 
     Boolean updateTableData(TableData tableData);

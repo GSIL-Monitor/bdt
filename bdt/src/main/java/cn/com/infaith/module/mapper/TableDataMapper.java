@@ -25,4 +25,7 @@ public interface TableDataMapper {
 
     List<TableData> searchTableData(@Param("createTime") Date createTime, @Param("tableNo") Integer tableNo, @Param("battleNo") Integer battleNo);
 
+    int checkIsHaveTableData(@Param("created") Date created, @Param("tableNo") Integer tableNo,
+                             @Param("battleNo") Integer battleNo, @Param("fitNo") Integer fitNo,
+                             @Param("card") String card);
 }

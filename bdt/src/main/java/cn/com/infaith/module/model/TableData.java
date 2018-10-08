@@ -12,6 +12,8 @@ public class TableData {
     private Date createTime;
     @ApiParam(value = "创建时间")
     private Long createDate;
+    @ApiParam(value = "创建时间，不带时分秒", hidden = true)
+    private Date created;
     @ApiParam(value = "桌号")
     private Integer tableNo;
     @ApiParam(value = "局号")
@@ -185,5 +187,13 @@ public class TableData {
 
     public void setXianCard(String xianCard) {
         this.xianCard = xianCard;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }
