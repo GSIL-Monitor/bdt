@@ -19,6 +19,8 @@ public class UserAccount {
 
     private Boolean loginStatus;
 
+    private Integer type;
+
     private Byte isDelete;
 
     public String getId() {
@@ -91,5 +93,13 @@ public class UserAccount {
 
     public void setLoginStatus(Boolean loginStatus) {
         this.loginStatus = loginStatus;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

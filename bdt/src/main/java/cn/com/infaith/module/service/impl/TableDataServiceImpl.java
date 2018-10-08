@@ -40,23 +40,43 @@ public class TableDataServiceImpl implements TableDataService {
     private DopeManageMapper dopeManageMapper;
 
     @Override
-    public int addTableData(TableData tableData) {
+    public Integer addTableData(TableData tableData) {
 
         tableData.setCreateTime(new Date(tableData.getCreateDate()));
+        tableData.setCreated(new Date(tableData.getCreateDate()));
+        int count = tableDataMapper.checkIsHaveTableData(tableData.getCreated(), tableData.getTableNo(), tableData.getBattleNo(),
+                tableData.getFitNo(), tableData.getCard());
+        if (count > 0) {
+            return null;
+        }
         return tableDataMapper.insert(tableData);
     }
 
     @Override
     public Boolean addTableDataList(List<TableData> tableDataList) {
-
-        tableDataList.forEach(x -> {
-            x.setCreateTime(new Date(x.getCreateDate()));
-        });
-        return tableDataMapper.addTableDataList(tableDataList) == tableDataList.size() ? true : false;
+        List<TableData> list = new ArrayList<>();
+        for (int i = 0; i < tableDataList.size(); i++) {
+            TableData tableData = tableDataList.get(i);
+            int count = tableDataMapper.checkIsHaveTableData(tableData.getCreated(), tableData.getTableNo(), tableData.getBattleNo(),
+                    tableData.getFitNo(), tableData.getCard());
+            if (count > 0) {
+                continue;
+            }
+            tableData.setCreateTime(new Date(tableData.getCreateDate()));
+            tableData.setCreated(new Date(tableData.getCreateDate()));
+            list.add(tableData);
+        }
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+        return tableDataMapper.addTableDataList(list) == list.size() ? true : false;
     }
 
     @Override
     public Boolean updateTableData(TableData tableData) {
+
+        tableData.setCreateTime(new Date(tableData.getCreateDate()));
+        tableData.setCreated(tableData.getCreateTime());
         return tableDataMapper.updateByPrimaryKey(tableData) > 0 ? true : false;
     }
 

@@ -367,7 +367,10 @@ public class BJLDataService {
      */
     public void openCard(TableData tableData, BigDecimal phxs) {
 
-        step7(tableData);
+        boolean result = step7(tableData);
+        if (!result) {
+            return;
+        }
         tableData = step8_1(tableData);
         tableData = step8_2(tableData);
         TableMergeData tableMergeData = step8_3(tableData, phxs);
@@ -401,10 +404,14 @@ public class BJLDataService {
      *
      * @param tableData 牌面数据
      */
-    public void step7(TableData tableData) {
+    public Boolean step7(TableData tableData) {
         //将读取的结果记入《同桌号数据表》
-        int id = tableDataService.addTableData(tableData);
+        Integer id = tableDataService.addTableData(tableData);
+        if (id == null) {
+            return false;
+        }
         tableData.setId(id);
+        return true;
     }
 
     /**
@@ -428,9 +435,9 @@ public class BJLDataService {
         BdtSystem system = tableDataService.getBdtSystem();
         Map<String, BigDecimal> map = calcXGLZGLServiceNotMap.calcXgl(tableData.getFitNo(),system.getPs(),tableData.getCard(),system.getPhxs());
         tableData.setXgl(map.get("xgl").toPlainString());
-        tableData.setXtsl(map.get("xsy").toPlainString());
+        tableData.setXtsl(map.get("xtsl").toPlainString());
         tableData.setZgl(map.get("zgl").toPlainString());
-        tableData.setZtsl(map.get("zsy").toPlainString());
+        tableData.setZtsl(map.get("ztsl").toPlainString());
         //更新数据
         tableDataService.updateTableData(tableData);
         return tableData;

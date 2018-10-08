@@ -10,16 +10,17 @@
     <result column="ip_address" jdbcType="VARCHAR" property="ipAddress" />
     <result column="effective_amount" jdbcType="DECIMAL" property="effectiveAmount" />
     <result column="login_status" jdbcType="TINYINT" property="loginStatus" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     UPDATE user_account SET is_delete = 1 WHERE id = #{id}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.UserAccount">
-    insert into user_account (id, name, account, 
+    insert into user_account (id, name, account, type,
       password, ip_region, ip_address, effective_amount, login_status,
       is_delete)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{type},
       #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{effectiveAmount,jdbcType=DECIMAL},
       0,0)
   </insert>
@@ -48,21 +49,24 @@
     <if test="loginStatus != null">
       ,login_status = #{loginStatus}
     </if>
+    <if test="type != null">
+      ,type = #{type}
+    </if>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, account, ip_region, ip_address, effective_amount, login_status, is_delete
+    select id, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type
     from user_account AND is_delete = 0
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, account, ip_address, effective_amount, is_delete
+    select id, name, account, ip_address, effective_amount, is_delete, type
     from user_account
   </select>
 
   <select id="selectByAccountAndPassWord" resultType="cn.com.infaith.module.model.UserAccount">
     select id, name, account, ip_region ipRegion, ip_address ipAddress, effective_amount effectiveAmount,
-    login_status loginStatus, is_delete isDelete
+    login_status loginStatus, is_delete isDelete, type
     from user_account
     where account = #{account} AND password = #{password} AND is_delete = 0
   </select>
