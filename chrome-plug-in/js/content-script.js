@@ -70,9 +70,9 @@ function initCustomPanel() {
     panel.innerHTML = `
 		<h2>inject-panel：</h2>
 		<div class="btn-area" style="margin-bottom: 60px;">
-            <a href="javascript:queryDeskDetail()" style="color: #545454">queryDeskDetail</a>
-            <a href="javascript:startListen()" style="color: #545454">startListen</a>
+            <a href="javascript:startListen()" style="color: #000">startListen</a>
         </div>
+        <h2>inject-panel：</h2>
         <button id="chromeLoginClick" type="button" onclick="chrome_login()" style="color: black">获取验证码并解析赋值</button>	
         <button type="button" onclick="qagetIndex()" style="color: black">同意的确认</button>	
         <button type="button" onclick="qasetCookie()" style="color: black">设置COOKIE</button>

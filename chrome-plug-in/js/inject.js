@@ -1,56 +1,56 @@
 var datamap = {};
-datamap["_3m2-b"] = "A1";
-datamap["_1mjUZ"] = "A2";
-datamap["_2k309"] = "A3";
-datamap["_3jhEf"] = "A4";
-datamap["_15JYj"] = "A5";
-datamap["_1YmG6"] = "A6";
-datamap["_138Ip"] = "A7";
-datamap["_19CK0"] = "A8";
-datamap["_1FAb8"] = "A9";
-datamap["_3bR2d"] = "A10";
-datamap["_20aw3"] = "A11";
-datamap["_2psWU"] = "A12";
-datamap["O4fLT"] = "A13";
-datamap["_2jmcJ"] = "B1";
-datamap["_2i1TV"] = "B2";
-datamap["_3E9yR"] = "B3";
-datamap["cM8ah"] = "B4";
-datamap["mjgRe"] = "B5";
-datamap["_39Q6j"] = "B6";
-datamap["_29X7a"] = "B7";
-datamap["_37S_a"] = "B8";
-datamap["_3_O7D"] = "B9";
-datamap["_3Z457"] = "B10";
-datamap["_3QJhk"] = "B11";
-datamap["_13sJi"] = "B12";
-datamap["_2LuRH"] = "B13";
-datamap["-gItF"] = "C1";
-datamap["_1wqeR"] = "C2";
-datamap["_2L_yA"] = "C3";
-datamap["_1jMhL"] = "C4";
-datamap["wZugz"] = "C5";
-datamap["NvSPk"] = "C6";
-datamap["_1Nevk"] = "C7";
-datamap["_2xxWN"] = "C8";
-datamap["_17-7k"] = "C9";
-datamap["_3InVY"] = "C10";
-datamap["_2Q6Dz"] = "C11";
-datamap["_1EdIj"] = "C12";
-datamap["_2rErY"] = "C13";
-datamap["_1EJ1e"] = "D1";
-datamap["_2qr2W"] = "D2";
-datamap["_13s0z"] = "D3";
-datamap["_3FpIt"] = "D4";
-datamap["_1k4p5"] = "D5";
-datamap["_3axgC"] = "D6";
-datamap["_3mtFZ"] = "D7";
-datamap["_3GZUt"] = "D8";
-datamap["_3CcEJ"] = "D9";
-datamap["_2mlUQ"] = "D10";
-datamap["_2zy_e"] = "D11";
-datamap["_2UskY"] = "D12";
-datamap["_3LInw"] = "D13";
+datamap["_3m2-b"] = "1";
+datamap["_1mjUZ"] = "2";
+datamap["_2k309"] = "3";
+datamap["_3jhEf"] = "4";
+datamap["_15JYj"] = "5";
+datamap["_1YmG6"] = "6";
+datamap["_138Ip"] = "7";
+datamap["_19CK0"] = "8";
+datamap["_1FAb8"] = "9";
+datamap["_3bR2d"] = "0";
+datamap["_20aw3"] = "j";
+datamap["_2psWU"] = "q";
+datamap["O4fLT"] = "k";
+datamap["_2jmcJ"] = "1";
+datamap["_2i1TV"] = "2";
+datamap["_3E9yR"] = "3";
+datamap["cM8ah"] = "4";
+datamap["mjgRe"] = "5";
+datamap["_39Q6j"] = "6";
+datamap["_29X7a"] = "7";
+datamap["_37S_a"] = "8";
+datamap["_3_O7D"] = "9";
+datamap["_3Z457"] = "0";
+datamap["_3QJhk"] = "j";
+datamap["_13sJi"] = "q";
+datamap["_2LuRH"] = "k";
+datamap["-gItF"] = "1";
+datamap["_1wqeR"] = "2";
+datamap["_2L_yA"] = "3";
+datamap["_1jMhL"] = "4";
+datamap["wZugz"] = "5";
+datamap["NvSPk"] = "6";
+datamap["_1Nevk"] = "7";
+datamap["_2xxWN"] = "8";
+datamap["_17-7k"] = "9";
+datamap["_3InVY"] = "0";
+datamap["_2Q6Dz"] = "j";
+datamap["_1EdIj"] = "q";
+datamap["_2rErY"] = "k";
+datamap["_1EJ1e"] = "1";
+datamap["_2qr2W"] = "2";
+datamap["_13s0z"] = "3";
+datamap["_3FpIt"] = "4";
+datamap["_1k4p5"] = "5";
+datamap["_3axgC"] = "6";
+datamap["_3mtFZ"] = "7";
+datamap["_3GZUt"] = "8";
+datamap["_3CcEJ"] = "9";
+datamap["_2mlUQ"] = "0";
+datamap["_2zy_e"] = "j";
+datamap["_2UskY"] = "q";
+datamap["_3LInw"] = "k";
 
 var winmap = {};
 winmap["_322Py"] = "闲对";
@@ -88,64 +88,6 @@ window.onload = function () {
     setTimeout(() => {
         chrome_login()
     }, 3000)
-}
-
-function queryDeskDetail() {
-    console.log("234324start queryDeskDetail");
-    var rtndata = [];
-    var deskes = $("[class='_6VpXo']");
-    for (var i = 0; i < deskes.length; i++) {
-        var ps = $(deskes[i]).find(".e93on > ._2Qhx2 > ._1DTtZ._1Z5TM > ._3_Q04 > ._1I_B5");
-        var left = $(ps).find("._5yJ9E > ._3QN0V > span");
-        var right = $(ps).find(".Wa9oZ > ._3QN0V > span");
-
-        var arrleft = [];
-        $(left[0]).find("div").each(function (i, d) {
-            var clazz = $(d).attr("class");
-            if (clazz) {
-                var p = clazz.split(" ")[1];
-                var data = datamap[p];
-                arrleft.push(data);
-                //console.log(data);
-            }
-        });
-        $(left[1]).find("div").each(function (i, d) {
-            var clazz = $(d).attr("class");
-            if (clazz) {
-                var p = clazz.split(" ")[1];
-                var data = datamap[p];
-                arrleft.push(data);
-                // console.log(data);
-            }
-        });
-        var arrright = [];
-        $(right[0]).find("div").each(function (i, d) {
-            var clazz = $(d).attr("class");
-            if (clazz) {
-                var p = clazz.split(" ")[1];
-                var data = datamap[p];
-                arrright.push(data);
-                // console.log(data);
-            }
-        });
-        $(right[1]).find("div").each(function (i, d) {
-            var clazz = $(d).attr("class");
-            if (clazz) {
-                var p = clazz.split(" ")[1];
-                var data = datamap[p];
-                arrright.push(data);
-                // console.log(data);
-            }
-        });
-
-        var desk = {};
-        desk.left = arrleft;
-        desk.right = arrright;
-        rtndata.push(desk);
-    }
-
-    console.log(JSON.stringify(rtndata));
-    return rtndata;
 }
 
 function formatterDateTime() {
@@ -203,6 +145,13 @@ function chrome_login() {
             $("._3IDPG button").click();
             setTimeout(() => {
                 $('._3IR2e ._3MSiK').click();
+                setTimeout(_ => {
+                    $('._2kLct').eq(1).click();
+                    // ._1_pu1
+                    setTimeout(_ => {
+                        startListen();
+                    }, 3000)
+                }, 3000)
             }, 3000)
         },
         error: function (XmlHttpRequest, textStatus, errorThrown) {
@@ -276,12 +225,48 @@ var callback = function (mutationsList) {
         var t = $(mutation.target).parents("._6VpXo");
 
         var rtndata = analysisData(t, classData, state);
+        console.log(rtndata);
         console.log(JSON.stringify(rtndata));
-
+        var wads = {
+            '庄': '0',
+            '闲': '1',
+            '和': '2',
+        }
+        var status = {
+            '开始投注': 2,
+            '开牌': 3,
+            '停止投注': 1
+        }
+        let params = {
+            createDate: new Date().getTime(),
+            tableNo: parseInt(rtndata.name2),
+            battleNo: rtndata.count1,
+            fitNo: rtndata.count2,
+            card: rtndata.right.toString(),
+            xianCard: rtndata.left.toString(),
+            result: wads[rtndata.windatas.toString().trim()],
+            status: status[rtndata.desc]
+        };
+        addTableData(params);
 
     }
 
 };
+
+// http://localhost:8763/bdt/bjlTable/addTableData
+function addTableData(params) {
+    $.ajax({
+        type: 'post',
+        url: 'http://139.198.177.39:8080/bdt/bjlTable/addTableData?' + $.param(params),
+        dataType: 'json',
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (XmlHttpRequest, textStatus, errorThrown) {
+            console.log("操作失败!");
+        }
+    })
+}
 
 var configState = {
     'subtree': true,
@@ -310,20 +295,20 @@ function startListen() {
 
     for (var i = 0; i < targets.length; i++) {
         observer.observe(targets[i], configState);
-        if (2 == i) {
-            break;
-        }
+        // if (12 == i) {
+        //     break;
+        // }
 
     }
 
     var winStateTargets = $(".i6ChJ");
     // console.log(winStateTargets.length);
 
-    for (var i = 0; i < winStateTargets.length; i++) {
-        observer.observe(winStateTargets[i], winState);
-        if (2 == i) {
-            break;
-        }
+    for (var j = 0; j < winStateTargets.length; j++) {
+        observer.observe(winStateTargets[j], winState);
+        // if (12 == i) {
+        //     break;
+        // }
 
     }
 
