@@ -147,6 +147,6 @@
   <select id="checkIsHaveTableData" resultType="int">
     SELECT count(1) FROM table_data
     WHERE is_delete = 0 AND created = #{created} AND table_no = #{tableNo}
-    AND battleNo = #{battleNo} AND fit_no = #{fitNo} AND card = #{card}
+    AND battle_no = #{battleNo} AND fit_no = #{fitNo} AND card = #{card}
   </select>
 </mapper>
