@@ -14,12 +14,8 @@
     <result column="zgl" jdbcType="VARCHAR" property="zgl" />
     <result column="xtsl" jdbcType="VARCHAR" property="xtsl" />
     <result column="ztsl" jdbcType="VARCHAR" property="ztsl" />
-    <result column="xjz" jdbcType="VARCHAR" property="xjz" />
-    <result column="zjz" jdbcType="VARCHAR" property="zjz" />
-    <result column="ljxjz" jdbcType="VARCHAR" property="ljxjz" />
-    <result column="ljzjz" jdbcType="VARCHAR" property="ljzjz" />
     <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="created" jdbcType="TIME" property="created" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from table_data
@@ -29,23 +25,23 @@
     insert into table_data (create_time, table_no, created,
       battle_no, fit_no, card, xian_card,
       result, xgl, zgl, xtsl,
-      ztsl, xjz, zjz, ljxjz, ljzjz, is_delete)
+      ztsl, is_delete)
     values (#{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER}, #{created},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{card,jdbcType=VARCHAR}, #{xianCard},
       #{result,jdbcType=INTEGER}, #{xgl,jdbcType=VARCHAR}, #{zgl,jdbcType=VARCHAR}, #{xtsl,jdbcType=VARCHAR},
-      #{ztsl,jdbcType=VARCHAR}, #{xjz}, #{zjz}, #{ljxjz}, #{ljzjz}, 0)
+      #{ztsl,jdbcType=VARCHAR}, 0)
   </insert>
   <insert id="addTableDataList" parameterType="cn.com.infaith.module.model.TableData">
     insert into table_data (create_time, table_no, created,
       battle_no, fit_no, card, xian_card,
       result, xgl, zgl, xtsl,
-      ztsl, xjz, zjz, ljxjz, ljzjz, is_delete)
+      ztsl, is_delete)
     values
     <foreach collection="list" item="item" separator=",">
       (#{item.createTime,jdbcType=TIMESTAMP}, #{item.tableNo,jdbcType=INTEGER}, #{item.created},
       #{item.battleNo,jdbcType=INTEGER}, #{item.fitNo,jdbcType=INTEGER}, #{item.card,jdbcType=VARCHAR}, #{item.xianCard},
       #{item.result,jdbcType=INTEGER}, #{item.xgl,jdbcType=VARCHAR}, #{item.zgl,jdbcType=VARCHAR}, #{item.xtsl,jdbcType=VARCHAR},
-      #{item.ztsl,jdbcType=VARCHAR}, #{xjz}, #{zjz}, #{ljxjz}, #{ljzjz}, 0)
+      #{item.ztsl,jdbcType=VARCHAR}, 0)
     </foreach>
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TableData">
@@ -61,27 +57,23 @@
       xgl = #{xgl,jdbcType=VARCHAR},
       zgl = #{zgl,jdbcType=VARCHAR},
       xtsl = #{xtsl,jdbcType=VARCHAR},
-      ztsl = #{ztsl,jdbcType=VARCHAR},
-      xjz = #{xjz},
-      zjz = #{zjz},
-      ljxjz = #{ljxjz},
-      ljzjz = #{ljzjz},
+      ztsl = #{ztsl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
-    ztsl, xjz, zjz, ljxjz, ljzjz
+    ztsl
     from table_data
     where id = #{id,jdbcType=INTEGER} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
-    ztsl, xjz, zjz, ljxjz, ljzjz
+    ztsl
     from table_data
   </select>
 
   <select id="getTableInfo" resultMap="BaseResultMap">
-    SELECT
+    SELECT * FROM (SELECT
 	a.id,
 	a.create_time,
 	a.created,
@@ -95,10 +87,6 @@
 	a.zgl,
 	a.xtsl,
 	a.ztsl,
-	a.xjz,
-	a.zjz,
-	a.ljxjz,
-	a.ljzjz,
         (
         SELECT STATUS
         FROM
@@ -117,19 +105,20 @@
         a.create_time DESC,
         a.table_no ASC,
         a.battle_no DESC,
-        a.fit_no DESC
+        a.fit_no DESC) c
+	GROUP BY c.table_no
   </select>
 
   <select id="getNewestTableData" parameterType="int" resultMap="BaseResultMap">
     select id, create_time, table_no, created, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
-    ztsl, xjz, zjz, ljxjz, ljzjz
+    ztsl
     from table_data WHERE is_delete = 0 AND table_no = #{tableNo}
     ORDER BY create_time DESC limit 1
   </select>
 
   <select id="searchTableData" resultMap="BaseResultMap">
     select id, create_time, table_no, created, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
-    ztsl, xjz, zjz, ljxjz, ljzjz
+    ztsl
     from table_data WHERE is_delete = 0
     <if test="tableNo != null and tableNo != 0">
       AND table_no = #{tableNo}

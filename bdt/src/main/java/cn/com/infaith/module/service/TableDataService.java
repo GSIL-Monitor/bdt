@@ -222,4 +222,6 @@ public interface TableDataService {
     List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime);
 
     List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime);
+
+    Boolean updateStatus(StatusData statusData);
 }

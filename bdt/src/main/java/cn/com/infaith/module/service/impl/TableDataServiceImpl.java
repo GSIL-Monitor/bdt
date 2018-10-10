@@ -43,7 +43,7 @@ public class TableDataServiceImpl implements TableDataService {
     public Integer addTableData(TableData tableData) {
 
         tableData.setCreateTime(new Date(tableData.getCreateDate()));
-        tableData.setCreated(new Date(tableData.getCreateDate()));
+        tableData.setCreated(TimeUtil.getDateZeroDate(new Date(tableData.getCreateDate())));
         int count = tableDataMapper.checkIsHaveTableData(tableData.getCreated(), tableData.getTableNo(), tableData.getBattleNo(),
                 tableData.getFitNo(), tableData.getCard());
         if (count > 0) {
@@ -294,6 +294,11 @@ public class TableDataServiceImpl implements TableDataService {
             endDate = new Date(endTime);
         }
         return tableMergeDataMapper.getLJZJZ(startDate, endDate);
+    }
+
+    @Override
+    public Boolean updateStatus(StatusData statusData) {
+        return statusDataMapper.updateByPrimaryKey(statusData) > 0 ? true : false;
     }
 
 

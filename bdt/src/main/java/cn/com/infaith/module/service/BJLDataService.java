@@ -19,39 +19,40 @@ import java.util.stream.Collectors;
 @Service
 public class BJLDataService {
 
-//    public final static List<Integer> tableNoList = Arrays.stream(TableNoEnum.values()).map(TableNoEnum::getIndex).collect(Collectors.toList());
+    //    public final static List<Integer> tableNoList = Arrays.stream(TableNoEnum.values()).map(TableNoEnum::getIndex).collect(Collectors.toList());
     @Autowired
     private CalcXGLZGLServiceNotMap calcXGLZGLServiceNotMap;
     @Autowired
     private TableDataService tableDataService;
+
+    public static List<CalcXGLZGLServiceNotMap> calcList = new ArrayList<>();
+    static {
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+        calcList.add(new CalcXGLZGLServiceNotMap());
+    }
 
     /**
      * 生成桌子初始数据
      *
      * @return
      */
-    public void initTableData(int tableNo) {
-        //12桌数据初始化
-        List<TableData> tableDataList = new ArrayList<>();
-//        tableNoList.forEach(no -> {
-            TableData tableData = new TableData();
-            tableData.setCreateTime(new Date());
-            tableData.setTableNo(tableNo);
-            tableData.setBattleNo(1);
-            tableData.setFitNo(1);
-            tableDataList.add(tableData);
-//        });
-        //12桌状态初始化
-        List<StatusData> statusDataList = new ArrayList<>();
-//        tableDataList.forEach(tableData -> {
-            StatusData statusData = new StatusData();
-            statusData.setTableNo(tableData.getTableNo());
-            statusData.setBattleNo(tableData.getBattleNo());
-            statusData.setFitNo(tableData.getFitNo());
-            statusData.setStatus(TableStatusEnum.NEW.getIndex());
-            statusDataList.add(statusData);
-//        });
-        insertCommit(tableDataList, statusDataList);
+    public void initStatusData(int tableNo) {
+        StatusData statusData = new StatusData();
+        statusData.setTableNo(tableNo);
+        statusData.setBattleNo(1);
+        statusData.setFitNo(1);
+        statusData.setStatus(TableStatusEnum.NEW.getIndex());
+        tableDataService.addStatusData(statusData);
     }
 
 
@@ -61,28 +62,40 @@ public class BJLDataService {
      * @return 0：进入步骤15   1：进入"可投注"状态  2：进入"新局准备"  3：进入"开牌"状态
      */
     public int JudgeState(TableData tableData) {
+        tableData.setCreateTime(new Date(tableData.getCreateDate()));
         //获取当前桌的最新状态
         StatusData statusData = tableDataService.getStatusByTableNo(tableData.getTableNo());
         if (statusData == null) {
-            initTableData(tableData.getTableNo());
+            initStatusData(tableData.getTableNo());
             JudgeState(tableData);
         } else {
             //判断状态
             int state = statusData.getStatus();
+            //更新状态
+            StatusData newStatus = new StatusData();
+            newStatus.setId(statusData.getId());
+            newStatus.setTableNo(tableData.getTableNo());
+            newStatus.setBattleNo(tableData.getBattleNo());
+            newStatus.setFitNo(tableData.getFitNo());
+            newStatus.setStatus(tableData.getStatus());
+            tableDataService.updateStatus(newStatus);
             //状态不变。进入步骤15。
             if (state == tableData.getStatus()) {
                 return 0;
             }
             //状态改变，当前状态为“可投注”（局号、副号不会变）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
+            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.TZ.getIndex()
+                    && statusData.getBattleNo() == tableData.getBattleNo() && statusData.getFitNo() == tableData.getFitNo()) {
                 tzStatus(tableData);
             }
             //状态改变，当前状态为“新局准备”（局号改变、副号变为1）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
+            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.NEW.getIndex()
+                    && statusData.getBattleNo() != tableData.getBattleNo() && statusData.getFitNo() == 1) {
                 newReadyStatus(tableData);
             }
             //状态改变，当前状态为“开牌”（局号、副号不会变）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
+            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()
+                    && statusData.getBattleNo() == tableData.getBattleNo() && statusData.getFitNo() == tableData.getFitNo()) {
                 BdtSystem bdtSystem = tableDataService.getBdtSystem();
                 openCard(tableData, bdtSystem.getPhxs());
             }
@@ -127,7 +140,8 @@ public class BJLDataService {
      * 步骤13，查询《TZ1同桌号下单表》中有无记录。
      * 1）无记录。进入步骤14。
      * 2）有记录。删除所有记录。进入步骤14。
-     * @return  1      2
+     *
+     * @return 1      2
      */
     public int step13(int tableNo) {
         //查询《TZ1同桌号下单表》中有无记录
@@ -141,10 +155,11 @@ public class BJLDataService {
 
     /**
      * 步骤14，将《状态表》同桌记录中的状态改为“新局准备”。进入步骤15。
+     *
      * @param tableData
      */
     public void step14(TableData tableData) {
-        tableDataService.updateStatusByTableNo(tableData.getTableNo(), tableData.getBattleNo(), tableData.getFitNo(), TableStatusEnum.NEW.getIndex());
+//        tableDataService.updateStatusByTableNo(tableData.getTableNo(), tableData.getBattleNo(), tableData.getFitNo(), TableStatusEnum.NEW.getIndex());
     }
 
     /**
@@ -184,7 +199,7 @@ public class BJLDataService {
         for (int i = 0; i < 3; i++) {
             boolean tzResult = false;
             //进行投注
-            tzResult = false;
+            tzResult = true;
             if (tzResult) {
                 addResultAndDeleteDopeCommit(dopeData, true);
                 break;
@@ -192,20 +207,6 @@ public class BJLDataService {
                 addResultAndDeleteDopeCommit(dopeData, false);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        boolean s = true;
-        int i = 1;
-        do {
-            s = false;
-
-            if (s) {
-                i = 3;
-            } else {
-                i++;
-            }
-        } while (i == 3);
     }
 
     /**
@@ -302,7 +303,7 @@ public class BJLDataService {
                     data.setTzfx(dopeManage.getTzfx());
                     data.setTzje(dopeManage.getTzje());
 //                        data.setTzsjSection(dopeData.getTzsjSection1());
-                    data.setTzfx(TableResultEnum.Z.getIndex());
+                    data.setTzxt(2);
                     data.setTzzh(dopeManage.getTzzh());
                     dopeDataList.add(data);
                 }
@@ -321,15 +322,17 @@ public class BJLDataService {
     public void step5_3(int tableNo) {
         //按账号顺序取《TZ2同桌号下单表》中的第1条记录中的“账号、投注方向、投注金额”进行投注。
         DopeData dopeData = tableDataService.getFirstDopeByTableNoAndTzSystemOrderByAccount(tableNo, 2);
-        for (int i = 0; i < 3; i++) {
-            boolean tzResult = false;
-            //进行投注
-            tzResult = false;
-            if (tzResult) {
-                addResultAndDeleteDopeCommit(dopeData, true);
-                break;
-            } else if (i == 2) {
-                addResultAndDeleteDopeCommit(dopeData, false);
+        if (dopeData != null) {
+            for (int i = 0; i < 3; i++) {
+                boolean tzResult = false;
+                //进行投注
+                tzResult = true;
+                if (tzResult) {
+                    addResultAndDeleteDopeCommit(dopeData, true);
+                    break;
+                } else if (i == 2) {
+                    addResultAndDeleteDopeCommit(dopeData, false);
+                }
             }
         }
     }
@@ -359,7 +362,7 @@ public class BJLDataService {
      * @param fitNo
      */
     public void step6(int tableNo, int battleNo, int fitNo) {
-        tableDataService.updateStatusByTableNo(tableNo, battleNo, fitNo, TableStatusEnum.TZ.getIndex());
+//        tableDataService.updateStatusByTableNo(tableNo, battleNo, fitNo, TableStatusEnum.TZ.getIndex());
     }
 
     /**
@@ -410,7 +413,6 @@ public class BJLDataService {
         if (id == null) {
             return false;
         }
-        tableData.setId(id);
         return true;
     }
 
@@ -433,7 +435,11 @@ public class BJLDataService {
     public TableData step8_2(TableData tableData) {
 
         BdtSystem system = tableDataService.getBdtSystem();
-        Map<String, BigDecimal> map = calcXGLZGLServiceNotMap.calcXgl(tableData.getFitNo(),system.getPs(),tableData.getCard(),system.getPhxs());
+        Map<String, BigDecimal> map = new HashMap<>();
+        if (tableData.getFitNo() == 1) {
+            calcList.set(tableData.getTableNo(), new CalcXGLZGLServiceNotMap());
+        }
+        map = calcList.get(tableData.getTableNo()).calcXgl(tableData.getFitNo(), system.getPs(), tableData.getCard(), system.getPhxs());
         tableData.setXgl(map.get("xgl").toPlainString());
         tableData.setXtsl(map.get("xtsl").toPlainString());
         tableData.setZgl(map.get("zgl").toPlainString());
@@ -469,6 +475,7 @@ public class BJLDataService {
         tableMergeData.setFitNo(tableData.getFitNo());
         tableMergeData.setXjz(xjz);
         tableMergeData.setZjz(zjz);
+        tableMergeData.setIsDelete(false);
         tableDataService.addTableMergeData(tableMergeData);
         return tableMergeData;
     }
@@ -562,6 +569,7 @@ public class BJLDataService {
                     dopeManage.setTzxt(x.getTzxt());
                     dopeManage.setTzzh(x.getTzzh());
                     dopeManage.setTzje(x.getTzje());
+                    dopeManage.setTzfx(x.getTzfx());
                     dopeManage.setTzsjSection1(tzsjSection1[i]);
                     dopeManage.setTzsjSection2(x.getTzsjSection2());
                     dopeManage.setTableNo(x.getTableNo());
@@ -600,7 +608,7 @@ public class BJLDataService {
                         data.setBattleNo(tableDataNew.getBattleNo());
                         data.setFitNo(tableDataNew.getFitNo() + 1);
                         data.setTzje(dopeData.getTzje());
-//                        data.setTzsjSection(dopeData.getTzsjSection1());
+                        data.setTzxt(1);
                         data.setTzfx(TableResultEnum.Z.getIndex());
                         data.setTzzh(dopeData.getTzzh());
                         dopeDataList.add(data);
@@ -645,7 +653,7 @@ public class BJLDataService {
      * 步骤12，将《状态表》同桌记录中的状态改为“开牌”。
      */
     public void step12(TableData tableData) {
-        tableDataService.updateStatusByTableNo(tableData.getTableNo(), tableData.getBattleNo(), tableData.getFitNo(), TableStatusEnum.KP.getIndex());
+//        tableDataService.updateStatusByTableNo(tableData.getTableNo(), tableData.getBattleNo(), tableData.getFitNo(), TableStatusEnum.KP.getIndex());
     }
 
     /**
@@ -695,9 +703,9 @@ public class BJLDataService {
      */
     public BigDecimal step11_4(int tzjg, String tzje) {
         BigDecimal yxje;
-        int tzjgAmount = Integer.parseInt(ResultTzJgEnum.getName(tzjg));
+        BigDecimal tzjgAmount = new BigDecimal(ResultTzJgEnum.getName(tzjg));
         BigDecimal tzjeAmount = new BigDecimal(tzje);
-        if (tzjgAmount == 0) {
+        if (tzjgAmount.compareTo(BigDecimal.ZERO) == 0) {
             yxje = new BigDecimal(0);
         } else {
             yxje = tzjeAmount;
@@ -712,8 +720,9 @@ public class BJLDataService {
      * @param phxs
      */
     public void step11_5(ResultData resultData, BigDecimal phxs) {
-        int tzjgAmount = Integer.parseInt(ResultTzJgEnum.getName(resultData.getTzjg()));
-        BigDecimal yssy = BigDecimal.valueOf(tzjgAmount * Integer.valueOf(resultData.getTzje()));
+        BigDecimal tzjgAmount = new BigDecimal(ResultTzJgEnum.getName(resultData.getTzjg()));
+//        BigDecimal yssy = BigDecimal.valueOf(tzjgAmount * Integer.valueOf(resultData.getTzje()));
+        BigDecimal yssy = tzjgAmount.multiply(new BigDecimal(resultData.getTzje()));
         BigDecimal sjsy = yssy.add(phxs.multiply(resultData.getYxje()));
         resultData.setYssy(yssy);
         resultData.setSjsy(sjsy);
@@ -748,7 +757,7 @@ public class BJLDataService {
      * @return
      */
     private Boolean checkDopeInfo2(Date date, String tzsjSection2) {
-        SimpleDateFormat sf = new SimpleDateFormat("ss");
+        SimpleDateFormat sf = new SimpleDateFormat("mm");
         Integer time = Integer.valueOf(sf.format(date));
         String[] times = tzsjSection2.split("-");
         Integer timeStart = Integer.valueOf(times[0]);

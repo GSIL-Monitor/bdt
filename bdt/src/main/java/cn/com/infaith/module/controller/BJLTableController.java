@@ -27,39 +27,39 @@ public class BJLTableController {
     @Autowired
     private BJLDataService bjlDataService;
 
-    @ApiOperation(value = "添加百家乐桌面信息", notes = "添加百家乐桌面信息", httpMethod = "POST")
+    @ApiOperation(value = "读取百家乐桌面信息", notes = "读取百家乐桌面信息", httpMethod = "POST")
     @PostMapping("/addTableData")
     public JSONObject addTableData(@ModelAttribute TableData tableData) {
 
-        int id = tableDataService.addTableData(tableData);
-        if (id != 0) {
-            tableData.setId(id);
-//            bjlDataService.JudgeState(tableData);
-            return ResponseJsonUtil.getResponseJson(200, "success", tableData);
+        try {
+            bjlDataService.JudgeState(tableData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseJsonUtil.getResponseJson(500, "fail", e.getMessage());
         }
-        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+        return ResponseJsonUtil.getResponseJson(200, "success", 1);
     }
-
-    @ApiOperation(value = "披露添加百家乐桌面信息", notes = "披露添加百家乐桌面信息", httpMethod = "POST")
-    @PostMapping("/addTableDataList")
-    public JSONObject addTableDataList(@RequestBody List<TableData> tableData) {
-
-        Boolean result = tableDataService.addTableDataList(tableData);
-//        tableData.stream().forEach(x -> {
-//            bjlDataService.JudgeState(x);
-//        });
-        if (result != null && result) {
-            return ResponseJsonUtil.getResponseJson(200, "success", null);
-        }
-        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
-    }
-
-    @PostMapping("/initTest")
-    public JSONObject initTest() {
-
-        bjlDataService.initTableData(1);
-        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
-    }
+//
+//    @ApiOperation(value = "披露添加百家乐桌面信息", notes = "披露添加百家乐桌面信息", httpMethod = "POST")
+//    @PostMapping("/addTableDataList")
+//    public JSONObject addTableDataList(@RequestBody List<TableData> tableData) {
+//
+//        Boolean result = tableDataService.addTableDataList(tableData);
+////        tableData.stream().forEach(x -> {
+////            bjlDataService.JudgeState(x);
+////        });
+//        if (result != null && result) {
+//            return ResponseJsonUtil.getResponseJson(200, "success", null);
+//        }
+//        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+//    }
+//
+//    @PostMapping("/initTest")
+//    public JSONObject initTest() {
+//
+//        bjlDataService.initTableData(1);
+//        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
+//    }
 
     @ApiOperation(value = "获取百家乐牌桌情况", notes = "获取百家乐牌桌情况", httpMethod = "GET")
     @GetMapping("/getTableInfo")
@@ -194,4 +194,14 @@ public class BJLTableController {
         return ResponseJsonUtil.getResponseJson(200, "success", json);
     }
 
+    @PostMapping("/addResultData")
+    @ApiOperation(value = "添加投注结果信息", notes = "添加投注信息", httpMethod = "POST")
+    public JSONObject addResultData(@ModelAttribute ResultData resultData) {
+
+        Boolean result = tableDataService.addResultData(resultData);
+        if (result) {
+            ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
+        }
+        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+    }
 }

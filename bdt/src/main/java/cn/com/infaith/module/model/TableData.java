@@ -34,14 +34,6 @@ public class TableData {
     private String xtsl;
     @ApiParam(hidden = true)
     private String ztsl;
-    @ApiParam(hidden = true)
-    private String xjz;
-    @ApiParam(hidden = true)
-    private String zjz;
-    @ApiParam(hidden = true)
-    private String ljxjz;
-    @ApiParam(hidden = true)
-    private String ljzjz;
     @ApiParam(value = "牌面状态")
     private Integer status;
 
@@ -139,38 +131,6 @@ public class TableData {
 
     public void setCreateDate(Long createDate) {
         this.createDate = createDate;
-    }
-
-    public String getXjz() {
-        return xjz;
-    }
-
-    public void setXjz(String xjz) {
-        this.xjz = xjz;
-    }
-
-    public String getZjz() {
-        return zjz;
-    }
-
-    public void setZjz(String zjz) {
-        this.zjz = zjz;
-    }
-
-    public String getLjxjz() {
-        return ljxjz;
-    }
-
-    public void setLjxjz(String ljxjz) {
-        this.ljxjz = ljxjz;
-    }
-
-    public String getLjzjz() {
-        return ljzjz;
-    }
-
-    public void setLjzjz(String ljzjz) {
-        this.ljzjz = ljzjz;
     }
 
     public Integer getStatus() {

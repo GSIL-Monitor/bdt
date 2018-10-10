@@ -55,12 +55,12 @@
   </select>
 
   <select id="getResultJGNullByTable" resultMap="BaseResultMap">
-    select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt,
-    tzjg, yxje, yssy, sjsy
-    from result_data
-    WHERE table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = #{fitNo}
-    AND (tzjg IS NULL OR tzjg = '')
-    ORDER BY account ASC limit 1
+    select a.id, a.create_time, a.table_no, a.battle_no, a.fit_no, a.tzfx, a.tzxt, a.tzzh, a.tzje, a.tzzt,
+    a.tzjg, a.yxje, a.yssy, a.sjsy
+    from result_data a, user_account b
+    WHERE a.table_no = #{tableNo} AND a.battle_no = #{battleNo} AND a.fit_no = #{fitNo}
+    AND (a.tzjg IS NULL OR a.tzjg = '') AND a.tzzh = b.id
+    ORDER BY b.account ASC limit 1
   </select>
 
   <select id="searchResultData" resultMap="BaseResultMap">
