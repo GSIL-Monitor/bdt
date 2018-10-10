@@ -73,11 +73,29 @@
       AND create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
     </if>
     <if test="tzxt != null and tzxt != 0">
-      tzxt = #{tzxt}
+      AND tzxt = #{tzxt}
     </if>
     <if test="tzzh != null and tzzh != ''">
-      tzzh = #{tzzh}
+      AND tzzh = #{tzzh}
     </if>
     ORDER BY create_time DESC
   </select>
+
+  <select id="getNeedTzDataList" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt,
+    tzjg, yxje, yssy, sjsy
+    from result_data
+    WHERE tzzt IS NULL
+    <if test="tableNo != null and tableNo != 0">
+      AND table_no = #{tableNo}
+    </if>
+    ORDER BY create_time DESC
+  </select>
+
+  <update id="updateTzzt" parameterType="cn.com.infaith.module.model.ResultData">
+    update result_data
+    set
+      tzzt = #{tzzt}
+    where id = #{id}
+  </update>
 </mapper>

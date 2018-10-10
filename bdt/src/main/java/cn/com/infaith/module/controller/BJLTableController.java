@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.docx4j.wml.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class BJLTableController {
         if (!tableData.getFitNo().equals(1)) {
             int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo());
             if (count > 0) {
-                return ResponseJsonUtil.getResponseJson(-1,"未获取到当前桌当前局的第一副牌信息",null);
+                return ResponseJsonUtil.getResponseJson(-1, "未获取到当前桌当前局的第一副牌信息", null);
             }
         }
         try {
@@ -209,5 +210,28 @@ public class BJLTableController {
             ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         }
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+    }
+
+    @GetMapping("/getNeedTzDataList")
+    @ApiOperation(value = "获取需要投注的投注信息", notes = "获取需要投注的投注信息", httpMethod = "POST")
+    public JSONObject getNeedTzDataList(@RequestParam(required = false) Integer tableNo) {
+
+        List<ResultData> list = tableDataService.getNeedTzDataList(tableNo);
+        if (CollectionUtils.isEmpty(list)) {
+            return ResponseJsonUtil.getResponseJson(-1, "没有需要投注的信息", null);
+        } else {
+            return ResponseJsonUtil.getResponseJson(200, "find list", list);
+        }
+    }
+
+    @PostMapping("/updateTzztList")
+    @ApiOperation(value = "批量更新投注状态", notes = "批量更新投注状态", httpMethod = "POST")
+    public JSONObject updateTzztList(@RequestBody List<ResultData> list) {
+        int count = tableDataService.updateTzztList(list);
+        if (count == 0) {
+            return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+        } else {
+            return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
+        }
     }
 }

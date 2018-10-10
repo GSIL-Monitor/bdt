@@ -21,4 +21,7 @@ public interface ResultDataMapper {
 
     List<ResultData> searchResultData(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh);
 
+    List<ResultData> getNeedTzDataList(@Param("tableNo") Integer tableNo);
+
+    int updateTzzt(ResultData record);
 }

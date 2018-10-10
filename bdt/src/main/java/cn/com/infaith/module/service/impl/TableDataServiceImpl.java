@@ -306,5 +306,21 @@ public class TableDataServiceImpl implements TableDataService {
         return tableDataMapper.getCountFirstFitByTable(tableNo, battleNo);
     }
 
+    @Override
+    public List<ResultData> getNeedTzDataList(Integer tableNo) {
+        return resultDataMapper.getNeedTzDataList(tableNo);
+    }
+
+    @Override
+    public int updateTzztList(List<ResultData> list) {
+        if (!CollectionUtils.isEmpty(list)) {
+            list.stream().forEach(x -> {
+                resultDataMapper.updateTzzt(x);
+            });
+            return 1;
+        }
+        return 0;
+    }
+
 
 }

@@ -231,4 +231,18 @@ public interface TableDataService {
      * @return
      */
     int getCountFirstFitByTable(int tableNo, int battleNo);
+
+    /**
+     * 获取需要进行投注的列表
+     * @param tableNo
+     * @return
+     */
+    List<ResultData> getNeedTzDataList(Integer tableNo);
+
+    /**
+     * 批量更新投注状态
+     * @param list
+     * @return
+     */
+    int updateTzztList(List<ResultData> list);
 }
