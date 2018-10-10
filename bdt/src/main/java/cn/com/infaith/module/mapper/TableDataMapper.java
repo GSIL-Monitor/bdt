@@ -28,4 +28,6 @@ public interface TableDataMapper {
     int checkIsHaveTableData(@Param("created") Date created, @Param("tableNo") Integer tableNo,
                              @Param("battleNo") Integer battleNo, @Param("fitNo") Integer fitNo,
                              @Param("card") String card);
+
+    int getCountFirstFitByTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo);
 }

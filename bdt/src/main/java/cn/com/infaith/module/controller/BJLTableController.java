@@ -31,6 +31,12 @@ public class BJLTableController {
     @PostMapping("/addTableData")
     public JSONObject addTableData(@ModelAttribute TableData tableData) {
 
+        if (!tableData.getFitNo().equals(1)) {
+            int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo());
+            if (count > 0) {
+                return ResponseJsonUtil.getResponseJson(-1,"未获取到当前桌当前局的第一副牌信息",null);
+            }
+        }
         try {
             bjlDataService.JudgeState(tableData);
         } catch (Exception e) {

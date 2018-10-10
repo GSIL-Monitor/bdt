@@ -224,4 +224,11 @@ public interface TableDataService {
     List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime);
 
     Boolean updateStatus(StatusData statusData);
+
+    /**
+     * 判断当前桌库里是否存在第一副牌的信息
+     * @param tableNo
+     * @return
+     */
+    int getCountFirstFitByTable(int tableNo, int battleNo);
 }

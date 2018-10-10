@@ -301,5 +301,10 @@ public class TableDataServiceImpl implements TableDataService {
         return statusDataMapper.updateByPrimaryKey(statusData) > 0 ? true : false;
     }
 
+    @Override
+    public int getCountFirstFitByTable(int tableNo, int battleNo) {
+        return tableDataMapper.getCountFirstFitByTable(tableNo, battleNo);
+    }
+
 
 }
