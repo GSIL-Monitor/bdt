@@ -96,7 +96,7 @@ public class BJLDataService {
             //状态改变，当前状态为“开牌”（局号、副号不会变）。
             if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()
                     && statusData.getBattleNo() == tableData.getBattleNo() && statusData.getFitNo() == tableData.getFitNo()) {
-                BdtSystem bdtSystem = tableDataService.getBdtSystem();
+                BdtSystem bdtSystem = tableDataService.getBdtSystem(tableData.getTableNo());
                 openCard(tableData, bdtSystem.getPhxs());
             }
         }
@@ -239,7 +239,7 @@ public class BJLDataService {
      */
     public void step4(TableData tableData) {
         //获取投注系统2信息
-        TzSystem tzSystem = tableDataService.getTzSystemInfo(2);
+        TzSystem tzSystem = tableDataService.getTzSystemInfo(2, tableData.getTableNo());
         if (tzSystem.getStarted()) {
             //处于“启动”状态，进入步骤5-1。
             int count = step5_1(tableData.getFitNo(), tzSystem);
@@ -378,7 +378,7 @@ public class BJLDataService {
         tableData = step8_2(tableData);
         TableMergeData tableMergeData = step8_3(tableData, phxs);
         step8_4(tableMergeData);
-        TzSystem tz1System = step9();
+        TzSystem tz1System = step9(tableData.getTableNo());
         if (tz1System.getStarted()) {
             //投注子系统1启动
             TableData tableDataNew = step10_1(tableData.getTableNo());
@@ -434,7 +434,7 @@ public class BJLDataService {
      */
     public TableData step8_2(TableData tableData) {
 
-        BdtSystem system = tableDataService.getBdtSystem();
+        BdtSystem system = tableDataService.getBdtSystem(tableData.getTableNo());
         Map<String, BigDecimal> map = new HashMap<>();
         if (tableData.getFitNo() == 1) {
             calcList.set(tableData.getTableNo(), new CalcXGLZGLServiceNotMap());
@@ -506,8 +506,8 @@ public class BJLDataService {
      *
      * @return 返回投注系统信息
      */
-    public TzSystem step9() {
-        TzSystem tzSystem = tableDataService.getTzSystemInfo(1);
+    public TzSystem step9(int tableNo) {
+        TzSystem tzSystem = tableDataService.getTzSystemInfo(1, tableNo);
         return tzSystem;
     }
 

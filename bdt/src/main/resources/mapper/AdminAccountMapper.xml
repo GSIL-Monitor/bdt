@@ -6,15 +6,16 @@
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="table_no" jdbcType="INTEGER" property="tableNo" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     UPDATE admin_account SET is_delete = 1 WHERE id = #{id}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.AdminAccount">
-    insert into admin_account (id, name, account, password,
+    insert into admin_account (id, name, account, password, table_no
       is_delete)
-    values (#{id,jdbcType=VARCHAR}, #{name}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+    values (#{id,jdbcType=VARCHAR}, #{name}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{tableNo},
       0)
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.AdminAccount">
@@ -30,20 +31,23 @@
     <if test="password != null and password != ''">
       , password = #{password,jdbcType=VARCHAR}
     </if>
+    <if test="tableNo != null">
+      , table_no = #{tableNo}
+    </if>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, account, is_delete
+    select id, name, account, is_delete, table_no
     from admin_account
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, account, password, is_delete
+    select id, name, account, password, is_delete, table_no
     from admin_account
   </select>
 
   <select id="getAdminByAccountAndPassword" resultMap="BaseResultMap">
-    select id, name, account, password, is_delete
+    select id, name, account, password, is_delete, table_no
     from admin_account
     where account = #{account} AND password = #{password} AND is_delete = 0
   </select>

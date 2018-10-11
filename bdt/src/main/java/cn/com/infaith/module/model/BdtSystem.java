@@ -3,11 +3,14 @@ package cn.com.infaith.module.model;
 import java.math.BigDecimal;
 
 public class BdtSystem {
+
     private Integer id;
 
     private Integer ps;
 
     private BigDecimal phxs;
+
+    private Integer tableNo;
 
     private BigDecimal yxje;
     private BigDecimal ysje;
@@ -69,5 +72,13 @@ public class BdtSystem {
 
     public void setSjje(BigDecimal sjje) {
         this.sjje = sjje;
+    }
+
+    public Integer getTableNo() {
+        return tableNo;
+    }
+
+    public void setTableNo(Integer tableNo) {
+        this.tableNo = tableNo;
     }
 }

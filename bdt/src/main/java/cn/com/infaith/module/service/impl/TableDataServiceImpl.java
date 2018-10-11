@@ -141,13 +141,13 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean updateTzStartOrClose(Boolean started, int tzxt, int fh, String xh) {
-        return tzSystemMapper.updateStartOrClose(started, tzxt, fh, xh) > 0 ? true : false;
+    public Boolean updateTzStartOrClose(Boolean started, int tzxt, int fh, String xh, Integer tableNo) {
+        return tzSystemMapper.updateStartOrClose(started, tzxt, fh, xh, tableNo) > 0 ? true : false;
     }
 
     @Override
-    public TzSystem getTzSystemInfo(int tzxt) {
-        return tzSystemMapper.getTzSystemInfo(tzxt);
+    public TzSystem getTzSystemInfo(int tzxt, int tableNo) {
+        return tzSystemMapper.getTzSystemInfo(tzxt, tableNo);
     }
 
     @Override
@@ -204,13 +204,13 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs) {
-        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs);
+    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, Integer tableNo) {
+        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs, tableNo);
     }
 
     @Override
-    public BdtSystem getBdtSystem() {
-        return bdtSystemMapper.getBdtSystem();
+    public BdtSystem getBdtSystem(Integer tableNo) {
+        return bdtSystemMapper.getBdtSystem(tableNo);
     }
 
     @Override
@@ -261,7 +261,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime) {
+    public List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime, Integer tableNo) {
 
         Date startDate;
         if (startTime == null || startTime == 0) {
@@ -275,12 +275,12 @@ public class TableDataServiceImpl implements TableDataService {
         } else {
             endDate = new Date(endTime);
         }
-        List<Map<Integer, String>> map = tableMergeDataMapper.getResultInfo(startDate, endDate);
+        List<Map<Integer, String>> map = tableMergeDataMapper.getResultInfo(startDate, endDate, tableNo);
         return map;
     }
 
     @Override
-    public List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime) {
+    public List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime, Integer tableNo) {
         Date startDate;
         if (startTime == null || startTime == 0) {
             startDate = TimeUtil.getTodayZeroDate();
@@ -293,7 +293,7 @@ public class TableDataServiceImpl implements TableDataService {
         } else {
             endDate = new Date(endTime);
         }
-        return tableMergeDataMapper.getLJZJZ(startDate, endDate);
+        return tableMergeDataMapper.getLJZJZ(startDate, endDate, tableNo);
     }
 
     @Override

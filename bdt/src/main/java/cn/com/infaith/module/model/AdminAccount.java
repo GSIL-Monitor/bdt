@@ -9,6 +9,8 @@ public class AdminAccount {
 
     private String password;
 
+    private Integer tableNo;
+
     private Byte isDelete;
 
     public String getId() {
@@ -49,5 +51,13 @@ public class AdminAccount {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getTableNo() {
+        return tableNo;
+    }
+
+    public void setTableNo(Integer tableNo) {
+        this.tableNo = tableNo;
     }
 }

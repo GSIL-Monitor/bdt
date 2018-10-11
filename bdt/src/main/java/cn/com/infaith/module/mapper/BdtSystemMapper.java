@@ -17,7 +17,8 @@ public interface BdtSystemMapper {
 
     int updateByPrimaryKey(BdtSystem record);
 
-    Boolean bdtSystemStarted(@Param("started") Boolean started, @Param("ps") Integer ps, @Param("phxs") BigDecimal phxs);
+    Boolean bdtSystemStarted(@Param("started") Boolean started, @Param("ps") Integer ps,
+                             @Param("phxs") BigDecimal phxs, @Param("tableNo") Integer tableNo);
 
-    BdtSystem getBdtSystem();
+    BdtSystem getBdtSystem(Integer tableNo);
 }

@@ -11,6 +11,8 @@ public class TzSystem {
 
     private String xh;
 
+    private Integer tableNo;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class TzSystem {
 
     public void setXh(String xh) {
         this.xh = xh;
+    }
+
+    public Integer getTableNo() {
+        return tableNo;
+    }
+
+    public void setTableNo(Integer tableNo) {
+        this.tableNo = tableNo;
     }
 }

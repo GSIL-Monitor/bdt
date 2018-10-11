@@ -88,18 +88,20 @@ public class BJLTableController {
             @ApiImplicitParam(name = "fh", value = "fh值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "xh", value = "xh值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "list", value = "账号信息list，当为关闭时可不填", paramType = "query"),
+            @ApiImplicitParam(name = "tableNo", value = "桌号，为0则控制所有子系统", paramType = "query"),
     })
     public JSONObject tzSystemStarted(@RequestParam int tzxt, @RequestParam Boolean started,
                                       @RequestParam(required = false) Integer fh,
                                       @RequestParam(required = false) String xh,
-                                      @RequestParam(required = false) List<DopeManage> list) {
+                                      @RequestParam(required = false) List<DopeManage> list,
+                                      @RequestParam Integer tableNo) {
 
         if (started) {
             if (fh == null || fh == 0 || StringUtils.isBlank(xh) || CollectionUtils.isEmpty(list)) {
                 return ResponseJsonUtil.getResponseJson(400, "缺少fh或xh参数", null);
             }
         }
-        Boolean result = tableDataService.updateTzStartOrClose(started, tzxt, fh, xh);
+        Boolean result = tableDataService.updateTzStartOrClose(started, tzxt, fh, xh, tableNo);
         if (started) {
             list.forEach(x -> {
                 Integer id = tableDataService.getDopeManageIdByTzzh(x.getTzzh());
@@ -119,10 +121,14 @@ public class BJLTableController {
 
     @ApiOperation(value = "获取投注系统信息", notes = "获取投注系统信息", httpMethod = "GET")
     @GetMapping("/getTzSystemInfo")
-    public JSONObject getTzSystemInfo(@RequestParam int tzxt) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tzxt", value = "投注系统", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "tableNo", value = "桌号", required = true, paramType = "query"),
+    })
+    public JSONObject getTzSystemInfo(@RequestParam int tzxt, @RequestParam int tableNo) {
 
         JSONObject json = new JSONObject();
-        TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt);
+        TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt, tableNo);
         List<DopeManage> list = tableDataService.getDopeMangeList(tzxt);
         if (tzSystem != null) {
             json.put("tzSystem", tzSystem);
@@ -131,20 +137,6 @@ public class BJLTableController {
         } else {
             return ResponseJsonUtil.getResponseJson(404, "not find", null);
         }
-    }
-
-    @ApiOperation(value = "开牌状态接口", notes = "开牌状态接口", httpMethod = "POST")
-    @PostMapping("/openCard")
-    public JSONObject openCard(@RequestParam TableData tableData,
-                               @RequestParam BigDecimal phxs) {
-
-        try {
-            bjlDataService.openCard(tableData, phxs);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseJsonUtil.getResponseJson(500, "报错", e.getMessage());
-        }
-        return ResponseJsonUtil.getResponseJson(200, "success", null);
     }
 
     @GetMapping("/searchTableData")
@@ -173,11 +165,13 @@ public class BJLTableController {
             @ApiImplicitParam(name = "started", value = "开关", required = true, paramType = "query"),
             @ApiImplicitParam(name = "ps", value = "ps值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "phxs", value = "phxs值，当为关闭时可不填", paramType = "query"),
+            @ApiImplicitParam(name = "tableNo", value = "桌号，为0则控制全部子系统", required = true, paramType = "query"),
     })
     public JSONObject bdtSystemStarted(@RequestParam Boolean started,
                                        @RequestParam(required = false) Integer ps,
-                                       @RequestParam(required = false) BigDecimal phxs) {
-        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs);
+                                       @RequestParam(required = false) BigDecimal phxs,
+                                       @RequestParam Integer tableNo) {
+        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs, tableNo);
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         } else {
@@ -187,19 +181,29 @@ public class BJLTableController {
 
     @GetMapping("/getBdtSystemInfo")
     @ApiOperation(value = "获取bdt系统信息", notes = "获取bdt系统信息", httpMethod = "GET")
-    public JSONObject getBdtSystemInfo() {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tableNo", value = "桌号，不能为0", required = true, paramType = "query"),
+    })
+    public JSONObject getBdtSystemInfo(@RequestParam Integer tableNo) {
 
-        BdtSystem bdtSystem = tableDataService.getBdtSystem();
+        BdtSystem bdtSystem = tableDataService.getBdtSystem(tableNo);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", bdtSystem);
     }
 
     @GetMapping("/getLJInfo")
     @ApiOperation(value = "获取累计数据xjz、zjz", notes = "获取累计数据xjz、zjz", httpMethod = "GET")
-    public JSONObject getLJInfo(Long startTime, Long endTime) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "startTime", value = "开始时间，不传则默认当天", paramType = "query"),
+            @ApiImplicitParam(name = "endTime", value = "结束时间，不传则默认当天", paramType = "query"),
+            @ApiImplicitParam(name = "tableNo", value = "桌号，不传则查看全部数据", paramType = "query"),
+    })
+    public JSONObject getLJInfo(@RequestParam(required = false) Long startTime,
+                                @RequestParam(required = false) Long endTime,
+                                @RequestParam(required = false) Integer tableNo) {
 
         JSONObject json = new JSONObject();
-        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime);
-        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime);
+        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime, tableNo);
+        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime, tableNo);
         json.put("ljxjz", ljxjz);
         json.put("ljzjz", ljzjz);
         return ResponseJsonUtil.getResponseJson(200, "success", json);
