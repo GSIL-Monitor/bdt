@@ -1,5 +1,6 @@
 package cn.com.infaith.module.controller;
 
+import cn.com.infaith.module.enums.TableStatusEnum;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.BJLDataService;
 import cn.com.infaith.module.service.TableDataService;
@@ -34,9 +35,12 @@ public class BJLTableController {
 
         if (!tableData.getFitNo().equals(1)) {
             int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo());
-            if (count > 0) {
+            if (count == 0) {
                 return ResponseJsonUtil.getResponseJson(-1, "未获取到当前桌当前局的第一副牌信息", null);
             }
+        }
+        if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
+            return ResponseJsonUtil.getResponseJson(-1,"未获取开牌结果",null);
         }
         try {
             bjlDataService.JudgeState(tableData);
