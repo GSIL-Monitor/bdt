@@ -93,15 +93,14 @@ public class BJLTableController {
     public JSONObject tzSystemStarted(@RequestParam int tzxt, @RequestParam Boolean started,
                                       @RequestParam(required = false) Integer fh,
                                       @RequestParam(required = false) String xh,
-                                      @RequestParam(required = false) List<DopeManage> list,
-                                      @RequestParam Integer tableNo) {
+                                      @RequestParam(required = false) List<DopeManage> list) {
 
         if (started) {
             if (fh == null || fh == 0 || StringUtils.isBlank(xh) || CollectionUtils.isEmpty(list)) {
                 return ResponseJsonUtil.getResponseJson(400, "缺少fh或xh参数", null);
             }
         }
-        Boolean result = tableDataService.updateTzStartOrClose(started, tzxt, fh, xh, tableNo);
+        Boolean result = tableDataService.updateTzStartOrClose(started, tzxt, fh, xh);
         if (started) {
             list.forEach(x -> {
                 Integer id = tableDataService.getDopeManageIdByTzzh(x.getTzzh());
@@ -125,10 +124,10 @@ public class BJLTableController {
             @ApiImplicitParam(name = "tzxt", value = "投注系统", required = true, paramType = "query"),
             @ApiImplicitParam(name = "tableNo", value = "桌号", required = true, paramType = "query"),
     })
-    public JSONObject getTzSystemInfo(@RequestParam int tzxt, @RequestParam int tableNo) {
+    public JSONObject getTzSystemInfo(@RequestParam int tzxt) {
 
         JSONObject json = new JSONObject();
-        TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt, tableNo);
+        TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt);
         List<DopeManage> list = tableDataService.getDopeMangeList(tzxt);
         if (tzSystem != null) {
             json.put("tzSystem", tzSystem);
@@ -165,13 +164,11 @@ public class BJLTableController {
             @ApiImplicitParam(name = "started", value = "开关", required = true, paramType = "query"),
             @ApiImplicitParam(name = "ps", value = "ps值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "phxs", value = "phxs值，当为关闭时可不填", paramType = "query"),
-            @ApiImplicitParam(name = "tableNo", value = "桌号，为0则控制全部子系统", required = true, paramType = "query"),
     })
     public JSONObject bdtSystemStarted(@RequestParam Boolean started,
                                        @RequestParam(required = false) Integer ps,
-                                       @RequestParam(required = false) BigDecimal phxs,
-                                       @RequestParam Integer tableNo) {
-        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs, tableNo);
+                                       @RequestParam(required = false) BigDecimal phxs) {
+        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs);
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         } else {
@@ -198,12 +195,11 @@ public class BJLTableController {
             @ApiImplicitParam(name = "tableNo", value = "桌号，不传则查看全部数据", paramType = "query"),
     })
     public JSONObject getLJInfo(@RequestParam(required = false) Long startTime,
-                                @RequestParam(required = false) Long endTime,
-                                @RequestParam(required = false) Integer tableNo) {
+                                @RequestParam(required = false) Long endTime) {
 
         JSONObject json = new JSONObject();
-        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime, tableNo);
-        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime, tableNo);
+        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime);
+        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime);
         json.put("ljxjz", ljxjz);
         json.put("ljzjz", ljzjz);
         return ResponseJsonUtil.getResponseJson(200, "success", json);

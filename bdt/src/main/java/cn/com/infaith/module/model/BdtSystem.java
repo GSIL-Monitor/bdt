@@ -10,8 +10,6 @@ public class BdtSystem {
 
     private BigDecimal phxs;
 
-    private Integer tableNo;
-
     private BigDecimal yxje;
     private BigDecimal ysje;
     private BigDecimal sjje;
@@ -74,11 +72,4 @@ public class BdtSystem {
         this.sjje = sjje;
     }
 
-    public Integer getTableNo() {
-        return tableNo;
-    }
-
-    public void setTableNo(Integer tableNo) {
-        this.tableNo = tableNo;
-    }
 }

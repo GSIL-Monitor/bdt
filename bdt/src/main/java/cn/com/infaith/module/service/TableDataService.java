@@ -108,12 +108,11 @@ public interface TableDataService {
      * @param tzxt
      * @param fh
      * @param xh
-     * @param tableNo
      * @return
      */
-    Boolean updateTzStartOrClose(Boolean started, int tzxt, int fh, String xh, Integer tableNo);
+    Boolean updateTzStartOrClose(Boolean started, int tzxt, int fh, String xh);
 
-    TzSystem getTzSystemInfo(int tzxt, int tableNo);
+    TzSystem getTzSystemInfo(int tzxt);
 
     /**
      * 获取当前桌号以及投注系统下的投注信息
@@ -179,10 +178,9 @@ public interface TableDataService {
      * @param started
      * @param ps
      * @param phxs
-     * @param tableNo
      * @return
      */
-    Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, Integer tableNo);
+    Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs);
 
     BdtSystem getBdtSystem(Integer tableNo);
 
@@ -221,9 +219,9 @@ public interface TableDataService {
 
     Boolean updateDopeManage(DopeManage dopeManage);
 
-    List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime, Integer tableNo);
+    List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime);
 
-    List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime, Integer tableNo);
+    List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime);
 
     Boolean updateStatus(StatusData statusData);
 

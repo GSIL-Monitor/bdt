@@ -239,7 +239,7 @@ public class BJLDataService {
      */
     public void step4(TableData tableData) {
         //获取投注系统2信息
-        TzSystem tzSystem = tableDataService.getTzSystemInfo(2, tableData.getTableNo());
+        TzSystem tzSystem = tableDataService.getTzSystemInfo(2);
         if (tzSystem.getStarted()) {
             //处于“启动”状态，进入步骤5-1。
             int count = step5_1(tableData.getFitNo(), tzSystem);
@@ -378,7 +378,7 @@ public class BJLDataService {
         tableData = step8_2(tableData);
         TableMergeData tableMergeData = step8_3(tableData, phxs);
         step8_4(tableMergeData);
-        TzSystem tz1System = step9(tableData.getTableNo());
+        TzSystem tz1System = step9();
         if (tz1System.getStarted()) {
             //投注子系统1启动
             TableData tableDataNew = step10_1(tableData.getTableNo());
@@ -506,8 +506,8 @@ public class BJLDataService {
      *
      * @return 返回投注系统信息
      */
-    public TzSystem step9(int tableNo) {
-        TzSystem tzSystem = tableDataService.getTzSystemInfo(1, tableNo);
+    public TzSystem step9() {
+        TzSystem tzSystem = tableDataService.getTzSystemInfo(1);
         return tzSystem;
     }
 
