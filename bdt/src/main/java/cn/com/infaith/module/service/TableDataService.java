@@ -211,7 +211,7 @@ public interface TableDataService {
      * @param tzzh
      * @return
      */
-    Integer getDopeManageIdByTzzh(String tzzh);
+    Integer getDopeManageIdByTzzh(String tzzh, Integer tzxt);
 
     List<DopeManage> getDopeManageByTableNoAndTzxt(String tableNo, int tzxt);
 

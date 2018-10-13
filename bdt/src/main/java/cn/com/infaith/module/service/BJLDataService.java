@@ -24,6 +24,8 @@ public class BJLDataService {
     private CalcXGLZGLServiceNotMap calcXGLZGLServiceNotMap;
     @Autowired
     private TableDataService tableDataService;
+    @Autowired
+    private UserAccountService userAccountService;
 
     public static List<CalcXGLZGLServiceNotMap> calcList = new ArrayList<>();
     static {
@@ -727,6 +729,10 @@ public class BJLDataService {
         resultData.setYssy(yssy);
         resultData.setSjsy(sjsy);
         tableDataService.updateResultById(resultData);
+        //更新账户有效金额
+        UserAccount userAccount = userAccountService.getUserAccount(resultData.getTzzh());
+        userAccount.setEffectiveAmount(userAccount.getEffectiveAmount().add(resultData.getSjsy()));
+        userAccountService.updateUserAccount(userAccount);
     }
 
     /**

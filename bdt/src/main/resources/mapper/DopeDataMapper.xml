@@ -30,10 +30,11 @@
     insert into dope_data (create_time, tzsj_section, table_no,
       battle_no, fit_no, tzfx,
       tzxt, tzzh, tzje, is_delete)
+    values
     <foreach collection="list" item="item" separator=",">
-      values (#{item.createTime,jdbcType=TIMESTAMP}, #{item.tzsjSection}, #{item.tableNo,jdbcType=INTEGER},
+      (#{item.createTime,jdbcType=TIMESTAMP}, #{item.tzsjSection}, #{item.tableNo,jdbcType=INTEGER},
       #{item.battleNo,jdbcType=INTEGER}, #{item.fitNo,jdbcType=INTEGER}, #{item.tzfx,jdbcType=INTEGER},
-      #{item.tzxt,jdbcType=INTEGER}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=INTEGER}, 0)
+      #{item.tzxt,jdbcType=INTEGER}, #{item.tzzh}, #{item.tzje,jdbcType=INTEGER}, 0)
     </foreach>
   </insert>
 

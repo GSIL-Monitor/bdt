@@ -241,8 +241,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Integer getDopeManageIdByTzzh(String tzzh) {
-        return dopeManageMapper.getDopeManageIdByTzzh(tzzh);
+    public Integer getDopeManageIdByTzzh(String tzzh, Integer tzxt) {
+        return dopeManageMapper.getDopeManageIdByTzzh(tzzh, tzxt);
     }
 
     @Override

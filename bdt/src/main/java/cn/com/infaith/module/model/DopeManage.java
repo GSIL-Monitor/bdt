@@ -1,5 +1,6 @@
 package cn.com.infaith.module.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 
 import java.util.Date;
@@ -10,10 +11,12 @@ public class DopeManage {
     private Integer tzxt;
 
     private String tzzh;
-    @ApiParam(hidden = true)
+    @ApiModelProperty(hidden = true)
     private String name;
-    @ApiParam(hidden = true)
+    @ApiModelProperty(hidden = true)
     private String account;
+
+    private Boolean hasCheck;
 
     private Integer tzje;
 
@@ -123,5 +126,13 @@ public class DopeManage {
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    public Boolean getHasCheck() {
+        return hasCheck;
+    }
+
+    public void setHasCheck(Boolean hasCheck) {
+        this.hasCheck = hasCheck;
     }
 }

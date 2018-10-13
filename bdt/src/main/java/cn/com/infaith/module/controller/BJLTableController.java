@@ -103,8 +103,9 @@ public class BJLTableController {
         Boolean result = tableDataService.updateTzStartOrClose(tzInfo.getStarted(), tzInfo.getTzxt(), tzInfo.getFh(), tzInfo.getXh());
         if (tzInfo.getStarted()) {
             tzInfo.getList().forEach(x -> {
-                Integer id = tableDataService.getDopeManageIdByTzzh(x.getTzzh());
+                Integer id = tableDataService.getDopeManageIdByTzzh(x.getTzzh(), tzInfo.getTzxt());
                 if (id != null) {
+                    x.setId(id);
                     tableDataService.updateDopeManage(x);
                 } else {
                     tableDataService.addDopeManage(x);
