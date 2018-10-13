@@ -33,6 +33,10 @@ public class BJLTableController {
     @PostMapping("/addTableData")
     public JSONObject addTableData(@ModelAttribute TableData tableData) {
 
+        BdtSystem bdtSystem = tableDataService.getBdtSystem();
+        if (!bdtSystem.getStarted()) {
+            return ResponseJsonUtil.getResponseJson(-1,"系统暂未启动",null);
+        }
         if (!tableData.getFitNo().equals(1)) {
             int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo());
             if (count == 0) {
@@ -89,19 +93,16 @@ public class BJLTableController {
             @ApiImplicitParam(name = "xh", value = "xh值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "list", value = "账号信息list，当为关闭时可不填", paramType = "query"),
     })
-    public JSONObject tzSystemStarted(@RequestParam int tzxt, @RequestParam Boolean started,
-                                      @RequestParam(required = false) Integer fh,
-                                      @RequestParam(required = false) String xh,
-                                      @RequestParam(required = false) List<DopeManage> list) {
+    public JSONObject tzSystemStarted(@RequestBody TzInfo tzInfo) {
 
-        if (started) {
-            if (fh == null || fh == 0 || StringUtils.isBlank(xh) || CollectionUtils.isEmpty(list)) {
+        if (tzInfo.getStarted()) {
+            if (tzInfo.getFh() == null || tzInfo.getFh() == 0 || StringUtils.isBlank(tzInfo.getXh()) || CollectionUtils.isEmpty(tzInfo.getList())) {
                 return ResponseJsonUtil.getResponseJson(400, "缺少fh或xh参数", null);
             }
         }
-        Boolean result = tableDataService.updateTzStartOrClose(started, tzxt, fh, xh);
-        if (started) {
-            list.forEach(x -> {
+        Boolean result = tableDataService.updateTzStartOrClose(tzInfo.getStarted(), tzInfo.getTzxt(), tzInfo.getFh(), tzInfo.getXh());
+        if (tzInfo.getStarted()) {
+            tzInfo.getList().forEach(x -> {
                 Integer id = tableDataService.getDopeManageIdByTzzh(x.getTzzh());
                 if (id != null) {
                     tableDataService.updateDopeManage(x);
