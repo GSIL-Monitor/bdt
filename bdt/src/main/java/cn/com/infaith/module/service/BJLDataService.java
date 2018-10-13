@@ -96,7 +96,7 @@ public class BJLDataService {
             //状态改变，当前状态为“开牌”（局号、副号不会变）。
             if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()
                     && statusData.getBattleNo() == tableData.getBattleNo() && statusData.getFitNo() == tableData.getFitNo()) {
-                BdtSystem bdtSystem = tableDataService.getBdtSystem(tableData.getTableNo());
+                BdtSystem bdtSystem = tableDataService.getBdtSystem();
                 openCard(tableData, bdtSystem.getPhxs());
             }
         }
@@ -434,7 +434,7 @@ public class BJLDataService {
      */
     public TableData step8_2(TableData tableData) {
 
-        BdtSystem system = tableDataService.getBdtSystem(tableData.getTableNo());
+        BdtSystem system = tableDataService.getBdtSystem();
         Map<String, BigDecimal> map = new HashMap<>();
         if (tableData.getFitNo() == 1) {
             calcList.set(tableData.getTableNo(), new CalcXGLZGLServiceNotMap());

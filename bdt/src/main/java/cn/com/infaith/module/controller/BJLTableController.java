@@ -88,7 +88,6 @@ public class BJLTableController {
             @ApiImplicitParam(name = "fh", value = "fh值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "xh", value = "xh值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "list", value = "账号信息list，当为关闭时可不填", paramType = "query"),
-            @ApiImplicitParam(name = "tableNo", value = "桌号，为0则控制所有子系统", paramType = "query"),
     })
     public JSONObject tzSystemStarted(@RequestParam int tzxt, @RequestParam Boolean started,
                                       @RequestParam(required = false) Integer fh,
@@ -122,7 +121,6 @@ public class BJLTableController {
     @GetMapping("/getTzSystemInfo")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tzxt", value = "投注系统", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "tableNo", value = "桌号", required = true, paramType = "query"),
     })
     public JSONObject getTzSystemInfo(@RequestParam int tzxt) {
 
@@ -178,12 +176,9 @@ public class BJLTableController {
 
     @GetMapping("/getBdtSystemInfo")
     @ApiOperation(value = "获取bdt系统信息", notes = "获取bdt系统信息", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "tableNo", value = "桌号，不能为0", required = true, paramType = "query"),
-    })
-    public JSONObject getBdtSystemInfo(@RequestParam Integer tableNo) {
+    public JSONObject getBdtSystemInfo() {
 
-        BdtSystem bdtSystem = tableDataService.getBdtSystem(tableNo);
+        BdtSystem bdtSystem = tableDataService.getBdtSystem();
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", bdtSystem);
     }
 
@@ -192,7 +187,6 @@ public class BJLTableController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startTime", value = "开始时间，不传则默认当天", paramType = "query"),
             @ApiImplicitParam(name = "endTime", value = "结束时间，不传则默认当天", paramType = "query"),
-            @ApiImplicitParam(name = "tableNo", value = "桌号，不传则查看全部数据", paramType = "query"),
     })
     public JSONObject getLJInfo(@RequestParam(required = false) Long startTime,
                                 @RequestParam(required = false) Long endTime) {

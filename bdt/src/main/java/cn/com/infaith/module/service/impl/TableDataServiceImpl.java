@@ -209,7 +209,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public BdtSystem getBdtSystem(Integer tableNo) {
+    public BdtSystem getBdtSystem() {
         return bdtSystemMapper.getBdtSystem();
     }
 

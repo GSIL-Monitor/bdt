@@ -182,7 +182,7 @@ public interface TableDataService {
      */
     Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs);
 
-    BdtSystem getBdtSystem(Integer tableNo);
+    BdtSystem getBdtSystem();
 
     Boolean addResultData(ResultData resultData);
 

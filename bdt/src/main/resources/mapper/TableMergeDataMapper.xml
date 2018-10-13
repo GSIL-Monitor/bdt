@@ -66,9 +66,6 @@
     WHERE
     create_time >= #{startDate}
     AND create_time  <![CDATA[ < ]]> #{endDate}
-    <if test="tableNo != null">
-      AND tableNo = #{tableNo}
-    </if>
     ORDER BY
     create_time DESC
   </select>
@@ -82,9 +79,6 @@
     WHERE
     create_time >= #{startDate}
     AND create_time  <![CDATA[ < ]]> #{endDate}
-    <if test="tableNo != null">
-      AND tableNo = #{tableNo}
-    </if>
     ORDER BY
     create_time DESC
   </select>
