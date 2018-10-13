@@ -49,7 +49,7 @@
   </update>
 
   <select id="getTzSystemInfo" resultMap="BaseResultMap">
-    select id, tzxt, started, fh, xh, table_no
+    select id, tzxt, started, fh, xh
     from tz_system
     WHERE tzxt = #{tzxt}
   </select>
