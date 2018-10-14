@@ -108,12 +108,3 @@ function injectCustomJs(jsPath) {
     document.body.appendChild(temp);
 }
 
-function selectedYuan() {
-    //
-    // $($("._2oHIg ._2Eb76:not(._3BVsE)")[0]).children().click(); // 选择筹码
-    // //
-    // $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').click(); // 选择牌
-    // //
-    // $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').find('._1a9j-._1m_7V').click(); // 确认下注
-}
-

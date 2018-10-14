@@ -130,6 +130,7 @@ function injectClose() {
 *
 *
 * */
+
 function chrome_login() {
     let base64Img = document.querySelector('._3IDPG ._1CgIs._1I2Om img').src; // 验证码
     $.ajax({
@@ -274,6 +275,28 @@ var callback = function (mutationsList) {
 
 };
 
+function selectedYuan(yuan) {
+    // 选中金额
+    var yuanOption = {
+        '1': '._3JpJo',
+        '2': '.n4JJI',
+        '5': '.VxhGV',
+        '10': '.TclIu',
+        '20': '._1VJpW',
+        '50': '._2kWbQ',
+        '100': '._2-e_4',
+        '200': '._2S7t-',
+        '500': '._8d_yl',
+        '1000': '._295TP',
+        '2000': '.NJ9Lz'
+    };
+    // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent())
+    $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
+    // //
+    // $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').click(); // 选择牌
+    // //
+    // $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').find('._1a9j-._1m_7V').click(); // 确认下注
+}
 function getNeedTzDataList() {
     window.getNeedTzDataListSetInv = setInterval(() => {
         $.ajax({

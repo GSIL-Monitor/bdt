@@ -24,6 +24,10 @@ export default {
     // 查看管理员所管理的用户 params = {adminId:'##'}
     return Axios({method: 'get', url: HOST + 'account/getUserByAdmin', params: params})
   },
+  deleteUserAccount(params = {}) {
+    // 查看管理员所管理的用户 params = {adminId:'##'}
+    return Axios({method: 'delete', url: HOST + 'account/deleteUserAccount', params: params})
+  },
   editUserAccount(params = {}) {
     //
     return Axios({method: 'POST', url: HOST + 'account/editUserAccount', params: params})

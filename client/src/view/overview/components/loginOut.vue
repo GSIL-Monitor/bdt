@@ -21,7 +21,7 @@
             </Button>
           </div>
           <div class="col" style="text-align: right;flex: inherit">
-            <Button type="primary" size="small">编辑</Button>
+            <Button type="primary" size="small" @click="editUserHome(index)">编辑</Button>
           </div>
         </div>
         <!--<div class="header-box" style="height: 20px"><span class="col">{{item.ipRegion}}/{{item.ipAddress}}</span>-->
@@ -61,6 +61,45 @@
             </Button>
           </div>
         </Modal>
+        <Modal title="Title" v-model="editModal" class-name="vertical-center-modal">
+          <p slot="header" style="text-align:center">
+            <Icon type="ios-information-circle"></Icon>
+            <span>添加账户</span>
+          </p>
+          <div style="text-align:center">
+            <Form ref="loginForm" :model="formEdit" label-position="right"
+                  :label-width="100">
+              <FormItem label="ID">
+                <Input disabled v-model="formEdit.id"></Input>
+              </FormItem>
+              <FormItem prop="account" label="账号名">
+                <Input disabled v-model="formEdit.account"></Input>
+              </FormItem>
+              <FormItem label="登陆密码">
+                <Input disabled v-model="formEdit.password"></Input>
+              </FormItem>
+              <FormItem label="IP地址">
+                <Input v-model="formEdit.ipAddress"></Input>
+              </FormItem>
+              <FormItem label="金额">
+                <Input v-model="formEdit.effectiveAmount"></Input>
+              </FormItem>
+              <FormItem label="是否登陆">
+                <Select disabled v-model="formEdit.loginStatus">
+                  <Option value="true">true</Option>
+                  <Option value="false">false</Option>
+                </Select>
+              </FormItem>
+            </Form>
+          </div>
+          <div slot="footer" style="display: flex;align-items: center">
+            <Button type="error" size="large" long :loading="modal_loading" @click="delEditUser">
+              删除账户
+            </Button>
+            <Button type="primary" size="large" long :loading="modal_loading" @click="editUser">编辑账户
+            </Button>
+          </div>
+        </Modal>
       </div>
       <!---->
     </div>
@@ -74,12 +113,25 @@
       return {
         isLoginOverviewData: [],
         addModal: false,
+        editModal: false,
         modal_loading: false,
         formRight: {
+          id: '',
           name: '百家乐01',
           account: '',
           password: '',
-          loginStatus: 'true'
+          ipAddress: '',
+          loginStatus: 'true',
+          effectiveAmount: ''
+        },
+        formEdit: {
+          id: '',
+          name: '百家乐01',
+          account: '',
+          password: '',
+          ipAddress: '',
+          loginStatus: 'true',
+          effectiveAmount: ''
         }
       }
     },
@@ -117,6 +169,35 @@
        }, 5000) */
     },
     methods: {
+      delEditUser() {
+        // this.formEdit.id
+        let params = {
+          userId: this.formEdit.id
+        };
+        this.$api.deleteUserAccount(params).then((res) => {
+          if (res.returnCode == 200) {
+            this.$Message.info(res.returnMsg);
+            this.editModal = false;
+            this.getUserByAdmin();
+          }
+        })
+      },
+      editUser() {
+        let params = this.formEdit;
+        this.$api.editUserAccount(params).then((res) => {
+          if (res.returnCode == 200) {
+            this.editModal = false;
+            this.getUserByAdmin();
+          }
+        })
+      },
+      editUserHome(index) {
+        this.formEdit = this.isLoginOverviewData[index];
+        this.formEdit.password = '';
+        this.formEdit.loginStatus = String(this.formEdit.loginStatus);
+        this.editModal = true;
+        console.log(this.isLoginOverviewData[index]);
+      },
       loginStatusLook(index, type) {
         let params = Object.assign({}, this.isLoginOverviewData[index], {loginStatus: type});
         this.$api.editUserAccount(params).then((res) => {

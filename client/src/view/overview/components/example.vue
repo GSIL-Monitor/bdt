@@ -71,12 +71,15 @@
         let ljxjzName = data.ljxjz.map(e => {
           return '副号' + e.fit_no
         })
+        ljxjzName = ljxjzName.reverse()
         let ljxjzVal = data.ljxjz.map(e => {
           return e.ljxjz
         })
+        ljxjzVal = ljxjzVal.reverse()
         let ljzjzVal = data.ljzjz.map(e => {
           return e.ljzjz
         });
+        ljzjzVal = ljzjzVal.reverse()
         // console.log(ljxjzVal, ljzjzVal);
         this.$nextTick(() => {
           this.dom = echarts.init(this.$refs.dom)
@@ -101,12 +104,34 @@
               {
                 type: 'category',
                 boundaryGap: false,
-                data: ljxjzName
+                data: ljxjzName,
+                axisLabel: {
+                  rotate: 20
+                }
               }
             ],
             yAxis: [
               {
-                type: 'value'
+                type: 'value',
+                axisLabel: {
+                  color: '#aeaeae'
+                },
+                axisLine: {
+                  lineStyle: {
+                    color: '#aeaeae'
+                  }
+                }
+              },
+              {
+                type: 'value',
+                axisLabel: {
+                  color: '#aeaeae'
+                },
+                axisLine: {
+                  lineStyle: {
+                    color: '#aeaeae'
+                  }
+                }
               }
             ],
             series: [
@@ -127,7 +152,7 @@
                 stack: '总量',
                 label: {
                   normal: {
-                    show: true,
+                    show: false,
                     position: 'top'
                   }
                 },

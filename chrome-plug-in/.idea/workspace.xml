@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/inject.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inject.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/popup.html" beforeDir="false" afterPath="$PROJECT_DIR$/popup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.eslintrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/service/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/service/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/content-script.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/content-script.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -82,14 +74,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="163" />
-          <entry key="js" value="1661" />
+          <entry key="js" value="1790" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="163" />
           <entry key="HTML" value="18" />
-          <entry key="JavaScript" value="1643" />
+          <entry key="JavaScript" value="1772" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -114,8 +106,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/content-script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="586">
-              <caret line="76" column="32" selection-start-line="76" selection-start-column="32" selection-end-line="76" selection-end-column="32" />
+            <state relative-caret-position="607">
+              <caret line="108" column="1" selection-start-line="108" selection-start-column="1" selection-end-line="108" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -141,10 +133,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="539">
-              <caret line="218" column="18" selection-start-line="218" selection-start-column="18" selection-end-line="218" selection-end-column="18" />
+            <state relative-caret-position="433">
+              <caret line="312" column="36" selection-start-line="312" selection-start-column="36" selection-end-line="312" selection-end-column="36" />
               <folding>
                 <element signature="e#2125#2734#0" />
+                <element signature="e#2784#3017#0" />
+                <element signature="e#3165#5011#0" />
+                <element signature="e#5053#7724#0" />
+                <element signature="e#8008#8289#0" />
+                <element signature="e#7808#8160#0" />
+                <element signature="e#8180#8325#0" />
+                <element signature="e#8343#8453#0" />
+                <element signature="e#9134#11650#0" />
               </folding>
             </state>
           </provider>
@@ -177,8 +177,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/css/custom.css" />
-        <option value="$PROJECT_DIR$/js/content-script.js" />
         <option value="$PROJECT_DIR$/popup.html" />
+        <option value="$PROJECT_DIR$/js/content-script.js" />
         <option value="$PROJECT_DIR$/js/inject.js" />
       </list>
     </option>
@@ -273,12 +273,12 @@
       <workItem from="1539275859355" duration="627000" />
       <workItem from="1539400913584" duration="3270000" />
       <workItem from="1539431240442" duration="601000" />
-      <workItem from="1539486189473" duration="9284000" />
+      <workItem from="1539486189473" duration="13151000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48770000" />
+    <option name="totallyTimeSpent" value="52637000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -358,13 +358,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/content-script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
-          <caret line="76" column="32" selection-start-line="76" selection-start-column="32" selection-end-line="76" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/custom.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
@@ -379,12 +372,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/content-script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="607">
+          <caret line="108" column="1" selection-start-line="108" selection-start-column="1" selection-end-line="108" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="218" column="18" selection-start-line="218" selection-start-column="18" selection-end-line="218" selection-end-column="18" />
+        <state relative-caret-position="433">
+          <caret line="312" column="36" selection-start-line="312" selection-start-column="36" selection-end-line="312" selection-end-column="36" />
           <folding>
             <element signature="e#2125#2734#0" />
+            <element signature="e#2784#3017#0" />
+            <element signature="e#3165#5011#0" />
+            <element signature="e#5053#7724#0" />
+            <element signature="e#8008#8289#0" />
+            <element signature="e#7808#8160#0" />
+            <element signature="e#8180#8325#0" />
+            <element signature="e#8343#8453#0" />
+            <element signature="e#9134#11650#0" />
           </folding>
         </state>
       </provider>
