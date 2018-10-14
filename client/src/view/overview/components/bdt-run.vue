@@ -1,7 +1,7 @@
 <template>
   <Card>
     <p slot="title">BDT运行状态</p>
-    <Form :model="formItem" :label-width="80">
+    <Form :model="formItem" :label-width="40">
       <FormItem label="状态">
         <div style="display: flex;align-items: center">
           <span style="flex: 1">{{start?'正常运行':'停止'}}</span>
@@ -45,7 +45,9 @@
         })
       },
       getBdtSystemInfo() {
-        let params = {};
+        let params = {
+          tableNo: 0
+        };
         this.$api.getBdtSystemInfo(params).then(res => {
           if (res.returnCode == 200) {
             console.log('===================>', res)

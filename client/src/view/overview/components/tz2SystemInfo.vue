@@ -1,111 +1,143 @@
 <template>
-  <Card class="tz2SystemInfo">
+  <Card class="tzSystemInfo">
     <div slot="title">
       <div>
         <Row :gutter="0" type="flex" align="middle">
           <i-col span="5"><span style="font-size: 16px;font-weight: bold">投注子系统TZ1</span>
           </i-col>
           <i-col span="19" style="text-align: right">
-            <span>状态：{{'正常运行'}}</span>&ensp;
-            <Button size="small" type="success" disabled>启动</Button>&ensp;
-            <Button size="small" type="error">停止</Button>
+            <span>状态：{{!disabledSet?'正常':'停止'}}运行</span>&ensp;
+            <Button type="success" @click="startApp(true)" :disabled="!disabledSet">
+              {{disabledSet?'启动':'启动中...'}}
+            </Button>&ensp;
+            <Button type="error" @click="startApp(false)" :disabled="disabledSet">停止</Button>
           </i-col>
         </Row>
       </div>
       <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
         <FormItem label="FH" prop="user" style="margin:0 5px">
-          <Input type="text" v-model="formInline.user" placeholder="Username">
+          <Input type="text" v-model="formInline.fh" :disabled="!disabledSet"
+                 placeholder="Username">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
         </FormItem>
         <FormItem label="XH" prop="password" style="margin:0 5px">
-          <Input type="password" v-model="formInline.password" placeholder="Password">
+          <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
+                 placeholder="Password">
             <Icon type="ios-lock-outline" slot="prepend"></Icon>
           </Input>
         </FormItem>
       </Form>
     </div>
-    <div class="">
+    <div class="" style="position: relative;">
       <table class="bdt-table">
         <thead>
         <tr>
-          <th>
+          <th width="10%" align="left">
+            <div class="row">
+              &emsp;<Checkbox @on-change="checkBoxAllChange" v-model="checkBoxAll">全选</Checkbox>
+            </div>
+          </th>
+          <th width="10%" align="left">
             <div class="row">账号</div>
           </th>
-          <th>
+          <th width="10%">
             <div class="row">投注金额</div>
           </th>
-          <th>
+          <th width="55%" align="center">
             <div class="row">投注时间限制</div>
           </th>
-          <th>
+          <th width="15%">
             <div class="row">投注桌号</div>
           </th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(item, index) in tableData" :key="index">
+        <tr v-for="(item, index) in tzListData" :key="index">
+          <td class="name">
+            <div class="row" @click="dataClick(index)">
+              &emsp;<Checkbox @on-change="checkBoxChange" v-model="item.hasCheck"></Checkbox>
+            </div>
+          </td>
           <td class="name">
             <div class="row">
-              <Select size="small" :key="index" v-model="item.name" clearable
-                      style="width:100px">
-                <Option v-for="op in cityList" :value="op.value" :key="op.value">
-                  {{op.label }}
-                </Option>
-              </Select>
+              {{item.account}}
+              <!--<Select :key="index" v-model="item.account" clearable style="width:100%">-->
+              <!--<Option v-for="op in cityList" :value="op.value" :key="op.value">-->
+              <!--{{op.label }}-->
+              <!--</Option>-->
+              <!--</Select>-->
             </div>
           </td>
           <td>
-            <div class="row">{{index}}</div>
+            <div class="row">
+              <Select :key="index+Math.random()" v-model="item.tzje" style="width:100%">
+                <Option v-for="opt in tabJinE" :value="opt" :key="opt">{{opt}}</Option>
+              </Select>
+            </div>
           </td>
           <td class="time">
             <div class="row">
-              <Select size="small" :key="index+Math.random()" v-model="item.time" clearable
-                      style="width:150px">
-                <Option v-for="op1 in timelineData" :value="op1.name" :key="op1.name">
-                  {{op1.name }}
+              <Select :key="index+Math.random()" v-model="item.time" multiple clearable
+                      style="width:100%">
+                <Option v-for="opt in timelineDataFun" :disabled="opt.disabled" :value="opt.value"
+                        :key="opt.value">{{opt.name }}
                 </Option>
               </Select>
             </div>
           </td>
-          <td>{{index}}</td>
+          <td align="center">
+            <div class="row">
+              <span>
+                <Select :key="index" @on-change="tableCodeChange" v-model="item.tableCode" multiple
+                        clearable style="width:100%">
+                  <Option v-for="opt in tablineData" :value="opt" :key="opt">{{opt}}</Option>
+                </Select>
+              </span>
+            </div>
+          </td>
         </tr>
         </tbody>
       </table>
+      <!---->
+      <Spin size="large" fix v-if="!disabledSet"></Spin>
     </div>
   </Card>
 </template>
 
 <script>
   export default {
-    name: "tz2SystemInfo",
+    name: "tzSystemInfo",
     data() {
       return {
+        disabledSet: true,
+        tabJinE: [50, 100, 200, 500, 1000],
+        tablineData: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
         timelineData: [
-          {name: '00:00~01:00', value: '00:00~01:00'},
-          {name: '01:00~02:00', value: '01:00~02:00'},
-          {name: '02:00~03:00', value: '02:00~03:00'},
-          {name: '03:00~04:00', value: '03:00~04:00'},
-          {name: '04:00~05:00', value: '04:00~05:00'},
-          {name: '05:00~06:00', value: '05:00~06:00'},
-          {name: '06:00~07:00', value: '06:00~07:00'},
-          {name: '07:00~08:00', value: '07:00~08:00'},
-          {name: '08:00~09:00', value: '08:00~09:00'},
-          {name: '09:00~10:00', value: '09:00~10:00'},
-          {name: '10:00~11:00', value: '10:00~11:00'},
-          {name: '11:00~12:00', value: '11:00~12:00'},
-          {name: '12:00~13:00', value: '12:00~13:00'},
-          {name: '13:00~14:00', value: '13:00~14:00'},
-          {name: '14:00~15:00', value: '14:00~15:00'},
-          {name: '15:00~16:00', value: '15:00~16:00'},
-          {name: '16:00~17:00', value: '16:00~17:00'},
-          {name: '17:00~18:00', value: '17:00~18:00'},
-          {name: '18:00~19:00', value: '18:00~19:00'},
-          {name: '19:00~20:00', value: '19:00~20:00'},
-          {name: '20:00~21:00', value: '20:00~21:00'},
-          {name: '21:00~22:00', value: '21:00~22:00'},
-          {name: '22:00~23:00', value: '22:00~23:00'},
-          {name: '23:00~00:00', value: '23:00~00:00'}
+          {name: '00:00~01:00', value: '00:00~01:00', hours: '1'},
+          {name: '01:00~02:00', value: '01:00~02:00', hours: '2'},
+          {name: '02:00~03:00', value: '02:00~03:00', hours: '3'},
+          {name: '03:00~04:00', value: '03:00~04:00', hours: '4'},
+          {name: '04:00~05:00', value: '04:00~05:00', hours: '5'},
+          {name: '05:00~06:00', value: '05:00~06:00', hours: '6'},
+          {name: '06:00~07:00', value: '06:00~07:00', hours: '7'},
+          {name: '07:00~08:00', value: '07:00~08:00', hours: '8'},
+          {name: '08:00~09:00', value: '08:00~09:00', hours: '9'},
+          {name: '09:00~10:00', value: '09:00~10:00', hours: '10'},
+          {name: '10:00~11:00', value: '10:00~11:00', hours: '11'},
+          {name: '11:00~12:00', value: '11:00~12:00', hours: '12'},
+          {name: '12:00~13:00', value: '12:00~13:00', hours: '13'},
+          {name: '13:00~14:00', value: '13:00~14:00', hours: '14'},
+          {name: '14:00~15:00', value: '14:00~15:00', hours: '15'},
+          {name: '15:00~16:00', value: '15:00~16:00', hours: '16'},
+          {name: '16:00~17:00', value: '16:00~17:00', hours: '17'},
+          {name: '17:00~18:00', value: '17:00~18:00', hours: '18'},
+          {name: '18:00~19:00', value: '18:00~19:00', hours: '19'},
+          {name: '19:00~20:00', value: '19:00~20:00', hours: '20'},
+          {name: '20:00~21:00', value: '20:00~21:00', hours: '21'},
+          {name: '21:00~22:00', value: '21:00~22:00', hours: '22'},
+          {name: '22:00~23:00', value: '22:00~23:00', hours: '23'},
+          {name: '23:00~00:00', value: '23:00~00:00', hours: '24'}
         ],
         cityList: [
           {
@@ -134,62 +166,172 @@
           }
         ],
         formInline: {
-          user: '',
-          password: ''
+          fh: '',
+          xh: ''
         },
+        checkBoxAll: false,
         tableData: [
           {
-            name: '1',
-            time: '1'
+            name: '',
+            time: '',
+            jine: '',
+            tab: '1'
           }
         ],
-        tz2Data: ''
+        tzListData: [],
+        tzSystem: {}
+      }
+    },
+    computed: {
+      timelineDataFun() {
+        let xiaoshi = new Date().getHours();
+        this.timelineData.forEach((e) => {
+          if (parseInt(e.hours) <= parseInt(xiaoshi)) {
+            // e.disabled = true;
+          }
+        })
+        console.log(this.timelineData);
+        return this.timelineData
       }
     },
     created() {
-      this.getTzSystemInfo(2);
+      let obj = {
+        name: '',
+        time: '',
+        jine: '',
+        tab: '1'
+      }
+      for (let i = 0; i < 20; i++) {
+        this.tableData.push(obj);
+      }
+      this.getTzSystemInfo(1);
     },
     methods: {
+      setCheckBoxAll() {
+        setTimeout(() => {
+          let setBox = true;
+          this.tzListData.forEach((e) => {
+            if (e.hasCheck == false) {
+              setBox = false;
+            }
+          })
+          this.checkBoxAll = setBox;
+          console.log(setBox);
+        })
+      },
+      dataClick(index) {
+        //
+        this.setCheckBoxAll();
+        //
+        console.log(this.tzListData[index]);
+      },
+      tableCodeChange(val) {
+        if (val.length > 6) {
+          this.$Message.info({
+            content: '最多选择6桌',
+            duration: 10,
+            closable: true
+          });
+        }
+        console.log(val);
+      },
+      checkBoxChange(val) {
+        console.log(val);
+      },
+      checkBoxAllChange(val) {
+        console.log(val);
+        this.tzListData.forEach((e) => {
+          e.hasCheck = val;
+        })
+      },
+      startApp(start) {
+        this.disabledSet = !start;
+        this.tzSystemStarted(1);
+      },
       getTzSystemInfo(type) {
         let params = {tzxt: type}
         this.$api.getTzSystemInfo(params).then(res => {
           console.log(res);
           if (res.returnCode == 200) {
-            this.tz2Data = res.returnObject;
+            this.tzListData = res.returnObject.list;
+            this.tzListData.forEach((e) => {
+              e.time = e.tzsjSection1.split(',');
+              e.tableCode = e.tableNo.split(',');
+              console.log(e);
+            });
+            this.setCheckBoxAll();
+            this.tzSystem = res.returnObject.tzSystem;
+            this.formInline.fh = this.tzSystem.fh;
+            this.formInline.xh = this.tzSystem.xh;
+            this.disabledSet = !!!this.tzSystem.started;
           }
         }).catch(err => {
 
         })
       },
+      //
+      tzSystemStarted(tzxt) {
+        //
+        this.tzListData.forEach((e) => {
+          e.tzsjSection1 = e.time.join(',');
+          e.tableNo = e.tableCode.join(',');
+        });
+        //
+        let data = {
+          "fh": this.formInline.fh,
+          "list": this.tzListData,
+          "started": !!!this.disabledSet,
+          "tzxt": tzxt,
+          "xh": this.formInline.xh
+        };
+        this.$api.tzSystemStarted(data).then((res) => {
+          if (res.returnCode == 200) {
+            this.getTzSystemInfo(1);
+          }
+        }).catch(() => {
+
+        })
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .tz2SystemInfo {
+  .tzSystemInfo {
     .bdt-table {
       width: 100%;
+      border-radius: 4px;
+      border: 1px solid #e3e3e3;
       thead {
         tr {
-          background: #eeeeee;
-          border-bottom: 1px solid #c3c3c3;
+          background: #f5f7fa;
+          border-bottom: 1px solid #f5f7fa;
+          border-radius: 3px;
         }
-        td {
-          padding: 5px;
+        th {
+          // text-align: left;
+          .row {
+            padding: 16px 5px;
+            font-size: 15px;
+            font-weight: bold;
+          }
         }
+      }
+      tbody > tr:nth-child(even) {
+        background-color: #f5f7fa;
       }
       tbody {
         td {
-          text-align: center;
-          &.name {
-            width: 120px;
-          }
-          &.time {
-            width: 150px;
-          }
+          text-align: left;
         }
         tr {
-          border-bottom: 1px solid #c3c3c3;
+          td {
+            padding: 5px 0;
+          }
+          border-bottom: 1px solid #dcdee2;
+          &:hover {
+            background-color: rgba(255, 177, 72, 0.2);
+          }
         }
       }
       .row {
@@ -197,4 +339,5 @@
       }
     }
   }
+
 </style>

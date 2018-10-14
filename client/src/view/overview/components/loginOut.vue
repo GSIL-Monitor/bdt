@@ -3,9 +3,9 @@
     <template slot="title">
       <div class="header-box">
         <div class="col">账号登录情况</div>
-        <div class="col" style="text-align: right;flex: inherit">
-          <Button type="primary" ghost size="small" @click="addModal = true">新建账户</Button>
-        </div>
+        <!--<div class="col" style="text-align: right;flex: inherit">-->
+          <!--<Button type="primary" ghost size="small" @click="addModal = true">新建账户</Button>-->
+        <!--</div>-->
       </div>
     </template>
     <Card :key="i" v-for="(item, i) in isLoginOverviewData">

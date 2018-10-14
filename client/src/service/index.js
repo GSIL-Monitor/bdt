@@ -12,7 +12,7 @@ export default {
     return Axios({method: 'get', url: HOST + 'bjlTable/getTzSystemInfo', params: params})
   },
   tzSystemStarted(params = {}) {
-    return Axios({method: 'POST', url: HOST + 'bjlTable/tzSystemStarted', params: params})
+    return Axios({method: 'POST', url: HOST + 'bjlTable/tzSystemStarted', data: params})
   },
   getUserAccount(params = {}) {
     return Axios({method: 'get', url: HOST + 'account/getUserAccount', params: params})
@@ -35,5 +35,9 @@ export default {
   addUserAccount(params = {}) {
     //
     return Axios({method: 'post', url: HOST + 'account/addUserAccount', params: params})
+  },
+  getLJInfo(params = {}) {
+    //
+    return Axios({method: 'get', url: HOST + 'bjlTable/getLJInfo', params: params})
   }
 }

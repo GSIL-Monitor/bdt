@@ -1,22 +1,15 @@
 <template>
   <div class="bdt-overview">
     <Row :gutter="16">
-      <i-col span="6">
+      <i-col span="5">
         <bdt-run></bdt-run>
         <br>
         <login-out></login-out>
       </i-col>
-      <i-col span="18">
+      <i-col span="19">
         <table12></table12>
         <br>
-        <Card>
-          <CellGroup slot="title">
-            <Cell title="LJXJZ" label="现值：10,000"/>
-          </CellGroup>
-          <div id="overLine">
-            <example style="height: 310px;"/>
-          </div>
-        </Card>
+        <example></example>
         <br>
         <tz-system-info></tz-system-info>
         <br>

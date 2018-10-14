@@ -25,7 +25,7 @@
             <tags-nav :value="$route" @input="handleClick" :list="tagNavList"
                       @on-close="handleCloseTag"/>
           </div>
-          <Content class="content-wrapper">
+          <Content class="content-wrapper dbt-scrollbar">
             <keep-alive :include="cacheList">
               <router-view/>
             </keep-alive>

@@ -111,6 +111,25 @@ function formatterDateTime() {
     return datetime;
 }
 
+var imgCloseFlg = true;
+
+function injectClose() {
+    if (imgCloseFlg) {
+        $('.inject-panel').addClass('isHeight');
+        imgCloseFlg = false;
+        return
+    } else {
+        $('.inject-panel').removeClass('isHeight');
+        imgCloseFlg = true;
+        return
+    }
+}
+
+/*
+* https://www.11gma.com/api/user/wallet?sid=454e487f-8b6a-4d31-be0d-81d535ed6777&t=1539193085792 // 获取金额当前用户的
+*
+*
+* */
 function chrome_login() {
     let base64Img = document.querySelector('._3IDPG ._1CgIs._1I2Om img').src; // 验证码
     $.ajax({
@@ -145,10 +164,10 @@ function chrome_login() {
             $("._3IDPG button").click();
             setTimeout(() => {
                 $('._3IR2e ._3MSiK').click();
-                setTimeout(_ => {
-                    $('._2kLct').eq(1).click();
+                setTimeout(() => {
+                    $('._1h40X ._2kLct').eq(1).click();
                     // ._1_pu1
-                    setTimeout(_ => {
+                    setTimeout(() => {
                         startListen();
                     }, 3000)
                 }, 3000)
@@ -185,8 +204,6 @@ var callback = function (mutationsList) {
         if (2 == $(mutation.target).text().length) {
             return;
         }
-
-
         // 0"洗牌中";
         // 1"开始投注";
         // 2"停止投注";
@@ -228,9 +245,9 @@ var callback = function (mutationsList) {
         console.log(rtndata);
         console.log(JSON.stringify(rtndata));
         var wads = {
-            '庄': '0',
-            '闲': '1',
-            '和': '2',
+            '庄': '1',
+            '闲': '2',
+            '和': '3',
         }
         var status = {
             '开始投注': 2,
@@ -242,8 +259,8 @@ var callback = function (mutationsList) {
             tableNo: parseInt(rtndata.name2),
             battleNo: rtndata.count1,
             fitNo: rtndata.count2,
-            card: rtndata.right.toString(),
-            xianCard: rtndata.left.toString(),
+            card: rtndata.right.join(''),
+            xianCard: rtndata.left.join(''),
             result: wads[rtndata.windatas.toString().trim()],
             status: status[rtndata.desc]
         };
