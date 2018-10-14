@@ -169,6 +169,7 @@ function chrome_login() {
                     // ._1_pu1
                     setTimeout(() => {
                         startListen();
+                        getNeedTzDataList();
                     }, 3000)
                 }, 3000)
             }, 3000)
@@ -242,7 +243,7 @@ var callback = function (mutationsList) {
         var t = $(mutation.target).parents("._6VpXo");
 
         var rtndata = analysisData(t, classData, state);
-        console.log(rtndata);
+        console.log(rtndata.name1 + rtndata.name2 + '-' + rtndata.count1 + '-' + rtndata.count2 + 'state-' + state);
         console.log(JSON.stringify(rtndata));
         var wads = {
             '庄': '1',
@@ -264,11 +265,33 @@ var callback = function (mutationsList) {
             result: wads[rtndata.windatas.toString().trim()],
             status: status[rtndata.desc]
         };
+        // if (state == 0 || state == '') {
+        //     return false
+        // }
         addTableData(params);
 
     }
 
 };
+
+function getNeedTzDataList() {
+    window.getNeedTzDataListSetInv = setInterval(() => {
+        $.ajax({
+            type: 'get',
+            url: 'http://139.198.177.39:8080/bdt/bjlTable/getNeedTzDataList',
+            dataType: 'json',
+            params: {
+                tableNo: ''
+            },
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (XmlHttpRequest, textStatus, errorThrown) {
+                console.log("操作失败!");
+            }
+        })
+    }, 3000)
+}
 
 // http://localhost:8763/bdt/bjlTable/addTableData
 function addTableData(params) {
@@ -412,6 +435,6 @@ function analysisData(deskNode, classData, state) {
     desk.state = state;
     desk.desc = deskstatemap[state + ''];
 
-    console.info(desk.name1 + desk.name2 + "  " + state + " " + deskstatemap[state + '']);
+    // console.info(desk.name1 + desk.name2 + "  " + state + " " + deskstatemap[state + '']);
     return desk;
 }

@@ -77,7 +77,7 @@
         let ljzjzVal = data.ljzjz.map(e => {
           return e.ljzjz
         });
-        console.log(ljxjzVal, ljzjzVal);
+        // console.log(ljxjzVal, ljzjzVal);
         this.$nextTick(() => {
           this.dom = echarts.init(this.$refs.dom)
           const option = {

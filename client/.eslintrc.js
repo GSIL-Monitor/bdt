@@ -26,6 +26,8 @@ module.exports = {
     'eqeqeq': 'off',
     'spaced-comment': 'off',
     'handle-callback-err': 'off',
-    'quotes': 'off'
+    'quotes': 'off',
+    'no-extra-boolean-cast': 0,
+    'no-dupe-keys': 0
   }
 }

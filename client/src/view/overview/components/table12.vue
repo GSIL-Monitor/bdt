@@ -61,7 +61,6 @@
       getTableInfo() {
         let params = {};
         this.$api.getTableInfo(params).then((res) => {
-          console.log(123);
           if (res.returnCode == 200) {
             this.getTableInfoStatus = true;
             this.rowsData = [];

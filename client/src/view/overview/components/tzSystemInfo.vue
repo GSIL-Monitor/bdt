@@ -227,11 +227,12 @@
       },
       tableCodeChange(val) {
         if (val.length > 6) {
-          this.$Message.info({
-            content: '最多选择6桌',
-            duration: 10,
-            closable: true
-          });
+          this.tzListData.forEach((e) => {
+            if (e.tableCode.length >= 7) {
+              e.tableCode = e.tableCode.pop();
+            }
+          })
+          this.$Message.info({content: '最多选择6桌', duration: 10, closable: true});
         }
         console.log(val);
       },
@@ -263,7 +264,7 @@
             this.tzSystem = res.returnObject.tzSystem;
             this.formInline.fh = this.tzSystem.fh;
             this.formInline.xh = this.tzSystem.xh;
-            this.disabledSet = !!!this.tzSystem.started;
+            this.disabledSet = !this.tzSystem.started;
           }
         }).catch(err => {
 
@@ -277,16 +278,17 @@
           e.tableNo = e.tableCode.join(',');
         });
         //
+        //
         let data = {
           "fh": this.formInline.fh,
           "list": this.tzListData,
-          "started": !!!this.disabledSet,
+          "started": !this.disabledSet,
           "tzxt": tzxt,
           "xh": this.formInline.xh
         };
         this.$api.tzSystemStarted(data).then((res) => {
           if (res.returnCode == 200) {
-              this.getTzSystemInfo(1);
+            this.getTzSystemInfo(1);
           }
         }).catch(() => {
 

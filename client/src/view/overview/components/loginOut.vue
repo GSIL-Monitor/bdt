@@ -3,20 +3,22 @@
     <template slot="title">
       <div class="header-box">
         <div class="col">账号登录情况</div>
-        <!--<div class="col" style="text-align: right;flex: inherit">-->
-          <!--<Button type="primary" ghost size="small" @click="addModal = true">新建账户</Button>-->
-        <!--</div>-->
+        <div class="col" style="text-align: right;flex: inherit">
+          <Button type="primary" ghost size="small" @click="addModal = true">新建账户</Button>
+        </div>
       </div>
     </template>
-    <Card :key="i" v-for="(item, i) in isLoginOverviewData">
-      <template slot="title">
-        <div class="header-box" style="font-size: 16px">
+    <div class="" style="position: relative">
+      <Card v-for="(item, index) in isLoginOverviewData" :key="index" style="margin-bottom: 15px">
+        <div slot="title" class="header-box" style="font-size: 16px">
           <div class="col" style="font-weight: bold;">{{item.name}}</div>
-          <div class="col" v-if="item.loginStatus">
-            <Button type="primary" ghost size="small">{{'登陆'}}</Button>
-          </div>
-          <div class="col" v-else>
-            <Button type="error" ghost size="small">{{'未登录'}}</Button>
+          <div class="col">
+            <Button v-if="item.loginStatus" type="primary"
+                    ghost size="small">{{'登陆中'}}
+            </Button>
+            <Button @click="loginStatusLook(index, true)" v-else type="error" ghost size="small">
+              {{'未登录'}}
+            </Button>
           </div>
           <div class="col" style="text-align: right;flex: inherit">
             <Button type="primary" size="small">编辑</Button>
@@ -25,40 +27,43 @@
         <!--<div class="header-box" style="height: 20px"><span class="col">{{item.ipRegion}}/{{item.ipAddress}}</span>-->
         <div class="header-box" style="height: 20px"><span class="col">账号：{{item.account}}</span>
         </div>
-      </template>
-      <div class="header-box">
-        <div class="col">有效金额：{{item.effectiveAmount}}</div>
+        <div class="header-box">
+          <div class="col">有效金额：{{item.effectiveAmount}}</div>
+        </div>
         <div class="col" style="text-align: right"><a href="">查看统计</a></div>
+      </Card>
+      <!---->
+      <div>
+        <Modal title="Title" v-model="addModal" class-name="vertical-center-modal">
+          <p slot="header" style="text-align:center">
+            <Icon type="ios-information-circle"></Icon>
+            <span>添加账户</span>
+          </p>
+          <div style="text-align:center">
+            <Form ref="loginForm" :model="formRight" :rules="rules" label-position="right"
+                  :label-width="100">
+              <FormItem prop="account" label="账号名">
+                <Input v-model="formRight.account"></Input>
+              </FormItem>
+              <FormItem prop="password" label="登陆密码">
+                <Input v-model="formRight.password"></Input>
+              </FormItem>
+              <FormItem label="是否登陆">
+                <Select disabled v-model="formRight.loginStatus">
+                  <Option value="true">true</Option>
+                  <Option value="false">false</Option>
+                </Select>
+              </FormItem>
+            </Form>
+          </div>
+          <div slot="footer">
+            <Button type="primary" size="large" long :loading="modal_loading" @click="addUser">添加账户
+            </Button>
+          </div>
+        </Modal>
       </div>
-    </Card>
-    <!--//-->
-    <Modal title="Title" v-model="addModal" class-name="vertical-center-modal">
-      <p slot="header" style="text-align:center">
-        <Icon type="ios-information-circle"></Icon>
-        <span>添加账户</span>
-      </p>
-      <div style="text-align:center">
-        <Form ref="loginForm" :model="formRight" :rules="rules" label-position="right"
-              :label-width="100">
-          <FormItem prop="account" label="账号名">
-            <Input v-model="formRight.account"></Input>
-          </FormItem>
-          <FormItem prop="password" label="登陆密码">
-            <Input v-model="formRight.password"></Input>
-          </FormItem>
-          <FormItem label="是否登陆">
-            <Select disabled v-model="formRight.loginStatus">
-              <Option value="true">true</Option>
-              <Option value="false">false</Option>
-            </Select>
-          </FormItem>
-        </Form>
-      </div>
-      <div slot="footer">
-        <Button type="primary" size="large" long :loading="modal_loading" @click="addUser">添加账户
-        </Button>
-      </div>
-    </Modal>
+      <!---->
+    </div>
   </Card>
 </template>
 
@@ -101,32 +106,51 @@
       }
     },
     created() {
-      this.getUserByAdmin();
+    },
+    beforeDestroy() {
+      // clearInterval(window.isInvgetUserByAdmin)
     },
     mounted() {
-      this.isInv = setInterval(_ => {
-        // this.getUserByAdmin();
-      }, 5000)
+      this.getUserByAdmin();
+      /* window.isInvgetUserByAdmin = setInterval(_ => {
+         this.getUserByAdmin();
+       }, 5000) */
     },
     methods: {
+      loginStatusLook(index, type) {
+        let params = Object.assign({}, this.isLoginOverviewData[index], {loginStatus: type});
+        this.$api.editUserAccount(params).then((res) => {
+          if (res.returnCode == 200) {
+            this.getUserByAdmin();
+          }
+        }).catch((err) => {
+
+        })
+      },
       addUser() {
         this.$refs.loginForm.validate(valid => {
           console.log(valid);
           if (valid) {
             let params = Object.assign({}, this.formRight);
             this.$api.addUserAccount(params).then(res => {
-
+              if (res.returnCode == 200) {
+                this.$Message.info(res.returnMsg);
+                this.addModal = false;
+              } else if (res.returnCode == -2) {
+                this.$Message.info(res.returnMsg);
+              }
             })
           }
         })
       },
       getUserByAdmin() {
         let params = {adminId: this.$cookie.get('token')};
-        this.$api.getUserByAdmin(params).then(res => {
+        this.$api.getUserByAdmin(params).then((res) => {
           if (res.returnCode == 200) {
             this.isLoginOverviewData = res.returnObject;
+            console.log('1111=>', this.isLoginOverviewData);
           }
-        }).catch(err => {
+        }).catch((err) => {
 
         })
       }
