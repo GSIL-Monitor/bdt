@@ -56,8 +56,8 @@
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select id, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type
-    from user_account AND is_delete = 0
-    where id = #{id,jdbcType=VARCHAR}
+    from user_account
+    where id = #{id,jdbcType=VARCHAR} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, name, account, ip_address, effective_amount, is_delete, type
