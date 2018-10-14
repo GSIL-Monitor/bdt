@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -245,4 +246,13 @@ public interface TableDataService {
      * @return
      */
     int updateTzztList(List<ResultData> list);
+
+    List<StatusData> selectStatusAll();
+
+    String getCardTable(int tableNo, int battleNo, int fitNo);
+
+    BigDecimal getTotalYxje(Date createTime,Integer tzxt,String tzzh);
+    BigDecimal getTotalYssy(Date createTime,Integer tzxt,String tzzh);
+    BigDecimal getTotalSjsy(Date createTime,Integer tzxt,String tzzh);
+
 }

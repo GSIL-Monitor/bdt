@@ -198,16 +198,8 @@ public class BJLDataService {
     public void step3(int tableNo, int fitNo) {
         //取表中的第1条记录中的“账号、投注方向、投注金额”进行投注
         DopeData dopeData = tableDataService.getFirstDopeByTableNoAndTzSystem(tableNo, 1);
-        for (int i = 0; i < 3; i++) {
-            boolean tzResult = false;
-            //进行投注
-            tzResult = true;
-            if (tzResult) {
-                addResultAndDeleteDopeCommit(dopeData, true);
-                break;
-            } else if (i == 2) {
-                addResultAndDeleteDopeCommit(dopeData, false);
-            }
+        if (dopeData != null) {
+            addResultAndDeleteDopeCommit(dopeData);
         }
     }
 
@@ -217,7 +209,7 @@ public class BJLDataService {
      * @param dopeData
      */
     @Transactional
-    public void addResultAndDeleteDopeCommit(DopeData dopeData, boolean tzzt) {
+    public void addResultAndDeleteDopeCommit(DopeData dopeData) {
         //如果投注成功，添加至投注结果表
         ResultData resultData = new ResultData();
         resultData.setCreateTime(dopeData.getCreateTime());
@@ -228,7 +220,7 @@ public class BJLDataService {
         resultData.setTzxt(dopeData.getTzxt());
         resultData.setTzzh(dopeData.getTzzh());
         resultData.setTzje(dopeData.getTzje().toString());
-        resultData.setTzzt(tzzt);
+        resultData.setTzzt(null);
         tableDataService.addResultData(resultData);
         //并删除该记录
         tableDataService.deleteDopeDataById(dopeData.getId());
@@ -325,17 +317,7 @@ public class BJLDataService {
         //按账号顺序取《TZ2同桌号下单表》中的第1条记录中的“账号、投注方向、投注金额”进行投注。
         DopeData dopeData = tableDataService.getFirstDopeByTableNoAndTzSystemOrderByAccount(tableNo, 2);
         if (dopeData != null) {
-            for (int i = 0; i < 3; i++) {
-                boolean tzResult = false;
-                //进行投注
-                tzResult = true;
-                if (tzResult) {
-                    addResultAndDeleteDopeCommit(dopeData, true);
-                    break;
-                } else if (i == 2) {
-                    addResultAndDeleteDopeCommit(dopeData, false);
-                }
-            }
+            addResultAndDeleteDopeCommit(dopeData);
         }
     }
 

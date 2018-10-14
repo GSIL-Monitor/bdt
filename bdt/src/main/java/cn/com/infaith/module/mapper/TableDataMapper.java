@@ -30,4 +30,6 @@ public interface TableDataMapper {
                              @Param("card") String card);
 
     int getCountFirstFitByTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo);
+
+    String getCardTable(@Param("tableNo") int tableNo,@Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
 }

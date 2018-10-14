@@ -11,6 +11,8 @@ public class StatusData {
 
     private Integer status;
 
+    private String result;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class StatusData {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }

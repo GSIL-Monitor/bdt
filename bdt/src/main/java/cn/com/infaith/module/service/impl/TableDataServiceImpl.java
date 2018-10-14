@@ -192,6 +192,7 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public JSONObject searchResultData(Long createTime, Integer tzxt, String tzzh, Integer pageNum, Integer pageSize) {
 
+        JSONObject json = new JSONObject();
         Date createDate;
         if (createTime == null || createTime == 0) {
             createDate = null;
@@ -200,7 +201,14 @@ public class TableDataServiceImpl implements TableDataService {
         }
         Page<ResultData> page = PageHelper.startPage(pageNum, pageSize, true);
         List<ResultData> list = resultDataMapper.searchResultData(createDate, tzxt, tzzh);
-        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",list,pageNum,pageSize,page.getTotal());
+        BigDecimal yxje = resultDataMapper.getAllYxje(createDate, tzxt, tzzh);
+        BigDecimal sjsy = resultDataMapper.getAllSjsy(createDate, tzxt, tzzh);
+        BigDecimal yssy = resultDataMapper.getAllYssy(createDate, tzxt, tzzh);
+        json.put("list", list);
+        json.put("yxje", yxje);
+        json.put("sjsy", sjsy);
+        json.put("yssy", yssy);
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",json,pageNum,pageSize,page.getTotal());
     }
 
     @Override
@@ -320,6 +328,31 @@ public class TableDataServiceImpl implements TableDataService {
             return 1;
         }
         return 0;
+    }
+
+    @Override
+    public List<StatusData> selectStatusAll() {
+        return statusDataMapper.selectAll();
+    }
+
+    @Override
+    public String getCardTable(int tableNo, int battleNo, int fitNo) {
+        return tableDataMapper.getCardTable(tableNo, battleNo, fitNo);
+    }
+
+    @Override
+    public BigDecimal getTotalYxje(Date createTime, Integer tzxt, String tzzh) {
+        return resultDataMapper.getAllYxje(createTime, tzxt, tzzh);
+    }
+
+    @Override
+    public BigDecimal getTotalYssy(Date createTime, Integer tzxt, String tzzh) {
+        return resultDataMapper.getAllYssy(createTime, tzxt, tzzh);
+    }
+
+    @Override
+    public BigDecimal getTotalSjsy(Date createTime, Integer tzxt, String tzzh) {
+        return resultDataMapper.getAllSjsy(createTime, tzxt, tzzh);
     }
 
 

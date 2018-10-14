@@ -3,6 +3,7 @@ package cn.com.infaith.module.mapper;
 import cn.com.infaith.module.model.ResultData;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,4 +25,8 @@ public interface ResultDataMapper {
     List<ResultData> getNeedTzDataList(@Param("tableNo") Integer tableNo);
 
     int updateTzzt(ResultData record);
+
+    BigDecimal getAllYxje(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh);
+    BigDecimal getAllYssy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh);
+    BigDecimal getAllSjsy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh);
 }

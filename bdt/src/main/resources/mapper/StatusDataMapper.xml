@@ -44,7 +44,7 @@
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, table_no, battle_no, fit_no, status
-    from status_data AND is_delete = 0
+    from status_data WHERE is_delete = 0 ORDER BY table_no
   </select>
 
   <select id="getStatusByTableNo" resultMap="BaseResultMap" parameterType="int">

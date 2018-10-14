@@ -32,27 +32,28 @@ public class BJLTableController {
     @ApiOperation(value = "读取百家乐桌面信息", notes = "读取百家乐桌面信息", httpMethod = "POST")
     @PostMapping("/addTableData")
     public JSONObject addTableData(@ModelAttribute TableData tableData) {
-
-        BdtSystem bdtSystem = tableDataService.getBdtSystem();
-        if (!bdtSystem.getStarted()) {
-            return ResponseJsonUtil.getResponseJson(-1,"系统暂未启动",null);
-        }
-        if (!tableData.getFitNo().equals(1)) {
-            int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo());
-            if (count == 0) {
-                return ResponseJsonUtil.getResponseJson(-1, "未获取到当前桌当前局的第一副牌信息", null);
+        synchronized (this) {
+            BdtSystem bdtSystem = tableDataService.getBdtSystem();
+            if (!bdtSystem.getStarted()) {
+                return ResponseJsonUtil.getResponseJson(-1, "系统暂未启动", null);
             }
+            if (!tableData.getFitNo().equals(1)) {
+                int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo());
+                if (count == 0) {
+                    return ResponseJsonUtil.getResponseJson(-1, "未获取到当前桌当前局的第一副牌信息", null);
+                }
+            }
+            if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
+                return ResponseJsonUtil.getResponseJson(-1, "未获取开牌结果", null);
+            }
+            try {
+                bjlDataService.JudgeState(tableData);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseJsonUtil.getResponseJson(500, "fail", e.getMessage());
+            }
+            return ResponseJsonUtil.getResponseJson(200, "success", 1);
         }
-        if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
-            return ResponseJsonUtil.getResponseJson(-1,"未获取开牌结果",null);
-        }
-        try {
-            bjlDataService.JudgeState(tableData);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseJsonUtil.getResponseJson(500, "fail", e.getMessage());
-        }
-        return ResponseJsonUtil.getResponseJson(200, "success", 1);
     }
 //
 //    @ApiOperation(value = "披露添加百家乐桌面信息", notes = "披露添加百家乐桌面信息", httpMethod = "POST")
@@ -80,7 +81,22 @@ public class BJLTableController {
     @GetMapping("/getTableInfo")
     public JSONObject getTableInfo() {
 
-        List<TableData> list = tableDataService.getTableInfo();
+        List<StatusData> list = tableDataService.selectStatusAll();
+        TzSystem tzSystem1 = tableDataService.getTzSystemInfo(1);
+        TzSystem tzSystem2 = tableDataService.getTzSystemInfo(2);
+        String tz = "TZ1(" + (tzSystem1.getStarted()?"开启":"关闭") + ")" + " " + "TZ2(" + (tzSystem2.getStarted()?"开启":"关闭") + ")";
+        if (CollectionUtils.isNotEmpty(list)) {
+            list.stream().forEach(statusData -> {
+                if (statusData.getStatus().equals(TableStatusEnum.NEW.getIndex())) {
+                    statusData.setResult("无");
+                } else if (statusData.getStatus().equals(TableStatusEnum.TZ.getIndex())) {
+                    statusData.setResult(tz);
+                } else {
+                    String card = tableDataService.getCardTable(statusData.getTableNo(), statusData.getBattleNo(), statusData.getFitNo());
+                    statusData.setResult(StringUtils.isBlank(card) ? "" : card);
+                }
+            });
+        }
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
     }
 
@@ -181,6 +197,12 @@ public class BJLTableController {
     public JSONObject getBdtSystemInfo() {
 
         BdtSystem bdtSystem = tableDataService.getBdtSystem();
+        BigDecimal yxje = tableDataService.getTotalYxje(null,null,null);
+        BigDecimal yssy = tableDataService.getTotalYssy(null,null,null);
+        BigDecimal sjsy = tableDataService.getTotalSjsy(null,null,null);
+        bdtSystem.setYxje(yxje);
+        bdtSystem.setYsje(yssy);
+        bdtSystem.setSjje(sjsy);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", bdtSystem);
     }
 
