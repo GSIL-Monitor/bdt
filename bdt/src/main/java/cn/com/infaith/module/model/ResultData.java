@@ -32,6 +32,10 @@ public class ResultData {
 
     private BigDecimal sjsy;
 
+    private String account;
+
+    private String name;
+
     public Integer getId() {
         return id;
     }
@@ -142,5 +146,21 @@ public class ResultData {
 
     public void setSjsy(BigDecimal sjsy) {
         this.sjsy = sjsy;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

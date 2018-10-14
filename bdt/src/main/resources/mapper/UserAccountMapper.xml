@@ -72,6 +72,6 @@
   </select>
 
   <select id="selectCountByAccount" resultType="int" parameterType="String">
-    SELECT count(1) FROM user_account WHERE account = #{account}
+    SELECT count(1) FROM user_account WHERE account = #{account} WHERE is_delete = 0
   </select>
 </mapper>
