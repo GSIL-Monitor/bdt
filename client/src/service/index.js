@@ -47,5 +47,13 @@ export default {
   getLJInfo(params = {}) {
     //
     return Axios({method: 'get', url: HOST + 'bjlTable/getLJInfo', params: params})
+  },
+  searchDopeData(params = {}) {
+    //
+    return Axios({method: 'get', url: HOST + 'bjlTable/searchDopeData', params: params})
+  },
+  searchTableData(params = {}) {
+    //
+    return Axios({method: 'get', url: HOST + 'bjlTable/searchTableData', params: params})
   }
 }

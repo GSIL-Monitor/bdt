@@ -67,7 +67,7 @@
             this.rowsData = res.returnObject;
             this.rowsData.forEach((e) => {
               e.setStatus = this.status[e.status]
-              e.setResult = this.wads[e.result]
+              e.setResult =e.result
             })
           }
         }).catch((err) => {

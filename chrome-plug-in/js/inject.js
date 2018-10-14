@@ -184,9 +184,9 @@ function chrome_login() {
 var callback = function (mutationsList) {
     for (var mutation of mutationsList) {
         //过滤无用变更（庄和数字显示）
-        if ('i6ChJ _2T18P' === mutation.oldValue || 'i6ChJ' === mutation.oldValue) {
-            return;
-        }
+        // if('i6ChJ _2T18P' === mutation.oldValue || 'i6ChJ' === mutation.oldValue){
+        //     continue;
+        // }
 
         var classData = mutation.target.className;
         var previousVal = mutation.oldValue;
@@ -194,18 +194,20 @@ var callback = function (mutationsList) {
 
         //过滤10秒倒计时监听
         if ('eVjHq _1uWsG' === classData) {
-            return;
+            continue;
         }
 
         //过滤投注时的节点变化
         if ((classData && classData.indexOf('_2EW6q') != -1) || (previousVal && previousVal.indexOf('_2EW6q') != -1)) {
-            return;
+            continue;
         }
 
         //过滤倒计时
         if (2 == $(mutation.target).text().length) {
-            return;
+            continue;
         }
+
+
         // 0"洗牌中";
         // 1"开始投注";
         // 2"停止投注";
@@ -222,11 +224,10 @@ var callback = function (mutationsList) {
         }
 
         if (-1 == state) {
-            return;
+            continue;
         }
 
         // if(-1 == state){
-        //     console.log(" ");
         //     console.log("=====================");
         //     console.log('Mutation type: ' + mutation.type);
         //     console.log('Mutation target: ');
@@ -297,6 +298,7 @@ function selectedYuan(yuan) {
     // //
     // $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').find('._1a9j-._1m_7V').click(); // 确认下注
 }
+
 function getNeedTzDataList() {
     window.getNeedTzDataListSetInv = setInterval(() => {
         $.ajax({
