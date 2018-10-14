@@ -45,9 +45,22 @@
               <FormItem prop="account" label="账号名">
                 <Input v-model="formRight.account"></Input>
               </FormItem>
-              <FormItem prop="password" label="登陆密码">
-                <Input v-model="formRight.password"></Input>
+              <FormItem label="登陆密码">
+                <Input disabled v-model="formRight.password"></Input>
               </FormItem>
+              <!---->
+              <FormItem label="公网IP地址">
+                <Input v-model="formRight.ipAddressPublic"></Input>
+              </FormItem>
+              <FormItem label="内网IP地址">
+                <Input v-model="formRight.ipAddress"></Input>
+              </FormItem>
+              <FormItem label="区域">
+                <Select v-model="formRight.ipRegion">
+                  <Option :key="i" v-for="i in ipRegionOption" :value="i">{{i}}</Option>
+                </Select>
+              </FormItem>
+              <!---->
               <FormItem label="是否登陆">
                 <Select disabled v-model="formRight.loginStatus">
                   <Option value="true">true</Option>
@@ -78,7 +91,11 @@
               <FormItem label="登陆密码">
                 <Input disabled v-model="formEdit.password"></Input>
               </FormItem>
-              <FormItem label="IP地址">
+              <!---->
+              <FormItem label="公网IP地址">
+                <Input v-model="formEdit.ipAddressPublic"></Input>
+              </FormItem>
+              <FormItem label="内网IP地址">
                 <Input v-model="formEdit.ipAddress"></Input>
               </FormItem>
               <FormItem label="金额">
@@ -111,27 +128,30 @@
     name: "loginOut",
     data() {
       return {
+        ipRegionOption: ['香港', '北京', '上海', '广州'],
         isLoginOverviewData: [],
         addModal: false,
         editModal: false,
         modal_loading: false,
         formRight: {
           id: '',
-          name: '百家乐01',
+          name: '',
           account: '',
           password: '',
           ipAddress: '',
           loginStatus: 'true',
-          effectiveAmount: ''
+          effectiveAmount: '',
+          ipAddressPublic: ''
         },
         formEdit: {
           id: '',
-          name: '百家乐01',
+          name: '',
           account: '',
           password: '',
           ipAddress: '',
           loginStatus: 'true',
-          effectiveAmount: ''
+          effectiveAmount: '',
+          ipAddressPublic: ''
         }
       }
     },
@@ -212,11 +232,13 @@
         this.$refs.loginForm.validate(valid => {
           console.log(valid);
           if (valid) {
+            this.formRight.name = this.formRight.account;
             let params = Object.assign({}, this.formRight);
             this.$api.addUserAccount(params).then(res => {
               if (res.returnCode == 200) {
                 this.$Message.info(res.returnMsg);
                 this.addModal = false;
+                this.getUserByAdmin();
               } else if (res.returnCode == -2) {
                 this.$Message.info(res.returnMsg);
               }

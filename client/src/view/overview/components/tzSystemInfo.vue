@@ -60,25 +60,18 @@
             </div>
           </td>
           <td class="name">
-            <div class="row">
-              {{item.account}}
-              <!--<Select :key="index" v-model="item.account" clearable style="width:100%">-->
-              <!--<Option v-for="op in cityList" :value="op.value" :key="op.value">-->
-              <!--{{op.label }}-->
-              <!--</Option>-->
-              <!--</Select>-->
-            </div>
+            <div class="row">{{item.account}}</div>
           </td>
           <td>
             <div class="row">
-              <Select :key="index+Math.random()" v-model="item.tzje" style="width:100%">
+              <Select :key="index+'tzje'" v-model="item.tzje" style="width:100%">
                 <Option v-for="opt in tabJinE" :value="opt" :key="opt">{{opt}}</Option>
               </Select>
             </div>
           </td>
           <td class="time">
             <div class="row">
-              <Select :key="index+Math.random()" v-model="item.time" multiple clearable
+              <Select :key="index+'time'" v-model="item.time" multiple clearable
                       style="width:100%">
                 <Option v-for="opt in timelineDataFun" :disabled="opt.disabled" :value="opt.value"
                         :key="opt.value">{{opt.name }}
@@ -195,17 +188,9 @@
       }
     },
     created() {
-      let obj = {
-        name: '',
-        time: '',
-        jine: '',
-        tab: '1'
-      }
-      for (let i = 0; i < 20; i++) {
-        this.tableData.push(obj);
-      }
       this.getTzSystemInfo(1);
     },
+
     methods: {
       setCheckBoxAll() {
         setTimeout(() => {
@@ -256,10 +241,25 @@
           if (res.returnCode == 200) {
             this.tzListData = res.returnObject.list;
             this.tzListData.forEach((e) => {
+              if (e.tzsjSection1 == null) {
+                e.tzsjSection1 = '';
+              }
+              if (e.tzsjSection2 == null) {
+                e.tzsjSection2 = '';
+              }
+              if (e.tableNo == null) {
+                e.tableNo = '';
+              }
+              if (e.tzje == null) {
+                e.tzje = '50';
+              }
+              if (e.hasCheck == null) {
+                e.hasCheck = false;
+              }
               e.time = e.tzsjSection1.split(',');
               e.tableCode = e.tableNo.split(',');
-              console.log(e);
             });
+            console.log('12312312==>', this.tzListData);
             this.setCheckBoxAll();
             this.tzSystem = res.returnObject.tzSystem;
             this.formInline.fh = this.tzSystem.fh;

@@ -3,7 +3,7 @@
     <div slot="title">
       <div>
         <Row :gutter="0" type="flex" align="middle">
-          <i-col span="5"><span style="font-size: 16px;font-weight: bold">投注子系统TZ1</span>
+          <i-col span="5"><span style="font-size: 16px;font-weight: bold">投注子系统TZ2</span>
           </i-col>
           <i-col span="19" style="text-align: right">
             <span>状态：{{!disabledSet?'正常':'停止'}}运行</span>&ensp;
@@ -38,14 +38,17 @@
               &emsp;<Checkbox @on-change="checkBoxAllChange" v-model="checkBoxAll">全选</Checkbox>
             </div>
           </th>
-          <th width="10%" align="left">
+          <th width="8%" align="left">
             <div class="row">账号</div>
           </th>
           <th width="10%">
             <div class="row">投注金额</div>
           </th>
-          <th width="55%" align="center">
-            <div class="row">投注时间限制</div>
+          <th width="40%" align="center">
+            <div class="row">投注时间限制1</div>
+          </th>
+          <th width="17%" align="center">
+            <div class="row">投注时间限制2</div>
           </th>
           <th width="15%">
             <div class="row">投注桌号</div>
@@ -62,11 +65,6 @@
           <td class="name">
             <div class="row">
               {{item.account}}
-              <!--<Select :key="index" v-model="item.account" clearable style="width:100%">-->
-              <!--<Option v-for="op in cityList" :value="op.value" :key="op.value">-->
-              <!--{{op.label }}-->
-              <!--</Option>-->
-              <!--</Select>-->
             </div>
           </td>
           <td>
@@ -81,6 +79,16 @@
               <Select :key="index+Math.random()" v-model="item.time" multiple clearable
                       style="width:100%">
                 <Option v-for="opt in timelineDataFun" :disabled="opt.disabled" :value="opt.value"
+                        :key="opt.value">{{opt.name }}
+                </Option>
+              </Select>
+            </div>
+          </td>
+          <td class="time2">
+            <div class="row">
+              <Select :key="index+Math.random()" v-model="item.time2" multiple clearable
+                      style="width:100%">
+                <Option v-for="opt in tz2Option" :disabled="opt.disabled" :value="opt.value"
                         :key="opt.value">{{opt.name }}
                 </Option>
               </Select>
@@ -106,10 +114,16 @@
 </template>
 
 <script>
+  const startTZXT = 2;
   export default {
     name: "tzSystemInfo",
     data() {
       return {
+        tz2Option: [
+          {name: '00-20', value: '00-20'},
+          {name: '20-40', value: '20-40'},
+          {name: '40-60', value: '40-60'}
+        ],
         disabledSet: true,
         tabJinE: [50, 100, 200, 500, 1000],
         tablineData: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
@@ -195,16 +209,7 @@
       }
     },
     created() {
-      let obj = {
-        name: '',
-        time: '',
-        jine: '',
-        tab: '1'
-      }
-      for (let i = 0; i < 20; i++) {
-        this.tableData.push(obj);
-      }
-      this.getTzSystemInfo(1);
+      this.getTzSystemInfo(startTZXT);
     },
     methods: {
       setCheckBoxAll() {
@@ -219,35 +224,42 @@
           console.log(setBox);
         })
       },
+      //
       dataClick(index) {
         //
         this.setCheckBoxAll();
         //
         console.log(this.tzListData[index]);
       },
+      //
       tableCodeChange(val) {
         if (val.length > 6) {
-          this.$Message.info({
-            content: '最多选择6桌',
-            duration: 10,
-            closable: true
-          });
+          this.tzListData.forEach((e) => {
+            if (e.tableCode.length >= 7) {
+              e.tableCode = e.tableCode.pop();
+            }
+          })
+          this.$Message.info({content: '最多选择6桌', duration: 10, closable: true});
         }
         console.log(val);
       },
+      //
       checkBoxChange(val) {
         console.log(val);
       },
+      //
       checkBoxAllChange(val) {
         console.log(val);
         this.tzListData.forEach((e) => {
           e.hasCheck = val;
         })
       },
+      //
       startApp(start) {
         this.disabledSet = !start;
-        this.tzSystemStarted(1);
+        this.tzSystemStarted(2);
       },
+      //
       getTzSystemInfo(type) {
         let params = {tzxt: type}
         this.$api.getTzSystemInfo(params).then(res => {
@@ -255,7 +267,23 @@
           if (res.returnCode == 200) {
             this.tzListData = res.returnObject.list;
             this.tzListData.forEach((e) => {
+              if (e.tzsjSection1 == null) {
+                e.tzsjSection1 = '';
+              }
+              if (e.tzsjSection2 == null) {
+                e.tzsjSection2 = '';
+              }
+              if (e.tableNo == null) {
+                e.tableNo = '';
+              }
+              if (e.tzje == null) {
+                e.tzje = '50';
+              }
+              if (e.hasCheck == null) {
+                e.hasCheck = false;
+              }
               e.time = e.tzsjSection1.split(',');
+              e.time2 = e.tzsjSection2.split(',');
               e.tableCode = e.tableNo.split(',');
               console.log(e);
             });
@@ -263,7 +291,7 @@
             this.tzSystem = res.returnObject.tzSystem;
             this.formInline.fh = this.tzSystem.fh;
             this.formInline.xh = this.tzSystem.xh;
-            this.disabledSet = !!!this.tzSystem.started;
+            this.disabledSet = !this.tzSystem.started;
           }
         }).catch(err => {
 
@@ -274,19 +302,21 @@
         //
         this.tzListData.forEach((e) => {
           e.tzsjSection1 = e.time.join(',');
+          e.tzsjSection2 = e.time2.join(',');
           e.tableNo = e.tableCode.join(',');
         });
+        //
         //
         let data = {
           "fh": this.formInline.fh,
           "list": this.tzListData,
-          "started": !!!this.disabledSet,
+          "started": !this.disabledSet,
           "tzxt": tzxt,
           "xh": this.formInline.xh
         };
         this.$api.tzSystemStarted(data).then((res) => {
           if (res.returnCode == 200) {
-            this.getTzSystemInfo(1);
+            this.getTzSystemInfo(startTZXT);
           }
         }).catch(() => {
 

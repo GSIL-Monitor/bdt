@@ -78,8 +78,8 @@ deskstatemap["3"] = "开牌";
 
 
 window.chrome_login_User_Obj = {
-    userName: 'nin23801',
-    password: 'aabb123123',
+    userName: 'nin23811',
+    password: 'UGKiI$fO',
 }
 //
 window.onload = function () {
