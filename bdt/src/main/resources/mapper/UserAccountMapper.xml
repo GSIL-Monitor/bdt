@@ -8,6 +8,7 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="ip_region" jdbcType="VARCHAR" property="ipRegion" />
     <result column="ip_address" jdbcType="VARCHAR" property="ipAddress" />
+    <result column="ip_address_public" jdbcType="VARCHAR" property="ipAddressPublic" />
     <result column="effective_amount" jdbcType="DECIMAL" property="effectiveAmount" />
     <result column="login_status" jdbcType="TINYINT" property="loginStatus" />
     <result column="type" jdbcType="TINYINT" property="type" />
@@ -18,10 +19,11 @@
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.UserAccount">
     insert into user_account (id, name, account, type,
-      password, ip_region, ip_address, effective_amount, login_status,
+      password, ip_region, ip_address, ip_address_public, effective_amount, login_status,
       is_delete)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{type},
-      #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{effectiveAmount,jdbcType=DECIMAL},
+      #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{ipAddressPublic},
+       #{effectiveAmount,jdbcType=DECIMAL},
       0,0)
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.UserAccount">
@@ -43,6 +45,9 @@
     <if test="ipAddress != null and ipAddress != ''">
       ,ip_address = #{ipAddress,jdbcType=VARCHAR}
     </if>
+    <if test="ipAddressPublic != null and ipAddressPublic != ''">
+      ,ip_address_public = #{ipAddressPublic,jdbcType=VARCHAR}
+    </if>
     <if test="effectiveAmount != null">
       ,effective_amount = #{effectiveAmount,jdbcType=DECIMAL}
     </if>
@@ -55,23 +60,23 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type
+    select id, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public
     from user_account
     where id = #{id,jdbcType=VARCHAR} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, account, ip_address, effective_amount, is_delete, type
+    select id, name, account, ip_address, effective_amount, is_delete, type, ip_address_public
     from user_account
   </select>
 
   <select id="selectByAccountAndPassWord" resultType="cn.com.infaith.module.model.UserAccount">
     select id, name, account, ip_region ipRegion, ip_address ipAddress, effective_amount effectiveAmount,
-    login_status loginStatus, is_delete isDelete, type
+    login_status loginStatus, is_delete isDelete, type, ip_address_public
     from user_account
     where account = #{account} AND password = #{password} AND is_delete = 0
   </select>
 
   <select id="selectCountByAccount" resultType="int" parameterType="String">
-    SELECT count(1) FROM user_account WHERE account = #{account} WHERE is_delete = 0
+    SELECT count(1) FROM user_account WHERE account = #{account} and is_delete = 0
   </select>
 </mapper>

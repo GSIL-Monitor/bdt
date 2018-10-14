@@ -1,7 +1,9 @@
 package cn.com.infaith.module.controller;
 
 import cn.com.infaith.module.model.AdminAccount;
+import cn.com.infaith.module.model.DopeManage;
 import cn.com.infaith.module.model.UserAccount;
+import cn.com.infaith.module.service.TableDataService;
 import cn.com.infaith.module.service.UserAccountService;
 import cn.com.infaith.module.util.ResponseJsonUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -20,6 +22,8 @@ public class UserController {
 
     @Autowired
     private UserAccountService userAccountService;
+    @Autowired
+    private TableDataService tableDataService;
 
     @ApiOperation(value = "登录百家乐账号", notes = "登录百家乐账号", httpMethod = "POST")
     @PostMapping("/loginUserAccount")
@@ -52,14 +56,22 @@ public class UserController {
     @PostMapping("/addUserAccount")
     public JSONObject addUserAccount(@ModelAttribute UserAccount userAccount) {
 
-        Boolean result = userAccountService.addUserAccount(userAccount);
-        if (result == null) {
-            return ResponseJsonUtil.getResponseJson(-2, "已存在", userAccount);
+        String userId = userAccountService.addUserAccount(userAccount);
+        if (userId == null) {
+            return ResponseJsonUtil.getResponseJson(-1, "fail", userAccount);
         }
-        if (result) {
+        if (!userId.equals("")) {
+            DopeManage dopeManage = new DopeManage();
+            dopeManage.setTzzh(userId);
+            dopeManage.setTzxt(1);
+            tableDataService.insertDopeManage(dopeManage);
+            DopeManage dopeManage2 = new DopeManage();
+            dopeManage2.setTzzh(userId);
+            dopeManage2.setTzxt(2);
+            tableDataService.insertDopeManage(dopeManage2);
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", userAccount);
         }
-        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+        return ResponseJsonUtil.getResponseJson(-2, "账号已存在", null);
     }
 
     @ApiOperation(value = "删除百家乐账号", notes = "删除百家乐账号", httpMethod = "DELETE")

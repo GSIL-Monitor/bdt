@@ -29,15 +29,20 @@ public class UserAccountServiceImpl implements UserAccountService {
     private AdminManageUserMapper adminManageUserMapper;
 
     @Override
-    public Boolean addUserAccount(UserAccount userAccount) {
+    public String addUserAccount(UserAccount userAccount) {
 
         int count = userAccountMapper.selectCountByAccount(userAccount.getAccount());
         if (count > 0) {
-            return null;
+            return "";
         }
-        userAccount.setId(PublicUtil.getUUID());
+        String id = PublicUtil.getUUID();
+        userAccount.setId(id);
         userAccount.setPassword(MD5Util.encrypt(userAccount.getPassword()));
-        return userAccountMapper.insert(userAccount) > 0 ? true : false;
+        int result = userAccountMapper.insert(userAccount);
+        if (result > 0) {
+            return id;
+        }
+        return null;
     }
 
     @Override

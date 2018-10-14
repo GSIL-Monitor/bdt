@@ -15,6 +15,8 @@ public class UserAccount {
 
     private String ipAddress;
 
+    private String ipAddressPublic;
+
     private BigDecimal effectiveAmount;
 
     private Boolean loginStatus;
@@ -101,5 +103,13 @@ public class UserAccount {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getIpAddressPublic() {
+        return ipAddressPublic;
+    }
+
+    public void setIpAddressPublic(String ipAddressPublic) {
+        this.ipAddressPublic = ipAddressPublic;
     }
 }

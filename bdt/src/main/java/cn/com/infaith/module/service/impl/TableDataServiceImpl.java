@@ -355,5 +355,10 @@ public class TableDataServiceImpl implements TableDataService {
         return resultDataMapper.getAllSjsy(createTime, tzxt, tzzh);
     }
 
+    @Override
+    public int insertDopeManage(DopeManage dopeManage) {
+        return dopeManageMapper.insert(dopeManage);
+    }
+
 
 }

@@ -14,7 +14,7 @@ public interface UserAccountService {
      * @param userAccount
      * @return
      */
-    Boolean addUserAccount(UserAccount userAccount);
+    String addUserAccount(UserAccount userAccount);
 
     /**
      * 删除百家乐账号

@@ -255,4 +255,5 @@ public interface TableDataService {
     BigDecimal getTotalYssy(Date createTime,Integer tzxt,String tzzh);
     BigDecimal getTotalSjsy(Date createTime,Integer tzxt,String tzzh);
 
+    int insertDopeManage(DopeManage dopeManage);
 }
