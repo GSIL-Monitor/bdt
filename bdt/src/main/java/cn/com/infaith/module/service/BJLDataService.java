@@ -745,16 +745,22 @@ public class BJLDataService {
      * @return
      */
     private Boolean checkDopeInfo2(Date date, String tzsjSection2) {
+        boolean isTrue = false;
         SimpleDateFormat sf = new SimpleDateFormat("mm");
         Integer time = Integer.valueOf(sf.format(date));
-        String[] times = tzsjSection2.split("-");
-        Integer timeStart = Integer.valueOf(times[0]);
-        Integer timeEnd = Integer.valueOf(times[1]);
-        if (time >= timeStart && time <= timeEnd) {
-            return true;
-        } else {
-            return false;
+        String[] tzsj2 = tzsjSection2.split(",");
+        for (int i = 0; i < tzsj2.length; i++) {
+            String[] times = tzsj2[i].split("-");
+            Integer timeStart = Integer.valueOf(times[0]);
+            Integer timeEnd = Integer.valueOf(times[1]);
+            if (time >= timeStart && time <= timeEnd) {
+                isTrue = true;
+                return isTrue;
+            } else {
+                isTrue = false;
+            }
         }
+        return isTrue;
     }
 
 //    public static void main(String[] args) {
