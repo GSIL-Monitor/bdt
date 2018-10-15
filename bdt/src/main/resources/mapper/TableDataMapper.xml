@@ -147,6 +147,6 @@
   <select id="getCardTable" resultType="String">
     SELECT CONCAT(card,xian_card) FROM table_data
     WHERE is_delete = 0 AND table_no = #{tableNo}
-    AND battle_no = #{battleNo} AND fit_no = #{fitNo}
+    AND battle_no = #{battleNo} AND fit_no = #{fitNo} ORDER BY create_time DESC limit 1
   </select>
 </mapper>
