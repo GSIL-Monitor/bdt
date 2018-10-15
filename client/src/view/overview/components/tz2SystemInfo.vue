@@ -44,7 +44,7 @@
           <th width="10%">
             <div class="row">投注金额</div>
           </th>
-          <th width="40%" align="center">
+          <th width="30%" align="center">
             <div class="row">投注时间限制1</div>
           </th>
           <th width="17%" align="center">
@@ -52,6 +52,9 @@
           </th>
           <th width="15%">
             <div class="row">投注桌号</div>
+          </th>
+          <th width="15%">
+            <div class="row">投注方向</div>
           </th>
         </tr>
         </thead>
@@ -104,6 +107,15 @@
               </span>
             </div>
           </td>
+          <td align="center">
+            <div class="row">
+              <span>
+                <Select :key="index" v-model="item.tzfx" clearable style="width:100%">
+                  <Option v-for="opt in tzfx2Option" :value="opt.value" :key="opt.value">{{opt.name}}</Option>
+                </Select>
+              </span>
+            </div>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -119,6 +131,11 @@
     name: "tzSystemInfo",
     data() {
       return {
+        tzfx2Option: [
+          {name: '庄', value: '1'},
+          {name: '闲', value: '2'},
+          {name: '和', value: '3'},
+        ],
         tz2Option: [
           {name: '00-20', value: '00-20'},
           {name: '20-40', value: '20-40'},
@@ -274,6 +291,10 @@
               if (e.tzje == null) {
                 e.tzje = '50';
               }
+              if (e.tzfx == null) {
+                e.tzfx = '1';
+              }
+              e.tzfx = e.tzfx.toString()
               if (e.hasCheck == null) {
                 e.hasCheck = false;
               }

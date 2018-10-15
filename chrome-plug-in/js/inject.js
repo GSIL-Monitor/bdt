@@ -76,10 +76,24 @@ deskstatemap["1"] = "开始投注";
 deskstatemap["2"] = "停止投注";
 deskstatemap["3"] = "开牌";
 
+//
+function setUserId() {
+    console.log($('.inject-from #innerUserId').val());
+    window.localStorage.setItem('Chrome_Inner_User_Id', $('.inject-from #innerUserId').val());
+}
+
+function setUserName() {
+    // $('.inject-from #chrome_UserName').val()
+    // $('.inject-from #chrome_UserPass').val()
+    window.localStorage.setItem('chrome_UserName', $('.inject-from #chrome_UserName').val());
+    window.localStorage.setItem('chrome_UserPass', $('.inject-from #chrome_UserPass').val());
+}
 
 window.chrome_login_User_Obj = {
-    userName: 'nin23811',
-    password: 'aaabbb123',
+    // userName: 'nin23801',
+    // password: 'k8u3f4qd',
+    userName: window.localStorage.getItem('chrome_UserName'),
+    password: window.localStorage.getItem('chrome_UserPass')
 }
 //
 window.onload = function () {
@@ -125,6 +139,25 @@ function injectClose() {
     }
 }
 
+function editUserAccount() {
+    let obj = {
+        id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+        effectiveAmount: $('.FiO94._1oc5d').find('._3XN4m').text().replace(/,/g, '')
+    };
+    $.ajax({
+        type: 'post',
+        url: 'http://139.198.177.39:8080/bdt/account/editUserAccount?' + $.param(obj),
+        dataType: 'json',
+        //  数据必须转换为字符串
+        success: function (result) {
+            console.log(100);
+        },
+        error: function (XmlHttpRequest, textStatus, errorThrown) {
+
+        }
+    })
+}
+
 /*
 * https://www.11gma.com/api/user/wallet?sid=454e487f-8b6a-4d31-be0d-81d535ed6777&t=1539193085792 // 获取金额当前用户的
 *
@@ -163,15 +196,21 @@ function chrome_login() {
             el3.dispatchEvent(kv);
             console.log('123', el1, el2, el3)
             $("._3IDPG button").click();
+
             setTimeout(() => {
+
                 $('._3IR2e ._3MSiK').click();
-                getNeedTzDataList();
-                for (let i = 0; i < 5; i++) {
-                    setTimeout(() => {
-                        $('._1h40X ._2kLct').eq(1).click();
-                        startListen();
-                    }, 3000)
-                }
+                setTimeout(() => {
+                    $('.inject-from #innerUserId').val(window.localStorage.getItem('Chrome_Inner_User_Id'))
+                    $('.inject-from #chrome_UserName').val(window.localStorage.getItem('chrome_UserName'))
+                    $('.inject-from #chrome_UserPass').val(window.localStorage.getItem('chrome_UserPass'))
+                    var aa = setInterval(() => {
+                        editUserAccount();
+                    }, 2500)
+                    getNeedTzDataList();
+                    $('._1h40X ._2kLct').eq(1).click();
+                    startListen();
+                }, 6000)
             }, 3000)
         },
         error: function (XmlHttpRequest, textStatus, errorThrown) {
@@ -246,6 +285,7 @@ var callback = function (mutationsList) {
         var rtndata = analysisData(t, classData, state);
         console.log(rtndata.name1 + rtndata.name2 + '-' + rtndata.count1 + '-' + rtndata.count2 + 'state-' + state);
         console.log(JSON.stringify(rtndata));
+        $('._1h40X ._2kLct').eq(1).click();
         var wads = {
             '庄': '1',
             '闲': '2',
@@ -254,7 +294,8 @@ var callback = function (mutationsList) {
         var status = {
             '开始投注': 2,
             '开牌': 3,
-            '停止投注': 1
+            '停止投注': 0,
+            '洗牌中': 1
         }
         let params = {
             createDate: new Date().getTime(),
@@ -266,17 +307,25 @@ var callback = function (mutationsList) {
             result: wads[rtndata.windatas.toString().trim()],
             status: status[rtndata.desc]
         };
-        // if (state == 0 || state == '') {
-        //     return false
-        // }
-        addTableData(params);
-
+        if (status[rtndata.desc] == 0 || status[rtndata.desc] == '') {
+            return false
+        }
+        if ($.trim(rtndata.name1) == '百家乐') {
+            addTableData(params);
+        }
     }
 
 };
+//
+let setNum = 0;
 
-function selectedYuan(yuan) {
+//
+function selectedYuan(list) {
     // 选中金额
+    let yuan = list.tzje;
+    let tableCode = list.tableNo;
+    let fx = list.tzfx;
+
     var yuanOption = {
         '1': '._3JpJo',
         '2': '.n4JJI',
@@ -290,15 +339,70 @@ function selectedYuan(yuan) {
         '1000': '._295TP',
         '2000': '.NJ9Lz'
     };
+    var fxOption = {
+        '1': '._34Nqi.ZUikl',
+        '2': '._34Nqi._7vTww',
+        '3': '._34Nqi._3xcd-'
+    }
     // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent())
     $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
     // //
-    // $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').click(); // 选择牌
-    // //
-    // $($('._3Y07G').children()[0]).find('._34Nqi.ZUikl._67CnM').find('._1a9j-._1m_7V').click(); // 确认下注
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+    // // _30x9W
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
+
+    if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
+        updateTzztList(list, true);
+    } else {
+        if (setNum >= 3) {
+
+            updateTzztList(list, false);
+        } else {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    setNum++
+                    selectedYuan(list)
+                }, 300)
+            }
+        }
+    }
+
 }
 
+var arrMap = {};
+//
+// POST / bjlTable / updateTzztList
+
+function updateTzztList(list, type) {
+    list.tzzt = type;
+    var array = [list];
+
+
+    var jsonString = array;
+    var listObj = {
+        list: jsonString
+    };
+    var listObject = JSON.stringify(listObj);
+    console.log('1231231', listObj);
+    $.ajax({
+        type: 'post',
+        url: 'http://139.198.177.39:8080/bdt/bjlTable/updateTzztList',
+        contentType: 'application/json;charset=utf-8;',
+        //  数据必须转换为字符串
+        data: JSON.stringify(array),
+        success: function (result) {
+            console.log('更新状态成功');
+            setNum = 0;
+        },
+        error: function (XmlHttpRequest, textStatus, errorThrown) {
+            console.log("操作失败!");
+        }
+    })
+}
+
+//
 function getNeedTzDataList() {
+    $('._1h40X ._2kLct').eq(1).click();
     window.getNeedTzDataListSetInv = setInterval(() => {
         $.ajax({
             type: 'get',
@@ -309,9 +413,18 @@ function getNeedTzDataList() {
             },
             success: function (result) {
                 console.log(result);
-                if (result.data.returnCode == 200) {
+                let getUserId = window.localStorage.getItem('Chrome_Inner_User_Id');
+                if (result.returnCode == 200) {
                     //
-                    
+                    let data = result.returnObject;
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].tzzh == getUserId) {
+                            setTimeout(() => {
+                                selectedYuan(data[i])
+                            })
+                        }
+                    }
+
                 } else {
                     //
                 }
@@ -468,3 +581,4 @@ function analysisData(deskNode, classData, state) {
     // console.info(desk.name1 + desk.name2 + "  " + state + " " + deskstatemap[state + '']);
     return desk;
 }
+
