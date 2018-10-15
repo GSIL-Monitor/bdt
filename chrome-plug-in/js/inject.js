@@ -79,7 +79,7 @@ deskstatemap["3"] = "开牌";
 
 window.chrome_login_User_Obj = {
     userName: 'nin23811',
-    password: 'UGKiI$fO',
+    password: 'aaabbb123',
 }
 //
 window.onload = function () {
@@ -165,14 +165,13 @@ function chrome_login() {
             $("._3IDPG button").click();
             setTimeout(() => {
                 $('._3IR2e ._3MSiK').click();
-                setTimeout(() => {
-                    $('._1h40X ._2kLct').eq(1).click();
-                    // ._1_pu1
+                getNeedTzDataList();
+                for (let i = 0; i < 5; i++) {
                     setTimeout(() => {
+                        $('._1h40X ._2kLct').eq(1).click();
                         startListen();
-                        getNeedTzDataList();
                     }, 3000)
-                }, 3000)
+                }
             }, 3000)
         },
         error: function (XmlHttpRequest, textStatus, errorThrown) {
@@ -310,6 +309,12 @@ function getNeedTzDataList() {
             },
             success: function (result) {
                 console.log(result);
+                if (result.data.returnCode == 200) {
+                    //
+                    
+                } else {
+                    //
+                }
             },
             error: function (XmlHttpRequest, textStatus, errorThrown) {
                 console.log("操作失败!");

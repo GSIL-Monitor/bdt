@@ -234,11 +234,6 @@
       //
       tableCodeChange(val) {
         if (val.length > 6) {
-          this.tzListData.forEach((e) => {
-            if (e.tableCode.length >= 7) {
-              e.tableCode = e.tableCode.pop();
-            }
-          })
           this.$Message.info({content: '最多选择6桌', duration: 10, closable: true});
         }
         console.log(val);
