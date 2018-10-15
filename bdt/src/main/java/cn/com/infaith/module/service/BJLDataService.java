@@ -712,9 +712,9 @@ public class BJLDataService {
         resultData.setSjsy(sjsy);
         tableDataService.updateResultById(resultData);
         //更新账户有效金额
-        UserAccount userAccount = userAccountService.getUserAccount(resultData.getTzzh());
-        userAccount.setEffectiveAmount(userAccount.getEffectiveAmount().add(resultData.getSjsy()));
-        userAccountService.updateUserAccount(userAccount);
+//        UserAccount userAccount = userAccountService.getUserAccount(resultData.getTzzh());
+//        userAccount.setEffectiveAmount(userAccount.getEffectiveAmount().add(resultData.getSjsy()));
+//        userAccountService.updateUserAccount(userAccount);
     }
 
     /**
