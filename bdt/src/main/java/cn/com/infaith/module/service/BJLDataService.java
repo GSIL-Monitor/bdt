@@ -421,9 +421,9 @@ public class BJLDataService {
         BdtSystem system = tableDataService.getBdtSystem();
         Map<String, BigDecimal> map = new HashMap<>();
         if (tableData.getFitNo() == 1) {
-            calcList.set(tableData.getTableNo(), new CalcXGLZGLServiceNotMap());
+            calcList.set(tableData.getTableNo() - 1, new CalcXGLZGLServiceNotMap());
         }
-        map = calcList.get(tableData.getTableNo()).calcXgl(tableData.getFitNo(), system.getPs(), tableData.getCard(), system.getPhxs());
+        map = calcList.get(tableData.getTableNo() - 1).calcXgl(tableData.getFitNo(), system.getPs(), tableData.getCard(), system.getPhxs());
         tableData.setXgl(map.get("xgl").toPlainString());
         tableData.setXtsl(map.get("xtsl").toPlainString());
         tableData.setZgl(map.get("zgl").toPlainString());
