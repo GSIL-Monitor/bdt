@@ -74,13 +74,12 @@
     },
     created() {
       console.log(123);
-
+      setTimeout(_ => {
+        this.$router.push({path: '/overview'});
+      })
     },
     mounted() {
-      //
-      setTimeout(_ => {
-        // this.$router.push({path: '/overview'});
-      })
+
     }
   }
 </script>

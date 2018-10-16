@@ -1,5 +1,5 @@
-import Axios from '@/service/axios/index.js'
-import config from '@/config/index.js'
+import Axios from '@/service/axios/index'
+import config from '@/config/index'
 
 const protocol = document.location.protocol == 'https:' ? 'https:' : 'http:'
 const HOST = config.baseUrl.pro
