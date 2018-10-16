@@ -209,6 +209,7 @@ function chrome_login() {
                     }, 2500)
                     getNeedTzDataList();
                     $('._1h40X ._2kLct').eq(1).click();
+                    document.querySelectorAll('._1h40X ._2kLct')[1].click();
                     startListen();
                 }, 6000)
             }, 3000)
@@ -286,6 +287,7 @@ var callback = function (mutationsList) {
         console.log(rtndata.name1 + rtndata.name2 + '-' + rtndata.count1 + '-' + rtndata.count2 + 'state-' + state);
         console.log(JSON.stringify(rtndata));
         $('._1h40X ._2kLct').eq(1).click();
+        document.querySelectorAll('._1h40X ._2kLct')[1].click();
         var wads = {
             '庄': '1',
             '闲': '2',
@@ -403,6 +405,7 @@ function updateTzztList(list, type) {
 //
 function getNeedTzDataList() {
     $('._1h40X ._2kLct').eq(1).click();
+    document.querySelectorAll('._1h40X ._2kLct')[1].click();
     window.getNeedTzDataListSetInv = setInterval(() => {
         $.ajax({
             type: 'get',

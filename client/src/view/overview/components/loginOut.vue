@@ -13,8 +13,7 @@
         <div slot="title" class="header-box" style="font-size: 16px">
           <div class="col" style="font-weight: bold;">{{item.name}}</div>
           <div class="col">
-            <Button v-if="item.loginStatus" type="primary"
-                    ghost size="small">{{'登陆中'}}
+            <Button v-if="item.loginStatus" type="primary" ghost size="small">{{'登陆中'}}
             </Button>
             <Button @click="loginStatusLook(index, true)" v-else type="error" ghost size="small">
               {{'未登录'}}
@@ -184,9 +183,9 @@
     },
     mounted() {
       this.getUserByAdmin();
-      /* window.isInvgetUserByAdmin = setInterval(_ => {
+       window.isInvgetUserByAdmin = setInterval(_ => {
          this.getUserByAdmin();
-       }, 5000) */
+       }, 5000)
     },
     methods: {
       delEditUser() {
