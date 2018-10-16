@@ -12,7 +12,7 @@ import 'iview/dist/styles/iview.css'
 import './index.less'
 import '@/assets/icons/iconfont.css'
 import http from 'axios'
-import api from '@/service/index.js'
+import api from '@/service/index'
 import cookie from 'js-cookie'
 // 实际打包时应该不引入mock
 /* eslint-disable */

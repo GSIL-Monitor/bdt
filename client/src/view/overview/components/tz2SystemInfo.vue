@@ -134,7 +134,7 @@
         tzfx2Option: [
           {name: '庄', value: '1'},
           {name: '闲', value: '2'},
-          {name: '和', value: '3'},
+          {name: '和', value: '3'}
         ],
         tz2Option: [
           {name: '00-20', value: '00-20'},
