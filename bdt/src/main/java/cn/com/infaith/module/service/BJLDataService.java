@@ -86,18 +86,15 @@ public class BJLDataService {
                 return 0;
             }
             //状态改变，当前状态为“可投注”（局号、副号不会变）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.TZ.getIndex()
-                    && statusData.getBattleNo() == tableData.getBattleNo() && statusData.getFitNo() == tableData.getFitNo()) {
+            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
                 tzStatus(tableData);
             }
             //状态改变，当前状态为“新局准备”（局号改变、副号变为1）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.NEW.getIndex()
-                    && statusData.getBattleNo() != tableData.getBattleNo() && statusData.getFitNo() == 1) {
+            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
                 newReadyStatus(tableData);
             }
             //状态改变，当前状态为“开牌”（局号、副号不会变）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()
-                    && statusData.getBattleNo() == tableData.getBattleNo() && statusData.getFitNo() == tableData.getFitNo()) {
+            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
                 BdtSystem bdtSystem = tableDataService.getBdtSystem();
                 openCard(tableData, bdtSystem.getPhxs());
             }
