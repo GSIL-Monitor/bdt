@@ -92,6 +92,7 @@
     <if test="tableNo != null and tableNo != 0">
       AND table_no = #{tableNo}
     </if>
+    AND create_time >= DATE_ADD(NOW(),INTERVAL -1 MINUTE)
     ORDER BY create_time DESC
   </select>
 
