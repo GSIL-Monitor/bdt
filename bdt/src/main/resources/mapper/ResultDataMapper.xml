@@ -29,7 +29,7 @@
       tzxt, tzzh, tzje, tzzt, 
       tzjg, yxje, yssy, sjsy
       )
-    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, NOW(), #{tableNo,jdbcType=INTEGER},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{tzfx,jdbcType=INTEGER}, 
       #{tzxt,jdbcType=INTEGER}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=VARCHAR}, #{tzzt,jdbcType=BIT}, 
       #{tzjg,jdbcType=INTEGER}, #{yxje,jdbcType=DECIMAL}, #{yssy,jdbcType=DECIMAL}, #{sjsy,jdbcType=DECIMAL}
