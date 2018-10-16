@@ -7,7 +7,7 @@
         <login-out></login-out>
       </i-col>
       <i-col span="19">
-        <table12></table12>
+        <table12 @on-change="tableDataChange"></table12>
         <br>
         <example></example>
         <br>
@@ -58,38 +58,7 @@
           {name: '22:00~23:00', value: '22:00~23:00'},
           {name: '23:00~00:00', value: '23:00~00:00'}
         ],
-        cityList: [
-          {
-            value: 'New York',
-            label: 'New York'
-          },
-          {
-            value: 'London',
-            label: 'London'
-          },
-          {
-            value: 'Sydney',
-            label: 'Sydney'
-          },
-          {
-            value: 'Ottawa',
-            label: 'Ottawa'
-          },
-          {
-            value: 'Paris',
-            label: 'Paris'
-          },
-          {
-            value: 'Canberra',
-            label: 'Canberra'
-          }
-        ],
-        tableData: [
-          {
-            name: '1',
-            time: '1'
-          }
-        ],
+        tableData: [],
         switchValue: false,
         qqFans: '',
         tz1Data: '',
@@ -122,6 +91,9 @@
       console.log(this.$config);
     },
     methods: {
+      tableDataChange(val) {
+        console.log('=====>', val);
+      },
       //
       getAdminAccount() {
         let params = {adminId: this.$cookie.get('token')};

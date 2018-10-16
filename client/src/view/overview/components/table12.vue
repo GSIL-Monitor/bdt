@@ -69,6 +69,9 @@
               e.setStatus = this.status[e.status]
               e.setResult = e.result
             })
+            //
+            this.$emit("on-change", this.rowsData);
+            //
           }
         }).catch((err) => {
           this.getTableInfoStatus = false;
