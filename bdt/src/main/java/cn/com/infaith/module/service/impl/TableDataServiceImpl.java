@@ -44,11 +44,11 @@ public class TableDataServiceImpl implements TableDataService {
 
         tableData.setCreateTime(new Date(tableData.getCreateDate()));
         tableData.setCreated(TimeUtil.getDateZeroDate(new Date(tableData.getCreateDate())));
-        int count = tableDataMapper.checkIsHaveTableData(tableData.getCreated(), tableData.getTableNo(), tableData.getBattleNo(),
-                tableData.getFitNo(), tableData.getCard());
-        if (count > 0) {
-            return null;
-        }
+//        int count = tableDataMapper.checkIsHaveTableData(tableData.getCreated(), tableData.getTableNo(), tableData.getBattleNo(),
+//                tableData.getFitNo(), tableData.getCard());
+//        if (count > 0) {
+//            return null;
+//        }
         return tableDataMapper.insert(tableData);
     }
 
