@@ -31,5 +31,5 @@ public interface TableDataMapper {
 
     int getCountFirstFitByTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo);
 
-    String getCardTable(@Param("tableNo") int tableNo,@Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
+    TableData getCardTable(@Param("tableNo") int tableNo,@Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
 }
