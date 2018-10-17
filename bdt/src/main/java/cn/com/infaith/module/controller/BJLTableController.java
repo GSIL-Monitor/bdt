@@ -119,7 +119,7 @@ public class BJLTableController {
                 list.add(statusData);
             }
         }
-        list.stream().sorted(Comparator.comparing(StatusData::getTableNo)).collect(Collectors.toList());
+        list = list.stream().sorted(Comparator.comparing(StatusData::getTableNo)).collect(Collectors.toList());
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
     }
 
