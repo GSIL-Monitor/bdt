@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../chrome-plug-in.crx" beforeDir="false" afterPath="$PROJECT_DIR$/../chrome-plug-in.crx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chrome-plug-in.pem" beforeDir="false" afterPath="$PROJECT_DIR$/../chrome-plug-in.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" afterDir="false" />
-    </list>
+    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -564,12 +560,12 @@
       <workItem from="1539486189473" duration="16795000" />
       <workItem from="1539614091151" duration="15161000" />
       <workItem from="1539701196862" duration="2108000" />
-      <workItem from="1539761849462" duration="1696000" />
+      <workItem from="1539761849462" duration="2251000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75246000" />
+    <option name="totallyTimeSpent" value="75801000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
