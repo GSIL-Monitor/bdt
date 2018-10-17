@@ -14,10 +14,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.docx4j.wml.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import scala.Int;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bjlTable")
@@ -40,7 +41,7 @@ public class BJLTableController {
             if (!tableData.getFitNo().equals(1)) {
                 int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo());
                 if (count == 0) {
-                    return ResponseJsonUtil.getResponseJson(-1, "未获取到当前桌当前局的第一副牌信息", null);
+                    return ResponseJsonUtil.getResponseJson(-2, "未获取到当前桌当前局的第一副牌信息", null);
                 }
             }
             if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
@@ -84,19 +85,41 @@ public class BJLTableController {
         List<StatusData> list = tableDataService.selectStatusAll();
         TzSystem tzSystem1 = tableDataService.getTzSystemInfo(1);
         TzSystem tzSystem2 = tableDataService.getTzSystemInfo(2);
+        long date = 15 * 60 * 1000;
         String tz = "TZ1(" + (tzSystem1.getStarted()?"开启":"关闭") + ")" + " " + "TZ2(" + (tzSystem2.getStarted()?"开启":"关闭") + ")";
         if (CollectionUtils.isNotEmpty(list)) {
             list.stream().forEach(statusData -> {
-                if (statusData.getStatus().equals(TableStatusEnum.NEW.getIndex())) {
-                    statusData.setResult("无");
-                } else if (statusData.getStatus().equals(TableStatusEnum.TZ.getIndex())) {
-                    statusData.setResult(tz);
+                //如果15分钟未进入读牌接口里
+                if ((Calendar.getInstance().getTime().getTime() - statusData.getUpdateTime().getTime() > date)) {
+                    statusData.setResult("正在等待读取新局第一副牌...");
                 } else {
-                    String card = tableDataService.getCardTable(statusData.getTableNo(), statusData.getBattleNo(), statusData.getFitNo());
-                    statusData.setResult(StringUtils.isBlank(card) ? "" : card);
+                    if (statusData.getStatus().equals(TableStatusEnum.NEW.getIndex())) {
+                        statusData.setResult("无");
+                    } else if (statusData.getStatus().equals(TableStatusEnum.TZ.getIndex())) {
+                        statusData.setResult(tz);
+                    } else {
+                        String card = tableDataService.getCardTable(statusData.getTableNo(), statusData.getBattleNo(), statusData.getFitNo());
+                        statusData.setResult(StringUtils.isBlank(card) ? "" : card);
+                    }
                 }
             });
         }
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+        List<Integer> tableNoList = list.stream().map(StatusData::getTableNo).collect(Collectors.toList());
+        Integer[] tableNoArr = {1,2,3,4,5,6,7,8,9,10,11,12};
+        for (int i = 0; i < tableNoArr.length; i++) {
+            if (tableNoList.contains(tableNoArr[i])) {
+                continue;
+            } else {
+                StatusData statusData = new StatusData();
+                statusData.setTableNo(tableNoArr[i]);
+                statusData.setResult("正在等待读取新局第一副牌...");
+                list.add(statusData);
+            }
+        }
+        list.stream().sorted(Comparator.comparing(StatusData::getTableNo)).collect(Collectors.toList());
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
     }
 

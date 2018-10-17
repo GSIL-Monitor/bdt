@@ -1,5 +1,7 @@
 package cn.com.infaith.module.model;
 
+import java.util.Date;
+
 public class StatusData {
     private Integer id;
 
@@ -12,6 +14,8 @@ public class StatusData {
     private Integer status;
 
     private String result;
+
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -59,5 +63,13 @@ public class StatusData {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

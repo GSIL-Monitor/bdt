@@ -7,6 +7,7 @@
     <result column="battle_no" jdbcType="INTEGER" property="battleNo" />
     <result column="fit_no" jdbcType="INTEGER" property="fitNo" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from status_data
@@ -14,9 +15,9 @@
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.StatusData">
     insert into status_data (table_no, battle_no,
-      fit_no, status, is_delete)
+      fit_no, status, is_delete, update_time)
     values (#{tableNo,jdbcType=INTEGER}, #{battleNo,jdbcType=INTEGER},
-      #{fitNo,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 0)
+      #{fitNo,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 0, now())
   </insert>
 
   <insert id="addStatusDataList" parameterType="cn.com.infaith.module.model.StatusData">
@@ -34,7 +35,8 @@
     set table_no = #{tableNo,jdbcType=INTEGER},
       battle_no = #{battleNo,jdbcType=INTEGER},
       fit_no = #{fitNo,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -43,7 +45,7 @@
     where id = #{id,jdbcType=INTEGER} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, table_no, battle_no, fit_no, status
+    select id, table_no, battle_no, fit_no, status, update_time
     from status_data WHERE is_delete = 0 ORDER BY table_no
   </select>
 
