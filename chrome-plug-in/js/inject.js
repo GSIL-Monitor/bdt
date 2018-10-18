@@ -104,6 +104,25 @@ window.onload = function () {
     }, 3000)
 }
 
+function getWaitTime(deskIndex) {
+    console.log("getWaitTime:deskIndex=" + deskIndex);
+    var targets = $(".qMFBr");
+
+    console.log($(targets[deskIndex]).text());
+    console.log($(targets[deskIndex]).text().length);
+    var textlength = $(targets[deskIndex]).text().length;
+    var time = 0;
+    if (2 == textlength) {
+        time = $(targets[deskIndex]).text();
+    }
+
+    var countData = $(targets[deskIndex]).parents("._6VpXo").find("._1tFN6").text().split("-");
+    var count1 = countData[0];
+    var count2 = countData[1];
+    console.log(time + " " + count1 + " " + count2);
+    return {time, count1, count2}
+}
+
 function formatterDateTime() {
     var date = new Date()
     var month = date.getMonth() + 1
@@ -323,52 +342,46 @@ let setNum = 0;
 
 //
 function selectedYuan(list) {
+    console.log(list);
     // 选中金额
-    let yuan = list.tzje;
-    let tableCode = list.tableNo;
-    let fx = list.tzfx;
-
-    var yuanOption = {
-        '1': '._3JpJo',
-        '2': '.n4JJI',
-        '5': '.VxhGV',
-        '10': '.TclIu',
-        '20': '._1VJpW',
-        '50': '._2kWbQ',
-        '100': '._2-e_4',
-        '200': '._2S7t-',
-        '500': '._8d_yl',
-        '1000': '._295TP',
-        '2000': '.NJ9Lz'
-    };
-    var fxOption = {
-        '1': '._34Nqi.ZUikl',
-        '2': '._34Nqi._7vTww',
-        '3': '._34Nqi._3xcd-'
-    }
-    // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent())
-    $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
-    // //
-    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
-    // // _30x9W
-    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
-
-    if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
-        updateTzztList(list, true);
-    } else {
-        if (setNum >= 3) {
-
-            updateTzztList(list, false);
-        } else {
-            for (let i = 0; i < 3; i++) {
-                setTimeout(() => {
-                    setNum++
-                    selectedYuan(list)
-                }, 300)
-            }
+    let daskStatus = getWaitTime(list.tableNo - 1);
+    console.log(daskStatus)
+    if (daskStatus.time > 1 && daskStatus.count1 == list.battleNo && daskStatus.count2 == list.fitNo) {
+        console.warn(list.tableNo, '在投注');
+        let yuan = list.tzje;
+        let tableCode = list.tableNo;
+        let fx = list.tzfx;
+        var yuanOption = {
+            '1': '._3JpJo',
+            '2': '.n4JJI',
+            '5': '.VxhGV',
+            '10': '.TclIu',
+            '20': '._1VJpW',
+            '50': '._2kWbQ',
+            '100': '._2-e_4',
+            '200': '._2S7t-',
+            '500': '._8d_yl',
+            '1000': '._295TP',
+            '2000': '.NJ9Lz'
+        };
+        var fxOption = {
+            '1': '._34Nqi.ZUikl',
+            '2': '._34Nqi._7vTww',
+            '3': '._34Nqi._3xcd-'
         }
+        // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent())
+        $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
+        // //
+        $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+        // // _30x9W
+        $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
+        setTimeout(() => {
+            updateTzztList(list, true);
+        }, 300)
+    } else {
+        //
+        // updateTzztList(list, true);
     }
-
 }
 
 var arrMap = {};
@@ -385,7 +398,7 @@ function updateTzztList(list, type) {
         list: jsonString
     };
     var listObject = JSON.stringify(listObj);
-    console.log('1231231', listObj);
+    // console.log('1231231', listObj);
     $.ajax({
         type: 'post',
         url: 'http://139.198.177.39:8080/bdt/bjlTable/updateTzztList',
@@ -393,11 +406,11 @@ function updateTzztList(list, type) {
         //  数据必须转换为字符串
         data: JSON.stringify(array),
         success: function (result) {
-            console.log('更新状态成功');
-            setNum = 0;
+            // console.log('更新状态成功');
+            // setNum = 0;
         },
         error: function (XmlHttpRequest, textStatus, errorThrown) {
-            console.log("操作失败!");
+            // console.log("操作失败!");
         }
     })
 }
@@ -415,28 +428,31 @@ function getNeedTzDataList() {
                 tableNo: ''
             },
             success: function (result) {
-                console.log(result);
+                // console.log(result);
                 let getUserId = window.localStorage.getItem('Chrome_Inner_User_Id');
                 if (result.returnCode == 200) {
                     //
                     let data = result.returnObject;
-                    for (let i = 0; i < data.length; i++) {
-                        if (data[i].tzzh == getUserId) {
-                            setTimeout(() => {
-                                selectedYuan(data[i])
-                            })
-                        }
+                    if (data == null) {
+                        data = [];
                     }
-
-                } else {
-                    //
+                    var newData = data.filter((e, i) => {
+                        return e.tzzh == getUserId;
+                    })
+                    console.log('newData=======1111==========>', newData);
+                    for (let k = 0; k < newData.length; k++) {
+                        setTimeout(() => {
+                            console.log('newData======11111111111===============>', newData[k]);
+                            selectedYuan(newData[k]);
+                        }, 1000)
+                    }
                 }
             },
             error: function (XmlHttpRequest, textStatus, errorThrown) {
                 console.log("操作失败!");
             }
         })
-    }, 3000)
+    }, 5000)
 }
 
 // http://localhost:8763/bdt/bjlTable/addTableData
@@ -474,6 +490,7 @@ var observer = new MutationObserver(callback);
 var flag = true;
 
 function startListen() {
+    getNeedTzDataList();
     console.log("start listen");
     var targets = $(".qMFBr");
 
