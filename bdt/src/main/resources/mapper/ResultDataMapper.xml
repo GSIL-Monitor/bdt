@@ -16,8 +16,9 @@
     <result column="yxje" jdbcType="DECIMAL" property="yxje" />
     <result column="yssy" jdbcType="DECIMAL" property="yssy" />
     <result column="sjsy" jdbcType="DECIMAL" property="sjsy" />
-    <result column="account" jdbcType="DECIMAL" property="account" />
-    <result column="name" jdbcType="DECIMAL" property="name" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="tz_status" jdbcType="VARCHAR" property="tzStatus" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from result_data
@@ -86,7 +87,7 @@
 
   <select id="getNeedTzDataList" resultMap="BaseResultMap">
     select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt,
-    tzjg, yxje, yssy, sjsy
+    tzjg, yxje, yssy, sjsy, tz_status
     from result_data
     WHERE tzzt IS NULL
     <if test="tableNo != null and tableNo != 0">
@@ -99,7 +100,8 @@
   <update id="updateTzzt" parameterType="cn.com.infaith.module.model.ResultData">
     update result_data
     set
-      tzzt = #{tzzt}
+      tzzt = #{tzzt},
+      tz_status = #{tzStatus}
     where id = #{id}
   </update>
 

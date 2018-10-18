@@ -28,6 +28,7 @@ public class BJLDataService {
     private UserAccountService userAccountService;
 
     public static List<CalcXGLZGLServiceNotMap> calcList = new ArrayList<>();
+
     static {
         calcList.add(new CalcXGLZGLServiceNotMap());
         calcList.add(new CalcXGLZGLServiceNotMap());
@@ -580,20 +581,18 @@ public class BJLDataService {
             TableData tableDataNew = tableDataService.getNewestTableData(tableData.getTableNo());
             list.stream().forEach(dopeData -> {
                 //判断当前时间是否满足投注时间限制且投注桌号一致
-                if (tableData.getTableNo().equals(dopeData.getTableNo())) {
-                    boolean timeResult = checkDopeInfo(tableData.getCreateTime(), dopeData.getTzsjSection1());
-                    if (timeResult) {
-                        DopeData data = new DopeData();
-                        data.setCreateTime(tableDataNew.getCreateTime());
-                        data.setTableNo(tableDataNew.getTableNo());
-                        data.setBattleNo(tableDataNew.getBattleNo());
-                        data.setFitNo(tableDataNew.getFitNo() + 1);
-                        data.setTzje(dopeData.getTzje());
-                        data.setTzxt(1);
-                        data.setTzfx(TableResultEnum.Z.getIndex());
-                        data.setTzzh(dopeData.getTzzh());
-                        dopeDataList.add(data);
-                    }
+                boolean timeResult = checkDopeInfo(tableData.getCreateTime(), dopeData.getTzsjSection1());
+                if (timeResult) {
+                    DopeData data = new DopeData();
+                    data.setCreateTime(tableDataNew.getCreateTime());
+                    data.setTableNo(tableDataNew.getTableNo());
+                    data.setBattleNo(tableDataNew.getBattleNo());
+                    data.setFitNo(tableDataNew.getFitNo() + 1);
+                    data.setTzje(dopeData.getTzje());
+                    data.setTzxt(1);
+                    data.setTzfx(TableResultEnum.Z.getIndex());
+                    data.setTzzh(dopeData.getTzzh());
+                    dopeDataList.add(data);
                 }
             });
             if (CollectionUtils.isNotEmpty(dopeDataList)) {

@@ -36,6 +36,8 @@ public class ResultData {
 
     private String name;
 
+    private String tzStatus;
+
     public Integer getId() {
         return id;
     }
@@ -162,5 +164,13 @@ public class ResultData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTzStatus() {
+        return tzStatus;
+    }
+
+    public void setTzStatus(String tzStatus) {
+        this.tzStatus = tzStatus;
     }
 }
