@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/inject.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inject.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
-    </list>
+    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -78,7 +74,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="163" />
-          <entry key="js" value="3217" />
+          <entry key="js" value="3218" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
@@ -87,7 +83,7 @@
           <entry key="CSS" value="163" />
           <entry key="HTML" value="25" />
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="3192" />
+          <entry key="JavaScript" value="3193" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -121,7 +117,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manifest.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="162">
@@ -148,14 +144,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-10">
-              <caret line="185" column="7" selection-start-line="185" selection-start-column="7" selection-end-line="185" selection-end-column="7" />
+            <state relative-caret-position="377">
+              <caret line="233" column="20" lean-forward="true" selection-start-line="233" selection-start-column="20" selection-end-line="233" selection-end-column="20" />
               <folding>
                 <element signature="e#2742#3351#0" />
-                <element signature="e#4323#6629#0" />
                 <element signature="e#6671#9711#0" />
               </folding>
             </state>
@@ -180,10 +175,10 @@
       <find>1231231</find>
       <find>_1h40X ._2kLct</find>
       <find>getUserId</find>
-      <find>getNeedTzDataList</find>
       <find>console.log</find>
-      <find>selectedYuan</find>
       <find>getWaitTime</find>
+      <find>selectedYuan</find>
+      <find>getNeedTzDataList</find>
     </findStrings>
     <dirStrings>
       <dir>D:\gitHub\chrome-plug-in</dir>
@@ -198,8 +193,8 @@
         <option value="$PROJECT_DIR$/css/custom.css" />
         <option value="$PROJECT_DIR$/popup.html" />
         <option value="$PROJECT_DIR$/js/content-script.js" />
-        <option value="$PROJECT_DIR$/js/inject.js" />
         <option value="$PROJECT_DIR$/manifest.json" />
+        <option value="$PROJECT_DIR$/js/inject.js" />
       </list>
     </option>
   </component>
@@ -308,12 +303,12 @@
       <workItem from="1539701196862" duration="2108000" />
       <workItem from="1539717744467" duration="230000" />
       <workItem from="1539793389168" duration="9000" />
-      <workItem from="1539871539089" duration="4179000" />
+      <workItem from="1539871539089" duration="4950000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77968000" />
+    <option name="totallyTimeSpent" value="78739000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -421,22 +416,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/inject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10">
-          <caret line="185" column="7" selection-start-line="185" selection-start-column="7" selection-end-line="185" selection-end-column="7" />
-          <folding>
-            <element signature="e#2742#3351#0" />
-            <element signature="e#4323#6629#0" />
-            <element signature="e#6671#9711#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manifest.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="6" column="20" lean-forward="true" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/inject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="233" column="20" lean-forward="true" selection-start-line="233" selection-start-column="20" selection-end-line="233" selection-end-column="20" />
+          <folding>
+            <element signature="e#2742#3351#0" />
+            <element signature="e#6671#9711#0" />
+          </folding>
         </state>
       </provider>
     </entry>
