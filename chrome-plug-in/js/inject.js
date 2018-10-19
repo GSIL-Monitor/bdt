@@ -490,6 +490,8 @@ var observer = new MutationObserver(callback);
 var flag = true;
 
 function startListen() {
+    // $(".inject-panel .startGetDisk").css(disabled, true);
+    $(".inject-panel .startGetDisk").text('启动中');
     getNeedTzDataList();
     console.log("start listen");
     var targets = $(".qMFBr");
