@@ -225,7 +225,7 @@ function chrome_login() {
                     $('.inject-from #chrome_UserPass').val(window.localStorage.getItem('chrome_UserPass'))
                     var aa = setInterval(() => {
                         editUserAccount();
-                    }, 2500)
+                    }, 3000)
                     getNeedTzDataList();
                     $('._1h40X ._2kLct').eq(1).click();
                     document.querySelectorAll('._1h40X ._2kLct')[1].click();
@@ -417,6 +417,7 @@ function updateTzztList(list, type) {
 
 //
 function getNeedTzDataList() {
+    clearInterval(window.getNeedTzDataListSetInv);
     $('._1h40X ._2kLct').eq(1).click();
     document.querySelectorAll('._1h40X ._2kLct')[1].click();
     window.getNeedTzDataListSetInv = setInterval(() => {
