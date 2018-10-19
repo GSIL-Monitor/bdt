@@ -60,8 +60,10 @@ window.addEventListener('DOMContentLoaded', function () {
             console.log('chrome——', getCookie('_gid'));
             console.log('chrome——', getCookie('sessionId'));
         }, 1200)
+      console.error('是要侦听 的网站============》DOMContentLoaded');
+    }else {
+      console.error('不是要侦听 的网站============》DOMContentLoaded');
     }
-    console.log('DOMContentLoaded');
 });
 
 // _1QOq_
