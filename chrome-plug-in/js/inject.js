@@ -415,6 +415,21 @@ function updateTzztList(list, type) {
     })
 }
 
+function getArrDifference(arr1, arr2) {
+    let newArr = [];
+    for (let i = 0; i < arr2.length; i++) {
+        for (let j = 0; j < arr1.length; j++) {
+            if (arr1[j] === arr2[i]) {
+                newArr.push(arr1[j]);
+            }
+        }
+    }
+    // 返回 arr2不包含的 arr1
+    return arr1.concat(newArr).filter(function (v, i, arr) {
+        return arr.indexOf(v) === arr.lastIndexOf(v);
+    });
+}
+
 //
 function getNeedTzDataList() {
     clearInterval(window.getNeedTzDataListSetInv);
@@ -440,12 +455,37 @@ function getNeedTzDataList() {
                     var newData = data.filter((e, i) => {
                         return e.tzzh == getUserId;
                     })
-                    console.log('newData=======1111==========>', newData);
-                    for (let k = 0; k < newData.length; k++) {
-                        setTimeout(() => {
-                            console.log('newData======11111111111===============>', newData[k]);
-                            selectedYuan(newData[k]);
-                        }, 1000)
+                    let localS = newData.map((e, i) => {
+                        return e.id
+                    })
+                    //
+                    if (window.localStorage) {
+                        let LocalT = [];
+                        if (window.localStorage.getItem('CHROME_TZ_ID')) {
+                            LocalT = JSON.parse(window.localStorage.getItem('CHROME_TZ_ID'));
+                        }
+                        // 取出同元素
+                        let newDataTrim = [];
+                        let localG = getArrDifference(localS, LocalT);
+                        for (let i = 0; i < newData.length; i++) {
+                            let arr = {};
+                            for (let j = 0; j < localG.length; j++) {
+                                if (newData[i].id == localG[j]) {
+                                    arr = newData[i];
+                                }
+                            }
+                            newDataTrim.push(arr);
+                        }
+                        //
+                        console.log('newData=======1111==========>', newData);
+                        for (let k = 0; k < newDataTrim.length; k++) {
+                            setTimeout(() => {
+                                console.log('newData======11111111111===============>', newData[k]);
+                                selectedYuan(newData[k]);
+                            }, 1111)
+                        }
+                        // 最新数据存好 id
+                        window.localStorage.setItem('CHROME_TZ_ID', JSON.stringify(localS));
                     }
                 }
             },
