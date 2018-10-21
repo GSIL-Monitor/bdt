@@ -1,7 +1,7 @@
 <template>
   <Card>
     <p slot="title">百家乐牌桌情况{{getTableInfoStatus? '（正常运行）': ''}}</p>
-    <Table :columns="columnsData" :data="rowsData"></Table>
+    <Table stripe :columns="columnsData" :data="rowsData"></Table>
   </Card>
 </template>
 
@@ -13,7 +13,12 @@
         columnsData: [
           {
             title: '桌号',
-            key: 'tableNo'
+            key: 'tableNo',
+            width: 80
+          },
+          {
+            title: '更新时间',
+            key: 'update'
           },
           {
             title: '局号',
@@ -44,7 +49,7 @@
           '3': '开牌',
           '1': '新局准备',
           'null': '--',
-          '0':'停止投注'
+          '0': '停止投注'
         },
         /* '开始投注': 2,
       '开牌': 3,
@@ -73,7 +78,9 @@
             this.rowsData.forEach((e) => {
               e.setStatus = this.status[e.status]
               e.setResult = e.result
+              e.update = this.formatDateTime(e.updateTime)
             })
+            console.log('1231231===>', this.rowsData);
             //
             this.$emit("on-change", this.rowsData);
             //
@@ -81,6 +88,21 @@
         }).catch((err) => {
           this.getTableInfoStatus = false;
         })
+      },
+      formatDateTime(inputTime) {
+        var date = new Date(inputTime);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
       }
     }
   }

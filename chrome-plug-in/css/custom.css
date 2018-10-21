@@ -10,7 +10,7 @@
     width: 500px;
     height: 250px;
     z-index: 9999;
-    transition: height .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }
 
 .inject-panel .inject-close {
@@ -21,6 +21,7 @@
     padding: 15px;
     cursor: pointer;
     z-index: 2000;
+    transition: all .3s ease-in-out;
 }
 
 .inject-panel .inject-from input {
@@ -43,9 +44,19 @@
     color: white;
 }
 
+.inject-panel .inject-panel-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    float: none;
+}
+
 .inject-panel.isHeight {
     height: 40px;
-    transition: height .3s ease-in-out;
+    width: 50px;
+    transition: all .3s ease-in-out;
 }
 
 .inject-panel a {
