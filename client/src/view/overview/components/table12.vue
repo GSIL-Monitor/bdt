@@ -67,6 +67,9 @@
         this.getTableInfo();
       }, 1000 * 3)
     },
+    activated() {
+
+    },
     methods: {
       getTableInfo() {
         let params = {};

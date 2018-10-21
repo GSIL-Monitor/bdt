@@ -1,9 +1,15 @@
 <template>
   <Card>
-    <CellGroup slot="title" style="display: flex">
-      <Cell title="LJXJZ" :label="'现值：'+XJZ"/>
-      <Cell title="LJZJZ" :label="'现值：'+ZJZ"/>
-    </CellGroup>
+    <div slot="title" style="display: flex;align-items: center">
+      <div style="flex: 1;text-align: left">
+        <span>现值：{{XJZ}}</span>&ensp;&ensp;&ensp;<span>现值：{{ZJZ}}</span>
+      </div>
+      <div style="flex: 1;text-align: right">
+        起始&ensp;<DatePicker type="datetime" @on-change="daterangeChange" v-model="DateRange" confirm
+                    :clearable="false" placement="bottom-end" placeholder="Select date"
+                    style="width: 200px"></DatePicker>&ensp;-&ensp;当前&emsp;&emsp;&ensp;&ensp;
+      </div>
+    </div>
     <div id="overLine">
       <div ref="dom" style="height: 310px"></div>
     </div>
@@ -21,7 +27,8 @@
       return {
         dom: null,
         XJZ: 0.00,
-        ZJZ: 0.00
+        ZJZ: 0.00,
+        DateRange: ''
       }
     },
     activated() {
@@ -35,6 +42,8 @@
       clearInterval(window.setIngetLJInfo);
     },
     created() {
+      let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 3));
+      this.DateRange = pevTime;
       this.getLJInfo();
       clearInterval(window.setIngetLJInfo);
       window.setIngetLJInfo = setInterval(_ => {
@@ -42,12 +51,35 @@
       }, 1000 * 5)
     },
     methods: {
+      formatDate(inputTime) {
+        var date = new Date(inputTime);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+      },
+      daterangeChange(val) {
+        console.warn(this.DateRange)
+        console.warn(val);
+      },
       resize() {
         this.dom.resize()
       },
       getLJInfo() {
+        // this.DateRange[1] = this.formatDate(new Date().getTime());
+        let srartTime;
+        srartTime = new Date(this.DateRange).getTime();
+        this.DateRange;
         let params = {
-          startTime: '',
+          startTime: srartTime,
           endTime: '',
           tableNo: ''
         }

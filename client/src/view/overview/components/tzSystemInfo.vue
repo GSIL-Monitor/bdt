@@ -190,7 +190,9 @@
     created() {
       this.getTzSystemInfo(1);
     },
+    activated() {
 
+    },
     methods: {
       setCheckBoxAll() {
         setTimeout(() => {

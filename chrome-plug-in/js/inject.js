@@ -357,7 +357,10 @@ function selectedYuan(list) {
   let yuan = list.tzje;
   let tableCode = list.tableNo;
   let fx = list.tzfx;
-  if (daskStatus.time > 1 && daskStatus.count1 == list.battleNo && daskStatus.count2 == list.fitNo) {
+  if (daskStatus.count1 == list.battleNo && daskStatus.count2 == list.fitNo) {
+    if (daskStatus.time > 1) {
+
+    }
     if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length == 0) {
       // .find('._30x9W')
       // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent())
@@ -367,7 +370,11 @@ function selectedYuan(list) {
       // // _30x9W
       $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
       setTimeout(() => {
-        updateTzztList(list, true);
+        if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
+          updateTzztList(list, true);
+        } else {
+          updateTzztList(list, false);
+        }
       }, 300)
     } else {
       //

@@ -213,6 +213,9 @@
         tzSystem: {}
       }
     },
+    activated() {
+
+    },
     computed: {
       timelineDataFun() {
         let xiaoshi = new Date().getHours();

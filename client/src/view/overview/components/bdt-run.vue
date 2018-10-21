@@ -35,6 +35,9 @@
         }
       }
     },
+    activated() {
+
+    },
     methods: {
       bdtSystemStarted() {
         this.start = !this.start;
