@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/inject.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inject.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/betting.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/betting.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/bdt-run.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/bdt-run.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/desktop.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/desktop.vue" afterDir="false" />
-    </list>
+    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
