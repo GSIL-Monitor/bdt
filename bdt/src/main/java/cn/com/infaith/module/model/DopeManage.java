@@ -8,6 +8,8 @@ import java.util.Date;
 public class DopeManage {
     private Integer id;
 
+    private String adminId;
+
     private Integer tzxt;
 
     private String tzzh;
@@ -31,6 +33,14 @@ public class DopeManage {
     private Boolean isDelete;
 
     private Date createTime;
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
 
     public Integer getTzfx() {
         return tzfx;

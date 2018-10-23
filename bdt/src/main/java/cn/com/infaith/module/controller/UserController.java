@@ -1,18 +1,18 @@
 package cn.com.infaith.module.controller;
 
-import cn.com.infaith.module.model.AdminAccount;
-import cn.com.infaith.module.model.DopeManage;
-import cn.com.infaith.module.model.UserAccount;
+import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.TableDataService;
 import cn.com.infaith.module.service.UserAccountService;
 import cn.com.infaith.module.util.ResponseJsonUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -28,9 +28,10 @@ public class UserController {
     @ApiOperation(value = "登录百家乐账号", notes = "登录百家乐账号", httpMethod = "POST")
     @PostMapping("/loginUserAccount")
     public JSONObject loginUserAccount(@RequestParam String account, @RequestParam String password,
+                                       @RequestParam String adminId,
                                        HttpServletRequest request, HttpServletResponse response) {
 
-        UserAccount userAccount = userAccountService.getUserByAccountAndPassWord(account, password);
+        UserAccount userAccount = userAccountService.getUserByAccountAndPassWord(account, password, adminId);
         if (userAccount == null) {
             return ResponseJsonUtil.getResponseJson(404, "not find", null);
         } else {
@@ -60,14 +61,16 @@ public class UserController {
         if (userId == null) {
             return ResponseJsonUtil.getResponseJson(-1, "fail", userAccount);
         }
-        if (!userId.equals("")) {
+        if (StringUtils.isNotBlank(userId)) {
             DopeManage dopeManage = new DopeManage();
             dopeManage.setTzzh(userId);
             dopeManage.setTzxt(1);
+            dopeManage.setAdminId(userAccount.getAdminId());
             tableDataService.insertDopeManage(dopeManage);
             DopeManage dopeManage2 = new DopeManage();
             dopeManage2.setTzzh(userId);
             dopeManage2.setTzxt(2);
+            dopeManage2.setAdminId(userAccount.getAdminId());
             tableDataService.insertDopeManage(dopeManage2);
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", userAccount);
         }
@@ -76,13 +79,10 @@ public class UserController {
 
     @ApiOperation(value = "删除百家乐账号", notes = "删除百家乐账号", httpMethod = "DELETE")
     @DeleteMapping("/deleteUserAccount")
-    public JSONObject deleteUserAccount(@RequestParam String userId) {
+    public JSONObject deleteUserAccount(@RequestParam String userId, @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
 
-        Boolean result = userAccountService.deleteUserAccount(userId);
-        if (result) {
-            return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
-        }
-        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+        userAccountService.deleteUserByIdCommit(userId, adminId);
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
     }
 
     @ApiOperation(value = "修改百家乐账号信息", notes = "修改百家乐账号信息", httpMethod = "POST")
@@ -91,6 +91,9 @@ public class UserController {
 
         Boolean result = userAccountService.updateUserAccount(userAccount);
         if (result) {
+            if (userAccount.getLoginStatus() != null) {
+                tableDataService.updateDopeManageCheckByUserId(userAccount.getId(), userAccount.getLoginStatus());
+            }
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", userAccount);
         }
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);
@@ -111,8 +114,28 @@ public class UserController {
     @PostMapping("/addAdminAccount")
     public JSONObject addAdminAccount(@ModelAttribute AdminAccount adminAccount) {
 
-        Boolean result = userAccountService.addAdminAccount(adminAccount);
-        if (result) {
+        String id = userAccountService.addAdminAccount(adminAccount);
+        if (StringUtils.isNotBlank(id)) {
+            BdtSystem bdtSystem = new BdtSystem();
+            bdtSystem.setAdminId(id);
+            bdtSystem.setStarted(false);
+            bdtSystem.setPhxs(new BigDecimal(0));
+            bdtSystem.setPs(0);
+            tableDataService.addBdtSystem(bdtSystem);
+            TzSystem tzSystem = new TzSystem();
+            tzSystem.setAdminId(id);
+            tzSystem.setTzxt(1);
+            tzSystem.setStarted(false);
+            tzSystem.setFh(0);
+            tzSystem.setXh("0");
+            tableDataService.addTzSystem(tzSystem);
+            TzSystem tzSystem2 = new TzSystem();
+            tzSystem2.setAdminId(id);
+            tzSystem2.setTzxt(2);
+            tzSystem2.setStarted(false);
+            tzSystem2.setFh(0);
+            tzSystem2.setXh("0");
+            tableDataService.addTzSystem(tzSystem2);
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", adminAccount);
         }
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);
@@ -153,39 +176,39 @@ public class UserController {
 
     @ApiOperation(value = "查看管理员所管理的用户", notes = "查看管理员所管理的用户", httpMethod = "GET")
     @GetMapping("/getUserByAdmin")
-    public JSONObject getUserByAdmin(@RequestParam String adminId) {
+    public JSONObject getUserByAdmin(@RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
         List<UserAccount> list = userAccountService.getUserByAdmin(adminId);
         return ResponseJsonUtil.getResponseJson(200, "success", list);
     }
 
-    @PostMapping("/addAdminManageUser")
-    @ApiOperation(value = "添加管理员所管理的用户", notes = "添加管理员所管理的用户", httpMethod = "POST")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "200：添加成功  -1 添加失败  0: 已添加，请勿重复添加"),
-    })
-    public JSONObject addAdminManageUser(@RequestParam String adminId, @RequestParam String userIds) {
+//    @PostMapping("/addAdminManageUser")
+//    @ApiOperation(value = "添加管理员所管理的用户", notes = "添加管理员所管理的用户", httpMethod = "POST")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "200：添加成功  -1 添加失败  0: 已添加，请勿重复添加"),
+//    })
+//    public JSONObject addAdminManageUser(@RequestParam String adminId, @RequestParam String userIds) {
+//
+//        int count = userAccountService.checkoutCountByAdminAndUser(adminId, userIds);
+//        if (count > 0) {
+//            return ResponseJsonUtil.getResponseJson(0,"已添加，请勿重复添加", null);
+//        }
+//        Boolean result = userAccountService.addAdminManageUser(adminId, userIds);
+//        if (result) {
+//            return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
+//        }
+//        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+//    }
 
-        int count = userAccountService.checkoutCountByAdminAndUser(adminId, userIds);
-        if (count > 0) {
-            return ResponseJsonUtil.getResponseJson(0,"已添加，请勿重复添加", null);
-        }
-        Boolean result = userAccountService.addAdminManageUser(adminId, userIds);
-        if (result) {
-            return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
-        }
-        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
-    }
-
-    @ApiOperation(value = "删除管理员所管理的用户", notes = "删除管理员所管理的用户", httpMethod = "DELETE")
-    @DeleteMapping("/deleteAdminManageUser")
-    public JSONObject deleteAdminManageUser(@RequestParam String manageId) {
-
-        Boolean result = userAccountService.deleteAdminManageUser(manageId);
-        if (result) {
-            return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
-        }
-        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
-    }
+//    @ApiOperation(value = "删除管理员所管理的用户", notes = "删除管理员所管理的用户", httpMethod = "DELETE")
+//    @DeleteMapping("/deleteAdminManageUser")
+//    public JSONObject deleteAdminManageUser(@RequestParam String manageId) {
+//
+//        Boolean result = userAccountService.deleteAdminManageUser(manageId);
+//        if (result) {
+//            return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
+//        }
+//        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
+//    }
 
     @PostMapping("/loginAdminAccount")
     @ApiOperation(value = "登录管理员账号", notes = "登录管理员账号", httpMethod = "POST")

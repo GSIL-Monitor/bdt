@@ -16,14 +16,15 @@ public interface DopeDataMapper {
 
     int updateByPrimaryKey(DopeData record);
 
-    int getDopeCountByTableNo(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
+    int getDopeCountByTableNo(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem, @Param("adminId") String adminId);
 
     boolean clearAllDopeByTableNoAndTzSystem(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
 
-    DopeData getFirstDopeByTableNoAndTzSystem(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
-    DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
+    DopeData getFirstDopeByTableNoAndTzSystem(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem, @Param("adminId") String adminId);
 
-    List<DopeData> getDopeByTableNoAndTzSystem(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem);
+    DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem, @Param("adminId") String adminId);
+
+    List<DopeData> getDopeByTableNoAndTzSystem(@Param("tableNo") int tableNo, @Param("tzSystem") int tzSystem, @Param("adminId") String adminId);
 
     int addDopeDataList(@Param("list") List<DopeData> list);
 }

@@ -49,7 +49,7 @@ public interface TableDataService {
      * @param tzSystem
      * @return
      */
-    int getDopeCountByTableNo(int tableNo, int tzSystem);
+    int getDopeCountByTableNo(int tableNo, int tzSystem, String adminId);
 
     /**
      * 清楚下单表中所有记录 by 桌号、投注系统
@@ -65,7 +65,7 @@ public interface TableDataService {
      * @param tzSystem
      * @return
      */
-    DopeData getFirstDopeByTableNoAndTzSystem(int tableNo, int tzSystem);
+    DopeData getFirstDopeByTableNoAndTzSystem(int tableNo, int tzSystem, String adminId);
 
     /**
      * 根据桌号和投注系统取投注下单表的第1条记录中的“账号、投注方向、投注金额”进行投注。
@@ -73,14 +73,14 @@ public interface TableDataService {
      * @param tzSystem
      * @return
      */
-    DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(int tableNo, int tzSystem);
+    DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(int tableNo, int tzSystem, String adminId);
 
     /**
      * 根据桌号获取最新一条信息
      * @param tableNo
      * @return
      */
-    TableData getNewestTableData(int tableNo);
+    TableData getNewestTableData(int tableNo, String adminId);
 
     /**
      * 添加合并数据
@@ -94,7 +94,7 @@ public interface TableDataService {
      * @param id
      * @return
      */
-    TableMergeData getLastTableMergeDataNotId(int id);
+    TableMergeData getLastTableMergeDataNotId(int id, String adminId);
 
     /**
      * 更新合并数据
@@ -106,14 +106,14 @@ public interface TableDataService {
     /**
      * 投注系统开关
      * @param started
-     * @param tzxt
+     * @param id
      * @param fh
      * @param xh
      * @return
      */
-    Boolean updateTzStartOrClose(Boolean started, int tzxt, int fh, String xh);
+    Boolean updateTzStartOrClose(Boolean started, int id, int fh, String xh, String adminId);
 
-    TzSystem getTzSystemInfo(int tzxt);
+    TzSystem getTzSystemInfo(int tzxt, String adminId);
 
     /**
      * 获取当前桌号以及投注系统下的投注信息
@@ -121,7 +121,7 @@ public interface TableDataService {
      * @param tzSystem
      * @return
      */
-    List<DopeData> getDopeByTableNoAndTzSystem(int tableNo, int tzSystem);
+    List<DopeData> getDopeByTableNoAndTzSystem(int tableNo, int tzSystem, String adminId);
 
     /**
      * 披露添加下单投注数据
@@ -138,6 +138,8 @@ public interface TableDataService {
      * @return
      */
     ResultData getResultJGNullByTable(int tableNo, int battleNo, int fitNo);
+
+    List<ResultData> getResultJGNull(List<String> list);
 
     /**
      * 更新“投注结果”、“有效金额”、“原始输赢”、“实际输赢"   投注结果表
@@ -163,7 +165,7 @@ public interface TableDataService {
      * @param battleNo
      * @return
      */
-    JSONObject searchTableData(Long createTime, Integer tableNo, Integer battleNo, Integer pageNum, Integer pageSize);
+    JSONObject searchTableData(Long createTime, Integer tableNo, Integer battleNo, Integer pageNum, Integer pageSize, String adminId);
 
     /**
      * 获取投注结果信息
@@ -172,7 +174,7 @@ public interface TableDataService {
      * @param tzzh
      * @return
      */
-    JSONObject searchResultData(Long createTime, Integer tzxt, String tzzh, Integer pageNum, Integer pageSize);
+    JSONObject searchResultData(Long createTime, Integer tzxt, String tzzh, Integer pageNum, Integer pageSize, String adminId);
 
     /**
      * bdt系统开关
@@ -181,9 +183,9 @@ public interface TableDataService {
      * @param phxs
      * @return
      */
-    Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs);
+    Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, String adminId);
 
-    BdtSystem getBdtSystem();
+    BdtSystem getBdtSystem(String adminId);
 
     Boolean addResultData(ResultData resultData);
 
@@ -205,7 +207,7 @@ public interface TableDataService {
      * 获取自动投注信息
      * @return
      */
-    List<DopeManage> getDopeMangeList(int tzxt);
+    List<DopeManage> getDopeMangeList(int tzxt, String adminId);
 
     /**
      * 通过投注账号获取id
@@ -214,15 +216,15 @@ public interface TableDataService {
      */
     Integer getDopeManageIdByTzzh(String tzzh, Integer tzxt);
 
-    List<DopeManage> getDopeManageByTableNoAndTzxt(String tableNo, int tzxt);
+    List<DopeManage> getDopeManageByTableNoAndTzxt(String tableNo, int tzxt, String adminId);
 
     Boolean addDopeManage(DopeManage dopeManage);
 
     Boolean updateDopeManage(DopeManage dopeManage);
 
-    List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime);
+    List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime, String adminId);
 
-    List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime);
+    List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime, String adminId);
 
     Boolean updateStatus(StatusData statusData);
 
@@ -231,14 +233,14 @@ public interface TableDataService {
      * @param tableNo
      * @return
      */
-    int getCountFirstFitByTable(int tableNo, int battleNo);
+    int getCountFirstFitByTable(int tableNo, int battleNo, String adminId);
 
     /**
      * 获取需要进行投注的列表
      * @param tableNo
      * @return
      */
-    List<ResultData> getNeedTzDataList(Integer tableNo);
+    List<ResultData> getNeedTzDataList(Integer tableNo, String tzzh);
 
     /**
      * 批量更新投注状态
@@ -249,11 +251,21 @@ public interface TableDataService {
 
     List<StatusData> selectStatusAll();
 
-    String getCardTable(int tableNo, int battleNo, int fitNo);
+    String getCardTable(int tableNo, int battleNo, int fitNo, String adminId);
 
-    BigDecimal getTotalYxje(Date createTime,Integer tzxt,String tzzh);
-    BigDecimal getTotalYssy(Date createTime,Integer tzxt,String tzzh);
-    BigDecimal getTotalSjsy(Date createTime,Integer tzxt,String tzzh);
+    BigDecimal getTotalYxje(Date createTime,Integer tzxt,String tzzh, String adminId);
+    BigDecimal getTotalYssy(Date createTime,Integer tzxt,String tzzh, String adminId);
+    BigDecimal getTotalSjsy(Date createTime,Integer tzxt,String tzzh, String adminId);
 
     int insertDopeManage(DopeManage dopeManage);
+
+    TableData getTableByResult(int tableNo, int battleNo, int fitNo, Date resultDate, String adminId);
+
+    TableData getFitOneTable(int tableNo, int battleNo, String adminId);
+
+    int updateDopeManageCheckByUserId(String userId, Boolean hasCheck);
+
+    int addBdtSystem(BdtSystem bdtSystem);
+
+    int addTzSystem(TzSystem tzSystem);
 }

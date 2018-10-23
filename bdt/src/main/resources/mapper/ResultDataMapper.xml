@@ -66,6 +66,19 @@
     ORDER BY b.account ASC limit 1
   </select>
 
+  <select id="getResultJGNull" resultMap="BaseResultMap" parameterType="String">
+    select a.id, a.create_time, a.table_no, a.battle_no, a.fit_no, a.tzfx, a.tzxt, a.tzzh, a.tzje, a.tzzt,
+    a.tzjg, a.yxje, a.yssy, a.sjsy
+    from result_data a
+    WHERE
+    (a.tzjg IS NULL OR a.tzjg = '') AND a.tzzt = 1
+    AND a.create_time >= date_add(NOW(),interval -10 MINUTE )
+    AND a.tzzh IN
+    <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
   <select id="searchResultData" resultMap="BaseResultMap">
     select a.id, a.create_time, a.table_no, a.battle_no, a.fit_no, a.tzfx, a.tzxt, a.tzzh, a.tzje, a.tzzt,
     a.tzjg, a.yxje, a.yssy, a.sjsy, b.name, b.account
@@ -73,7 +86,7 @@
     WHERE 1 = 1
     <if test="createTime != null">
       AND a.create_time >= #{createTime}
-      AND a.create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
+      AND a.create_time <![CDATA[ < ]]> date_add(#{createTime},interval 1 day)
     </if>
     <if test="tzxt != null and tzxt != 0">
       AND a.tzxt = #{tzxt}
@@ -81,7 +94,10 @@
     <if test="tzzh != null and tzzh != ''">
       AND a.tzzh = #{tzzh}
     </if>
-    AND a.tzzh = b.id AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != ''
+    AND a.tzzh = b.id
+    <if test="adminId != null and adminId != ''">
+      AND b.admin_id = #{adminId}
+    </if>
     ORDER BY a.create_time DESC
   </select>
 
@@ -92,6 +108,9 @@
     WHERE tzzt IS NULL
     <if test="tableNo != null and tableNo != 0">
       AND table_no = #{tableNo}
+    </if>
+    <if test="tzzh != null and tzzh != ''">
+      AND tzzh = #{tzzh}
     </if>
     AND create_time >= DATE_ADD(NOW(),INTERVAL -1 MINUTE)
     ORDER BY create_time DESC
@@ -106,47 +125,56 @@
   </update>
 
   <select id="getAllYxje" resultType="BigDecimal">
-    SELECT SUM(yxje) FROM result_data where
-	tzzt = 1 AND tzjg IS NOT NULL AND tzjg != ''
+    SELECT SUM(a.yxje) FROM result_data a, user_account b where a.tzzh = b.id
+    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != ''
     <if test="createTime != null">
-      AND create_time >= #{createTime}
-      AND create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
+      AND a.create_time >= #{createTime}
+      AND a.create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
     </if>
     <if test="tzxt != null and tzxt != 0">
-      AND tzxt = #{tzxt}
+      AND a.tzxt = #{tzxt}
     </if>
     <if test="tzzh != null and tzzh != ''">
-      AND tzzh = #{tzzh}
+      AND a.tzzh = #{tzzh}
+    </if>
+    <if test="adminId != null and adminId != ''">
+      AND b.admin_id = #{adminId}
     </if>
   </select>
 
   <select id="getAllYssy" resultType="BigDecimal">
-    SELECT SUM(yssy) FROM result_data where
-    tzzt = 1 AND tzjg IS NOT NULL AND tzjg != ''
+    SELECT SUM(a.yssy) FROM result_data a, user_account b where a.tzzh = b.id
+    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != ''
     <if test="createTime != null">
-      AND create_time >= #{createTime}
-      AND create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
+      AND a.create_time >= #{createTime}
+      AND a.create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
     </if>
     <if test="tzxt != null and tzxt != 0">
-      AND tzxt = #{tzxt}
+      AND a.tzxt = #{tzxt}
     </if>
     <if test="tzzh != null and tzzh != ''">
-      AND tzzh = #{tzzh}
+      AND a.tzzh = #{tzzh}
+    </if>
+    <if test="adminId != null and adminId != ''">
+      AND b.admin_id = #{adminId}
     </if>
   </select>
 
   <select id="getAllSjsy" resultType="BigDecimal">
-    SELECT SUM(sjsy) FROM result_data where
-    tzzt = 1 AND tzjg IS NOT NULL AND tzjg != ''
+    SELECT SUM(a.sjsy) FROM result_data a, user_account b where a.tzzh = b.id
+    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != ''
     <if test="createTime != null">
-      AND create_time >= #{createTime}
-      AND create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
+      AND a.create_time >= #{createTime}
+      AND a.create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
     </if>
     <if test="tzxt != null and tzxt != 0">
-      AND tzxt = #{tzxt}
+      AND a.tzxt = #{tzxt}
     </if>
     <if test="tzzh != null and tzzh != ''">
-      AND tzzh = #{tzzh}
+      AND a.tzzh = #{tzzh}
+    </if>
+    <if test="adminId != null and adminId != ''">
+      AND b.admin_id = #{adminId}
     </if>
   </select>
 </mapper>

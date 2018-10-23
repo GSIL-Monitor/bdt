@@ -18,10 +18,13 @@ public interface DopeManageMapper {
 
     int insertList(@Param("list") List<DopeManage> list);
 
-    List<DopeManage> getDopeMangeList(@Param("tzxt") int tzxt);
+    List<DopeManage> getDopeMangeList(@Param("tzxt") int tzxt, @Param("adminId") String adminId);
 
     Integer getDopeManageIdByTzzh(@Param("tzzh") String tzzh, @Param("tzxt") Integer tzxt);
 
-    List<DopeManage> getDopeManageByTableNoAndTzxt(@Param("tableNo") String tableNo, @Param("tzxt") int tzxt);
+    List<DopeManage> getDopeManageByTableNoAndTzxt(@Param("tableNo") String tableNo, @Param("tzxt") int tzxt, @Param("adminId") String adminId);
 
+    int deleteDopeManageByUserId(@Param("userId") String userId, @Param("adminId") String adminId);
+
+    int updateDopeManageCheckByUserId(@Param("userId") String userId, @Param("hasCheck") Boolean hasCheck);
 }

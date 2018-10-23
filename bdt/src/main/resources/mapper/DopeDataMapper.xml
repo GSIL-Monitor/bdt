@@ -11,6 +11,7 @@
     <result column="tzfx" jdbcType="INTEGER" property="tzfx" />
     <result column="tzxt" jdbcType="INTEGER" property="tzxt" />
     <result column="tzzh" jdbcType="VARCHAR" property="tzzh" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="tzje" jdbcType="INTEGER" property="tzje" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -18,21 +19,21 @@
     WHERE id = #{id}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.DopeData">
-    insert into dope_data (id, create_time, tzsj_section, table_no,
+    insert into dope_data (id, admin_id, create_time, tzsj_section, table_no,
       battle_no, fit_no, tzfx, 
       tzxt, tzzh, tzje, is_delete)
-    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{tzsjSection}, #{tableNo,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{adminId}, #{createTime,jdbcType=TIMESTAMP}, #{tzsjSection}, #{tableNo,jdbcType=INTEGER},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{tzfx,jdbcType=INTEGER}, 
       #{tzxt,jdbcType=INTEGER}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=INTEGER}, 0)
   </insert>
 
   <insert id="addDopeDataList" parameterType="cn.com.infaith.module.model.DopeData">
-    insert into dope_data (create_time, tzsj_section, table_no,
+    insert into dope_data (admin_id, create_time, tzsj_section, table_no,
       battle_no, fit_no, tzfx,
       tzxt, tzzh, tzje, is_delete)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.createTime,jdbcType=TIMESTAMP}, #{item.tzsjSection}, #{item.tableNo,jdbcType=INTEGER},
+      (#{item.adminId}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.tzsjSection}, #{item.tableNo,jdbcType=INTEGER},
       #{item.battleNo,jdbcType=INTEGER}, #{item.fitNo,jdbcType=INTEGER}, #{item.tzfx,jdbcType=INTEGER},
       #{item.tzxt,jdbcType=INTEGER}, #{item.tzzh}, #{item.tzje,jdbcType=INTEGER}, 0)
     </foreach>
@@ -54,12 +55,12 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
+    select id, admin_id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
     from dope_data
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
+    select id, admin_id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
     from dope_data
   </select>
 
@@ -68,6 +69,9 @@
     from dope_data
     where table_no = #{tableNo}
     AND tzxt = #{tzSystem}
+    <if test="adminId != null and adminId != ''">
+      AND admin_id = #{adminId}
+    </if>
     AND is_delete = 0
   </select>
 
@@ -78,23 +82,23 @@
   </update>
 
   <select id="getFirstDopeByTableNoAndTzSystem" resultMap="BaseResultMap">
-    select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
+    select id, admin_id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
     from dope_data
-    where is_delete = 0 AND table_no = #{tableNo} AND tzxt = #{tzSystem}
+    where is_delete = 0 AND table_no = #{tableNo} AND tzxt = #{tzSystem} AND admin_id = #{adminId}
     limit 1
   </select>
 
   <select id="getFirstDopeByTableNoAndTzSystemOrderByAccount" resultMap="BaseResultMap">
-    select a.id, a.create_time, a.tzsj_section, a.table_no, a.battle_no, a.fit_no, a.tzfx, a.tzxt, a.tzzh, a.tzje
+    select a.id, a.admin_id, a.create_time, a.tzsj_section, a.table_no, a.battle_no, a.fit_no, a.tzfx, a.tzxt, a.tzzh, a.tzje
     from dope_data a, user_account b
-    where a.is_delete = 0 AND a.table_no = #{tableNo} AND a.tzxt = #{tzSystem} AND a.tzzh = b.id
+    where a.is_delete = 0 AND a.table_no = #{tableNo} AND a.tzxt = #{tzSystem} AND a.tzzh = b.id AND a.admin_id = #{adminId}
     ORDER BY b.account ASC
     limit 1
   </select>
 
   <select id="getDopeByTableNoAndTzSystem" resultMap="BaseResultMap">
-    select id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
+    select id, admin_id, create_time, tzsj_section, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje
     from dope_data
-    where is_delete = 0 AND table_no = #{tableNo} AND tzxt = #{tzSystem}
+    where is_delete = 0 AND table_no = #{tableNo} AND tzxt = #{tzSystem} AND admin_id = #{adminId}
   </select>
 </mapper>

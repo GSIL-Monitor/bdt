@@ -14,11 +14,15 @@ public interface UserAccountMapper {
 
     UserAccount selectByPrimaryKey(String id);
 
-    UserAccount selectByAccountAndPassWord(@Param("account") String account, @Param("password") String password);
+    UserAccount selectByAccountAndPassWord(@Param("account") String account, @Param("password") String password, @Param("adminId") String adminId);
 
-    int selectCountByAccount(String account);
+    int selectCountByAccount(@Param("account") String account, @Param("adminId") String adminId);
 
     List<UserAccount> selectAll();
 
     int updateByPrimaryKey(UserAccount record);
+
+    List<UserAccount> selectByAdmin(String adminId);
+
+    List<String> getUserIdByAdmin(String adminId);
 }

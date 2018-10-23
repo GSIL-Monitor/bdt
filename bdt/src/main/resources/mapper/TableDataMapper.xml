@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.TableData">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="table_no" jdbcType="INTEGER" property="tableNo" />
     <result column="battle_no" jdbcType="INTEGER" property="battleNo" />
     <result column="fit_no" jdbcType="INTEGER" property="fitNo" />
@@ -22,23 +23,23 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.TableData" useGeneratedKeys="true" keyProperty="id">
-    insert into table_data (create_time, table_no, created,
+    insert into table_data (admin_id, create_time, table_no, created,
       battle_no, fit_no, card, xian_card,
       result, xgl, zgl, xtsl,
       ztsl, is_delete)
-    values (#{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER}, #{created},
+    values (#{adminId}, #{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER}, #{created},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{card,jdbcType=VARCHAR}, #{xianCard},
       #{result,jdbcType=INTEGER}, #{xgl,jdbcType=VARCHAR}, #{zgl,jdbcType=VARCHAR}, #{xtsl,jdbcType=VARCHAR},
       #{ztsl,jdbcType=VARCHAR}, 0)
   </insert>
   <insert id="addTableDataList" parameterType="cn.com.infaith.module.model.TableData">
-    insert into table_data (create_time, table_no, created,
+    insert into table_data (admin_id, create_time, table_no, created,
       battle_no, fit_no, card, xian_card,
       result, xgl, zgl, xtsl,
       ztsl, is_delete)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.createTime,jdbcType=TIMESTAMP}, #{item.tableNo,jdbcType=INTEGER}, #{item.created},
+      (#{item.adminId}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.tableNo,jdbcType=INTEGER}, #{item.created},
       #{item.battleNo,jdbcType=INTEGER}, #{item.fitNo,jdbcType=INTEGER}, #{item.card,jdbcType=VARCHAR}, #{item.xianCard},
       #{item.result,jdbcType=INTEGER}, #{item.xgl,jdbcType=VARCHAR}, #{item.zgl,jdbcType=VARCHAR}, #{item.xtsl,jdbcType=VARCHAR},
       #{item.ztsl,jdbcType=VARCHAR}, 0)
@@ -61,13 +62,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
+    select id, admin_id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
     ztsl
     from table_data
     where id = #{id,jdbcType=INTEGER} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
+    select id, admin_id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
     ztsl
     from table_data
   </select>
@@ -109,10 +110,10 @@
 	GROUP BY c.table_no
   </select>
 
-  <select id="getNewestTableData" parameterType="int" resultMap="BaseResultMap">
-    select id, create_time, table_no, created, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
+  <select id="getNewestTableData" resultMap="BaseResultMap">
+    select id, admin_id, create_time, table_no, created, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
     ztsl
-    from table_data WHERE is_delete = 0 AND table_no = #{tableNo}
+    from table_data WHERE is_delete = 0 AND table_no = #{tableNo} AND admin_id = #{adminId}
     ORDER BY create_time DESC limit 1
   </select>
 
@@ -128,20 +129,24 @@
     </if>
     <if test="createTime != null">
       AND create_time >= #{createTime}
-      AND create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
+      AND create_time <![CDATA[ < ]]> date_add(#{createTime},interval 1 day)
+    </if>
+    <if test="adminId != null and adminId != ''">
+      AND admin_id = #{adminId}
     </if>
     ORDER BY create_time DESC, table_no ASC, battle_no DESC, fit_no DESC
   </select>
 
   <select id="checkIsHaveTableData" resultType="int">
     SELECT count(1) FROM table_data
-    WHERE is_delete = 0 AND created = #{created} AND table_no = #{tableNo}
-    AND battle_no = #{battleNo} AND fit_no = #{fitNo} AND card = #{card}
+    WHERE is_delete = 0 AND create_time >= date_add(#{createTime},interval -30 MINUTE)
+    AND table_no = #{tableNo}
+    AND battle_no = #{battleNo} AND fit_no = #{fitNo} AND card = #{card} AND admin_id = #{adminId}
   </select>
 
   <select id="getCountFirstFitByTable" resultType="int">
     SELECT count(1) FROM table_data
-    WHERE is_delete = 0 AND table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = 1
+    WHERE is_delete = 0 AND table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = 1 AND admin_id = #{adminId}
   </select>
 
   <select id="getCardTable" resultType="String">
@@ -164,6 +169,28 @@
     table_data
     WHERE
     is_delete = 0 AND table_no = #{tableNo}
-    AND battle_no = #{battleNo} AND fit_no = #{fitNo} ORDER BY create_time DESC limit 1
+    AND battle_no = #{battleNo} AND fit_no = #{fitNo} AND admin_id = #{adminId}
+    ORDER BY create_time DESC limit 1
+  </select>
+
+  <select id="getTableByResult" resultMap="BaseResultMap">
+    select id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
+    ztsl
+    from table_data
+    where is_delete = 0
+    AND create_time >= DATE_SUB(#{resultDate},INTERVAL 20 MINUTE)
+    AND create_time <![CDATA[ <= ]]> DATE_ADD(#{resultDate},INTERVAL 20 MINUTE)
+    AND table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = #{fitNo}
+    AND admin_id = #{adminId}
+    limit 1
+  </select>
+
+  <select id="getFitOneTable" resultMap="BaseResultMap">
+    select card, xian_card
+    from table_data
+    where is_delete = 0
+    AND table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = 1 AND admin_id = #{adminId}
+    ORDER BY create_time DESC
+    limit 1
   </select>
 </mapper>

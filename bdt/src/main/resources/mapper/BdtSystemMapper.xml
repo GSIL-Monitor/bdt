@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.BdtSystem">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="ps" jdbcType="INTEGER" property="ps" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="phxs" jdbcType="DECIMAL" property="phxs" />
     <result column="started" jdbcType="BIT" property="started" />
     <result column="yxje" jdbcType="DECIMAL" property="yxje" />
@@ -15,9 +16,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.BdtSystem">
-    insert into bdt_system (id, ps, phxs,
+    insert into bdt_system (id, admin_id, ps, phxs,
       started)
-    values (#{id,jdbcType=INTEGER}, #{ps,jdbcType=INTEGER}, #{phxs,jdbcType=DECIMAL},
+    values (#{id,jdbcType=INTEGER}, #{adminId}, #{ps,jdbcType=INTEGER}, #{phxs,jdbcType=DECIMAL},
       #{started,jdbcType=BIT})
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.BdtSystem">
@@ -28,12 +29,12 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, ps, phxs, started
+    select id, ps, phxs, started, admin_id
     from bdt_system
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, ps, phxs, started
+    select id, ps, phxs, started, admin_id
     from bdt_system
   </select>
 
@@ -47,10 +48,12 @@
       <if test="phxs != null">
         ,phxs = #{phxs,jdbcType=DECIMAL}
       </if>
+    WHERE admin_id = #{adminId}
   </update>
 
-  <select id="getBdtSystem" resultMap="BaseResultMap" parameterType="Integer">
-    select id, ps, phxs, started
+  <select id="getBdtSystem" resultMap="BaseResultMap" parameterType="String">
+    select id, ps, phxs, started, admin_id
     from bdt_system
+    WHERE admin_id = #{adminId}
   </select>
 </mapper>

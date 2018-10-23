@@ -16,6 +16,8 @@ public class BdtSystem {
 
     private Boolean started;
 
+    private String adminId;
+
     public Integer getId() {
         return id;
     }
@@ -72,4 +74,11 @@ public class BdtSystem {
         this.sjje = sjje;
     }
 
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
 }

@@ -12,7 +12,7 @@
     UPDATE admin_account SET is_delete = 1 WHERE id = #{id}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.AdminAccount">
-    insert into admin_account (id, name, account, password
+    insert into admin_account (id, name, account, password,
       is_delete)
     values (#{id,jdbcType=VARCHAR}, #{name}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       0)
@@ -46,5 +46,9 @@
     select id, name, account, password, is_delete
     from admin_account
     where account = #{account} AND password = #{password} AND is_delete = 0
+  </select>
+
+  <select id="getAllAdminId" resultType="String">
+    SELECT id FROM admin_account WHERE is_delete = 0
   </select>
 </mapper>

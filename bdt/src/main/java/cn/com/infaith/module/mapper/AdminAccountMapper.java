@@ -17,4 +17,6 @@ public interface AdminAccountMapper {
     int updateByPrimaryKey(AdminAccount record);
 
     AdminAccount getAdminByAccountAndPassword(@Param("account") String account, @Param("password") String password);
+
+    List<String> getAllAdminId();
 }

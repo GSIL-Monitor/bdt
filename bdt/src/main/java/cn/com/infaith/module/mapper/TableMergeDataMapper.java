@@ -23,9 +23,11 @@ public interface TableMergeDataMapper {
 
     int updateByPrimaryKey(TableMergeData record);
 
-    TableMergeData getLastTableMergeDataNotId(int id);
+    TableMergeData getLastTableMergeDataNotId(@Param("id") int id, @Param("adminId") String adminId);
 
-    List<Map<Integer, String>> getResultInfo(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    List<Map<Integer, String>> getResultInfo(@Param("startDate") Date startDate, @Param("endDate") Date endDate,
+                                             @Param("adminId") String adminId);
 
-    List<Map<Integer, String>> getLJZJZ(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    List<Map<Integer, String>> getLJZJZ(@Param("startDate") Date startDate, @Param("endDate") Date endDate,
+                                        @Param("adminId") String adminId);
 }

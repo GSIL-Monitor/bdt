@@ -18,7 +18,8 @@ public interface TzSystemMapper {
 
     int updateStartOrClose(@Param("started") Boolean started, @Param("tzxt") int tzxt,
                            @Param("fh") Integer fh,
-                           @Param("xh") String xh);
+                           @Param("xh") String xh,
+                           @Param("adminId") String adminId);
 
-    TzSystem getTzSystemInfo(@Param("tzxt") int tzxt);
+    TzSystem getTzSystemInfo(@Param("tzxt") int tzxt, @Param("adminId") String adminId);
 }

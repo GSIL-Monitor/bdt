@@ -2,6 +2,7 @@ package cn.com.infaith.module.service.impl;
 
 import cn.com.infaith.module.mapper.AdminAccountMapper;
 import cn.com.infaith.module.mapper.AdminManageUserMapper;
+import cn.com.infaith.module.mapper.DopeManageMapper;
 import cn.com.infaith.module.mapper.UserAccountMapper;
 import cn.com.infaith.module.model.AdminAccount;
 import cn.com.infaith.module.model.AdminManageUser;
@@ -12,6 +13,7 @@ import cn.com.infaith.module.util.PublicUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,11 +29,13 @@ public class UserAccountServiceImpl implements UserAccountService {
     private AdminAccountMapper adminAccountMapper;
     @Autowired
     private AdminManageUserMapper adminManageUserMapper;
+    @Autowired
+    private DopeManageMapper dopeManageMapper;
 
     @Override
     public String addUserAccount(UserAccount userAccount) {
 
-        int count = userAccountMapper.selectCountByAccount(userAccount.getAccount());
+        int count = userAccountMapper.selectCountByAccount(userAccount.getAccount(), userAccount.getAdminId());
         if (count > 0) {
             return "";
         }
@@ -65,16 +69,21 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount getUserByAccountAndPassWord(String account, String passWord) {
+    public UserAccount getUserByAccountAndPassWord(String account, String passWord, String adminId) {
         passWord = MD5Util.encrypt(passWord);
-        return userAccountMapper.selectByAccountAndPassWord(account, passWord);
+        return userAccountMapper.selectByAccountAndPassWord(account, passWord, adminId);
     }
 
     @Override
-    public Boolean addAdminAccount(AdminAccount adminAccount) {
-        adminAccount.setId(PublicUtil.getUUID());
+    public String addAdminAccount(AdminAccount adminAccount) {
+        String id = PublicUtil.getUUID();
+        adminAccount.setId(id);
         adminAccount.setPassword(MD5Util.encrypt(adminAccount.getPassword()));
-        return adminAccountMapper.insert(adminAccount) > 0 ? true : false;
+        if (adminAccountMapper.insert(adminAccount) > 0) {
+            return id;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -98,7 +107,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public List<UserAccount> getUserByAdmin(String adminId) {
-        return adminManageUserMapper.getUserByAdmin(adminId);
+        return userAccountMapper.selectByAdmin(adminId);
+    }
+
+    @Override
+    public List<String> getUserIdByAdmin(String adminId) {
+        return userAccountMapper.getUserIdByAdmin(adminId);
     }
 
     @Override
@@ -141,5 +155,22 @@ public class UserAccountServiceImpl implements UserAccountService {
             }
         });
         return count.get();
+    }
+
+    @Override
+    public int deleteDopeManageByUserId(String userId, String adminId) {
+        return dopeManageMapper.deleteDopeManageByUserId(userId, adminId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserByIdCommit(String userId, String adminId) {
+        deleteUserAccount(userId);
+        deleteDopeManageByUserId(userId, adminId);
+    }
+
+    @Override
+    public List<String> getAllAdminId() {
+        return adminAccountMapper.getAllAdminId();
     }
 }

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 public class UserAccount {
     private String id;
 
+    private String adminId;
+
     private String name;
 
     private String account;
@@ -111,5 +113,13 @@ public class UserAccount {
 
     public void setIpAddressPublic(String ipAddressPublic) {
         this.ipAddressPublic = ipAddressPublic;
+    }
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
 }

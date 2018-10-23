@@ -4,6 +4,8 @@ import java.util.List;
 
 public class TzInfo {
 
+    private String adminId;
+
     private Integer tzxt;
 
     private Boolean started;
@@ -20,6 +22,14 @@ public class TzInfo {
 
     public void setTzxt(Integer tzxt) {
         this.tzxt = tzxt;
+    }
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
 
     public Boolean getStarted() {

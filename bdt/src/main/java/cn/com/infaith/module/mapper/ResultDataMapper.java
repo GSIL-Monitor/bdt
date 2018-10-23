@@ -20,13 +20,16 @@ public interface ResultDataMapper {
 
     ResultData getResultJGNullByTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
 
-    List<ResultData> searchResultData(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh);
+    List<ResultData> getResultJGNull(List<String> list);
 
-    List<ResultData> getNeedTzDataList(@Param("tableNo") Integer tableNo);
+    List<ResultData> searchResultData(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh,
+                                      @Param("adminId") String adminId);
+
+    List<ResultData> getNeedTzDataList(@Param("tableNo") Integer tableNo, @Param("tzzh") String tzzh);
 
     int updateTzzt(ResultData record);
 
-    BigDecimal getAllYxje(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh);
-    BigDecimal getAllYssy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh);
-    BigDecimal getAllSjsy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh);
+    BigDecimal getAllYxje(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh, @Param("adminId") String adminId);
+    BigDecimal getAllYssy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh, @Param("adminId") String adminId);
+    BigDecimal getAllSjsy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh, @Param("adminId") String adminId);
 }

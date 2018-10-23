@@ -5,6 +5,8 @@ import java.util.Date;
 public class DopeData {
     private Integer id;
 
+    private String adminId;
+
     private Date createTime;
 
     private String tzsjSection;
@@ -22,6 +24,14 @@ public class DopeData {
     private String tzzh;
 
     private Integer tzje;
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
 
     public Integer getId() {
         return id;

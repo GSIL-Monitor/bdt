@@ -8,6 +8,7 @@ public class TableData {
 
     @ApiParam(hidden = true)
     private Integer id;
+    private String adminId;
     @ApiParam(hidden = true)
     private Date createTime;
     @ApiParam(value = "创建时间")
@@ -155,5 +156,13 @@ public class TableData {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
 }

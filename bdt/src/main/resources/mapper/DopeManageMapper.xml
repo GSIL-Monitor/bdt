@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.DopeManage">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="tzzh" jdbcType="VARCHAR" property="tzzh" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="has_check" jdbcType="TINYINT" property="hasCheck" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="account" jdbcType="VARCHAR" property="account" />
@@ -21,21 +22,21 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.DopeManage">
-    insert into dope_manage (id, tzxt, tzzh, tzje, tzfx, has_check,
+    insert into dope_manage (id, admin_id, tzxt, tzzh, tzje, tzfx, has_check,
       tzsj_section1, tzsj_section2, table_no, 
       is_delete, create_time)
-    values (#{id,jdbcType=INTEGER}, #{tzxt}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=INTEGER}, #{tzfx}, #{hasCheck},
+    values (#{id,jdbcType=INTEGER}, #{adminId}, #{tzxt}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=INTEGER}, #{tzfx}, #{hasCheck},
       #{tzsjSection1,jdbcType=VARCHAR}, #{tzsjSection2,jdbcType=VARCHAR}, #{tableNo,jdbcType=VARCHAR},
       0, now())
   </insert>
 
   <insert id="insertList" parameterType="cn.com.infaith.module.model.DopeManage">
-    insert into dope_manage (tzxt, tzzh, tzje, tzfx, has_check,
+    insert into dope_manage (admin_id, tzxt, tzzh, tzje, tzfx, has_check,
       tzsj_section1, tzsj_section2, table_no,
       is_delete, create_time)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.tzxt}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=INTEGER}, #{item.tzfx}, #{item.hasCheck},
+      (#{item.adminId}, #{item.tzxt}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=INTEGER}, #{item.tzfx}, #{item.hasCheck},
       #{item.tzsjSection1,jdbcType=VARCHAR}, #{item.tzsjSection2,jdbcType=VARCHAR}, #{item.tableNo,jdbcType=VARCHAR},
       0, now())
     </foreach>
@@ -49,22 +50,24 @@
       tzsj_section2 = #{tzsjSection2,jdbcType=VARCHAR},
       table_no = #{tableNo,jdbcType=VARCHAR},
       tzfx = #{tzfx},
-      has_check = #{hasCheck}
+      has_check = #{hasCheck},
+      is_delete = #{isDelete}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time,has_check
+    select id, admin_id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time,has_check
     from dope_manage
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time,has_check
+    select id, admin_id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time,has_check
     from dope_manage
   </select>
 
-  <select id="getDopeMangeList" resultMap="BaseResultMap" parameterType="int">
+  <select id="getDopeMangeList" resultMap="BaseResultMap">
     SELECT
         a.id,
+        a.admin_id,
         a.has_check,
         a.tzxt,
         a.tzzh,
@@ -83,6 +86,9 @@
     WHERE
         a.tzzh = b.id
         AND a.tzxt = #{tzxt}
+        AND a.admin_id = #{adminId}
+        AND a.is_delete = 0
+        AND b.is_delete = 0
     ORDER BY
         b.account ASC
   </select>
@@ -92,9 +98,22 @@
     </select>
 
     <select id="getDopeManageByTableNoAndTzxt" resultMap="BaseResultMap">
-        select id, has_check, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time
+        select id, admin_id, has_check, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time
         from dope_manage
         WHERE is_delete = 0 AND table_no LIKE concat('%',#{tableNo},'%')
         AND tzxt = #{tzxt} AND has_check = 1
+        AND admin_id = #{adminId}
     </select>
+
+    <update id="deleteDopeManageByUserId">
+        UPDATE dope_manage SET is_delete = 1 WHERE tzzh = #{userId} AND admin_id = #{adminId}
+    </update>
+
+    <update id="updateDopeManageCheckByUserId">
+        UPDATE dope_manage SET has_check = #{hasCheck} WHERE tzzh = #{userId}
+        AND is_delete = 0
+        AND tzje IS NOT NULL AND tzje != 0
+        AND tzsj_section1 IS NOT NULL AND tzsj_section1 != ''
+        AND table_no IS NOT NULL AND table_no != ''
+    </update>
 </mapper>

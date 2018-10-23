@@ -21,15 +21,24 @@ public interface TableDataMapper {
 
     List<TableData> getTableInfo();
 
-    TableData getNewestTableData(int tableNo);
+    TableData getNewestTableData(@Param("tableNo") int tableNo, @Param("adminId") String adminId);
 
-    List<TableData> searchTableData(@Param("createTime") Date createTime, @Param("tableNo") Integer tableNo, @Param("battleNo") Integer battleNo);
+    List<TableData> searchTableData(@Param("createTime") Date createTime, @Param("tableNo") Integer tableNo, @Param("battleNo") Integer battleNo,
+                                    @Param("adminId") String adminId);
 
     int checkIsHaveTableData(@Param("created") Date created, @Param("tableNo") Integer tableNo,
                              @Param("battleNo") Integer battleNo, @Param("fitNo") Integer fitNo,
-                             @Param("card") String card);
+                             @Param("card") String card, @Param("adminId") String adminId);
 
-    int getCountFirstFitByTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo);
+    int getCountFirstFitByTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("adminId") String adminId);
 
-    String getCardTable(@Param("tableNo") int tableNo,@Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
+    String getCardTable(@Param("tableNo") int tableNo,@Param("battleNo") int battleNo, @Param("fitNo") int fitNo,
+                        @Param("adminId") String adminId);
+
+    TableData getTableByResult(@Param("tableNo") int tableNo,@Param("battleNo") int battleNo,
+                               @Param("fitNo") int fitNo, @Param("resultDate") Date resultDate,
+                               @Param("adminId") String adminId);
+
+    TableData getFitOneTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("adminId") String adminId);
+
 }

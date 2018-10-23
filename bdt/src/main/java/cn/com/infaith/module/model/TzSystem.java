@@ -11,6 +11,8 @@ public class TzSystem {
 
     private String xh;
 
+    private String adminId;
+
     public Integer getId() {
         return id;
     }
@@ -51,4 +53,11 @@ public class TzSystem {
         this.xh = xh;
     }
 
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
 }

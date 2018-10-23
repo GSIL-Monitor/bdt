@@ -44,11 +44,11 @@ public class TableDataServiceImpl implements TableDataService {
 
         tableData.setCreateTime(new Date(tableData.getCreateDate()));
         tableData.setCreated(TimeUtil.getDateZeroDate(new Date(tableData.getCreateDate())));
-//        int count = tableDataMapper.checkIsHaveTableData(tableData.getCreated(), tableData.getTableNo(), tableData.getBattleNo(),
-//                tableData.getFitNo(), tableData.getCard());
-//        if (count > 0) {
-//            return null;
-//        }
+        int count = tableDataMapper.checkIsHaveTableData(tableData.getCreateTime(), tableData.getTableNo(), tableData.getBattleNo(),
+                tableData.getFitNo(), tableData.getCard(), tableData.getAdminId());
+        if (count > 0) {
+            return null;
+        }
         return tableDataMapper.insert(tableData);
     }
 
@@ -58,7 +58,7 @@ public class TableDataServiceImpl implements TableDataService {
         for (int i = 0; i < tableDataList.size(); i++) {
             TableData tableData = tableDataList.get(i);
             int count = tableDataMapper.checkIsHaveTableData(tableData.getCreated(), tableData.getTableNo(), tableData.getBattleNo(),
-                    tableData.getFitNo(), tableData.getCard());
+                    tableData.getFitNo(), tableData.getCard(), tableData.getAdminId());
             if (count > 0) {
                 continue;
             }
@@ -101,8 +101,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public int getDopeCountByTableNo(int tableNo, int tzSystem) {
-        return dopeDataMapper.getDopeCountByTableNo(tableNo, tzSystem);
+    public int getDopeCountByTableNo(int tableNo, int tzSystem, String adminId) {
+        return dopeDataMapper.getDopeCountByTableNo(tableNo, tzSystem, adminId);
     }
 
     @Override
@@ -111,18 +111,18 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public DopeData getFirstDopeByTableNoAndTzSystem(int tableNo, int tzSystem) {
-        return dopeDataMapper.getFirstDopeByTableNoAndTzSystem(tableNo, tzSystem);
+    public DopeData getFirstDopeByTableNoAndTzSystem(int tableNo, int tzSystem, String adminId) {
+        return dopeDataMapper.getFirstDopeByTableNoAndTzSystem(tableNo, tzSystem, adminId);
     }
 
     @Override
-    public DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(int tableNo, int tzSystem) {
-        return dopeDataMapper.getFirstDopeByTableNoAndTzSystemOrderByAccount(tableNo, tzSystem);
+    public DopeData getFirstDopeByTableNoAndTzSystemOrderByAccount(int tableNo, int tzSystem, String adminId) {
+        return dopeDataMapper.getFirstDopeByTableNoAndTzSystemOrderByAccount(tableNo, tzSystem, adminId);
     }
 
     @Override
-    public TableData getNewestTableData(int tableNo) {
-        return tableDataMapper.getNewestTableData(tableNo);
+    public TableData getNewestTableData(int tableNo, String adminId) {
+        return tableDataMapper.getNewestTableData(tableNo, adminId);
     }
 
     @Override
@@ -131,8 +131,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public TableMergeData getLastTableMergeDataNotId(int id) {
-        return tableMergeDataMapper.getLastTableMergeDataNotId(id);
+    public TableMergeData getLastTableMergeDataNotId(int id, String adminId) {
+        return tableMergeDataMapper.getLastTableMergeDataNotId(id, adminId);
     }
 
     @Override
@@ -141,18 +141,18 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean updateTzStartOrClose(Boolean started, int tzxt, int fh, String xh) {
-        return tzSystemMapper.updateStartOrClose(started, tzxt, fh, xh) > 0 ? true : false;
+    public Boolean updateTzStartOrClose(Boolean started, int tzxt, int fh, String xh, String adminId) {
+        return tzSystemMapper.updateStartOrClose(started, tzxt, fh, xh, adminId) > 0 ? true : false;
     }
 
     @Override
-    public TzSystem getTzSystemInfo(int tzxt) {
-        return tzSystemMapper.getTzSystemInfo(tzxt);
+    public TzSystem getTzSystemInfo(int tzxt, String adminId) {
+        return tzSystemMapper.getTzSystemInfo(tzxt, adminId);
     }
 
     @Override
-    public List<DopeData> getDopeByTableNoAndTzSystem(int tableNo, int tzSystem) {
-        return dopeDataMapper.getDopeByTableNoAndTzSystem(tableNo, tzSystem);
+    public List<DopeData> getDopeByTableNoAndTzSystem(int tableNo, int tzSystem, String adminId) {
+        return dopeDataMapper.getDopeByTableNoAndTzSystem(tableNo, tzSystem, adminId);
     }
 
     @Override
@@ -166,6 +166,11 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
+    public List<ResultData> getResultJGNull(List<String> list) {
+        return resultDataMapper.getResultJGNull(list);
+    }
+
+    @Override
     public int updateResultById(ResultData record) {
         return resultDataMapper.updateById(record);
     }
@@ -176,7 +181,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public JSONObject searchTableData(Long createTime, Integer tableNo, Integer battleNo, Integer pageNum, Integer pageSize) {
+    public JSONObject searchTableData(Long createTime, Integer tableNo, Integer battleNo, Integer pageNum, Integer pageSize, String adminId) {
 
         Date createDate;
         if (createTime == null || createTime == 0) {
@@ -185,12 +190,12 @@ public class TableDataServiceImpl implements TableDataService {
             createDate = new Date(createTime);
         }
         Page<TableData> page = PageHelper.startPage(pageNum, pageSize, true);
-        List<TableData> list = tableDataMapper.searchTableData(createDate, tableNo, battleNo);
+        List<TableData> list = tableDataMapper.searchTableData(createDate, tableNo, battleNo, adminId);
         return ResponseJsonUtil.getResponseJson(200,"SUCCESS",list,pageNum,pageSize,page.getTotal());
     }
 
     @Override
-    public JSONObject searchResultData(Long createTime, Integer tzxt, String tzzh, Integer pageNum, Integer pageSize) {
+    public JSONObject searchResultData(Long createTime, Integer tzxt, String tzzh, Integer pageNum, Integer pageSize, String adminId) {
 
         JSONObject json = new JSONObject();
         Date createDate;
@@ -200,10 +205,10 @@ public class TableDataServiceImpl implements TableDataService {
             createDate = new Date(createTime);
         }
         Page<ResultData> page = PageHelper.startPage(pageNum, pageSize, true);
-        List<ResultData> list = resultDataMapper.searchResultData(createDate, tzxt, tzzh);
-        BigDecimal yxje = resultDataMapper.getAllYxje(createDate, tzxt, tzzh);
-        BigDecimal sjsy = resultDataMapper.getAllSjsy(createDate, tzxt, tzzh);
-        BigDecimal yssy = resultDataMapper.getAllYssy(createDate, tzxt, tzzh);
+        List<ResultData> list = resultDataMapper.searchResultData(createDate, tzxt, tzzh, adminId);
+        BigDecimal yxje = resultDataMapper.getAllYxje(createDate, tzxt, tzzh, adminId);
+        BigDecimal sjsy = resultDataMapper.getAllSjsy(createDate, tzxt, tzzh, adminId);
+        BigDecimal yssy = resultDataMapper.getAllYssy(createDate, tzxt, tzzh, adminId);
         json.put("list", list);
         json.put("yxje", yxje);
         json.put("sjsy", sjsy);
@@ -212,13 +217,13 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs) {
-        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs);
+    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, String adminId) {
+        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs, adminId);
     }
 
     @Override
-    public BdtSystem getBdtSystem() {
-        return bdtSystemMapper.getBdtSystem();
+    public BdtSystem getBdtSystem(String adminId) {
+        return bdtSystemMapper.getBdtSystem(adminId);
     }
 
     @Override
@@ -244,8 +249,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public List<DopeManage> getDopeMangeList(int tzxt) {
-        return dopeManageMapper.getDopeMangeList(tzxt);
+    public List<DopeManage> getDopeMangeList(int tzxt, String adminId) {
+        return dopeManageMapper.getDopeMangeList(tzxt, adminId);
     }
 
     @Override
@@ -254,8 +259,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public List<DopeManage> getDopeManageByTableNoAndTzxt(String tableNo, int tzxt) {
-        return dopeManageMapper.getDopeManageByTableNoAndTzxt(tableNo, tzxt);
+    public List<DopeManage> getDopeManageByTableNoAndTzxt(String tableNo, int tzxt, String adminId) {
+        return dopeManageMapper.getDopeManageByTableNoAndTzxt(tableNo, tzxt, adminId);
     }
 
     @Override
@@ -269,7 +274,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime) {
+    public List<Map<Integer, String>> getLJXJZ(Long startTime, Long endTime, String adminId) {
 
         Date startDate;
         if (startTime == null || startTime == 0) {
@@ -283,12 +288,12 @@ public class TableDataServiceImpl implements TableDataService {
         } else {
             endDate = new Date(endTime);
         }
-        List<Map<Integer, String>> map = tableMergeDataMapper.getResultInfo(startDate, endDate);
+        List<Map<Integer, String>> map = tableMergeDataMapper.getResultInfo(startDate, endDate, adminId);
         return map;
     }
 
     @Override
-    public List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime) {
+    public List<Map<Integer, String>> getLJZJZ(Long startTime, Long endTime, String adminId) {
         Date startDate;
         if (startTime == null || startTime == 0) {
             startDate = TimeUtil.getTodayZeroDate();
@@ -301,7 +306,7 @@ public class TableDataServiceImpl implements TableDataService {
         } else {
             endDate = new Date(endTime);
         }
-        return tableMergeDataMapper.getLJZJZ(startDate, endDate);
+        return tableMergeDataMapper.getLJZJZ(startDate, endDate, adminId);
     }
 
     @Override
@@ -310,13 +315,13 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public int getCountFirstFitByTable(int tableNo, int battleNo) {
-        return tableDataMapper.getCountFirstFitByTable(tableNo, battleNo);
+    public int getCountFirstFitByTable(int tableNo, int battleNo, String adminId) {
+        return tableDataMapper.getCountFirstFitByTable(tableNo, battleNo, adminId);
     }
 
     @Override
-    public List<ResultData> getNeedTzDataList(Integer tableNo) {
-        return resultDataMapper.getNeedTzDataList(tableNo);
+    public List<ResultData> getNeedTzDataList(Integer tableNo, String tzzh) {
+        return resultDataMapper.getNeedTzDataList(tableNo, tzzh);
     }
 
     @Override
@@ -336,23 +341,23 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public String getCardTable(int tableNo, int battleNo, int fitNo) {
-        return tableDataMapper.getCardTable(tableNo, battleNo, fitNo);
+    public String getCardTable(int tableNo, int battleNo, int fitNo, String adminId) {
+        return tableDataMapper.getCardTable(tableNo, battleNo, fitNo, adminId);
     }
 
     @Override
-    public BigDecimal getTotalYxje(Date createTime, Integer tzxt, String tzzh) {
-        return resultDataMapper.getAllYxje(createTime, tzxt, tzzh);
+    public BigDecimal getTotalYxje(Date createTime, Integer tzxt, String tzzh, String adminId) {
+        return resultDataMapper.getAllYxje(createTime, tzxt, tzzh, adminId);
     }
 
     @Override
-    public BigDecimal getTotalYssy(Date createTime, Integer tzxt, String tzzh) {
-        return resultDataMapper.getAllYssy(createTime, tzxt, tzzh);
+    public BigDecimal getTotalYssy(Date createTime, Integer tzxt, String tzzh, String adminId) {
+        return resultDataMapper.getAllYssy(createTime, tzxt, tzzh, adminId);
     }
 
     @Override
-    public BigDecimal getTotalSjsy(Date createTime, Integer tzxt, String tzzh) {
-        return resultDataMapper.getAllSjsy(createTime, tzxt, tzzh);
+    public BigDecimal getTotalSjsy(Date createTime, Integer tzxt, String tzzh, String adminId) {
+        return resultDataMapper.getAllSjsy(createTime, tzxt, tzzh, adminId);
     }
 
     @Override
@@ -360,5 +365,28 @@ public class TableDataServiceImpl implements TableDataService {
         return dopeManageMapper.insert(dopeManage);
     }
 
+    @Override
+    public TableData getTableByResult(int tableNo, int battleNo, int fitNo, Date resultDate, String adminId) {
+        return tableDataMapper.getTableByResult(tableNo, battleNo, fitNo, resultDate, adminId);
+    }
 
+    @Override
+    public TableData getFitOneTable(int tableNo, int battleNo, String adminId) {
+        return tableDataMapper.getFitOneTable(tableNo, battleNo, adminId);
+    }
+
+    @Override
+    public int updateDopeManageCheckByUserId(String userId, Boolean hasCheck) {
+        return dopeManageMapper.updateDopeManageCheckByUserId(userId, hasCheck);
+    }
+
+    @Override
+    public int addBdtSystem(BdtSystem bdtSystem) {
+        return bdtSystemMapper.insert(bdtSystem);
+    }
+
+    @Override
+    public int addTzSystem(TzSystem tzSystem) {
+        return tzSystemMapper.insert(tzSystem);
+    }
 }

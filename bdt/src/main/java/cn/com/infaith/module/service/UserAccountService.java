@@ -43,14 +43,14 @@ public interface UserAccountService {
      * @param passWord
      * @return
      */
-    UserAccount getUserByAccountAndPassWord(String account, String passWord);
+    UserAccount getUserByAccountAndPassWord(String account, String passWord, String adminId);
 
     /**
      * 添加后台管理账号
      * @param adminAccount
      * @return
      */
-    Boolean addAdminAccount(AdminAccount adminAccount);
+    String addAdminAccount(AdminAccount adminAccount);
 
     /**
      * 修改后台管理账号信息
@@ -79,6 +79,8 @@ public interface UserAccountService {
      * @return
      */
     List<UserAccount> getUserByAdmin(String adminId);
+
+    List<String> getUserIdByAdmin(String adminId);
 
     /**
      * 添加管理员所管理的用户
@@ -110,4 +112,19 @@ public interface UserAccountService {
      * @return
      */
     int checkoutCountByAdminAndUser(String adminId, String userIds);
+
+    /**
+     * 删除该账号下的自动投注信息
+     * @param userId
+     * @return
+     */
+    int deleteDopeManageByUserId(String userId, String adminId);
+
+    /**
+     * 删除百家乐账号信息事务
+     * @param userId
+     */
+    void deleteUserByIdCommit(String userId, String adminId);
+
+    List<String> getAllAdminId();
 }

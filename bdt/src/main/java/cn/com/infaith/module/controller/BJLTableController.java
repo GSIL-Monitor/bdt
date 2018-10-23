@@ -34,21 +34,14 @@ public class BJLTableController {
     @PostMapping("/addTableData")
     public JSONObject addTableData(@ModelAttribute TableData tableData) {
         synchronized (this) {
-            BdtSystem bdtSystem = tableDataService.getBdtSystem();
-            if (!bdtSystem.getStarted()) {
-                return ResponseJsonUtil.getResponseJson(-1, "系统暂未启动", null);
-            }
-            if (!tableData.getFitNo().equals(1)) {
-                int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo());
-                if (count == 0) {
-                    return ResponseJsonUtil.getResponseJson(-2, "未获取到当前桌当前局的第一副牌信息", null);
-                }
-            }
             if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
                 return ResponseJsonUtil.getResponseJson(-1, "未获取开牌结果", null);
             }
             try {
-                bjlDataService.JudgeState(tableData);
+                int count = bjlDataService.JudgeState(tableData);
+                if (count == -1) {
+                    return ResponseJsonUtil.getResponseJson(-1,"当前管理员系统暂未启动",null);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 return ResponseJsonUtil.getResponseJson(500, "fail", e.getMessage());
@@ -80,11 +73,11 @@ public class BJLTableController {
 
     @ApiOperation(value = "获取百家乐牌桌情况", notes = "获取百家乐牌桌情况", httpMethod = "GET")
     @GetMapping("/getTableInfo")
-    public JSONObject getTableInfo() {
+    public JSONObject getTableInfo(@RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
 
         List<StatusData> list = tableDataService.selectStatusAll();
-        TzSystem tzSystem1 = tableDataService.getTzSystemInfo(1);
-        TzSystem tzSystem2 = tableDataService.getTzSystemInfo(2);
+        TzSystem tzSystem1 = tableDataService.getTzSystemInfo(1, adminId);
+        TzSystem tzSystem2 = tableDataService.getTzSystemInfo(2, adminId);
         long date = 15 * 60 * 1000;
         String tz = "TZ1(" + (tzSystem1.getStarted()?"开启":"关闭") + ")" + " " + "TZ2(" + (tzSystem2.getStarted()?"开启":"关闭") + ")";
         if (CollectionUtils.isNotEmpty(list)) {
@@ -98,7 +91,7 @@ public class BJLTableController {
                     } else if (statusData.getStatus().equals(TableStatusEnum.TZ.getIndex())) {
                         statusData.setResult(tz);
                     } else {
-                        String card = tableDataService.getCardTable(statusData.getTableNo(), statusData.getBattleNo(), statusData.getFitNo());
+                        String card = tableDataService.getCardTable(statusData.getTableNo(), statusData.getBattleNo(), statusData.getFitNo(), adminId);
                         statusData.setResult(StringUtils.isBlank(card) ? "" : card);
                     }
                 }
@@ -134,17 +127,18 @@ public class BJLTableController {
     })
     public JSONObject tzSystemStarted(@RequestBody TzInfo tzInfo) {
 
+        if (StringUtils.isBlank(tzInfo.getAdminId())) {
+            tzInfo.setAdminId("5e3463418a8b4b6a84af80b40c973087");
+        }
         if (tzInfo.getStarted()) {
             if (tzInfo.getFh() == null || tzInfo.getFh() == 0 || StringUtils.isBlank(tzInfo.getXh()) || CollectionUtils.isEmpty(tzInfo.getList())) {
                 return ResponseJsonUtil.getResponseJson(400, "缺少fh或xh参数", null);
             }
         }
-        Boolean result = tableDataService.updateTzStartOrClose(tzInfo.getStarted(), tzInfo.getTzxt(), tzInfo.getFh(), tzInfo.getXh());
+        Boolean result = tableDataService.updateTzStartOrClose(tzInfo.getStarted(), tzInfo.getTzxt(), tzInfo.getFh(), tzInfo.getXh(), tzInfo.getAdminId());
         if (tzInfo.getStarted()) {
             tzInfo.getList().forEach(x -> {
-                Integer id = tableDataService.getDopeManageIdByTzzh(x.getTzzh(), tzInfo.getTzxt());
-                if (id != null) {
-                    x.setId(id);
+                if (x.getId() != null) {
                     tableDataService.updateDopeManage(x);
                 } else {
                     tableDataService.addDopeManage(x);
@@ -163,11 +157,12 @@ public class BJLTableController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tzxt", value = "投注系统", required = true, paramType = "query"),
     })
-    public JSONObject getTzSystemInfo(@RequestParam int tzxt) {
+    public JSONObject getTzSystemInfo(@RequestParam int tzxt,
+                                      @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
 
         JSONObject json = new JSONObject();
-        TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt);
-        List<DopeManage> list = tableDataService.getDopeMangeList(tzxt);
+        TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt, adminId);
+        List<DopeManage> list = tableDataService.getDopeMangeList(tzxt, adminId);
         if (tzSystem != null) {
             json.put("tzSystem", tzSystem);
             json.put("list", list);
@@ -183,8 +178,8 @@ public class BJLTableController {
                                       @RequestParam(required = false) Integer tableNo,
                                       @RequestParam(required = false) Integer battleNo,
                                       Integer pageNum, Integer pageSize) {
-
-        return tableDataService.searchTableData(createTime, tableNo, battleNo, pageNum, pageSize);
+        String adminId = "5e3463418a8b4b6a84af80b40c973087";
+        return tableDataService.searchTableData(createTime, tableNo, battleNo, pageNum, pageSize, adminId);
     }
 
     @GetMapping("/searchDopeData")
@@ -192,9 +187,10 @@ public class BJLTableController {
     public JSONObject searchDopeData(@RequestParam(required = false) Long createTime,
                                      @RequestParam(required = false) Integer tzxt,
                                      @RequestParam(required = false) String tzzh,
+                                     @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId,
                                      Integer pageNum, Integer pageSize) {
 
-        return tableDataService.searchResultData(createTime, tzxt, tzzh, pageNum, pageSize);
+        return tableDataService.searchResultData(createTime, tzxt, tzzh, pageNum, pageSize, adminId);
     }
 
     @PostMapping("/bdtSystemStarted")
@@ -203,11 +199,13 @@ public class BJLTableController {
             @ApiImplicitParam(name = "started", value = "开关", required = true, paramType = "query"),
             @ApiImplicitParam(name = "ps", value = "ps值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "phxs", value = "phxs值，当为关闭时可不填", paramType = "query"),
+            @ApiImplicitParam(name = "adminId", value = "管理员id", paramType = "query"),
     })
     public JSONObject bdtSystemStarted(@RequestParam Boolean started,
                                        @RequestParam(required = false) Integer ps,
-                                       @RequestParam(required = false) BigDecimal phxs) {
-        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs);
+                                       @RequestParam(required = false) BigDecimal phxs,
+                                       @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
+        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs, adminId);
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         } else {
@@ -217,15 +215,15 @@ public class BJLTableController {
 
     @GetMapping("/getBdtSystemInfo")
     @ApiOperation(value = "获取bdt系统信息", notes = "获取bdt系统信息", httpMethod = "GET")
-    public JSONObject getBdtSystemInfo() {
+    public JSONObject getBdtSystemInfo(@RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
 
-        BdtSystem bdtSystem = tableDataService.getBdtSystem();
-        BigDecimal yxje = tableDataService.getTotalYxje(null,null,null);
-        BigDecimal yssy = tableDataService.getTotalYssy(null,null,null);
-        BigDecimal sjsy = tableDataService.getTotalSjsy(null,null,null);
-        bdtSystem.setYxje(yxje);
-        bdtSystem.setYsje(yssy);
-        bdtSystem.setSjje(sjsy);
+        BdtSystem bdtSystem = tableDataService.getBdtSystem(adminId);
+//        BigDecimal yxje = tableDataService.getTotalYxje(null,null,null);
+//        BigDecimal yssy = tableDataService.getTotalYssy(null,null,null);
+//        BigDecimal sjsy = tableDataService.getTotalSjsy(null,null,null);
+//        bdtSystem.setYxje(yxje);
+//        bdtSystem.setYsje(yssy);
+//        bdtSystem.setSjje(sjsy);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", bdtSystem);
     }
 
@@ -236,11 +234,12 @@ public class BJLTableController {
             @ApiImplicitParam(name = "endTime", value = "结束时间，不传则默认当天", paramType = "query"),
     })
     public JSONObject getLJInfo(@RequestParam(required = false) Long startTime,
-                                @RequestParam(required = false) Long endTime) {
+                                @RequestParam(required = false) Long endTime,
+                                @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
 
         JSONObject json = new JSONObject();
-        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime);
-        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime);
+        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime, adminId);
+        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime, adminId);
         json.put("ljxjz", ljxjz);
         json.put("ljzjz", ljzjz);
         return ResponseJsonUtil.getResponseJson(200, "success", json);
@@ -259,9 +258,10 @@ public class BJLTableController {
 
     @GetMapping("/getNeedTzDataList")
     @ApiOperation(value = "获取需要投注的投注信息", notes = "获取需要投注的投注信息", httpMethod = "POST")
-    public JSONObject getNeedTzDataList(@RequestParam(required = false) Integer tableNo) {
+    public JSONObject getNeedTzDataList(@RequestParam(required = false) Integer tableNo,
+                                        @RequestParam(required = false) String userId) {
 
-        List<ResultData> list = tableDataService.getNeedTzDataList(tableNo);
+        List<ResultData> list = tableDataService.getNeedTzDataList(tableNo, userId);
         if (CollectionUtils.isEmpty(list)) {
             return ResponseJsonUtil.getResponseJson(-1, "没有需要投注的信息", null);
         } else {
@@ -278,5 +278,26 @@ public class BJLTableController {
         } else {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         }
+    }
+
+    @PostMapping("/updateTzCheck")
+    @ApiOperation(value = "批量更新自动投注策略信息", notes = "批量更新自动投注策略信息", httpMethod = "POST")
+    public JSONObject updateTzCheck(@RequestBody List<DopeManage> list) {
+        if (CollectionUtils.isNotEmpty(list)) {
+            list.stream().forEach(x -> {
+                if (x.getId() == null || x.getId() == 0) {
+                    tableDataService.addDopeManage(x);
+                } else {
+                    tableDataService.updateDopeManage(x);
+                }
+            });
+        }
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",null);
+    }
+
+    @PostMapping("/cal")
+    public JSONObject cal() {
+        bjlDataService.calcTzResult("8ed7a38206bf4907ba880fbc059cb93f");
+        return null;
     }
 }

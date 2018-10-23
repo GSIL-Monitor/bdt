@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.TableMergeData">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="table_no" jdbcType="INTEGER" property="tableNo" />
     <result column="battle_no" jdbcType="INTEGER" property="battleNo" />
     <result column="fit_no" jdbcType="INTEGER" property="fitNo" />
@@ -18,11 +19,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.TableMergeData" useGeneratedKeys="true" keyProperty="id">
-    insert into table_merge_data (create_time, table_no,
+    insert into table_merge_data (admin_id, create_time, table_no,
       battle_no, fit_no, xjz, 
       zjz, ljxjz, ljzjz, 
       is_delete)
-    values (#{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER},
+    values (#{adminId}, #{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{xjz,jdbcType=VARCHAR}, 
       #{zjz,jdbcType=VARCHAR}, #{ljxjz,jdbcType=VARCHAR}, #{ljzjz,jdbcType=VARCHAR}, 
       0)
@@ -41,19 +42,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, create_time, table_no, battle_no, fit_no, xjz, zjz, ljxjz, ljzjz, is_delete
+    select id, admin_id, create_time, table_no, battle_no, fit_no, xjz, zjz, ljxjz, ljzjz, is_delete
     from table_merge_data
     where id = #{id,jdbcType=INTEGER} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, create_time, table_no, battle_no, fit_no, xjz, zjz, ljxjz, ljzjz, is_delete
+    select id, admin_id, create_time, table_no, battle_no, fit_no, xjz, zjz, ljxjz, ljzjz, is_delete
     from table_merge_data
   </select>
 
-  <select id="getLastTableMergeDataNotId" parameterType="int" resultMap="BaseResultMap">
-    select id, create_time, table_no, battle_no, fit_no, xjz, zjz, ljxjz, ljzjz, is_delete
+  <select id="getLastTableMergeDataNotId" resultMap="BaseResultMap">
+    select id, admin_id, create_time, table_no, battle_no, fit_no, xjz, zjz, ljxjz, ljzjz, is_delete
     from table_merge_data
-    WHERE id != #{id} AND is_delete = 0
+    WHERE id != #{id} AND is_delete = 0 AND admin_id = #{adminId}
     ORDER BY create_time DESC limit 1
   </select>
 
@@ -66,6 +67,7 @@
     WHERE
     create_time >= #{startDate}
     AND create_time  <![CDATA[ < ]]> #{endDate}
+    AND admin_id = #{adminId}
     ORDER BY
     create_time DESC
   </select>
@@ -79,6 +81,7 @@
     WHERE
     create_time >= #{startDate}
     AND create_time  <![CDATA[ < ]]> #{endDate}
+    AND admin_id = #{adminId}
     ORDER BY
     create_time DESC
   </select>
