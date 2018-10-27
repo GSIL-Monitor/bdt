@@ -180,4 +180,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     public int updateLoginStatusFalse() {
         return userAccountMapper.updateLoginStatusFalse();
     }
+
+    @Override
+    public List<AdminAccount> selectAllAdmin() {
+        return adminAccountMapper.selectAll();
+    }
 }

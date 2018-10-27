@@ -7,6 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="super_admin" jdbcType="TINYINT" property="superAdmin" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     UPDATE admin_account SET is_delete = 1 WHERE id = #{id}
@@ -33,13 +34,13 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, account, is_delete
+    select id, name, account, is_delete, super_admin
     from admin_account
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, account, password, is_delete
-    from admin_account
+    select id, name, account, password, is_delete, super_admin
+    from admin_account AND is_delete = 0
   </select>
 
   <select id="getAdminByAccountAndPassword" resultMap="BaseResultMap">

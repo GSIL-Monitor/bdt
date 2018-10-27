@@ -131,4 +131,6 @@ public interface UserAccountService {
     int updateLoginStatusTrue();
 
     int updateLoginStatusFalse();
+
+    List<AdminAccount> selectAllAdmin();
 }

@@ -9,7 +9,9 @@ public class AdminAccount {
 
     private String password;
 
-    private Byte isDelete;
+    private Boolean superAdmin;
+
+    private Boolean isDelete;
 
     public String getId() {
         return id;
@@ -35,12 +37,12 @@ public class AdminAccount {
         this.password = password == null ? null : password.trim();
     }
 
-    public Byte getIsDelete() {
+    public Boolean getDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
-        this.isDelete = isDelete;
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 
     public String getName() {
@@ -49,5 +51,13 @@ public class AdminAccount {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getSuperAdmin() {
+        return superAdmin;
+    }
+
+    public void setSuperAdmin(Boolean superAdmin) {
+        this.superAdmin = superAdmin;
     }
 }

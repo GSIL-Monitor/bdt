@@ -225,4 +225,12 @@ public class UserController {
         }
         return ResponseJsonUtil.getResponseJson(-1, "登录失败", null);
     }
+
+    @GetMapping("/selectAllAdmin")
+    @ApiOperation(value = "查看所有管理员", notes = "查看所有管理员", httpMethod = "GET")
+    public JSONObject selectAllAdmin() {
+
+        List<AdminAccount> list = userAccountService.selectAllAdmin();
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
+    }
 }
