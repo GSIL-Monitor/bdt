@@ -19,6 +19,7 @@ Axios.interceptors.request.use(config => {
     }
     config.params.t = new Date().getTime()
   }
+  config.params.adminId = Cookie.get('token')
   return config
 }, error => {
   return Promise.reject(error)
