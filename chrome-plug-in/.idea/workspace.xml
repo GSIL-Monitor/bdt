@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="" />
+    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../client/src/service/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/service/index.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -62,7 +64,7 @@
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="259">
-              <caret line="381" column="6" lean-forward="true" selection-start-line="381" selection-start-column="6" selection-end-line="381" selection-end-column="6" />
+              <caret line="381" column="6" selection-start-line="381" selection-start-column="6" selection-end-line="381" selection-end-column="6" />
               <folding>
                 <element signature="e#3486#4023#0" />
                 <element signature="e#6905#9562#0" />
@@ -143,6 +145,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -154,7 +157,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -230,11 +232,12 @@
       <workItem from="1540120738418" duration="9000000" />
       <workItem from="1540134608999" duration="597000" />
       <workItem from="1540637229809" duration="3706000" />
+      <workItem from="1540661499529" duration="596000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="95077000" />
+    <option name="totallyTimeSpent" value="95673000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -346,7 +349,7 @@
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
-          <caret line="381" column="6" lean-forward="true" selection-start-line="381" selection-start-column="6" selection-end-line="381" selection-end-column="6" />
+          <caret line="381" column="6" selection-start-line="381" selection-start-column="6" selection-end-line="381" selection-end-column="6" />
           <folding>
             <element signature="e#3486#4023#0" />
             <element signature="e#6905#9562#0" />
