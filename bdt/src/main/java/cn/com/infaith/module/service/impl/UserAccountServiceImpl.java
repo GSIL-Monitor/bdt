@@ -56,9 +56,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public Boolean updateUserAccount(UserAccount userAccount) {
 
-        if (StringUtils.isNotBlank(userAccount.getPassword())) {
-            userAccount.setPassword(MD5Util.encrypt(userAccount.getPassword()));
-        }
+            userAccount.setPassword(userAccount.getPassword());
         return userAccountMapper.updateByPrimaryKey(userAccount) > 0 ? true : false;
     }
 

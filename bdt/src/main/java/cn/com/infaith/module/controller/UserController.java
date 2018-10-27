@@ -91,9 +91,9 @@ public class UserController {
 
         Boolean result = userAccountService.updateUserAccount(userAccount);
         if (result) {
-            if (userAccount.getLoginStatus() != null) {
-                tableDataService.updateDopeManageCheckByUserId(userAccount.getId(), userAccount.getLoginStatus());
-            }
+//            if (userAccount.getLoginStatus() != null) {
+//                tableDataService.updateDopeManageCheckByUserId(userAccount.getId(), userAccount.getLoginStatus());
+//            }
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", userAccount);
         }
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);
