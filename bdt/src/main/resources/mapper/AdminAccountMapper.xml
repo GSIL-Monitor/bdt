@@ -44,7 +44,7 @@
   </select>
 
   <select id="getAdminByAccountAndPassword" resultMap="BaseResultMap">
-    select id, name, account, password, is_delete
+    select id, name, account, password, is_delete, super_admin
     from admin_account
     where account = #{account} AND password = #{password} AND is_delete = 0
   </select>

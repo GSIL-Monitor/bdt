@@ -83,7 +83,7 @@
   </select>
 
   <select id="selectByAdmin" resultMap="BaseResultMap" parameterType="String">
-    select id, admin_id, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public
+    select id, admin_id, name, account, password, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public
     from user_account
     where admin_id = #{adminId} AND is_delete = 0
   </select>
