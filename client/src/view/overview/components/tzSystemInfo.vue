@@ -296,6 +296,7 @@
         //
         //
         let data = {
+          adminId: this.$cookie.get('token'),
           "fh": this.formInline.fh,
           "list": this.tzListData,
           "started": !this.disabledSet,

@@ -1,5 +1,5 @@
 <template>
-  <Card class="tzSystemInfo">
+  <Card class="tzSystemInfo" style="margin-bottom: 40px">
     <div slot="title">
       <div>
         <Row :gutter="0" type="flex" align="middle">
@@ -342,6 +342,7 @@
         //
         //
         let data = {
+          adminId: this.$cookie.get('token'),
           "fh": this.formInline.fh,
           "list": this.tzListData,
           "started": !this.disabledSet,

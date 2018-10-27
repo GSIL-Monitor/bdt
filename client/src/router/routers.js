@@ -30,7 +30,14 @@ export default [
       name: 'home',
       meta: {hideInMenu: true, title: '首页', notCache: true},
       component: () => import('@/view/single-page/home')
-    }]
+    },
+      {
+        path: '/super',
+        name: 'super',
+        meta: {title: '超级管理员', hideInMenu: true},
+        component: () => import('@/view/overview/super.vue')
+      }
+    ]
   },
   {
     path: '/',
