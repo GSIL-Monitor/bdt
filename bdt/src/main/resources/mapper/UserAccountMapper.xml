@@ -20,7 +20,7 @@
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.UserAccount">
     insert into user_account (id, admin_id, name, account, type,
-      password, ip_region, ip_address, ip_address_public, effective_amount, login_status, update_time
+      password, ip_region, ip_address, ip_address_public, effective_amount, login_status, update_time,
       is_delete)
     values (#{id,jdbcType=VARCHAR}, #{adminId}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{type},
       #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{ipAddressPublic},
@@ -30,7 +30,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.UserAccount">
     update user_account
     set
-      is_delete = 0
+      id = #{id}
     <if test="name != null and name != ''">
       ,name = #{name,jdbcType=VARCHAR}
     </if>
