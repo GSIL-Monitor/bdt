@@ -14,20 +14,30 @@
           </i-col>
         </Row>
       </div>
-      <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
-        <FormItem label="FH" prop="user" style="margin:0 5px">
-          <Input type="text" v-model="formInline.fh" :disabled="!disabledSet"
-                 placeholder="Username">
-            <Icon type="ios-person-outline" slot="prepend"></Icon>
-          </Input>
-        </FormItem>
-        <FormItem label="XH" prop="password" style="margin:0 5px">
-          <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
-                 placeholder="Password">
-            <Icon type="ios-lock-outline" slot="prepend"></Icon>
-          </Input>
-        </FormItem>
-      </Form>
+      <div style="display: flex;align-items: flex-end">
+        <div style="flex: 1;text-align: left">
+          <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
+            <FormItem label="FH" prop="user" style="margin:0 5px">
+              <Input type="text" v-model="formInline.fh" :disabled="!disabledSet"
+                     placeholder="Username">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem label="XH" prop="password" style="margin:0 5px">
+              <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
+                     placeholder="Password">
+                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+          </Form>
+        </div>
+        <div class="" style="flex: 1;text-align: right">
+          <Button type="success" @click="saveApp(true)" :disabled="!disabledSave">
+            {{'保存修改'}}
+          </Button>&ensp;
+          <Button type="error" @click="saveApp(false)" :disabled="!disabledSave">重置修改</Button>
+        </div>
+      </div>
     </div>
     <div class="" style="position: relative;">
       <table class="bdt-table">
@@ -120,7 +130,7 @@
         </tbody>
       </table>
       <!---->
-      <Spin size="large" fix v-if="!disabledSet"></Spin>
+      <!--<Spin size="large" fix v-if="!disabledSet"></Spin>-->
     </div>
   </Card>
 </template>
@@ -142,6 +152,7 @@
           {name: '40-60', value: '40-60'}
         ],
         disabledSet: true,
+        disabledSave: true,
         tabJinE: [50, 100, 200, 500, 1000],
         tablineData: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
         timelineData: [
@@ -232,6 +243,9 @@
       this.getTzSystemInfo(startTZXT);
     },
     methods: {
+      saveApp() {
+
+      },
       setCheckBoxAll() {
         setTimeout(() => {
           let setBox = true;
@@ -320,6 +334,7 @@
       tzSystemStarted(tzxt) {
         //
         this.tzListData.forEach((e) => {
+          e.adminId = this.$cookie.get('token')
           e.tzsjSection1 = e.time.join(',');
           e.tzsjSection2 = e.time2.join(',');
           e.tableNo = e.tableCode.join(',');
@@ -351,12 +366,14 @@
       width: 100%;
       border-radius: 4px;
       border: 1px solid #e3e3e3;
+
       thead {
         tr {
           background: #f5f7fa;
           border-bottom: 1px solid #f5f7fa;
           border-radius: 3px;
         }
+
         th {
           // text-align: left;
           .row {
@@ -366,23 +383,29 @@
           }
         }
       }
+
       tbody > tr:nth-child(even) {
         background-color: #f5f7fa;
       }
+
       tbody {
         td {
           text-align: left;
         }
+
         tr {
           td {
             padding: 5px 0;
           }
+
           border-bottom: 1px solid #dcdee2;
+
           &:hover {
             background-color: rgba(255, 177, 72, 0.2);
           }
         }
       }
+
       .row {
         padding: 5px;
       }

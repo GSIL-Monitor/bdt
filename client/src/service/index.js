@@ -1,5 +1,6 @@
 import Axios from '@/service/axios/index'
 import config from '@/config/index'
+import Cookie from 'js-cookie'
 
 const protocol = document.location.protocol == 'https:' ? 'https:' : 'http:'
 const HOST = config.baseUrl.pro
@@ -30,11 +31,19 @@ export default {
   },
   editUserAccount(params = {}) {
     //
-    return Axios({method: 'POST', url: HOST + 'account/editUserAccount', params: params})
+    return Axios({
+      method: 'POST',
+      url: HOST + 'account/editUserAccount',
+      params: Object.assign({adminId: Cookie.get('token')}, params)
+    })
   },
   bdtSystemStarted(params = {}) {
     //
-    return Axios({method: 'POST', url: HOST + 'bjlTable/bdtSystemStarted', params: params})
+    return Axios({
+      method: 'POST',
+      url: HOST + 'bjlTable/bdtSystemStarted',
+      params: Object.assign({adminId: Cookie.get('token')}, params)
+    })
   },
   getBdtSystemInfo(params = {}) {
     //
@@ -42,7 +51,11 @@ export default {
   },
   addUserAccount(params = {}) {
     //
-    return Axios({method: 'POST', url: HOST + 'account/addUserAccount', params: params})
+    return Axios({
+      method: 'POST',
+      url: HOST + 'account/addUserAccount',
+      params: Object.assign({adminId: Cookie.get('token')}, params)
+    })
   },
   getLJInfo(params = {}) {
     //

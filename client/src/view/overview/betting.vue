@@ -1,6 +1,6 @@
 <template>
   <div class="betting">
-    <Card>
+    <Card style="margin:0 0 50px 0">
       <div slot="title">
         <div class="flex">
           <div class="col">
@@ -16,7 +16,8 @@
             </Select>
           </div>
           <div class="col">
-            <Select :key="'index'" v-model="desktopUserVal"  @on-change="desktopAccountChange" style="width:150px">
+            <Select :key="'index'" v-model="desktopUserVal" @on-change="desktopAccountChange"
+                    style="width:150px">
               <Option v-for="op in isLoginOverviewData" :value="op.id" :key="op.id">
                 {{op.account }}
               </Option>
@@ -95,6 +96,10 @@
             key: 'sjsy'
           },
           {
+            title: '投注桌号',
+            key: 'tableNo'
+          },
+          {
             title: '投注方式',
             key: 'tzxt'
           },
@@ -105,6 +110,10 @@
           {
             title: '投注账号',
             key: 'account'
+          },
+          {
+            title: '投注状态',
+            key: 'tzzt'
           }
         ],
         wads: {
@@ -112,6 +121,11 @@
           '2': '闲',
           '3': '和',
           'null': '--'
+        },
+        tzStatus: {
+          'true': '成功',
+          'false': '投注失败',
+          'null': '投注失败'
         },
         tableData: [],
         isLoginOverviewData: []
@@ -224,7 +238,13 @@
               e.created = this.formatDate(e.createTime)
               e.createdTime = this.formatDateTime(e.createTime)
               e.tzxt = '投注系统' + e.tzxt
-              e.tzfx = this.wads[e.tzfx]
+              e.tzzt = this.tzStatus[e.tzzt]
+              e.tzfx = this.wads[e.tzfx];
+              Object.keys(e).forEach((k) => {
+                if (e[k] == null) {
+                  e[k] = '--'
+                }
+              })
             })
           }
         })
@@ -242,30 +262,37 @@
   .betting {
     min-width: 1300px;
     height: 1000px;
+
     .flex.border-flex {
       height: 40px;
       background-color: #e3e3e3;
       padding: 3px;
       border-radius: 4px;
+
       .col {
         margin-right: 30px;
         color: rgba(0, 0, 0, 0.7);
         font-weight: bold;
       }
     }
+
     .flex {
       display: flex;
       align-items: center;
+
       .col {
         margin-right: 10px;
         flex: inherit;
+
         &.btn {
           flex: inherit;
         }
+
         &.page {
           flex: 1;
           text-align: right;
         }
+
         &:last-child {
           margin-right: 0;
         }

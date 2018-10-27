@@ -13,11 +13,8 @@
         <div slot="title" class="header-box" style="font-size: 16px">
           <div class="col" style="font-weight: bold;">{{item.name}}</div>
           <div class="col">
-            <Button @click="loginStatusLook(index, false)" v-if="item.loginStatus" type="primary" ghost size="small">{{' 已登陆'}}
-            </Button>
-            <Button @click="loginStatusLook(index, true)" v-else type="error" ghost size="small">
-              {{'未登录'}}
-            </Button>
+            <Button v-if="item.loginStatus" type="primary" ghost size="small">{{' 已登陆'}}</Button>
+            <Button v-else type="error" ghost size="small">{{'未登录'}}</Button>
           </div>
           <div class="col" style="text-align: right;flex: inherit">
             <Button type="primary" size="small" @click="editUserHome(index)">编辑</Button>
@@ -45,7 +42,7 @@
                 <Input v-model="formRight.account"></Input>
               </FormItem>
               <FormItem label="登陆密码">
-                <Input disabled v-model="formRight.password"></Input>
+                <Input v-model="formRight.password"></Input>
               </FormItem>
               <!---->
               <FormItem label="公网IP地址">
@@ -62,8 +59,8 @@
               <!---->
               <FormItem label="是否登陆">
                 <Select disabled v-model="formRight.loginStatus">
-                  <Option value="true">true</Option>
-                  <Option value="false">false</Option>
+                  <Option value="true">是</Option>
+                  <Option value="false">否</Option>
                 </Select>
               </FormItem>
             </Form>
@@ -76,7 +73,7 @@
         <Modal title="Title" v-model="editModal" class-name="vertical-center-modal">
           <p slot="header" style="text-align:center">
             <Icon type="ios-information-circle"></Icon>
-            <span>添加账户</span>
+            <span>编辑账户</span>
           </p>
           <div style="text-align:center">
             <Form ref="loginForm" :model="formEdit" label-position="right"
@@ -85,10 +82,10 @@
                 <Input disabled v-model="formEdit.id"></Input>
               </FormItem>
               <FormItem prop="account" label="账号名">
-                <Input disabled v-model="formEdit.account"></Input>
+                <Input v-model="formEdit.account"></Input>
               </FormItem>
               <FormItem label="登陆密码">
-                <Input disabled v-model="formEdit.password"></Input>
+                <Input v-model="formEdit.password"></Input>
               </FormItem>
               <!---->
               <FormItem label="公网IP地址">
@@ -101,9 +98,9 @@
                 <Input v-model="formEdit.effectiveAmount"></Input>
               </FormItem>
               <FormItem label="是否登陆">
-                <Select disabled v-model="formEdit.loginStatus">
-                  <Option value="true">true</Option>
-                  <Option value="false">false</Option>
+                <Select v-model="formEdit.loginStatus">
+                  <Option value="true">是</Option>
+                  <Option value="false">否</Option>
                 </Select>
               </FormItem>
             </Form>
@@ -186,15 +183,16 @@
     },
     mounted() {
       this.getUserByAdmin();
-       window.isInvgetUserByAdmin = setInterval(_ => {
-         this.getUserByAdmin();
-       }, 5000)
+      window.isInvgetUserByAdmin = setInterval(_ => {
+        this.getUserByAdmin();
+      }, 5000)
     },
     methods: {
       delEditUser() {
         // this.formEdit.id
         let params = {
-          userId: this.formEdit.id
+          userId: this.formEdit.id,
+
         };
         this.$api.deleteUserAccount(params).then((res) => {
           if (res.returnCode == 200) {
@@ -215,10 +213,10 @@
       },
       editUserHome(index) {
         this.formEdit = this.isLoginOverviewData[index];
-        this.formEdit.password = '';
+        // this.formEdit.password = '';
         this.formEdit.loginStatus = String(this.formEdit.loginStatus);
         this.editModal = true;
-        console.log(this.isLoginOverviewData[index]);
+        console.log('3453534', this.isLoginOverviewData[index]);
       },
       loginStatusLook(index, type) {
         let params = Object.assign({}, this.isLoginOverviewData[index], {loginStatus: type});
@@ -268,6 +266,7 @@
     .header-box {
       display: flex;
       align-items: center;
+
       .col {
         flex: 1;
       }

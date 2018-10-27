@@ -378,6 +378,7 @@ function selectedYuan(list) {
       }, 300)
     } else {
       //
+      updateTzztList(list, true);
       console.warn('已投注过！！！！1');
     }
   } else {
@@ -435,11 +436,10 @@ function getNeedTzDataList() {
   window.getNeedTzDataListSetInv = setInterval(() => {
     $.ajax({
       type: 'get',
-      url: 'http://139.198.177.39:8080/bdt/bjlTable/getNeedTzDataList',
+      url: 'http://139.198.177.39:8080/bdt/bjlTable/getNeedTzDataList?' + $.param({
+        userId: window.localStorage.getItem('Chrome_Inner_User_Id')
+      }),
       dataType: 'json',
-      params: {
-        tableNo: ''
-      },
       success: function (result) {
         // console.log(result);
         let getUserId = window.localStorage.getItem('Chrome_Inner_User_Id');
@@ -491,7 +491,7 @@ function getNeedTzDataList() {
         console.log("操作失败!");
       }
     })
-  }, 5000)
+  }, 2000)
 }
 
 // http://localhost:8763/bdt/bjlTable/addTableData
@@ -533,8 +533,8 @@ function startListen() {
   $(".inject-panel .startGetDisk").text('启动中');
   getNeedTzDataList();
   console.log("start listen");
-  $("._2y2K9").css({display: 'none'})
-  $(".MlO78").css({display: 'none'})
+  // $("._2y2K9").css({display: 'none'})
+  // $(".MlO78").css({display: 'none'})
   var targets = $(".qMFBr");
 
   // console.log(targets.length);

@@ -13,13 +13,15 @@ Axios.defaults.baseURL = '';
 Axios.defaults.withCredentials = false //
 // 请求拦截器
 Axios.interceptors.request.use(config => {
-  if (config.method.toLocaleLowerCase() == 'get') {
+  let toLocaleLowerCase = config.method.toLocaleLowerCase();
+  if (toLocaleLowerCase == 'get' || toLocaleLowerCase == 'delete') {
     if (!config.params) {
       config.params = {}
     }
+    config.params.adminId = Cookie.get('token')
     config.params.t = new Date().getTime()
   }
-  config.params.adminId = Cookie.get('token')
+
   return config
 }, error => {
   return Promise.reject(error)
