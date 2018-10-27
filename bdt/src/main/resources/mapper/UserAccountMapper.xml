@@ -25,7 +25,7 @@
     values (#{id,jdbcType=VARCHAR}, #{adminId}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{type},
       #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{ipAddressPublic},
        #{effectiveAmount,jdbcType=DECIMAL},
-      0,0, now())
+      0,now())
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.UserAccount">
     update user_account
