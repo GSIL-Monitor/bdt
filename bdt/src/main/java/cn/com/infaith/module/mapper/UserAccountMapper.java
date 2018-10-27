@@ -25,4 +25,10 @@ public interface UserAccountMapper {
     List<UserAccount> selectByAdmin(String adminId);
 
     List<String> getUserIdByAdmin(String adminId);
+
+    int editUpdateTime(String userId);
+
+    int updateLoginStatusTrue();
+
+    int updateLoginStatusFalse();
 }

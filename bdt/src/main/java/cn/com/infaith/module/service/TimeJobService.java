@@ -20,7 +20,7 @@ public class TimeJobService {
     @Autowired
     UserAccountService userAccountService;
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "*/5 * * * * ?")
     public void calcTzResult() {
         LogUtil.info(this.getClass(), "实时计算投注结果开始》》》》》");
         List<String> adminIdList = userAccountService.getAllAdminId();
@@ -30,5 +30,11 @@ public class TimeJobService {
                 LogUtil.info(this.getClass(), "admin:"+ x +">>实时计算投注结果结束>>>>>>>更新投注数量：" + count);
             });
         }
+    }
+
+    @Scheduled(cron = "*/30 * * * * ?")
+    public void calUserLoginStatus() {
+        userAccountService.updateLoginStatusTrue();
+        userAccountService.updateLoginStatusFalse();
     }
 }

@@ -4,6 +4,7 @@ import cn.com.infaith.module.enums.TableStatusEnum;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.BJLDataService;
 import cn.com.infaith.module.service.TableDataService;
+import cn.com.infaith.module.util.LogUtil;
 import cn.com.infaith.module.util.ResponseJsonUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,14 +35,12 @@ public class BJLTableController {
     @PostMapping("/addTableData")
     public JSONObject addTableData(@ModelAttribute TableData tableData) {
         synchronized (this) {
+            LogUtil.info(this.getClass(), "读牌开始>>>>>>>time:" + System.currentTimeMillis());
             if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
                 return ResponseJsonUtil.getResponseJson(-1, "未获取开牌结果", null);
             }
             try {
-                int count = bjlDataService.JudgeState(tableData);
-                if (count == -1) {
-                    return ResponseJsonUtil.getResponseJson(-1,"当前管理员系统暂未启动",null);
-                }
+                bjlDataService.JudgeState(tableData);
             } catch (Exception e) {
                 e.printStackTrace();
                 return ResponseJsonUtil.getResponseJson(500, "fail", e.getMessage());
@@ -49,27 +48,6 @@ public class BJLTableController {
             return ResponseJsonUtil.getResponseJson(200, "success", 1);
         }
     }
-//
-//    @ApiOperation(value = "披露添加百家乐桌面信息", notes = "披露添加百家乐桌面信息", httpMethod = "POST")
-//    @PostMapping("/addTableDataList")
-//    public JSONObject addTableDataList(@RequestBody List<TableData> tableData) {
-//
-//        Boolean result = tableDataService.addTableDataList(tableData);
-////        tableData.stream().forEach(x -> {
-////            bjlDataService.JudgeState(x);
-////        });
-//        if (result != null && result) {
-//            return ResponseJsonUtil.getResponseJson(200, "success", null);
-//        }
-//        return ResponseJsonUtil.getResponseJson(-1, "fail", null);
-//    }
-//
-//    @PostMapping("/initTest")
-//    public JSONObject initTest() {
-//
-//        bjlDataService.initTableData(1);
-//        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
-//    }
 
     @ApiOperation(value = "获取百家乐牌桌情况", notes = "获取百家乐牌桌情况", httpMethod = "GET")
     @GetMapping("/getTableInfo")
@@ -84,7 +62,7 @@ public class BJLTableController {
             list.stream().forEach(statusData -> {
                 //如果15分钟未进入读牌接口里
                 if ((Calendar.getInstance().getTime().getTime() - statusData.getUpdateTime().getTime() > date)) {
-                    statusData.setResult("正在等待读取新局第一副牌...");
+                    statusData.setResult("正在等待读取....");
                 } else {
                     if (statusData.getStatus().equals(TableStatusEnum.NEW.getIndex())) {
                         statusData.setResult("无");

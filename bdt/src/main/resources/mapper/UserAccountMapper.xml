@@ -20,12 +20,12 @@
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.UserAccount">
     insert into user_account (id, admin_id, name, account, type,
-      password, ip_region, ip_address, ip_address_public, effective_amount, login_status,
+      password, ip_region, ip_address, ip_address_public, effective_amount, login_status, update_time
       is_delete)
     values (#{id,jdbcType=VARCHAR}, #{adminId}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{type},
       #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{ipAddressPublic},
        #{effectiveAmount,jdbcType=DECIMAL},
-      0,0)
+      0,0, now())
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.UserAccount">
     update user_account
@@ -61,7 +61,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, admin_id, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public
+    select id, admin_id, password, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public
     from user_account
     where id = #{id,jdbcType=VARCHAR} AND is_delete = 0
   </select>
@@ -93,4 +93,16 @@
     select id from user_account
     where admin_id = #{adminId} AND is_delete = 0
   </select>
+
+  <update id="editUpdateTime" parameterType="String">
+    UPDATE user_account SET update_time = now() WHERE id = #{userId}
+  </update>
+
+  <update id="updateLoginStatusTrue">
+    UPDATE  user_account SET login_status = 1 WHERE update_time > DATE_ADD(NOW(),INTERVAL -5 MINUTE);
+  </update>
+
+  <update id="updateLoginStatusFalse">
+        UPDATE  user_account SET login_status = 0 WHERE update_time <![CDATA[ <= ]]> DATE_ADD(NOW(),INTERVAL -5 MINUTE);
+  </update>
 </mapper>

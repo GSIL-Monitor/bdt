@@ -41,7 +41,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         }
         String id = PublicUtil.getUUID();
         userAccount.setId(id);
-        userAccount.setPassword(MD5Util.encrypt(userAccount.getPassword()));
         int result = userAccountMapper.insert(userAccount);
         if (result > 0) {
             return id;
@@ -172,5 +171,15 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public List<String> getAllAdminId() {
         return adminAccountMapper.getAllAdminId();
+    }
+
+    @Override
+    public int updateLoginStatusTrue() {
+        return userAccountMapper.updateLoginStatusTrue();
+    }
+
+    @Override
+    public int updateLoginStatusFalse() {
+        return userAccountMapper.updateLoginStatusFalse();
     }
 }

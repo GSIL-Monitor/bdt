@@ -19,4 +19,8 @@ public interface AdminAccountMapper {
     AdminAccount getAdminByAccountAndPassword(@Param("account") String account, @Param("password") String password);
 
     List<String> getAllAdminId();
+
+    int updateLoginStatusTrue();
+
+    int updateLoginStatusFalse();
 }

@@ -127,4 +127,8 @@ public interface UserAccountService {
     void deleteUserByIdCommit(String userId, String adminId);
 
     List<String> getAllAdminId();
+
+    int updateLoginStatusTrue();
+
+    int updateLoginStatusFalse();
 }

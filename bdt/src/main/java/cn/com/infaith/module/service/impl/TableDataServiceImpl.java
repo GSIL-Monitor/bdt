@@ -38,6 +38,10 @@ public class TableDataServiceImpl implements TableDataService {
     private BdtSystemMapper bdtSystemMapper;
     @Autowired
     private DopeManageMapper dopeManageMapper;
+    @Autowired
+    private TableInfoMapper tableInfoMapper;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
 
     @Override
     public Integer addTableData(TableData tableData) {
@@ -50,6 +54,17 @@ public class TableDataServiceImpl implements TableDataService {
             return null;
         }
         return tableDataMapper.insert(tableData);
+    }
+
+    @Override
+    public Boolean addTableInfo(TableInfo tableInfo) {
+
+        int count = tableInfoMapper.checkIsHaveTableData(tableInfo.getCreateTime(), tableInfo.getTableNo(),
+                tableInfo.getBattleNo(), tableInfo.getFitNo(), tableInfo.getCard());
+        if (count > 0) {
+            return false;
+        }
+        return tableInfoMapper.insert(tableInfo) > 0 ? true : false;
     }
 
     @Override
@@ -321,6 +336,10 @@ public class TableDataServiceImpl implements TableDataService {
 
     @Override
     public List<ResultData> getNeedTzDataList(Integer tableNo, String tzzh) {
+
+        if (StringUtils.isNotBlank(tzzh)) {
+            userAccountMapper.editUpdateTime(tzzh);
+        }
         return resultDataMapper.getNeedTzDataList(tableNo, tzzh);
     }
 

@@ -5,6 +5,7 @@ import cn.com.infaith.module.enums.TableNoEnum;
 import cn.com.infaith.module.enums.TableResultEnum;
 import cn.com.infaith.module.enums.TableStatusEnum;
 import cn.com.infaith.module.model.*;
+import cn.com.infaith.module.util.LogUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,16 +60,12 @@ public class BJLDataService {
         tableDataService.addStatusData(statusData);
     }
 
-    public void addTableInfo(TableData tableData) {
-
-    }
-
     /**
      * 步骤1：读取局号、副号、状态，并与《状态表》中同桌记录的局号、副号、状态比较。
      *
      * @return 0：进入步骤15   1：进入"可投注"状态  2：进入"新局准备"  3：进入"开牌"状态
      */
-    public int JudgeState(TableData tableData) {
+    public void JudgeState(TableData tableData) {
         tableData.setCreateTime(new Date(tableData.getCreateDate()));
         //获取当前桌的最新状态
         StatusData statusData = tableDataService.getStatusByTableNo(tableData.getTableNo());
@@ -86,37 +83,40 @@ public class BJLDataService {
             newStatus.setFitNo(tableData.getFitNo());
             newStatus.setStatus(tableData.getStatus());
             tableDataService.updateStatus(newStatus);
-            String adminId = "5e3463418a8b4b6a84af80b40c973087";
-            tableData.setAdminId(adminId);
-            BdtSystem bdtSystem = tableDataService.getBdtSystem(adminId);
-            if (!bdtSystem.getStarted()) {
-                return -1;
-            }
-//            if (!tableData.getFitNo().equals(1)) {
-//                int count = tableDataService.getCountFirstFitByTable(tableData.getTableNo(), tableData.getBattleNo(), adminId);
-//                if (count == 0) {
-//                    return ResponseJsonUtil.getResponseJson(-2, "未获取到当前桌当前局的第一副牌信息", null);
-//                }
-//            }
-            //状态不变。进入步骤15。
-            if (state == tableData.getStatus()) {
-                return 0;
-            }
+//            TableInfo tableInfo = new TableInfo();
+//            tableInfo.setTableNo(tableData.getTableNo());
+//            tableInfo.setBattleNo(tableData.getBattleNo());
+//            tableInfo.setFitNo(tableData.getFitNo());
+//            tableInfo.setCreateTime(tableData.getCreateTime());
+//            tableInfo.setCard(tableData.getCard());
+//            tableInfo.setXianCard(tableData.getXianCard());
+//            tableInfo.setResult(tableData.getResult());
+//            boolean isAdd = tableDataService.addTableInfo(tableInfo);
 
-            //状态改变，当前状态为“可投注”（局号、副号不会变）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
-                tzStatus(tableData, adminId);
-            }
-            //状态改变，当前状态为“新局准备”（局号改变、副号变为1）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
-                newReadyStatus(tableData);
-            }
-            //状态改变，当前状态为“开牌”（局号、副号不会变）。
-            if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
-                openCard(tableData, bdtSystem);
-            }
+            List<String> adminIds = userAccountService.getAllAdminId();
+            adminIds.stream().forEach(adminId -> {
+                tableData.setAdminId(adminId);
+                BdtSystem bdtSystem = tableDataService.getBdtSystem(adminId);
+                if (bdtSystem.getStarted()) {
+                    //状态不变。进入步骤15。
+                    if (state != tableData.getStatus()) {
+                        //状态改变，当前状态为“可投注”（局号、副号不会变）。
+                        if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
+                            tzStatus(tableData, adminId);
+                        }
+                        //状态改变，当前状态为“新局准备”（局号改变、副号变为1）。
+                        if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
+                            newReadyStatus(tableData);
+                        }
+                        //状态改变，当前状态为“开牌”（局号、副号不会变）。
+                        if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
+                            openCard(tableData, bdtSystem);
+                        }
+                        LogUtil.info(this.getClass(), "计算结束：>>>>>time:" + System.currentTimeMillis());
+                    }
+                }
+            });
         }
-        return 0;
     }
 
     /**

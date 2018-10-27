@@ -18,6 +18,9 @@ public interface TableDataService {
      * @return
      */
     Integer addTableData(TableData tableData);
+
+    Boolean addTableInfo(TableInfo tableInfo);
+
     Boolean addTableDataList(List<TableData> tableDataList);
 
     Boolean updateTableData(TableData tableData);
@@ -268,4 +271,5 @@ public interface TableDataService {
     int addBdtSystem(BdtSystem bdtSystem);
 
     int addTzSystem(TzSystem tzSystem);
+
 }

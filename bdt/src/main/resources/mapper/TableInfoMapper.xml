@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.TableInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.TableInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="table_no" jdbcType="INTEGER" property="tableNo" />
+    <result column="battle_no" jdbcType="INTEGER" property="battleNo" />
+    <result column="fit_no" jdbcType="INTEGER" property="fitNo" />
+    <result column="card" jdbcType="VARCHAR" property="card" />
+    <result column="xian_card" jdbcType="VARCHAR" property="xianCard" />
+    <result column="result" jdbcType="INTEGER" property="result" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from table_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.TableInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into table_info (create_time, table_no,
+      battle_no, fit_no, card, xian_card, result, is_delete)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER},
+      #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{card,jdbcType=VARCHAR}, #{xianCard},
+      #{result,jdbcType=INTEGER}, 0)
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TableInfo">
+    update table_info
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      table_no = #{tableNo,jdbcType=INTEGER},
+      battle_no = #{battleNo,jdbcType=INTEGER},
+      fit_no = #{fitNo,jdbcType=INTEGER},
+      card = #{card,jdbcType=VARCHAR},
+      xian_card = #{xianCard,jdbcType=VARCHAR},
+      result = #{result,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, card, xian_card, result
+    ztsl
+    from table_info
+    where id = #{id,jdbcType=INTEGER} AND is_delete = 0
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, create_time, table_no, battle_no, fit_no, card, xian_card, result
+    ztsl
+    from table_info
+  </select>
+
+  <select id="getNewestTableData" resultMap="BaseResultMap">
+    select id, admin_id, create_time, table_no, created, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
+    ztsl
+    from table_data WHERE is_delete = 0 AND table_no = #{tableNo} AND admin_id = #{adminId}
+    ORDER BY create_time DESC limit 1
+  </select>
+
+  <select id="searchTableData" resultMap="BaseResultMap">
+    select id, create_time, table_no, created, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
+    ztsl
+    from table_data WHERE is_delete = 0
+    <if test="tableNo != null and tableNo != 0">
+      AND table_no = #{tableNo}
+    </if>
+    <if test="battleNo != null and battleNo != 0">
+      AND battle_no = #{battleNo}
+    </if>
+    <if test="createTime != null">
+      AND create_time >= #{createTime}
+      AND create_time <![CDATA[ < ]]> date_add(#{createTime},interval 1 day)
+    </if>
+    <if test="adminId != null and adminId != ''">
+      AND admin_id = #{adminId}
+    </if>
+    ORDER BY create_time DESC, table_no ASC, battle_no DESC, fit_no DESC
+  </select>
+
+  <select id="checkIsHaveTableData" resultType="int">
+    SELECT count(1) FROM table_info
+    WHERE is_delete = 0 AND create_time >= date_add(#{createTime},interval -30 MINUTE)
+    AND table_no = #{tableNo}
+    AND battle_no = #{battleNo} AND fit_no = #{fitNo} AND card = #{card}
+  </select>
+
+  <select id="getCountFirstFitByTable" resultType="int">
+    SELECT count(1) FROM table_data
+    WHERE is_delete = 0 AND table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = 1 AND admin_id = #{adminId}
+  </select>
+
+  <select id="getCardTable" resultType="String">
+    SELECT
+    CONCAT(
+    IF
+    (
+    LENGTH( card ) <![CDATA[ < ]]> 3,
+    CONCAT( card, '-' ),
+    card
+    ),
+    IF
+    (
+    LENGTH( xian_card ) <![CDATA[ < ]]> 3,
+    CONCAT( xian_card, '-' ),
+    xian_card
+    )
+    )
+    FROM
+    table_data
+    WHERE
+    is_delete = 0 AND table_no = #{tableNo}
+    AND battle_no = #{battleNo} AND fit_no = #{fitNo} AND admin_id = #{adminId}
+    ORDER BY create_time DESC limit 1
+  </select>
+
+  <select id="getTableByResult" resultMap="BaseResultMap">
+    select id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
+    ztsl
+    from table_data
+    where is_delete = 0
+    AND create_time >= DATE_SUB(#{resultDate},INTERVAL 20 MINUTE)
+    AND create_time <![CDATA[ <= ]]> DATE_ADD(#{resultDate},INTERVAL 20 MINUTE)
+    AND table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = #{fitNo}
+    AND admin_id = #{adminId}
+    limit 1
+  </select>
+
+  <select id="getFitOneTable" resultMap="BaseResultMap">
+    select card, xian_card
+    from table_data
+    where is_delete = 0
+    AND table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = 1 AND admin_id = #{adminId}
+    ORDER BY create_time DESC
+    limit 1
+  </select>
+</mapper>
