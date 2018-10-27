@@ -24,8 +24,7 @@
       is_delete)
     values (#{id,jdbcType=VARCHAR}, #{adminId}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{type},
       #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{ipAddressPublic},
-       #{effectiveAmount,jdbcType=DECIMAL},
-      0,now())
+       #{effectiveAmount,jdbcType=DECIMAL}, now(), 0)
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.UserAccount">
     update user_account
