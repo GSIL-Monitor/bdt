@@ -45,6 +45,21 @@
         ],
         tableData: [],
       }
+    },
+
+    created() {
+      this.selectAllAdmin();
+    },
+    mounted() {
+
+    },
+    methods: {
+      selectAllAdmin() {
+        let params = {};
+        this.$api.selectAllAdmin(params).then((res) => {
+
+        })
+      }
     }
   }
 </script>

@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/service/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/service/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/view/overview/super.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/super.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -125,9 +122,9 @@
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
         <option value="$PROJECT_DIR$/../client/src/service/axios/index.js" />
         <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
-        <option value="$PROJECT_DIR$/../client/src/service/index.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" />
+        <option value="$PROJECT_DIR$/../client/src/service/index.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/super.vue" />
       </list>
     </option>
@@ -256,7 +253,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="415" y="0" width="2143" height="1047" extended-state="0" />
+    <frame x="415" y="0" width="2143" height="1047" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.103382565" />

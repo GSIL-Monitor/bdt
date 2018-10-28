@@ -72,5 +72,9 @@ export default {
   updateTzCheck(params = {}) {
     //
     return Axios({method: 'post', url: HOST + 'bjlTable/updateTzCheck', data: params})
+  },
+  selectAllAdmin(params = {}) {
+    // GET /account/selectAllAdmin
+    return Axios({method: 'get', url: HOST + 'account/selectAllAdmin', params: params})
   }
 }
