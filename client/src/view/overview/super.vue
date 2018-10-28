@@ -42,7 +42,7 @@
             }
           }
         ],
-        tableData: [{}, {}, {}],
+        tableData: [],
         userInfo: []
       }
     },
@@ -88,6 +88,9 @@
         this.$api.selectAllAdmin(params).then((res) => {
           if (res.returnCode == 200) {
             this.tableData = res.returnObject;
+            this.tableData = this.tableData.filter((e) => {
+              return e.superAdmin != true;
+            })
           }
         })
       },

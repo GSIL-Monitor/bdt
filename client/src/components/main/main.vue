@@ -27,7 +27,7 @@
           </div>
           <Content class="content-wrapper dbt-scrollbar">
             <!--<keep-alive :include="cacheList">-->
-              <router-view/>
+            <router-view/>
             <!--</keep-alive>-->
           </Content>
         </Layout>
@@ -67,6 +67,7 @@
       }
     },
     created() {
+      this.getAdminAccount();
       this.handleInfos();
       // console.log(this.handleInfo());
     },
@@ -104,6 +105,18 @@
         'handleLogin',
         'getUserInfo'
       ]),
+      getAdminAccount() {
+        let params = {adminId: this.$cookie.get('token')};
+        this.$api.getAdminAccount(params).then(res => {
+          console.log('q3eqwewqeqwe===>', res);
+          if (res.returnCode == 200) {
+            setInfo.set(window.JSON.stringify(res.returnObject.token));
+            setToken.set(res.returnObject.token);
+          }
+        }).catch(err => {
+
+        })
+      },
       handleInfos() {
         this.getUserInfo().then(res => {
           console.log('111', res);

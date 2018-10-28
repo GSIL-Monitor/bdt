@@ -69,7 +69,7 @@ export default {
     //
     return Axios({method: 'get', url: HOST + 'bjlTable/searchTableData', params: params})
   },
-  updateTzCheck(params = {}) {
+  updateTzCheck(params) {
     //
     return Axios({method: 'post', url: HOST + 'bjlTable/updateTzCheck', data: params})
   },

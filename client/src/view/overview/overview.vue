@@ -27,6 +27,7 @@
   import table12 from './components/table12'
   import tzSystemInfo from './components/tzSystemInfo.vue'
   import tz2SystemInfo from './components/tz2SystemInfo.vue'
+  import {setToken, getToken, setInfo} from '@/libs/util'
 
   export default {
     name: 'overview',
@@ -81,7 +82,7 @@
     created() {
       console.log(process.env);
 
-      this.getAdminAccount();
+     // this.getAdminAccount();
       //
     },
     activated() {
@@ -93,15 +94,6 @@
     methods: {
       tableDataChange(val) {
         console.log('=====>', val);
-      },
-      //
-      getAdminAccount() {
-        let params = {adminId: this.$cookie.get('token')};
-        this.$api.getAdminAccount(params).then(res => {
-          console.log(res);
-        }).catch(err => {
-
-        })
       }
     }
   }
@@ -110,9 +102,11 @@
 <style lang="less" scoped>
   .bdt-overview {
     min-width: 1300px;
+
     .header-box {
       display: flex;
       align-items: center;
+
       .col {
         flex: 1;
       }

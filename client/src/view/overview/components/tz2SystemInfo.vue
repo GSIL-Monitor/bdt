@@ -257,9 +257,10 @@
           e.tzsjSection2 = e.time2.join(',');
           e.tableNo = e.tableCode.join(',');
         });
-        let params = {
-          list: this.tzListData
-        };
+        // let params = {
+        //   list: this.tzListData
+        // };
+        let params = this.tzListData
         this.$api.updateTzCheck(params).then(res => {
           if (res.data.returnCode == 200) {
             this.$Message.success({content: '更新成功', duration: 10, closable: true});
