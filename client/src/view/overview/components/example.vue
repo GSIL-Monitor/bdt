@@ -48,6 +48,8 @@
       this.getLJInfo();
       clearInterval(window.setIngetLJInfo);
       window.setIngetLJInfo = setInterval(_ => {
+        let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 3));
+        this.DateRange = pevTime;
         this.getLJInfo();
       }, 1000 * 5)
     },

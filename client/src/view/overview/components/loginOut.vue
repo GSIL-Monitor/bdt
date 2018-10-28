@@ -185,10 +185,12 @@
     created() {
     },
     beforeDestroy() {
+      clearInterval(window.isInvgetUserByAdmin)
       // clearInterval(window.isInvgetUserByAdmin)
     },
     mounted() {
       this.getUserByAdmin();
+      clearInterval(window.isInvgetUserByAdmin)
       window.isInvgetUserByAdmin = setInterval(_ => {
         this.getUserByAdmin();
       }, 5000)

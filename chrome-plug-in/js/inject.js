@@ -87,6 +87,43 @@ var fxOption = {
   '3': '._34Nqi._3xcd-'
 }
 
+// GET /account/getUserAccount
+function getUserAccount() {
+  clearInterval(window.chrome_userAccount);
+  window.chrome_userAccount = setInterval(() => {
+    let obj = {
+      userId: window.localStorage.getItem('Chrome_Inner_User_Id')
+    };
+    $.ajax({
+      type: 'post',
+      url: 'http://139.198.177.39:8080/bdt/account/getUserAccount?' + $.param(obj),
+      dataType: 'json',
+      //  数据必须转换为字符串
+      success: function (res) {
+        console.log(res);
+        if (res.returnCode == 200) {
+          let userCode = window.localStorage.getItem('chrome_UserName');
+          let userPass = window.localStorage.getItem('chrome_UserPass');
+          let returnObj = res.returnObject;
+          console.log('===================>', res.returnObject);
+          if ($.trim(userCode) == $.trim(returnObj.account) && $.trim(userPass) == $.trim(returnObj.password)) {
+            return
+          } else {
+            window.localStorage.setItem('chrome_UserName', $.trim(returnObj.account));
+            window.localStorage.setItem('chrome_UserPass', $.trim(returnObj.password));
+            setTimeout(_ => {
+              window.location.reload();
+            }, 300)
+          }
+        }
+      },
+      error: function (XmlHttpRequest, textStatus, errorThrown) {
+
+      }
+    })
+  }, 1000 * 5)
+}
+
 //
 function setUserId() {
   console.log($('.inject-from #innerUserId').val());
@@ -236,12 +273,14 @@ function chrome_login() {
           $('.inject-from #chrome_UserPass').val(window.localStorage.getItem('chrome_UserPass'))
           var aa = setInterval(() => {
             editUserAccount();
-          }, 3000)
+          }, 1000 * 3);
           $('._1h40X ._2kLct').eq(1).click();
           document.querySelectorAll('._1h40X ._2kLct')[1].click();
           startListen();
-        }, 6000)
-      }, 3000)
+          console.log(1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111)
+          getUserAccount();
+        }, 1000 * 6)
+      }, 1000 * 3)
     },
     error: function (XmlHttpRequest, textStatus, errorThrown) {
       alert("操作失败!");

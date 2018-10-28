@@ -63,6 +63,7 @@
     },
     created() {
       this.getTableInfo();
+      clearInterval(window.setIn)
       window.setIn = setInterval(_ => {
         this.getTableInfo();
       }, 1000 * 3)

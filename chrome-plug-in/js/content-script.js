@@ -68,9 +68,9 @@ function initCustomPanel() {
             <button onclick="startListen()">startListen</button><button type="button" class="startGetDisk">未启动</button>
         </div>
         <div class="inject-from" style="margin-bottom: 30px">
-            <input id="chrome_UserName" type="text" value="" placeholder="首次添加用户账号">
+            <input id="chrome_UserName" type="text" value="" disabled placeholder="首次添加用户账号">
             <div style="height: 10px"></div>
-            <input id="chrome_UserPass" type="text" value="" placeholder="首次添加用户密码">
+            <input id="chrome_UserPass" type="text" value="" disabled placeholder="首次添加用户密码">
             <button type="button" onclick="setUserName()">添加账户</button>
             <div style="height: 10px"></div>
              <input id="innerUserId" type="text" value="" placeholder="添加机器编号">

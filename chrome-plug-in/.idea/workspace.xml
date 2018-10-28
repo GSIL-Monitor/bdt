@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="" />
+    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/js/content-script.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/content-script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/inject.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inject.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -22,11 +29,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/content-script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1755">
-              <caret line="65" column="13" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
+            <state relative-caret-position="486">
+              <caret line="72" column="69" selection-start-line="72" selection-start-column="69" selection-end-line="72" selection-end-column="69" />
+              <folding>
+                <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -34,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manifest.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="50" column="17" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
+            <state relative-caret-position="81">
+              <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -58,14 +68,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="381" column="25" selection-start-line="381" selection-start-column="25" selection-end-line="381" selection-end-column="25" />
+            <state relative-caret-position="313">
+              <caret line="107" column="43" selection-start-line="107" selection-start-column="43" selection-end-line="107" selection-end-column="43" />
               <folding>
                 <element signature="e#3486#4023#0" />
                 <element signature="e#6905#9562#0" />
+                <element signature="e#9596#10797#0" />
+                <element signature="e#10872#11449#0" />
+                <element signature="e#11489#11815#0" />
+                <element signature="e#11849#14018#0" />
+                <element signature="e#14101#14409#0" />
+                <element signature="e#14429#14564#0" />
+                <element signature="e#14582#14684#0" />
+                <element signature="e#14776#15471#0" />
+                <element signature="e#15523#17794#0" />
               </folding>
             </state>
           </provider>
@@ -99,6 +118,7 @@
       <find>window.</find>
       <find>getNeedTzDataList</find>
       <find>已投</find>
+      <find>getUserAccount</find>
     </findStrings>
     <dirStrings>
       <dir>D:\gitHub\chrome-plug-in</dir>
@@ -111,21 +131,22 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/popup.html" />
-        <option value="$PROJECT_DIR$/js/content-script.js" />
         <option value="$PROJECT_DIR$/css/custom.css" />
-        <option value="$PROJECT_DIR$/manifest.json" />
-        <option value="$PROJECT_DIR$/js/inject.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
         <option value="$PROJECT_DIR$/../client/src/service/axios/index.js" />
         <option value="$PROJECT_DIR$/../client/src/components/main/main.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/overview.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/super.vue" />
         <option value="$PROJECT_DIR$/../client/src/service/index.js" />
-        <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
-        <option value="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" />
         <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" />
+        <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
+        <option value="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" />
+        <option value="$PROJECT_DIR$/manifest.json" />
+        <option value="$PROJECT_DIR$/js/inject.js" />
+        <option value="$PROJECT_DIR$/js/content-script.js" />
+        <option value="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" />
       </list>
     </option>
   </component>
@@ -135,7 +156,7 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="228" />
     <option name="width" value="2330" />
     <option name="height" value="1047" />
@@ -237,12 +258,12 @@
       <workItem from="1540637229809" duration="3706000" />
       <workItem from="1540661499529" duration="596000" />
       <workItem from="1540687361447" duration="603000" />
-      <workItem from="1540713427695" duration="598000" />
+      <workItem from="1540713427695" duration="2774000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96874000" />
+    <option name="totallyTimeSpent" value="99050000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -254,10 +275,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="228" y="0" width="2330" height="1047" extended-state="1" />
+    <frame x="228" y="0" width="2330" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.094925635" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10848644" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -323,20 +344,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/content-script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1755">
-          <caret line="65" column="13" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manifest.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="50" column="17" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/custom.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1566">
@@ -351,13 +358,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="381" column="25" selection-start-line="381" selection-start-column="25" selection-end-line="381" selection-end-column="25" />
+        <state relative-caret-position="313">
+          <caret line="107" column="43" selection-start-line="107" selection-start-column="43" selection-end-line="107" selection-end-column="43" />
           <folding>
             <element signature="e#3486#4023#0" />
             <element signature="e#6905#9562#0" />
+            <element signature="e#9596#10797#0" />
+            <element signature="e#10872#11449#0" />
+            <element signature="e#11489#11815#0" />
+            <element signature="e#11849#14018#0" />
+            <element signature="e#14101#14409#0" />
+            <element signature="e#14429#14564#0" />
+            <element signature="e#14582#14684#0" />
+            <element signature="e#14776#15471#0" />
+            <element signature="e#15523#17794#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/content-script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="72" column="69" selection-start-line="72" selection-start-column="69" selection-end-line="72" selection-end-column="69" />
+          <folding>
+            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
