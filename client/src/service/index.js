@@ -76,5 +76,9 @@ export default {
   selectAllAdmin(params = {}) {
     // GET /account/selectAllAdmin
     return Axios({method: 'get', url: HOST + 'account/selectAllAdmin', params: params})
+  },
+  deleteAdminAccount(params = {}) {
+    // DELETE /account/deleteAdminAccount
+    return Axios({method: 'delete', url: HOST + 'account/deleteAdminAccount', params: params})
   }
 }

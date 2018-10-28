@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../client/src/router/routers.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/routers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/service/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/service/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/view/overview/super.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/super.vue" afterDir="false" />
     </list>
@@ -121,11 +122,11 @@
         <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
         <option value="$PROJECT_DIR$/../client/src/service/axios/index.js" />
-        <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/service/index.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/super.vue" />
+        <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
       </list>
     </option>
   </component>
