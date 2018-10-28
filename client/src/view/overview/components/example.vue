@@ -6,8 +6,8 @@
       </div>
       <div style="flex: 1;text-align: right">
         起始&ensp;<DatePicker type="datetime" @on-change="daterangeChange" v-model="DateRange" confirm
-                    :clearable="false" placement="bottom-end" placeholder="Select date"
-                    style="width: 200px"></DatePicker>&ensp;-&ensp;当前&emsp;&emsp;&ensp;&ensp;
+                            :clearable="false" placement="bottom-end" placeholder="Select date"
+                            style="width: 200px"></DatePicker>&ensp;-&ensp;当前&emsp;&emsp;&ensp;&ensp;
       </div>
     </div>
     <div id="overLine">
@@ -40,6 +40,7 @@
     },
     beforeDestroy() {
       clearInterval(window.setIngetLJInfo);
+      off(window, 'resize', this.resize())
     },
     created() {
       let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 3));
@@ -114,6 +115,9 @@
         ljzjzVal = ljzjzVal.reverse()
         // console.log(ljxjzVal, ljzjzVal);
         this.$nextTick(() => {
+          if (!!!this.$refs.dom) {
+            return false
+          }
           this.dom = echarts.init(this.$refs.dom)
           const option = {
             tooltip: {
@@ -203,8 +207,8 @@
     },
     mounted() {
     },
-    beforeDestroy() {
-      off(window, 'resize', this.resize())
+    destroyed() {
+      clearInterval(window.setIngetLJInfo);
     }
   }
 </script>

@@ -211,6 +211,9 @@
           this.updateTzCheck();
         } else {
           this.getTzSystemInfo(1);
+          setTimeout(_ => {
+            this.$Message.success({content: 'TZXT1更新成功', duration: 10, closable: true});
+          }, 500)
         }
       },
       updateTzCheck() {
@@ -219,12 +222,9 @@
           e.tzsjSection1 = e.time.join(',');
           e.tableNo = e.tableCode.join(',');
         });
-        // let params = {
-        //   list: this.tzListData
-        // };
         let params = this.tzListData
         this.$api.updateTzCheck(params).then(res => {
-          if (res.data.returnCode == 200) {
+          if (res.returnCode == 200) {
             this.$Message.success({content: '更新成功', duration: 10, closable: true});
           }
         }).catch(err => {

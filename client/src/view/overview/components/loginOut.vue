@@ -104,7 +104,7 @@
                 <Input v-model="formEdit.effectiveAmount"></Input>
               </FormItem>
               <FormItem label="是否登陆">
-                <Select v-model="formEdit.loginStatus">
+                <Select disabled v-model="formEdit.loginStatus">
                   <Option value="true">是</Option>
                   <Option value="false">否</Option>
                 </Select>
@@ -141,7 +141,7 @@
           account: '',
           password: '',
           ipAddress: '',
-          loginStatus: 'true',
+          loginStatus: 'false',
           effectiveAmount: '',
           ipAddressPublic: ''
         },

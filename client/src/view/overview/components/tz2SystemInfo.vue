@@ -248,6 +248,9 @@
           this.updateTzCheck();
         } else {
           this.getTzSystemInfo(startTZXT);
+          setTimeout(_ => {
+            this.$Message.success({content: 'TZXT2更新成功', duration: 10, closable: true});
+          }, 500)
         }
       },
       updateTzCheck() {
@@ -262,7 +265,7 @@
         // };
         let params = this.tzListData
         this.$api.updateTzCheck(params).then(res => {
-          if (res.data.returnCode == 200) {
+          if (res.returnCode == 200) {
             this.$Message.success({content: '更新成功', duration: 10, closable: true});
           }
         }).catch(err => {
