@@ -24,9 +24,15 @@
         <div class="header-box" style="height: 20px"><span class="col">账号：{{item.account}}</span>
         </div>
         <div class="header-box">
-          <div class="col">有效金额：{{item.effectiveAmount}}</div>
+          <b class="col">有效金额：{{item.effectiveAmount}}</b>
         </div>
-        <div class="col" style="text-align: right"><a href="">查看统计</a></div>
+        <div class="header-box">
+          <div class="col">公网IP：{{item.ipAddressPublic}}</div>
+        </div>
+        <div class="header-box">
+          <div class="col">内网IP：{{item.ipAddress}}</div>
+        </div>
+        <!--<div class="col" style="text-align: right"><a href="">查看统计</a></div>-->
       </Card>
       <!---->
       <div>

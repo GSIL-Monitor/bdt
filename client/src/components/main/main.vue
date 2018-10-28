@@ -26,9 +26,9 @@
                       @on-close="handleCloseTag"/>
           </div>
           <Content class="content-wrapper dbt-scrollbar">
-            <keep-alive :include="cacheList">
+            <!--<keep-alive :include="cacheList">-->
               <router-view/>
-            </keep-alive>
+            <!--</keep-alive>-->
           </Content>
         </Layout>
       </Content>

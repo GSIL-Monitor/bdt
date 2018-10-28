@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../client/src/components/main/main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/main/main.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/router/routers.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/routers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/service/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/service/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/super.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/super.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -127,6 +126,7 @@
         <option value="$PROJECT_DIR$/../client/src/service/index.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/super.vue" />
         <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
+        <option value="$PROJECT_DIR$/../client/src/components/main/main.vue" />
       </list>
     </option>
   </component>
@@ -255,7 +255,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="415" y="0" width="2143" height="1047" extended-state="1" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.103382565" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

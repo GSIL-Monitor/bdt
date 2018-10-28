@@ -24,17 +24,17 @@ export default [
     name: '首页',
     redirect: '/home',
     component: Main,
-    meta: {hideInMenu: true, notCache: true},
+    meta: {hideInMenu: true, notCache: false},
     children: [{
       path: '/home',
       name: 'home',
-      meta: {hideInMenu: true, title: '首页', notCache: true},
+      meta: {hideInMenu: true, title: '首页', notCache: false},
       component: () => import('@/view/single-page/home')
     },
       {
         path: '/super',
         name: 'super',
-        meta: {title: '超级管理员', hideInMenu: true, notCache: true},
+        meta: {title: '超级管理员', hideInMenu: true, notCache: false},
         component: () => import('@/view/overview/super.vue')
       }
     ]
@@ -46,7 +46,7 @@ export default [
     children: [{
       path: '/overview',
       name: 'overview',
-      meta: {icon: 'ios-home', title: '总览', notCache: true, beforeCloseName: 'before_close_normal'},
+      meta: {icon: 'ios-home', title: '总览', notCache: false, beforeCloseName: 'before_close_normal'},
       component: () => import('@/view/overview/overview.vue')
     }]
   },
@@ -54,18 +54,18 @@ export default [
     path: '/',
     name: '数据管理',
     component: Main,
-    meta: {icon: 'ios-keypad', title: '数据管理', notCache: true, beforeCloseName: 'before_close_normal'},
+    meta: {icon: 'ios-keypad', title: '数据管理', notCache: false, beforeCloseName: 'before_close_normal'},
     children: [
       {
         path: '/desktop',
         name: 'desktop',
-        meta: {icon: 'ios-browsers', title: '桌面管理', notCache: true, beforeCloseName: 'before_close_normal'},
+        meta: {icon: 'ios-browsers', title: '桌面管理', notCache: false, beforeCloseName: 'before_close_normal'},
         component: () => import('@/view/overview/desktop.vue')
       },
       {
         path: '/betting',
         name: 'betting',
-        meta: {icon: 'ios-analytics', title: '投注数据', notCache: true, beforeCloseName: 'before_close_normal'},
+        meta: {icon: 'ios-analytics', title: '投注数据', notCache: false, beforeCloseName: 'before_close_normal'},
         component: () => import('@/view/overview/betting.vue')
       }
     ]
