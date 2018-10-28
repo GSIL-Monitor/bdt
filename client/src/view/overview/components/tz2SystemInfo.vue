@@ -243,8 +243,30 @@
       this.getTzSystemInfo(startTZXT);
     },
     methods: {
-      saveApp() {
+      saveApp(type) {
+        if (type) {
+          this.updateTzCheck();
+        } else {
+          this.getTzSystemInfo(startTZXT);
+        }
+      },
+      updateTzCheck() {
+        this.tzListData.forEach((e) => {
+          e.adminId = this.$cookie.get('token')
+          e.tzsjSection1 = e.time.join(',');
+          e.tzsjSection2 = e.time2.join(',');
+          e.tableNo = e.tableCode.join(',');
+        });
+        let params = {
+          list: this.tzListData
+        };
+        this.$api.updateTzCheck(params).then(res => {
+          if (res.data.returnCode == 200) {
+            this.$Message.success({content: '更新成功', duration: 10, closable: true});
+          }
+        }).catch(err => {
 
+        })
       },
       setCheckBoxAll() {
         setTimeout(() => {
@@ -296,6 +318,7 @@
           if (res.returnCode == 200) {
             this.tzListData = res.returnObject.list;
             this.tzListData.forEach((e) => {
+              e.adminId = this.$cookie.get('token')
               if (e.tzsjSection1 == null) {
                 e.tzsjSection1 = '';
               }

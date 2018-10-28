@@ -71,6 +71,6 @@ export default {
   },
   updateTzCheck(params = {}) {
     //
-    return Axios({method: 'post', url: HOST + 'bjlTable/updateTzCheck', params: params})
+    return Axios({method: 'post', url: HOST + 'bjlTable/updateTzCheck', data: params})
   }
 }

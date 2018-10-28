@@ -104,7 +104,7 @@
         </tbody>
       </table>
       <!---->
-      <Spin size="large" fix v-if="!disabledSet"></Spin>
+      <!--<Spin size="large" fix v-if="!disabledSet"></Spin>-->
     </div>
   </Card>
 </template>
@@ -208,8 +208,27 @@
     methods: {
       saveApp(type) {
         if (type) {
-
+          this.updateTzCheck();
+        } else {
+          this.getTzSystemInfo(1);
         }
+      },
+      updateTzCheck() {
+        this.tzListData.forEach((e) => {
+          e.adminId = this.$cookie.get('token')
+          e.tzsjSection1 = e.time.join(',');
+          e.tableNo = e.tableCode.join(',');
+        });
+        let params = {
+          list: this.tzListData
+        };
+        this.$api.updateTzCheck(params).then(res => {
+          if (res.data.returnCode == 200) {
+            this.$Message.success({content: '更新成功', duration: 10, closable: true});
+          }
+        }).catch(err => {
+
+        })
       },
       //
       setCheckBoxAll() {

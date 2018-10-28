@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../client/src/router/routers.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/routers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/service/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/service/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/super.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/super.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -66,7 +68,7 @@
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="259">
-              <caret line="381" column="6" selection-start-line="381" selection-start-column="6" selection-end-line="381" selection-end-column="6" />
+              <caret line="381" column="25" selection-start-line="381" selection-start-column="25" selection-end-line="381" selection-end-column="25" />
               <folding>
                 <element signature="e#3486#4023#0" />
                 <element signature="e#6905#9562#0" />
@@ -122,11 +124,11 @@
         <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
         <option value="$PROJECT_DIR$/../client/src/service/axios/index.js" />
-        <option value="$PROJECT_DIR$/../client/src/service/index.js" />
-        <option value="$PROJECT_DIR$/../client/src/view/overview/super.vue" />
         <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
+        <option value="$PROJECT_DIR$/../client/src/service/index.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" />
+        <option value="$PROJECT_DIR$/../client/src/view/overview/super.vue" />
       </list>
     </option>
   </component>
@@ -136,9 +138,9 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="439" />
-    <option name="width" value="2119" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="415" />
+    <option name="width" value="2143" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -237,11 +239,12 @@
       <workItem from="1540134608999" duration="597000" />
       <workItem from="1540637229809" duration="3706000" />
       <workItem from="1540661499529" duration="596000" />
+      <workItem from="1540687361447" duration="603000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="95673000" />
+    <option name="totallyTimeSpent" value="96276000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -253,10 +256,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="439" y="0" width="2119" height="1047" extended-state="0" />
+    <frame x="415" y="0" width="2143" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.104578316" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.103382565" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -353,7 +356,7 @@
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
-          <caret line="381" column="6" selection-start-line="381" selection-start-column="6" selection-end-line="381" selection-end-column="6" />
+          <caret line="381" column="25" selection-start-line="381" selection-start-column="25" selection-end-line="381" selection-end-column="25" />
           <folding>
             <element signature="e#3486#4023#0" />
             <element signature="e#6905#9562#0" />
