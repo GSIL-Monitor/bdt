@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/js/content-script.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/content-script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/inject.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inject.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chrome-plug-in.zip" beforeDir="false" afterPath="$PROJECT_DIR$/../chrome-plug-in.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -29,14 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/content-script.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="486">
               <caret line="72" column="69" selection-start-line="72" selection-start-column="69" selection-end-line="72" selection-end-column="69" />
-              <folding>
-                <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -68,24 +61,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="107" column="43" selection-start-line="107" selection-start-column="43" selection-end-line="107" selection-end-column="43" />
-              <folding>
-                <element signature="e#3486#4023#0" />
-                <element signature="e#6905#9562#0" />
-                <element signature="e#9596#10797#0" />
-                <element signature="e#10872#11449#0" />
-                <element signature="e#11489#11815#0" />
-                <element signature="e#11849#14018#0" />
-                <element signature="e#14101#14409#0" />
-                <element signature="e#14429#14564#0" />
-                <element signature="e#14582#14684#0" />
-                <element signature="e#14776#15471#0" />
-                <element signature="e#15523#17794#0" />
-              </folding>
+            <state relative-caret-position="529">
+              <caret line="250" column="21" lean-forward="true" selection-start-line="250" selection-start-column="21" selection-end-line="250" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -169,7 +149,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -181,6 +160,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -259,11 +239,12 @@
       <workItem from="1540661499529" duration="596000" />
       <workItem from="1540687361447" duration="603000" />
       <workItem from="1540713427695" duration="2774000" />
+      <workItem from="1540737785550" duration="171000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99050000" />
+    <option name="totallyTimeSpent" value="99221000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -344,6 +325,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/css/custom.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1566">
@@ -358,40 +346,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manifest.json">
+    <entry file="file://$PROJECT_DIR$/js/content-script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        <state relative-caret-position="486">
+          <caret line="72" column="69" selection-start-line="72" selection-start-column="69" selection-end-line="72" selection-end-column="69" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="107" column="43" selection-start-line="107" selection-start-column="43" selection-end-line="107" selection-end-column="43" />
-          <folding>
-            <element signature="e#3486#4023#0" />
-            <element signature="e#6905#9562#0" />
-            <element signature="e#9596#10797#0" />
-            <element signature="e#10872#11449#0" />
-            <element signature="e#11489#11815#0" />
-            <element signature="e#11849#14018#0" />
-            <element signature="e#14101#14409#0" />
-            <element signature="e#14429#14564#0" />
-            <element signature="e#14582#14684#0" />
-            <element signature="e#14776#15471#0" />
-            <element signature="e#15523#17794#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/content-script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="72" column="69" selection-start-line="72" selection-start-column="69" selection-end-line="72" selection-end-column="69" />
-          <folding>
-            <element signature="n#src#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="529">
+          <caret line="250" column="21" lean-forward="true" selection-start-line="250" selection-start-column="21" selection-end-line="250" selection-end-column="21" />
         </state>
       </provider>
     </entry>

@@ -128,6 +128,7 @@ function getUserAccount() {
 function setUserId() {
   console.log($('.inject-from #innerUserId').val());
   window.localStorage.setItem('Chrome_Inner_User_Id', $.trim($('.inject-from #innerUserId').val()));
+  getUserAccount();
 }
 
 function setUserName() {
