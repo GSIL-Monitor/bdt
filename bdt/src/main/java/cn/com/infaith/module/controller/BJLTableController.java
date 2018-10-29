@@ -36,6 +36,16 @@ public class BJLTableController {
     public JSONObject addTableData(@ModelAttribute TableData tableData) {
         synchronized (this) {
             LogUtil.info(this.getClass(), "读牌开始>>>>>>>time:" + System.currentTimeMillis());
+            TableRequest request = new TableRequest();
+            request.setCreateTime(new Date(tableData.getCreateDate()));
+            request.setTableNo(tableData.getTableNo());
+            request.setBattleNo(tableData.getBattleNo());
+            request.setFitNo(tableData.getFitNo());
+            request.setCard(tableData.getCard());
+            request.setXianCard(tableData.getXianCard());
+            request.setResult(tableData.getResult());
+            request.setStatus(tableData.getStatus());
+            tableDataService.addTableRequest(request);
             if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
                 return ResponseJsonUtil.getResponseJson(-1, "未获取开牌结果", null);
             }

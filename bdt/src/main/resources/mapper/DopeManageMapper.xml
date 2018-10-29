@@ -26,7 +26,7 @@
       tzsj_section1, tzsj_section2, table_no, 
       is_delete, create_time)
     values (#{id,jdbcType=INTEGER}, #{adminId}, #{tzxt}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=INTEGER}, #{tzfx}, #{hasCheck},
-      #{tzsjSection1,jdbcType=VARCHAR}, #{tzsjSection2,jdbcType=VARCHAR}, #{tableNo,jdbcType=VARCHAR},
+      #{tzsjSection1,jdbcType=VARCHAR}, #{tzsjSection2,jdbcType=VARCHAR}, CONCAT(',',#{tableNo},','),
       0, now())
   </insert>
 
@@ -37,7 +37,7 @@
     values
     <foreach collection="list" item="item" separator=",">
       (#{item.adminId}, #{item.tzxt}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=INTEGER}, #{item.tzfx}, #{item.hasCheck},
-      #{item.tzsjSection1,jdbcType=VARCHAR}, #{item.tzsjSection2,jdbcType=VARCHAR}, #{item.tableNo,jdbcType=VARCHAR},
+      #{item.tzsjSection1,jdbcType=VARCHAR}, #{item.tzsjSection2,jdbcType=VARCHAR}, CONCAT(',',#{item.tableNo},','),
       0, now())
     </foreach>
   </insert>
@@ -48,19 +48,19 @@
       tzje = #{tzje,jdbcType=INTEGER},
       tzsj_section1 = #{tzsjSection1,jdbcType=VARCHAR},
       tzsj_section2 = #{tzsjSection2,jdbcType=VARCHAR},
-      table_no = #{tableNo,jdbcType=VARCHAR},
+      table_no = CONCAT(',',#{tableNo},','),
       tzfx = #{tzfx},
       has_check = #{hasCheck},
       is_delete = #{isDelete}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, admin_id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time,has_check
+    select id, admin_id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, SUBSTRING(table_no, 2, LENGTH(table_no) - 2) table_no, is_delete, create_time,has_check
     from dope_manage
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, admin_id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time,has_check
+    select id, admin_id, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, SUBSTRING(table_no, 2, LENGTH(table_no) - 2) table_no, is_delete, create_time,has_check
     from dope_manage
   </select>
 
@@ -77,7 +77,7 @@
         a.tzfx,
         a.tzsj_section1,
         a.tzsj_section2,
-        a.table_no,
+        SUBSTRING(a.table_no, 2, LENGTH(a.table_no) - 2) table_no,
         a.is_delete,
         a.create_time
     FROM
@@ -98,9 +98,9 @@
     </select>
 
     <select id="getDopeManageByTableNoAndTzxt" resultMap="BaseResultMap">
-        select id, admin_id, has_check, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, table_no, is_delete, create_time
+        select id, admin_id, has_check, tzxt, tzzh, tzje, tzfx, tzsj_section1, tzsj_section2, SUBSTRING(table_no, 2, LENGTH(table_no) - 2) table_no, is_delete, create_time
         from dope_manage
-        WHERE is_delete = 0 AND table_no LIKE concat('%',#{tableNo},'%')
+        WHERE is_delete = 0 AND table_no LIKE concat('%,',#{tableNo},',%')
         AND tzxt = #{tzxt} AND has_check = 1
         AND admin_id = #{adminId}
     </select>

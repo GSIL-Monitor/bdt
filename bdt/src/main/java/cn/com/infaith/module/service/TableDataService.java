@@ -272,4 +272,5 @@ public interface TableDataService {
 
     int addTzSystem(TzSystem tzSystem);
 
+    int addTableRequest(TableRequest request);
 }

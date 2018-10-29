@@ -34,6 +34,7 @@ public class TimeJobService {
 
     @Scheduled(cron = "*/30 * * * * ?")
     public void calUserLoginStatus() {
+        LogUtil.info(this.getClass(), "更新用户状态开始》》》》》");
         userAccountService.updateLoginStatusTrue();
         userAccountService.updateLoginStatusFalse();
     }

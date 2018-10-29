@@ -42,6 +42,8 @@ public class TableDataServiceImpl implements TableDataService {
     private TableInfoMapper tableInfoMapper;
     @Autowired
     private UserAccountMapper userAccountMapper;
+    @Autowired
+    private TableRequestMapper tableRequestMapper;
 
     @Override
     public Integer addTableData(TableData tableData) {
@@ -407,5 +409,10 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public int addTzSystem(TzSystem tzSystem) {
         return tzSystemMapper.insert(tzSystem);
+    }
+
+    @Override
+    public int addTableRequest(TableRequest request) {
+        return tableRequestMapper.insert(request);
     }
 }
