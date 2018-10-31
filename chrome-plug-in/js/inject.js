@@ -419,28 +419,32 @@ function selectedYuan(list) {
 
 //
 function TZZL(tableCode, yuan, fx, list) {
-  function check(tableCode, yuan, fx) {
+  function check(tableCode, yuan, fx, num) {
     setTimeout(_ => {
       $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
       //
-      setTimeout(_ => {
-        $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+      $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+      $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
+      if (num == 2) {
         setTimeout(_ => {
-          $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
+          if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
+            updateTzztList(list, true);
+          } else {
+            updateTzztList(list, false);
+          }
         }, 1000)
-      }, 1000)
+      }
     }, 1000)
     // // _30x9W
   }
 
-  check(tableCode, yuan, fx);
+  check(tableCode, yuan, fx, 1);
 
   setTimeout(() => {
     if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
       updateTzztList(list, true);
     } else {
-      check(tableCode, yuan, fx);
-      // updateTzztList(list, true);
+      check(tableCode, yuan, fx, 2);
     }
   }, 1000)
 }
@@ -570,7 +574,7 @@ function getNeedTzDataList() {
                 let daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
                   setLocalStorage.one[e.tableNo - 1] = e;
-                  currentTZ.push(e);
+                  selectedYuan(e);
                 }
               }
             });
@@ -582,16 +586,16 @@ function getNeedTzDataList() {
                 let daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
                   setLocalStorage.two[e.tableNo - 1] = e;
-                  currentTZ.push(e);
+                  selectedYuan(e);
                 }
               }
             });
             //
-            for (let i = 0; i < currentTZ.length; i++) {
-              setTimeout(_ => {
-                selectedYuan(currentTZ[i]);
-              }, 1000)
-            }
+            // for (let i = 0; i < currentTZ.length; i++) {
+            //   setTimeout(_ => {
+            //     selectedYuan(currentTZ[i]);
+            //   }, 0)
+            // }
             // 设置 缓存
             window.localStorage.setItem('SETLocalStorage', window.JSON.stringify(setLocalStorage));
           }

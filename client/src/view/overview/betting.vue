@@ -133,7 +133,7 @@
         tzStatus: {
           'true': '成功',
           'false': '投注失败',
-          'null': '投注失败'
+          'null': '投注超时'
         },
         tableData: [],
         isLoginOverviewData: []

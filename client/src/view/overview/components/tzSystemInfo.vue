@@ -75,7 +75,8 @@
           </td>
           <td>
             <div class="row">
-              <Select :key="index+'tzje'" v-model="item.tzje" style="width:100%">
+              <Select :key="index+'tzje'" v-model="item.tzje" style="width:100%"
+                      @on-change="tabJinEChange">
                 <Option v-for="opt in tabJinE" :value="opt" :key="opt">{{opt}}</Option>
               </Select>
             </div>
@@ -83,7 +84,7 @@
           <td class="time">
             <div class="row">
               <Select :key="index+'time'" v-model="item.time" multiple clearable
-                      style="width:100%">
+                      style="width:100%" @on-change="tabJinEChange">
                 <Option v-for="opt in timelineDataFun" :disabled="opt.disabled" :value="opt.value"
                         :key="opt.value">{{opt.name }}
                 </Option>
@@ -200,7 +201,21 @@
       }
     },
     created() {
-      this.getTzSystemInfo(1);
+      if (window.sessionStorage.getItem('getTzSystemInfo')) {
+        this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
+        this.tzSystem = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzSystem'));
+        this.setCheckBoxAll();
+        this.formInline.fh = this.tzSystem.fh;
+        this.formInline.xh = this.tzSystem.xh;
+        this.disabledSet = !this.tzSystem.started;
+      } else {
+        this.getTzSystemInfo(1);
+      }
+    },
+    watch: {
+      tzListData: function (val) {
+        console.log('3245234', val);
+      }
     },
     activated() {
 
@@ -208,7 +223,10 @@
     methods: {
       saveApp(type) {
         if (type) {
-          this.updateTzCheck();
+          window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+          // this.tzSystem
+          window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
+          // this.updateTzCheck();
         } else {
           this.getTzSystemInfo(1);
           setTimeout(_ => {
@@ -251,19 +269,35 @@
         console.log(this.tzListData[index]);
       },
       tableCodeChange(val) {
+
         if (val.length > 6) {
           this.$Message.info({content: '最多选择6桌', duration: 10, closable: true});
         }
         console.log(val);
+        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+        // this.tzSystem
+        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
+      },
+      tabJinEChange() {
+        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+        // this.tzSystem
+        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
       },
       checkBoxChange(val) {
+
         console.log(val);
+        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+        // this.tzSystem
+        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
       },
       checkBoxAllChange(val) {
         console.log(val);
         this.tzListData.forEach((e) => {
           e.hasCheck = val;
         })
+        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+        // this.tzSystem
+        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
       },
       startApp(start) {
         this.disabledSet = !start;
@@ -300,6 +334,9 @@
             this.formInline.fh = this.tzSystem.fh;
             this.formInline.xh = this.tzSystem.xh;
             this.disabledSet = !this.tzSystem.started;
+            window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+            // this.tzSystem
+            window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
           }
         }).catch(err => {
 
@@ -308,6 +345,10 @@
       //
       tzSystemStarted(tzxt) {
         //
+        this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
+        this.tzSystem = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzSystem'));
+        // this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
+
         this.tzListData.forEach((e) => {
           e.adminId = this.$cookie.get('token')
           e.tzsjSection1 = e.time.join(',');
