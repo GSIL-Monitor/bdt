@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="" />
+    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/inject.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inject.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/betting.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/betting.vue" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -31,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manifest.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+            <state relative-caret-position="432">
+              <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -58,13 +63,18 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="130" column="19" lean-forward="true" selection-start-line="130" selection-start-column="19" selection-end-line="130" selection-end-column="19" />
+            <state relative-caret-position="508">
+              <caret line="398" column="22" selection-start-line="398" selection-start-column="22" selection-end-line="398" selection-end-column="22" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/untitled">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -85,9 +95,7 @@
       <find>1231231</find>
       <find>_1h40X ._2kLct</find>
       <find>getUserId</find>
-      <find>console.log</find>
       <find>getWaitTime</find>
-      <find>selectedYuan</find>
       <find>setInterval</find>
       <find>getArrDifference</find>
       <find>setNum</find>
@@ -96,6 +104,10 @@
       <find>getNeedTzDataList</find>
       <find>已投</find>
       <find>getUserAccount</find>
+      <find>console.log</find>
+      <find>selectedYuan</find>
+      <find>daskStatus</find>
+      <find>ZUikl</find>
     </findStrings>
     <dirStrings>
       <dir>D:\gitHub\chrome-plug-in</dir>
@@ -109,7 +121,6 @@
       <list>
         <option value="$PROJECT_DIR$/popup.html" />
         <option value="$PROJECT_DIR$/css/custom.css" />
-        <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
         <option value="$PROJECT_DIR$/../client/src/service/axios/index.js" />
         <option value="$PROJECT_DIR$/../client/src/components/main/main.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/overview.vue" />
@@ -120,9 +131,10 @@
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" />
-        <option value="$PROJECT_DIR$/manifest.json" />
         <option value="$PROJECT_DIR$/js/content-script.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" />
+        <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
+        <option value="$PROJECT_DIR$/manifest.json" />
         <option value="$PROJECT_DIR$/js/inject.js" />
       </list>
     </option>
@@ -133,7 +145,7 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="228" />
     <option name="width" value="2330" />
     <option name="height" value="1047" />
@@ -154,6 +166,11 @@
               <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -162,7 +179,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../client" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.jscs" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -237,12 +254,15 @@
       <workItem from="1540687361447" duration="603000" />
       <workItem from="1540713427695" duration="2774000" />
       <workItem from="1540737785550" duration="171000" />
-      <workItem from="1540738181274" duration="311000" />
+      <workItem from="1540738181274" duration="1270000" />
+      <workItem from="1540908366158" duration="8895000" />
+      <workItem from="1540995418834" duration="3192000" />
+      <workItem from="1540999976256" duration="340000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99532000" />
+    <option name="totallyTimeSpent" value="112918000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -330,6 +350,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/css/custom.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1566">
@@ -344,17 +371,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/untitled">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="130" column="19" lean-forward="true" selection-start-line="130" selection-start-column="19" selection-end-line="130" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manifest.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        <state relative-caret-position="508">
+          <caret line="398" column="22" selection-start-line="398" selection-start-column="22" selection-end-line="398" selection-end-column="22" />
         </state>
       </provider>
     </entry>

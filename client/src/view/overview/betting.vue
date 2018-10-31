@@ -100,6 +100,14 @@
             key: 'tableNo'
           },
           {
+            title: '投注局号',
+            key: 'battleNo'
+          },
+          {
+            title: '投注副号',
+            key: 'fitNo'
+          },
+          {
             title: '投注方式',
             key: 'tzxt'
           },

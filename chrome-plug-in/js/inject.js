@@ -1,4 +1,4 @@
-let datamap = {};
+var datamap = {};
 datamap["_3m2-b"] = "1";
 datamap["_1mjUZ"] = "2";
 datamap["_2k309"] = "3";
@@ -82,9 +82,9 @@ var yuanOption = {
   '2000': '.NJ9Lz'
 };
 var fxOption = {
-  '1': '._34Nqi.ZUikl',
-  '2': '._34Nqi._7vTww',
-  '3': '._34Nqi._3xcd-'
+  '1': '.ZUikl',
+  '2': '._7vTww',
+  '3': '._3xcd-'
 }
 
 // GET /account/getUserAccount
@@ -100,12 +100,13 @@ function getUserAccount() {
       dataType: 'json',
       //  数据必须转换为字符串
       success: function (res) {
-        console.log(res);
+        // console.log(res);
         if (res.returnCode == 200) {
           let userCode = window.localStorage.getItem('chrome_UserName');
           let userPass = window.localStorage.getItem('chrome_UserPass');
           let returnObj = res.returnObject;
-          console.log('===================>', res.returnObject);
+          $('._1h40X ._2kLct').eq(1).click();
+          // console.log('===================>', res.returnObject);
           if ($.trim(userCode) == $.trim(returnObj.account) && $.trim(userPass) == $.trim(returnObj.password)) {
             return
           } else {
@@ -126,7 +127,7 @@ function getUserAccount() {
 
 //
 function setUserId() {
-  console.log($('.inject-from #innerUserId').val());
+  // console.log($('.inject-from #innerUserId').val());
   window.localStorage.setItem('Chrome_Inner_User_Id', $.trim($('.inject-from #innerUserId').val()));
   getUserAccount();
 }
@@ -146,7 +147,7 @@ window.chrome_login_User_Obj = {
 }
 //
 window.onload = function () {
-  console.log('页面加载完毕111111');
+  //console.log('页面加载完毕111111');
   var chrome_yzImg = $('._3IDPG ._1CgIs._1I2Om img');
   setTimeout(() => {
     chrome_login()
@@ -154,11 +155,11 @@ window.onload = function () {
 }
 
 function getWaitTime(deskIndex) {
-  console.log("getWaitTime:deskIndex=" + deskIndex);
+  //console.log("getWaitTime:deskIndex=" + deskIndex);
   var targets = $(".qMFBr");
 
-  console.log($(targets[deskIndex]).text());
-  console.log($(targets[deskIndex]).text().length);
+  // console.log($(targets[deskIndex]).text());
+  //console.log($(targets[deskIndex]).text().length);
   var textlength = $(targets[deskIndex]).text().length;
   var time = 0;
   if (2 == textlength) {
@@ -168,7 +169,7 @@ function getWaitTime(deskIndex) {
   var countData = $(targets[deskIndex]).parents("._6VpXo").find("._1tFN6").text().split("-");
   var count1 = countData[0];
   var count2 = countData[1];
-  console.log(time + " " + count1 + " " + count2);
+  // console.log(time + " " + count1 + " " + count2);
   return {time, count1, count2}
 }
 
@@ -262,7 +263,7 @@ function chrome_login() {
       el3.value = resCode;
       el3._valueTracker.setValue(el3);
       el3.dispatchEvent(kv);
-      console.log('123', el1, el2, el3)
+      // console.log('123', el1, el2, el3)
       $("._3IDPG button").click();
 
       setTimeout(() => {
@@ -278,7 +279,7 @@ function chrome_login() {
           $('._1h40X ._2kLct').eq(1).click();
           document.querySelectorAll('._1h40X ._2kLct')[1].click();
           startListen();
-          console.log(1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111)
+          // console.log(1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111)
           getUserAccount();
         }, 1000 * 6)
       }, 1000 * 3)
@@ -352,8 +353,8 @@ var callback = function (mutationsList) {
     var t = $(mutation.target).parents("._6VpXo");
 
     var rtndata = analysisData(t, classData, state);
-    console.log(rtndata.name1 + rtndata.name2 + '-' + rtndata.count1 + '-' + rtndata.count2 + 'state-' + state);
-    console.log(JSON.stringify(rtndata));
+    // console.log(rtndata.name1 + rtndata.name2 + '-' + rtndata.count1 + '-' + rtndata.count2 + 'state-' + state);
+    // console.log(JSON.stringify(rtndata));
     $('._1h40X ._2kLct').eq(1).click();
     document.querySelectorAll('._1h40X ._2kLct')[1].click();
     var wads = {
@@ -382,47 +383,66 @@ var callback = function (mutationsList) {
     }
     if ($.trim(rtndata.name1) == '百家乐') {
       addTableData(params);
+      //
+      $("._1_GP_").css("display", "none");
+      $("._9p7ST").css("display", "none");
+      $("._3EV69").css("display", "none");
+      $("._1QPxJ").css("display", "none");
+      $("._1DaOE").css("display", "none");
+      document.querySelector('.FlvPlayer__root video').pause();
     }
   }
-
 };
 
 //
 function selectedYuan(list) {
-  console.log(list);
+  // console.log(list);
   // 选中金额
   let daskStatus = getWaitTime(list.tableNo - 1);
-  console.log(daskStatus)
+  // console.log(daskStatus)
   console.warn(list.tableNo, '在投注');
   let yuan = list.tzje;
   let tableCode = list.tableNo;
   let fx = list.tzfx;
   if (daskStatus.count1 == list.battleNo && daskStatus.count2 == list.fitNo) {
     if (daskStatus.time > 1) {
-
+      TZZL(tableCode, yuan, fx, list);
+      if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length == 0) {
+        // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent());
+      } else {
+        updateTzztList(list, true);
+        console.warn('已投注过！！！！1');
+      }
     }
-    if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length == 0) {
-      // .find('._30x9W')
-      // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent())
-      $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
-      // //
-      $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
-      // // _30x9W
-      $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
-      setTimeout(() => {
-        if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
-          updateTzztList(list, true);
-        } else {
-          updateTzztList(list, false);
-        }
-      }, 300)
-    } else {
-      //
-      updateTzztList(list, true);
-      console.warn('已投注过！！！！1');
-    }
-  } else {
   }
+}
+
+//
+function TZZL(tableCode, yuan, fx, list) {
+  function check(tableCode, yuan, fx) {
+    setTimeout(_ => {
+      $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
+      //
+      setTimeout(_ => {
+        $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+        setTimeout(_ => {
+          $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
+        }, 333)
+      }, 333)
+    }, 1200)
+    // // _30x9W
+  }
+
+  check(tableCode, yuan, fx);
+
+  setTimeout(() => {
+    if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
+      updateTzztList(list, true);
+    } else {
+      check(tableCode, yuan, fx);
+      // updateTzztList(list, true);
+    }
+  }, 2300)
 }
 
 // POST / bjlTable / updateTzztList
@@ -430,7 +450,6 @@ function selectedYuan(list) {
 function updateTzztList(list, type) {
   list.tzzt = type;
   var array = [list];
-
 
   var jsonString = array;
   var listObj = {
@@ -489,49 +508,101 @@ function getNeedTzDataList() {
           if (data == null) {
             data = [];
           }
+          // newData是 过滤出来的数据
           var newData = data.filter((e, i) => {
             return e.tzzh == getUserId;
-          })
-          let localS = newData.map((e, i) => {
-            return e.id
-          })
-
+          });
+          // 投注系统1传过来的数据
+          var newDataTZ = {
+            'one': [],
+            'two': []
+          }
+          newDataTZ.one = newData.filter((e, i) => {
+            return e.tzxt == 1;
+          });
+          // 投注系统2传过来的数据
+          newDataTZ.two = newData.filter((e, i) => {
+            return e.tzxt == 2;
+          });
           //
+          var setLocalStorage = {
+            'one': [],
+            'two': []
+          }
+          /**
+           * */
           if (window.localStorage) {
-            // 最新数据存好 id
-            window.localStorage.setItem('CHROME_TZ_ID', JSON.stringify(localS));
-            let LocalT = [];
-            if (window.localStorage.getItem('CHROME_TZ_ID')) {
-              LocalT = JSON.parse(window.localStorage.getItem('CHROME_TZ_ID'));
-            }
-            // 取出同元素
-            let newDataTrim = [];
-            let localG = getArrDifference(localS, LocalT);
-            for (let i = 0; i < newData.length; i++) {
-              let arr = {};
-              for (let j = 0; j < localG.length; j++) {
-                if (newData[i].id == localG[j]) {
-                  arr = newData[i];
-                }
+
+            if (window.localStorage.getItem('SETLocalStorage')) {
+              setLocalStorage = window.JSON.parse(window.localStorage.getItem('SETLocalStorage'));
+            } else {
+              for (let i = 0; i < 12; i++) {
+                //
+                setLocalStorage.one.push({
+                  battleNo: '',
+                  tzfx: '',
+                  fitNo: '',
+                  tableNo: '',
+                  tzje: '',
+                  tzxt: '',
+                  tzzh: '',
+                  id: ''
+                });
+                //
+                setLocalStorage.two.push({
+                  battleNo: '',
+                  tzfx: '',
+                  fitNo: '',
+                  tableNo: '',
+                  tzje: '',
+                  tzxt: '',
+                  tzzh: '',
+                  id: ''
+                });
               }
-              newDataTrim.push(arr);
             }
             //
-            console.log('newData=======1111==========>', newData);
-            for (let k = 0; k < newDataTrim.length; k++) {
-              setTimeout(() => {
-                console.log('newData======11111111111===============>', newData[k]);
-                selectedYuan(newData[k]);
-              }, 1111)
-            }
+            var currentTZ = [];
+            newDataTZ.one.forEach((e, j) => {
+              let newItem = setLocalStorage.one[e.tableNo - 1];
+              if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
+                //  数据不一样 需要投注
+                let daskStatus = getWaitTime(e.tableNo - 1);
+                if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
+                  setLocalStorage.one[e.tableNo - 1] = e;
+                  currentTZ.push(e);
+                }
+              }
+            });
+            //
+            newDataTZ.two.forEach((e, j) => {
+              let newItem = setLocalStorage.two[e.tableNo - 1];
+              if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
+                //  数据不一样 需要投注
+                let daskStatus = getWaitTime(e.tableNo - 1);
+                if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
+                  setLocalStorage.two[e.tableNo - 1] = e;
+                  currentTZ.push(e);
+                }
+              }
+            });
+            setTimeout(_ => {
+              for (let i = 0; i < currentTZ.length; i++) {
+                setTimeout(_ => {
+                  selectedYuan(currentTZ[i]);
+                }, 1000)
+              }
+            }, 1000);
+            // 设置 缓存
+            window.localStorage.setItem('SETLocalStorage', window.JSON.stringify(setLocalStorage));
           }
         }
       },
       error: function (XmlHttpRequest, textStatus, errorThrown) {
-        console.log("操作失败!");
+        // console.log("操作失败!");
       }
     })
-  }, 2000)
+  }, 3333)
 }
 
 // http://localhost:8763/bdt/bjlTable/addTableData
@@ -541,7 +612,7 @@ function addTableData(params) {
     url: 'http://139.198.177.39:8080/bdt/bjlTable/addTableData?' + $.param(params),
     dataType: 'json',
     success: function (result) {
-      console.log(result);
+      // console.log(result);
     },
     error: function (XmlHttpRequest, textStatus, errorThrown) {
       console.log("操作失败!");
@@ -572,7 +643,7 @@ function startListen() {
   // $(".inject-panel .startGetDisk").css(disabled, true);
   $(".inject-panel .startGetDisk").text('启动中');
   getNeedTzDataList();
-  console.log("start listen");
+  // console.log("start listen");
   // $("._2y2K9").css({display: 'none'})
   // $(".MlO78").css({display: 'none'})
   var targets = $(".qMFBr");
