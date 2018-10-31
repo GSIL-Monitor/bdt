@@ -427,9 +427,9 @@ function TZZL(tableCode, yuan, fx, list) {
         $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
         setTimeout(_ => {
           $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
-        }, 333)
-      }, 333)
-    }, 1200)
+        }, 1000)
+      }, 1000)
+    }, 1000)
     // // _30x9W
   }
 
@@ -442,7 +442,7 @@ function TZZL(tableCode, yuan, fx, list) {
       check(tableCode, yuan, fx);
       // updateTzztList(list, true);
     }
-  }, 2300)
+  }, 1000)
 }
 
 // POST / bjlTable / updateTzztList
@@ -586,13 +586,12 @@ function getNeedTzDataList() {
                 }
               }
             });
-            setTimeout(_ => {
-              for (let i = 0; i < currentTZ.length; i++) {
-                setTimeout(_ => {
-                  selectedYuan(currentTZ[i]);
-                }, 1000)
-              }
-            }, 1000);
+            //
+            for (let i = 0; i < currentTZ.length; i++) {
+              setTimeout(_ => {
+                selectedYuan(currentTZ[i]);
+              }, 1000)
+            }
             // 设置 缓存
             window.localStorage.setItem('SETLocalStorage', window.JSON.stringify(setLocalStorage));
           }
