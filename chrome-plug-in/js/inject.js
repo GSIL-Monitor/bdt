@@ -87,6 +87,19 @@ var fxOption = {
   '3': '._3xcd-'
 }
 
+var wads = {
+  '庄': '1',
+  '闲': '2',
+  '和': '3',
+}
+
+var status = {
+  '开始投注': 2,
+  '开牌': 3,
+  '停止投注': 0,
+  '洗牌中': 1
+}
+
 // GET /account/getUserAccount
 function getUserAccount() {
   clearInterval(window.chrome_userAccount);
@@ -278,6 +291,10 @@ function chrome_login() {
           }, 1000 * 3);
           $('._1h40X ._2kLct').eq(1).click();
           document.querySelectorAll('._1h40X ._2kLct')[1].click();
+          setTimeout(_ => {
+            // 每过6小时就会从新登陆
+            location.reload();
+          }, 1000 * 60 * 60 * 6);
           startListen();
           // console.log(1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111)
           getUserAccount();
@@ -362,6 +379,7 @@ var callback = function (mutationsList) {
       '闲': '2',
       '和': '3',
     }
+
     var status = {
       '开始投注': 2,
       '开牌': 3,
@@ -401,11 +419,13 @@ function selectedYuan(list) {
   let daskStatus = getWaitTime(list.tableNo - 1);
   // console.log(daskStatus)
   console.warn(list.tableNo, '在投注');
+  // 获取到投注信息
+  HQTZ()
   let yuan = list.tzje;
   let tableCode = list.tableNo;
   let fx = list.tzfx;
   if (daskStatus.count1 == list.battleNo && daskStatus.count2 == list.fitNo) {
-    if (daskStatus.time > 1) {
+    setTimeout(_ => {
       TZZL(tableCode, yuan, fx, list);
       if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length == 0) {
         // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent());
@@ -413,40 +433,100 @@ function selectedYuan(list) {
         updateTzztList(list, true);
         console.warn('已投注过！！！！1');
       }
-    }
+    })
   }
 }
 
+function isTZ(lists) {
+  let XX = HQTZ();
+  let flag = true
+  var flagType = [];
+  for (let i = 0; i < XX.length; i++) {
+    if (XX[i].tableNo == lists.tableNo) {
+      flagType = XX[i].type;
+    }
+  }
+  if (flagType.length > 0) {
+    // 投注成功了，但不知道是不是这个投注系统的
+    for (let j = 0; j < flagType.length; j++) {
+      console.log('===============>', flagType[j].type, lists.tzfx)
+      if (parseInt(flagType[j].type) == lists.tzfx) {
+        flag = true
+        updateTzztList(lists, true);
+      }
+    }
+    return flag
+  } else {
+    // 没有投注成功
+    console.log(flagType.length, '没有投注成功');
+    flag = false;
+  }
+  let daskStatus = getWaitTime(lists.tableNo - 1);
+  if (daskStatus.count1 == lists.battleNo && daskStatus.count2 == lists.fitNo) {
+    if (daskStatus.time == 0) {
+      flag = true;
+      updateTzztList(lists, false);
+    } else {
+      flag = false
+    }
+  } else {
+    updateTzztList(lists, false);
+  }
+  return flag
+}
+
+let globalTableCell = {};
+
 //
 function TZZL(tableCode, yuan, fx, list) {
-  function check(tableCode, yuan, fx, num) {
-    setTimeout(_ => {
-      $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
-      //
-      $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
-      $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
-      if (num == 2) {
-        setTimeout(_ => {
-          if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
-            updateTzztList(list, true);
-          } else {
-            updateTzztList(list, false);
-          }
-        }, 1000)
-      }
-    }, 1000)
-    // // _30x9W
-  }
-
-  check(tableCode, yuan, fx, 1);
-
-  setTimeout(() => {
-    if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length > 0) {
-      updateTzztList(list, true);
-    } else {
-      check(tableCode, yuan, fx, 2);
-    }
+  //
+  setTimeout(_ => {
+    $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
+    // _1a9j- OBOwe ripple text-l center-block _10ZbI
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-.OBOwe').click(); // 确认下注
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
   }, 1000)
+  globalTableCell[list.id] = 0;
+  let aa = 1;
+  console.log(aa++);
+  setTimeout(() => {
+    console.log(1111111111111111111111, isTZ(list));
+    if (!isTZ(list)) {
+      globalTableCell[list.id]++;
+      TZZL(tableCode, yuan, fx, list);
+      if (globalTableCell[list.id] == 3) {
+        updateTzztList(list, false);
+      }
+    } else {
+      updateTzztList(list, true);
+    }
+  }, 2000)
+}
+
+function HQTZ() {
+  /* // _3au09
+  * $('.YjSrR').eq(0).find('._3au09').text();
+  *
+  * */
+  let list = $('._2Gj3P .YjSrR');
+  var lArr = [];
+  for (var i = 0; i < list.length; i++) {
+    let jtype = $('._2Gj3P .YjSrR').eq(i).find('._2T-ED').children();
+    let typeList = [];
+    for (let j = 0; j < jtype.length; j++) {
+      typeList.push({type: wads[jtype.eq(j).text().substring(0, 1)]});
+    }
+    lArr.push({
+      name: $('._2Gj3P .YjSrR').eq(i).find('._3au09').text().substring(0, 3),
+      tableNo: parseInt($('._2Gj3P .YjSrR').eq(i).find('._3au09').text().substring(3, 6)),
+      type: typeList,
+      jine: parseInt($('._2Gj3P .YjSrR').eq(i).find('._2T-ED').text().substring(1, 10)),
+    });
+  }
+  console.log(lArr);
+  return lArr
 }
 
 // POST / bjlTable / updateTzztList
@@ -573,8 +653,10 @@ function getNeedTzDataList() {
                 //  数据不一样 需要投注
                 let daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
-                  setLocalStorage.one[e.tableNo - 1] = e;
-                  selectedYuan(e);
+                  if (daskStatus.time != 0) {
+                    setLocalStorage.one[e.tableNo - 1] = e;
+                    selectedYuan(e);
+                  }
                 }
               }
             });
@@ -585,8 +667,10 @@ function getNeedTzDataList() {
                 //  数据不一样 需要投注
                 let daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
-                  setLocalStorage.two[e.tableNo - 1] = e;
-                  selectedYuan(e);
+                  if (daskStatus.time != 0) {
+                    setLocalStorage.two[e.tableNo - 1] = e;
+                    selectedYuan(e);
+                  }
                 }
               }
             });
