@@ -426,13 +426,8 @@ function selectedYuan(list) {
   let fx = list.tzfx;
   if (daskStatus.count1 == list.battleNo && daskStatus.count2 == list.fitNo) {
     setTimeout(_ => {
+      globalTableCell[list.id] = 0;
       TZZL(tableCode, yuan, fx, list);
-      if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._30x9W').length == 0) {
-        // console.log($('._2oHIg ._2Eb76').find('._2-e_4').parent());
-      } else {
-        updateTzztList(list, true);
-        console.warn('已投注过！！！！1');
-      }
     })
   }
 }
@@ -488,9 +483,6 @@ function TZZL(tableCode, yuan, fx, list) {
     $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
     $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
   }, 1000)
-  globalTableCell[list.id] = 0;
-  let aa = 1;
-  console.log(aa++);
   setTimeout(() => {
     console.log(1111111111111111111111, isTZ(list));
     if (!isTZ(list)) {
