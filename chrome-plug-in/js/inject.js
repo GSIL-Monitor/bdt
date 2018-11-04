@@ -386,7 +386,7 @@ var callback = function (mutationsList) {
       '停止投注': 0,
       '洗牌中': 1
     }
-    let result = "0";
+    let result = "";
     for (let i = 0; i < rtndata.windatas.length; i++) {
       if ($.trim(rtndata.windatas[i]) == '庄') {
         result = "1";
