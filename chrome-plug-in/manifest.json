@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "desk",
-  "version": "1.0.9",
+  "version": "1.0.91",
   "description": "最新的爬取插件",
   "icons": {
     "16": "img/icon.png",

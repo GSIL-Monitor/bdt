@@ -250,7 +250,7 @@ function chrome_login() {
   let base64Img = document.querySelector('._3IDPG ._1CgIs._1I2Om img').src; // 验证码
   $.ajax({
     type: 'post',
-    url: 'http://route.showapi.com/184-5',
+    url: 'https://route.showapi.com/184-5',
     dataType: 'json',
     data: {
       "showapi_timestamp": formatterDateTime(),
@@ -370,8 +370,8 @@ var callback = function (mutationsList) {
     var t = $(mutation.target).parents("._6VpXo");
 
     var rtndata = analysisData(t, classData, state);
-    // console.log(rtndata.name1 + rtndata.name2 + '-' + rtndata.count1 + '-' + rtndata.count2 + 'state-' + state);
-    // console.log(JSON.stringify(rtndata));
+    console.log(rtndata.name1 + rtndata.name2 + '-' + rtndata.count1 + '-' + rtndata.count2 + 'state-' + state);
+    console.log(JSON.stringify(rtndata));
     $('._1h40X ._2kLct').eq(1).click();
     document.querySelectorAll('._1h40X ._2kLct')[1].click();
     var wads = {
@@ -386,6 +386,21 @@ var callback = function (mutationsList) {
       '停止投注': 0,
       '洗牌中': 1
     }
+    let result = "0";
+    for (let i = 0; i < rtndata.windatas.length; i++) {
+      if ($.trim(rtndata.windatas[i]) == '庄') {
+        result = "1";
+        return
+      }
+      if ($.trim(rtndata.windatas[i]) == '闲') {
+        result = "2";
+        return
+      }
+      if ($.trim(rtndata.windatas[i]) == '和') {
+        result = "3";
+        return
+      }
+    }
     let params = {
       createDate: new Date().getTime(),
       tableNo: parseInt(rtndata.name2),
@@ -393,7 +408,7 @@ var callback = function (mutationsList) {
       fitNo: rtndata.count2,
       card: rtndata.right.join(''),
       xianCard: rtndata.left.join(''),
-      result: wads[rtndata.windatas.toString().trim()],
+      result: result,
       status: status[rtndata.desc]
     };
     if (status[rtndata.desc] == 0 || status[rtndata.desc] == '') {
