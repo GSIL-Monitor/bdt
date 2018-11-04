@@ -386,21 +386,18 @@ var callback = function (mutationsList) {
       '停止投注': 0,
       '洗牌中': 1
     }
-    let result = "";
+    let setResult = "";
     for (let i = 0; i < rtndata.windatas.length; i++) {
+      console.log('====>', rtndata.windatas[i]);
       if ($.trim(rtndata.windatas[i]) == '庄') {
-        result = "1";
-        return
-      }
-      if ($.trim(rtndata.windatas[i]) == '闲') {
-        result = "2";
-        return
-      }
-      if ($.trim(rtndata.windatas[i]) == '和') {
-        result = "3";
-        return
+        setResult = "1";
+      } else if ($.trim(rtndata.windatas[i]) == '闲') {
+        setResult = "2";
+      } else if ($.trim(rtndata.windatas[i]) == '和') {
+        setResult = "3";
       }
     }
+    console.log('result================>', setResult);
     let params = {
       createDate: new Date().getTime(),
       tableNo: parseInt(rtndata.name2),
@@ -408,7 +405,7 @@ var callback = function (mutationsList) {
       fitNo: rtndata.count2,
       card: rtndata.right.join(''),
       xianCard: rtndata.left.join(''),
-      result: result,
+      result: setResult,
       status: status[rtndata.desc]
     };
     if (status[rtndata.desc] == 0 || status[rtndata.desc] == '') {

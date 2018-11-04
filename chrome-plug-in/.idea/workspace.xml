@@ -14,7 +14,17 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="450" />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/inject.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="397" column="23" selection-start-line="397" selection-start-column="23" selection-end-line="397" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -104,6 +114,16 @@
             <path>
               <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -197,11 +217,12 @@
       <workItem from="1541267734053" duration="176000" />
       <workItem from="1541334200309" duration="21000" />
       <workItem from="1541335487921" duration="3532000" />
+      <workItem from="1541344037105" duration="263000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132380000" />
+    <option name="totallyTimeSpent" value="132643000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -214,6 +235,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="228" y="0" width="2330" height="1047" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.496614" visible="true" weight="0.10848644" />
       <window_info id="Structure" order="1" sideWeight="0.50281847" side_tool="true" weight="0.10848644" />
@@ -315,7 +337,7 @@
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
-          <caret line="419" column="34" selection-start-line="419" selection-start-column="34" selection-end-line="419" selection-end-column="34" />
+          <caret line="397" column="23" selection-start-line="397" selection-start-column="23" selection-end-line="397" selection-end-column="23" />
         </state>
       </provider>
     </entry>
