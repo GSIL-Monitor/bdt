@@ -307,7 +307,7 @@ public class BJLDataService {
                     data.setCreateTime(tableData.getCreateTime());
                     data.setTableNo(tableData.getTableNo());
                     data.setBattleNo(tableData.getBattleNo());
-                    data.setFitNo(tableData.getFitNo());
+                    data.setFitNo(tableData.getFitNo() + 1);
                     data.setTzfx(dopeManage.getTzfx());
                     data.setTzje(dopeManage.getTzje());
 //                        data.setTzsjSection(dopeData.getTzsjSection1());
