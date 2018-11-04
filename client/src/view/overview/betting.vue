@@ -237,16 +237,23 @@
           pageNum: this.page.index,
           pageSize: this.page.size
         };
+
         this.$api.searchDopeData(params).then((res) => {
           if (res.returnCode == 200) {
             this.page.total = res.total
             this.tableData = res.returnObject.list;
+            var timestamp = new Date().getTime();
             this.tableData.forEach((e, i) => {
               e.setResult = this.wads[e.result]
               e.created = this.formatDate(e.createTime)
               e.createdTime = this.formatDateTime(e.createTime)
-              e.tzxt = '投注系统' + e.tzxt
-              e.tzzt = this.tzStatus[e.tzzt]
+              e.tzxt = '投注系统' + e.tzxt;
+              e.tzzt = this.tzStatus[e.tzzt];
+              // console.log(e.createTime - timestamp);
+              if (e.tzzt == '投注超时' && timestamp - e.createTime < (2 * 60 * 1000)) {
+                e.tzzt = '等待投注';
+              }
+              //
               e.tzfx = this.wads[e.tzfx];
               Object.keys(e).forEach((k) => {
                 if (e[k] == null) {

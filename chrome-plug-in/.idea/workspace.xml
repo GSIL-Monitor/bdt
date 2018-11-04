@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="" />
+    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/betting.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/betting.vue" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -12,12 +14,21 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="138">
-              <caret line="388" column="23" lean-forward="true" selection-start-line="388" selection-start-column="23" selection-end-line="388" selection-end-column="23" />
+              <caret line="388" column="23" selection-start-line="388" selection-start-column="23" selection-end-line="388" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/manifest.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -81,9 +92,9 @@
         <option value="$PROJECT_DIR$/js/content-script.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
-        <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
-        <option value="$PROJECT_DIR$/manifest.json" />
         <option value="$PROJECT_DIR$/js/inject.js" />
+        <option value="$PROJECT_DIR$/manifest.json" />
+        <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
       </list>
     </option>
   </component>
@@ -216,11 +227,12 @@
       <workItem from="1541334200309" duration="21000" />
       <workItem from="1541335487921" duration="3532000" />
       <workItem from="1541344037105" duration="568000" />
+      <workItem from="1541345305762" duration="640000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132948000" />
+    <option name="totallyTimeSpent" value="133588000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -233,7 +245,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="228" y="0" width="2330" height="1047" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.496614" visible="true" weight="0.10848644" />
       <window_info id="Structure" order="1" sideWeight="0.50281847" side_tool="true" weight="0.10848644" />
@@ -304,13 +315,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manifest.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/content-script.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -335,7 +339,14 @@
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
-          <caret line="388" column="23" lean-forward="true" selection-start-line="388" selection-start-column="23" selection-end-line="388" selection-end-column="23" />
+          <caret line="388" column="23" selection-start-line="388" selection-start-column="23" selection-end-line="388" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
         </state>
       </provider>
     </entry>
