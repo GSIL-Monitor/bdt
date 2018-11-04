@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="597">
-              <caret line="399" column="20" selection-start-line="399" selection-start-column="20" selection-end-line="399" selection-end-column="20" />
+            <state relative-caret-position="138">
+              <caret line="388" column="23" lean-forward="true" selection-start-line="388" selection-start-column="23" selection-end-line="388" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -215,12 +215,12 @@
       <workItem from="1541267734053" duration="176000" />
       <workItem from="1541334200309" duration="21000" />
       <workItem from="1541335487921" duration="3532000" />
-      <workItem from="1541344037105" duration="519000" />
+      <workItem from="1541344037105" duration="568000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132899000" />
+    <option name="totallyTimeSpent" value="132948000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -334,8 +334,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/inject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="597">
-          <caret line="399" column="20" selection-start-line="399" selection-start-column="20" selection-end-line="399" selection-end-column="20" />
+        <state relative-caret-position="138">
+          <caret line="388" column="23" lean-forward="true" selection-start-line="388" selection-start-column="23" selection-end-line="388" selection-end-column="23" />
         </state>
       </provider>
     </entry>
