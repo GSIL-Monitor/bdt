@@ -87,14 +87,14 @@ var fxOption = {
   '3': '._3xcd-'
 }
 
-var wads = {
+window.wads = {
   '庄': '1',
   '闲': '2',
   '和': '3',
 }
 
 window.globalTableCell = {};
-var status = {
+window.status = {
   '开始投注': 2,
   '开牌': 3,
   '停止投注': 0,
@@ -503,8 +503,8 @@ function TZZL(tableCode, yuan, fx, list) {
         updateTzztList(list, true);
       }
       console.log(1111111111111111111111, isTZ(list));
-    }, 1000)
-  }, 1000)
+    }, 3000)
+  }, 500)
 }
 
 function HQTZ() {
@@ -514,11 +514,11 @@ function HQTZ() {
   * */
   let list = $('._2Gj3P .YjSrR');
   var lArr = [];
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     let jtype = $('._2Gj3P .YjSrR').eq(i).find('._2T-ED').children();
     let typeList = [];
     for (let j = 0; j < jtype.length; j++) {
-      typeList.push({type: wads[jtype.eq(j).text().substring(0, 1)]});
+      typeList.push({type: window.wads[jtype.eq(j).text().substring(0, 1)]});
     }
     lArr.push({
       name: $('._2Gj3P .YjSrR').eq(i).find('._3au09').text().substring(0, 3),
