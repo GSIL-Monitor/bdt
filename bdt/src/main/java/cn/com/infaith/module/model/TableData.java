@@ -38,6 +38,16 @@ public class TableData {
     @ApiParam(value = "牌面状态")
     private Integer status;
 
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Integer getId() {
         return id;
     }

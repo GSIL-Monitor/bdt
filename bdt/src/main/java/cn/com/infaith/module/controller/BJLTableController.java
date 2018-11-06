@@ -45,6 +45,7 @@ public class BJLTableController {
             request.setXianCard(tableData.getXianCard());
             request.setResult(tableData.getResult());
             request.setStatus(tableData.getStatus());
+            request.setRemark(tableData.getRemark());
             tableDataService.addTableRequest(request);
             if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
                 return ResponseJsonUtil.getResponseJson(-1, "未获取开牌结果", null);
