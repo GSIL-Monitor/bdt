@@ -27,6 +27,8 @@ public class UserAccount {
 
     private Byte isDelete;
 
+    private Boolean updateStatus;
+
     public String getId() {
         return id;
     }
@@ -121,5 +123,13 @@ public class UserAccount {
 
     public void setAdminId(String adminId) {
         this.adminId = adminId;
+    }
+
+    public Boolean getUpdateStatus() {
+        return updateStatus;
+    }
+
+    public void setUpdateStatus(Boolean updateStatus) {
+        this.updateStatus = updateStatus;
     }
 }

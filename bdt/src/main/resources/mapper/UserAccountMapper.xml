@@ -14,6 +14,7 @@
     <result column="login_status" jdbcType="TINYINT" property="loginStatus" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="update_status" jdbcType="TINYINT" property="updateStatus" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     UPDATE user_account SET is_delete = 1 WHERE id = #{id}
@@ -21,10 +22,10 @@
   <insert id="insert" parameterType="cn.com.infaith.module.model.UserAccount">
     insert into user_account (id, admin_id, name, account, type,
       password, ip_region, ip_address, ip_address_public, effective_amount, login_status, update_time,
-      is_delete)
+      is_delete, update_status)
     values (#{id,jdbcType=VARCHAR}, #{adminId}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{type},
       #{password,jdbcType=VARCHAR}, #{ipRegion}, #{ipAddress,jdbcType=VARCHAR}, #{ipAddressPublic},
-       #{effectiveAmount,jdbcType=DECIMAL}, 0, now(), 0)
+       #{effectiveAmount,jdbcType=DECIMAL}, 0, now(), 0, 1)
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.UserAccount">
     update user_account
@@ -57,21 +58,24 @@
     <if test="type != null">
       ,type = #{type}
     </if>
+    <if test="updateStatus != null">
+      ,update_status = #{updateStatus}
+    </if>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, admin_id, password, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public
+    select id, admin_id, password, name, account, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public, update_status
     from user_account
     where id = #{id,jdbcType=VARCHAR} AND is_delete = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, admin_id, name, account, ip_address, effective_amount, is_delete, type, ip_address_public
+    select id, admin_id, name, account, ip_address, effective_amount, is_delete, type, ip_address_public, update_status
     from user_account
   </select>
 
   <select id="selectByAccountAndPassWord" resultMap="BaseResultMap">
     select id, admin_id, name, account, ip_region ipRegion, ip_address ipAddress, effective_amount effectiveAmount,
-    login_status loginStatus, is_delete isDelete, type, ip_address_public
+    login_status loginStatus, is_delete isDelete, type, ip_address_public, update_status
     from user_account
     where account = #{account} AND password = #{password} AND is_delete = 0
   </select>
@@ -83,7 +87,7 @@
   </select>
 
   <select id="selectByAdmin" resultMap="BaseResultMap" parameterType="String">
-    select id, admin_id, name, account, password, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public
+    select id, admin_id, name, account, password, ip_region, ip_address, effective_amount, login_status, is_delete, type,ip_address_public, update_status
     from user_account
     where admin_id = #{adminId} AND is_delete = 0
   </select>
