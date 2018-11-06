@@ -102,11 +102,13 @@ public class BJLDataService {
                     if (state != tableData.getStatus()) {
                         //状态改变，当前状态为“可投注”（局号、副号不会变）。
                         if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
-                            tzStatus(tableData, adminId);
+                            tzStatus(tableData, adminId, true);
                         }
                         //状态改变，当前状态为“新局准备”（局号改变、副号变为1）。
                         if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
                             newReadyStatus(tableData);
+                            //第一副，新增第一副时实时的投注
+                            tzStatus(tableData, adminId, false);
                         }
                         //状态改变，当前状态为“开牌”（局号、副号不会变）。
                         if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
@@ -122,20 +124,20 @@ public class BJLDataService {
     /**
      * 可投注状态
      */
-    public void tzStatus(TableData tableData, String adminId) {
+    public void tzStatus(TableData tableData, String adminId, Boolean tzNextFit) {
         //查询《TZ1同桌号下单表》中有无记录。
         int step2Result = step2(tableData.getTableNo(), tableData.getFitNo(), 1, adminId);
         if (step2Result == 0) {
             //无记录，进入步骤4
-            step4(tableData, adminId);
+            step4(tableData, adminId, tzNextFit);
         } else if (step2Result == 1) {
             //有记录，当前副号=1。清除表中所有记录。进入步骤4。
             tableDataService.clearAllDopeByTableNoAndTzSystem(tableData.getTableNo(), 1);
-            step4(tableData, adminId);
+            step4(tableData, adminId, tzNextFit);
         } else {
             //有记录，当前副号>1。进入步骤3。
             step3(tableData.getTableNo(), adminId);
-            tzStatus(tableData, adminId);
+            tzStatus(tableData, adminId, tzNextFit);
         }
     }
 
@@ -245,7 +247,7 @@ public class BJLDataService {
      *
      * @return
      */
-    public void step4(TableData tableData, String adminId) {
+    public void step4(TableData tableData, String adminId, Boolean tzNextFit) {
         //获取投注系统2信息
         TzSystem tzSystem = tableDataService.getTzSystemInfo(2, adminId);
         if (tzSystem.getStarted()) {
@@ -254,7 +256,7 @@ public class BJLDataService {
             if (count == 1) {
                 step6(tableData.getTableNo(), tableData.getBattleNo(), tableData.getFitNo());
             } else {
-                step5_2(tableData, adminId);
+                step5_2(tableData, adminId, tzNextFit);
                 step5_3(tableData.getTableNo(), adminId);
                 int result = step5_4(tableData.getTableNo(), adminId);
                 if (result == 1) {
@@ -292,7 +294,7 @@ public class BJLDataService {
      * 桌号相同、当前时间满足投注时间限制1、当前时间的分钟满足投注时间限制2，才是符合要求的账户。若有多个账号，
      * 按账号顺序在下单表中排序。进入步骤5-3。
      */
-    public void step5_2(TableData tableData, String adminId) {
+    public void step5_2(TableData tableData, String adminId, Boolean tzNextFit) {
         List<DopeManage> dopeManageList = tableDataService.getDopeManageByTableNoAndTzxt(tableData.getTableNo().toString(), 2, adminId);
         List<DopeManage> list = parseDopeManage(dopeManageList);
         List<DopeData> dopeDataList = new ArrayList<>();
@@ -307,7 +309,11 @@ public class BJLDataService {
                     data.setCreateTime(tableData.getCreateTime());
                     data.setTableNo(tableData.getTableNo());
                     data.setBattleNo(tableData.getBattleNo());
-                    data.setFitNo(tableData.getFitNo() + 1);
+                    if (tzNextFit) {
+                        data.setFitNo(tableData.getFitNo() + 1);
+                    } else {
+                        data.setFitNo(tableData.getFitNo());
+                    }
                     data.setTzfx(dopeManage.getTzfx());
                     data.setTzje(dopeManage.getTzje());
 //                        data.setTzsjSection(dopeData.getTzsjSection1());
