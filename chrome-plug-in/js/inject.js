@@ -93,6 +93,7 @@ var wads = {
   '和': '3',
 }
 
+window.globalTableCell = {};
 var status = {
   '开始投注': 2,
   '开牌': 3,
@@ -374,13 +375,13 @@ var callback = function (mutationsList) {
     console.log(JSON.stringify(rtndata));
     $('._1h40X ._2kLct').eq(1).click();
     document.querySelectorAll('._1h40X ._2kLct')[1].click();
-    var wads = {
+    let wads = {
       '庄': '1',
       '闲': '2',
       '和': '3',
     }
 
-    var status = {
+    let status = {
       '开始投注': 2,
       '开牌': 3,
       '停止投注': 0,
@@ -438,7 +439,7 @@ function selectedYuan(list) {
   let fx = list.tzfx;
   if (daskStatus.count1 == list.battleNo && daskStatus.count2 == list.fitNo) {
     setTimeout(_ => {
-      globalTableCell[list.id] = 0;
+      window.globalTableCell[list.id] = 0;
       TZZL(tableCode, yuan, fx, list);
     })
   }
@@ -482,11 +483,8 @@ function isTZ(lists) {
   return flag
 }
 
-let globalTableCell = {};
-
 //
 function TZZL(tableCode, yuan, fx, list) {
-  //
   setTimeout(_ => {
     $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
     // _1a9j- OBOwe ripple text-l center-block _10ZbI
@@ -494,19 +492,19 @@ function TZZL(tableCode, yuan, fx, list) {
     $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-.OBOwe').click(); // 确认下注
     $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
     $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
-  }, 1000)
-  setTimeout(() => {
-    console.log(1111111111111111111111, isTZ(list));
-    if (!isTZ(list)) {
-      globalTableCell[list.id]++;
-      TZZL(tableCode, yuan, fx, list);
-      if (globalTableCell[list.id] == 3) {
-        updateTzztList(list, false);
+    setTimeout(() => {
+      if (!isTZ(list)) {
+        window.globalTableCell[list.id] += 1;
+        TZZL(tableCode, yuan, fx, list);
+        if (window.globalTableCell[list.id] == 2) {
+          updateTzztList(list, false);
+        }
+      } else {
+        updateTzztList(list, true);
       }
-    } else {
-      updateTzztList(list, true);
-    }
-  }, 2000)
+      console.log(1111111111111111111111, isTZ(list));
+    }, 1000)
+  }, 1000)
 }
 
 function HQTZ() {
