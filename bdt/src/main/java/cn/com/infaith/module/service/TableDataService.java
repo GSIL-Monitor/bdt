@@ -273,4 +273,8 @@ public interface TableDataService {
     int addTzSystem(TzSystem tzSystem);
 
     int addTableRequest(TableRequest request);
+
+    int selectStatusByTable(int tableNo, int battleNo, int fitNo, int status);
+
+    int addStatusRequest(StatusRequest statusRequest);
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.StatusRequestMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.StatusRequest">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="table_no" jdbcType="INTEGER" property="tableNo" />
+    <result column="battle_no" jdbcType="INTEGER" property="battleNo" />
+    <result column="fit_no" jdbcType="INTEGER" property="fitNo" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from status_request
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.StatusRequest">
+    insert into status_request (table_no, battle_no,
+      fit_no, status, update_time
+      )
+    values (#{tableNo,jdbcType=INTEGER}, #{battleNo,jdbcType=INTEGER},
+      #{fitNo,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, now()
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.StatusRequest">
+    update status_request
+    set table_no = #{tableNo,jdbcType=INTEGER},
+      battle_no = #{battleNo,jdbcType=INTEGER},
+      fit_no = #{fitNo,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, table_no, battle_no, fit_no, status, update_time
+    from status_request
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, table_no, battle_no, fit_no, status, update_time
+    from status_request
+  </select>
+
+  <select id="selectByTable" resultType="int">
+    SELECT
+        count( 1 )
+    FROM
+        status_request
+    WHERE
+        table_no = #{tableNo}
+        AND battle_no = #{battleNo}
+        AND fit_no = #{fitNo}
+        AND `status` = #{status}
+        AND update_time >= DATE_ADD( NOW( ), INTERVAL - 5 MINUTE )
+  </select>
+</mapper>

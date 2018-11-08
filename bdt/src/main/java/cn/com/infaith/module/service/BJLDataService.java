@@ -68,54 +68,42 @@ public class BJLDataService {
     public void JudgeState(TableData tableData) {
         tableData.setCreateTime(new Date(tableData.getCreateDate()));
         //获取当前桌的最新状态
-        StatusData statusData = tableDataService.getStatusByTableNo(tableData.getTableNo());
-        if (statusData == null) {
-            initStatusData(tableData.getTableNo());
-            JudgeState(tableData);
-        } else {
-            //判断状态
-            int state = statusData.getStatus();
-            //更新状态
+//        StatusData statusData = tableDataService.getStatusByTableNo(tableData.getTableNo());
+        int count = tableDataService.selectStatusByTable(tableData.getTableNo(), tableData.getBattleNo(),
+                tableData.getFitNo(), tableData.getStatus());
+        if (count == 0) {
+            StatusRequest statusRequest = new StatusRequest();
+            statusRequest.setTableNo(tableData.getTableNo());
+            statusRequest.setBattleNo(tableData.getBattleNo());
+            statusRequest.setFitNo(tableData.getFitNo());
+            statusRequest.setStatus(tableData.getStatus());
+            tableDataService.addStatusRequest(statusRequest);
             StatusData newStatus = new StatusData();
-            newStatus.setId(statusData.getId());
             newStatus.setTableNo(tableData.getTableNo());
             newStatus.setBattleNo(tableData.getBattleNo());
             newStatus.setFitNo(tableData.getFitNo());
             newStatus.setStatus(tableData.getStatus());
             tableDataService.updateStatus(newStatus);
-//            TableInfo tableInfo = new TableInfo();
-//            tableInfo.setTableNo(tableData.getTableNo());
-//            tableInfo.setBattleNo(tableData.getBattleNo());
-//            tableInfo.setFitNo(tableData.getFitNo());
-//            tableInfo.setCreateTime(tableData.getCreateTime());
-//            tableInfo.setCard(tableData.getCard());
-//            tableInfo.setXianCard(tableData.getXianCard());
-//            tableInfo.setResult(tableData.getResult());
-//            boolean isAdd = tableDataService.addTableInfo(tableInfo);
-
             List<String> adminIds = userAccountService.getAllAdminId();
             adminIds.stream().forEach(adminId -> {
                 tableData.setAdminId(adminId);
                 BdtSystem bdtSystem = tableDataService.getBdtSystem(adminId);
                 if (bdtSystem.getStarted()) {
-                    //状态不变。进入步骤15。
-                    if (state != tableData.getStatus()) {
-                        //状态改变，当前状态为“可投注”（局号、副号不会变）。
-                        if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
+                        //当前状态为“可投注”（局号、副号不会变）。
+                        if (tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
                             tzStatus(tableData, adminId, true);
                         }
-                        //状态改变，当前状态为“新局准备”（局号改变、副号变为1）。
-                        if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
+                        //当前状态为“新局准备”（局号改变、副号变为1）。
+                        if (tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
                             newReadyStatus(tableData);
                             //第一副，新增第一副时实时的投注
                             tzStatus(tableData, adminId, false);
                         }
-                        //状态改变，当前状态为“开牌”（局号、副号不会变）。
-                        if (state != tableData.getStatus() && tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
+                        //当前状态为“开牌”（局号、副号不会变）。
+                        if (tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
                             openCard(tableData, bdtSystem);
                         }
                         LogUtil.info(this.getClass(), "计算结束：>>>>>time:" + System.currentTimeMillis());
-                    }
                 }
             });
         }

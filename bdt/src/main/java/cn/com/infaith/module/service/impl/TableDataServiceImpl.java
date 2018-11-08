@@ -44,6 +44,8 @@ public class TableDataServiceImpl implements TableDataService {
     private UserAccountMapper userAccountMapper;
     @Autowired
     private TableRequestMapper tableRequestMapper;
+    @Autowired
+    private StatusRequestMapper statusRequestMapper;
 
     @Override
     public Integer addTableData(TableData tableData) {
@@ -414,5 +416,15 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public int addTableRequest(TableRequest request) {
         return tableRequestMapper.insert(request);
+    }
+
+    @Override
+    public int selectStatusByTable(int tableNo, int battleNo, int fitNo, int status) {
+        return statusRequestMapper.selectByTable(tableNo, battleNo, fitNo, status);
+    }
+
+    @Override
+    public int addStatusRequest(StatusRequest statusRequest) {
+        return statusRequestMapper.insert(statusRequest);
     }
 }
