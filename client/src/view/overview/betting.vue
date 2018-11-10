@@ -23,6 +23,9 @@
               </Option>
             </Select>
           </div>
+          <div class="col" style="text-align: right">
+            <Button type="warning" @click="searchDopeData">刷新</Button>
+          </div>
           <div class="col page">
             <Page :total="page.total" show-sizer :page-size="page.size"
                   :page-size-opts="pageSizeOpt"
