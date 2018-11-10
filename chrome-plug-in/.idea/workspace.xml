@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="" />
+    <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/js/tzxt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/content-script.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/content-script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/inject.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inject.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -13,14 +19,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="718">
-              <caret line="510" column="14" lean-forward="true" selection-start-line="510" selection-start-column="14" selection-end-line="510" selection-end-column="14" />
+            <state relative-caret-position="270">
+              <caret line="16" column="23" lean-forward="true" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
               <folding>
-                <element signature="e#1673#1884#0" />
-                <element signature="e#1901#1956#0" />
+                <element signature="e#3246#3541#0" />
+                <element signature="e#3960#4497#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/tzxt.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="711">
+              <caret line="141" column="10" lean-forward="true" selection-start-line="141" selection-start-column="10" selection-end-line="141" selection-end-column="10" />
+              <folding>
+                <element signature="n#!!block;n#getArrDifference#0" />
+                <element signature="n#!!block;n#getNeedTzDataList#0" />
               </folding>
             </state>
           </provider>
@@ -29,27 +48,36 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manifest.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+            <state relative-caret-position="594">
+              <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/content-script.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="65" column="50" selection-start-line="65" selection-start-column="50" selection-end-line="65" selection-end-column="50" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_1QOq_</find>
-      <find>injectClose</find>
-      <find>name1</find>
-      <find>winmap</find>
-      <find>analysisData</find>
-      <find>state</find>
       <find>updateTzztList</find>
       <find>1231231</find>
       <find>_1h40X ._2kLct</find>
       <find>getUserId</find>
-      <find>getWaitTime</find>
       <find>setInterval</find>
       <find>getArrDifference</find>
       <find>setNum</find>
@@ -57,18 +85,25 @@
       <find>window.</find>
       <find>getNeedTzDataList</find>
       <find>已投</find>
-      <find>getUserAccount</find>
       <find>console.log</find>
-      <find>selectedYuan</find>
       <find>daskStatus</find>
       <find>ZUikl</find>
-      <find>HQTZ</find>
-      <find>TZZL</find>
       <find>globalTableCell</find>
-      <find>isTZ</find>
       <find>wads</find>
       <find>status</find>
       <find>window.wads</find>
+      <find>setTimeout</find>
+      <find>injectCustomJs</find>
+      <find>flag</find>
+      <find>getWaitTime</find>
+      <find>addTableData</find>
+      <find>HQTZ</find>
+      <find>isTZ</find>
+      <find>TZZL</find>
+      <find>selectedYuan</find>
+      <find>chrome_login</find>
+      <find>www.00rfd</find>
+      <find>getUserAccount</find>
     </findStrings>
     <dirStrings>
       <dir>D:\gitHub\chrome-plug-in</dir>
@@ -91,12 +126,13 @@
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/table12.vue" />
-        <option value="$PROJECT_DIR$/js/content-script.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
         <option value="$PROJECT_DIR$/manifest.json" />
+        <option value="$PROJECT_DIR$/js/content-script.js" />
         <option value="$PROJECT_DIR$/js/inject.js" />
+        <option value="$PROJECT_DIR$/js/tzxt.js" />
       </list>
     </option>
   </component>
@@ -108,7 +144,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="228" />
-    <option name="width" value="2330" />
+    <option name="width" value="2328" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -125,11 +161,6 @@
             <path>
               <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -228,12 +259,14 @@
       <workItem from="1541426036218" duration="243000" />
       <workItem from="1541514071616" duration="526000" />
       <workItem from="1541516578769" duration="1645000" />
-      <workItem from="1541519535058" duration="293000" />
+      <workItem from="1541519535058" duration="6774000" />
+      <workItem from="1541684765144" duration="2387000" />
+      <workItem from="1541829653679" duration="6436000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="136295000" />
+    <option name="totallyTimeSpent" value="151599000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -245,10 +278,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="228" y="0" width="2330" height="1047" extended-state="0" />
+    <frame x="228" y="0" width="2328" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.496614" visible="true" weight="0.10848644" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.496614" visible="true" weight="0.10858144" />
       <window_info id="Structure" order="1" sideWeight="0.50281847" side_tool="true" weight="0.10848644" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -271,39 +304,11 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/js/content-script.js</url>
-          <line>82</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="10152" column="4" selection-start-line="10152" selection-start-column="4" selection-end-line="10152" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/jquery-3.3.1.min.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/global-types/node_modules/@types/jquery/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
           <caret line="33109" column="4" selection-start-line="33109" selection-start-column="4" selection-end-line="33109" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/normalize.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
@@ -314,13 +319,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/content-script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="8" column="7" lean-forward="true" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -338,21 +336,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/inject.js">
+    <entry file="file://$PROJECT_DIR$/js/jquery-3.3.1.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/normalize.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="718">
-          <caret line="510" column="14" lean-forward="true" selection-start-line="510" selection-start-column="14" selection-end-line="510" selection-end-column="14" />
-          <folding>
-            <element signature="e#1673#1884#0" />
-            <element signature="e#1901#1956#0" />
-          </folding>
+        <state relative-caret-position="162">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manifest.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+        <state relative-caret-position="594">
+          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/content-script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="65" column="50" selection-start-line="65" selection-start-column="50" selection-end-line="65" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="16409" column="4" selection-start-line="16409" selection-start-column="4" selection-end-line="16409" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/inject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="16" column="23" lean-forward="true" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+          <folding>
+            <element signature="e#3246#3541#0" />
+            <element signature="e#3960#4497#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/tzxt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="711">
+          <caret line="141" column="10" lean-forward="true" selection-start-line="141" selection-start-column="10" selection-end-line="141" selection-end-column="10" />
+          <folding>
+            <element signature="n#!!block;n#getArrDifference#0" />
+            <element signature="n#!!block;n#getNeedTzDataList#0" />
+          </folding>
         </state>
       </provider>
     </entry>

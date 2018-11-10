@@ -23,8 +23,7 @@
         "js/content-script.js"
       ],
       "css": [
-        "css/custom.css",
-        "css/normalize.css"
+        "css/custom.css"
       ],
       "run_at": "document_start"
     }
@@ -32,6 +31,7 @@
   "web_accessible_resources": [
     // 使用 chrome.extension.getURL('**.*'); 文件时需要先引入 的文件
     "js/inject.js",
+    "js/tzxt.js",
     "js/jquery-3.3.1.min.js"
   ],
   "permissions": [

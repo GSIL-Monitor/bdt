@@ -42,6 +42,7 @@ window.addEventListener('DOMContentLoaded', function () {
   // 注入自定义JS
   if (chrome_isLocationS) {
     injectCustomJs();
+    injectCustomJs("js/tzxt.js");
     injectCustomJs("js/jquery-3.3.1.min.js");
     initCustomPanel();
     setTimeout(_ => {
