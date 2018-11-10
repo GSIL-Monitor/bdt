@@ -112,7 +112,7 @@
     <if test="tzzh != null and tzzh != ''">
       AND tzzh = #{tzzh}
     </if>
-    AND create_time >= DATE_ADD(NOW(),INTERVAL -2 MINUTE)
+    AND create_time >= DATE_ADD(NOW(),INTERVAL -4 MINUTE)
     ORDER BY create_time DESC
   </select>
 
