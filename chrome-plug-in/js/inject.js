@@ -99,7 +99,9 @@ function getUserAccount() {
             window.localStorage.setItem('chrome_UserName', $.trim(returnObj.account));
             window.localStorage.setItem('chrome_UserPass', $.trim(returnObj.password));
             setTimeout(function () {
-              window.location.reload();
+              window.close();
+              // _parent
+              window.open('https://www.00rfd.com/', "_blank", '', true);
             }, 300)
           }
         }
