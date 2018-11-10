@@ -28,8 +28,7 @@
           </div>
           <div class="col page">
             <Page :total="page.total" show-sizer :page-size="page.size"
-                  :page-size-opts="pageSizeOpt"
-                  @on-change="pageChange" :current.sync="page.index"
+                  :page-size-opts="pageSizeOpt" @on-change="pageChange" :current.sync="page.index"
                   @on-page-size-change="pageSizeChange"></Page>
           </div>
           <div class="col btn">
