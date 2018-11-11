@@ -101,7 +101,7 @@ function getUserAccount() {
             setTimeout(function () {
               window.close();
               // _parent
-              window.open('https://www.00rfd.com/', "_blank", '', true);
+              window.open(window.WANGZHANURL, "_blank", '', true);
             }, 300)
           }
         }
@@ -230,22 +230,29 @@ function chrome_login() {
       setTimeout(function () {
         $('._3IR2e ._3MSiK').click();
         setTimeout(function () {
+          //
           $('.inject-from #innerUserId').val(window.localStorage.getItem('Chrome_Inner_User_Id'))
           $('.inject-from #chrome_UserName').val(window.localStorage.getItem('chrome_UserName'))
           $('.inject-from #chrome_UserPass').val(window.localStorage.getItem('chrome_UserPass'))
           getUserAccount();
+          //
           clearInterval(window.editUserAccountInterval);
           window.editUserAccountInterval = setInterval(() => {
             editUserAccount();
+            //
+            NEW_DATE_GET_DAY();
           }, 1000 * 3);
+          //
           $('._1h40X ._2kLct').eq(1).click();
           document.querySelectorAll('._1h40X ._2kLct')[1].click();
+          //
           setTimeout(function () {
             // 每过6小时就会从新登陆
             window.close();
             // _parent
-            window.open('https://www.00rfd.com/', "_blank", '', true);
+            window.open(window.WANGZHANURL, "_blank", '', true);
           }, 1000 * 60 * 60 * 6);
+          //
           startListen();
         }, 1000 * 6)
       }, 1000 * 3)
@@ -254,6 +261,25 @@ function chrome_login() {
       alert("操作失败!");
     }
   })
+}
+
+function NEW_DATE_GET_DAY() {
+  //
+  var myDate = new Date();
+  var myDay = myDate.getDay();//获取存储当前日期
+  var weekday = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+  var weekdayIndex = [0, 1, 2, 3, 4, 5, 6];
+  var newWeekday = weekday[myDay];
+  var getTime = myDate.getTime();
+  if (newWeekday == 1 && myDate.getHours() == 13) {
+    // 是周一  并且现在是中午1点
+    if (myDate.getMinutes() > 0 && myDate.getMinutes() <= 1) {
+      window.close();
+      // _parent
+      window.open(window.WANGZHANURL, "_blank", '', true);
+    }
+  }
+  // document.write("今天是：" + weekday[myDay]);
 }
 
 var callback = function (mutationsList) {
