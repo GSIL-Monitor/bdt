@@ -120,7 +120,7 @@ public class BJLDataService {
 //            step4(tableData, adminId, tzNextFit);
 //        } else {
             //有记录，当前副号=1
-            if (tzNextFit) {
+            if (!tzNextFit) {
                 //如果是第一副的新局准备，则需要把上一局最后一幅计算的下一幅给删除
                 StatusRequest status = tableDataService.getLastStatusRequest(statusId, tableData.getTableNo());
                 if (status != null) {
