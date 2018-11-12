@@ -72,7 +72,7 @@
     from result_data a
     WHERE
     (a.tzjg IS NULL OR a.tzjg = '') AND a.tzzt = 1
-    AND a.create_time >= date_add(NOW(),interval -10 MINUTE )
+    AND a.create_time >= date_add(NOW(),interval -15 MINUTE )
     AND a.tzzh IN
     <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
       #{item}
