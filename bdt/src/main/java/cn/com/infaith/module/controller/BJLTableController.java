@@ -3,6 +3,7 @@ package cn.com.infaith.module.controller;
 import cn.com.infaith.module.enums.TableStatusEnum;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.BJLDataService;
+import cn.com.infaith.module.service.CalcXGLZGLServiceNotMap;
 import cn.com.infaith.module.service.TableDataService;
 import cn.com.infaith.module.util.LogUtil;
 import cn.com.infaith.module.util.ResponseJsonUtil;
@@ -58,6 +59,29 @@ public class BJLTableController {
             }
             return ResponseJsonUtil.getResponseJson(200, "success", 1);
         }
+    }
+
+    @PostMapping("testKP")
+    public JSONObject testKP() {
+        CalcXGLZGLServiceNotMap serviceNotMap1=new CalcXGLZGLServiceNotMap();
+        CalcXGLZGLServiceNotMap serviceNotMap2=new CalcXGLZGLServiceNotMap();
+        List<TableData> tableDataList = tableDataService.getTestData();
+        for (TableData tableData : tableDataList) {
+            tableData.setId(null);
+            tableData.setCreateTime(null);
+            tableData.setCreated(null);
+            tableData.setZtsl(null);
+            tableData.setXtsl(null);
+            tableData.setZgl(null);
+            tableData.setXgl(null);
+            tableData.setCreateDate(System.currentTimeMillis());
+            Map<String,BigDecimal> resultMap1=serviceNotMap1.calcXgl(tableData.getFitNo(),8,tableData.getCard()+tableData.getXianCard(),new BigDecimal(0.012));
+            System.out.println(tableData.getFitNo()+"/"+resultMap1.get("xgl")+"/"+resultMap1.get("zgl"));
+            Map<String,BigDecimal> resultMap2=serviceNotMap2.calcXgl(tableData.getFitNo(),8,tableData.getCard()+tableData.getXianCard(),new BigDecimal(0.001));
+            System.out.println(tableData.getFitNo()+"/"+resultMap2.get("xgl")+"/"+resultMap2.get("zgl"));
+            bjlDataService.JudgeState(tableData);
+        }
+        return null;
     }
 
     @ApiOperation(value = "获取百家乐牌桌情况", notes = "获取百家乐牌桌情况", httpMethod = "GET")

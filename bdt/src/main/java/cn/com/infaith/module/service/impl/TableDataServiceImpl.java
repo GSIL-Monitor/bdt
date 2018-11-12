@@ -180,6 +180,11 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
+    public Boolean addResultDataList(List<ResultData> list) {
+        return resultDataMapper.insertList(list) > 0 ? true : false;
+    }
+
+    @Override
     public ResultData getResultJGNullByTable(int tableNo, int battleNo, int fitNo) {
         return resultDataMapper.getResultJGNullByTable(tableNo, battleNo, fitNo);
     }
@@ -426,5 +431,20 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public int addStatusRequest(StatusRequest statusRequest) {
         return statusRequestMapper.insert(statusRequest);
+    }
+
+    @Override
+    public StatusRequest getLastStatusRequest(int id, int tableNo) {
+        return statusRequestMapper.getLastStatusRequest(id, tableNo);
+    }
+
+    @Override
+    public int updateResult(int tableNo, int battleNo, int fitNo) {
+        return resultDataMapper.updateResult(tableNo, battleNo, fitNo);
+    }
+
+    @Override
+    public List<TableData> getTestData() {
+        return tableDataMapper.getTestData();
     }
 }

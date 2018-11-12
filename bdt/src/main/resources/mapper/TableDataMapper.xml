@@ -193,4 +193,10 @@
     ORDER BY create_time DESC
     limit 1
   </select>
+
+  <select id="getTestData" resultMap="BaseResultMap">
+    SELECT * FROM `table_data`
+    WHERE `admin_id` = '5e3463418a8b4b6a84af80b40c973087' AND `table_no` = '3'
+    AND `battle_no` = '11' AND `id` >= '378177' ORDER BY `create_time` asc
+  </select>
 </mapper>

@@ -12,6 +12,8 @@ public interface ResultDataMapper {
 
     int insert(ResultData record);
 
+    int insertList(@Param("list") List<ResultData> list);
+
     ResultData selectByPrimaryKey(Integer id);
 
     List<ResultData> selectAll();
@@ -32,4 +34,6 @@ public interface ResultDataMapper {
     BigDecimal getAllYxje(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh, @Param("adminId") String adminId);
     BigDecimal getAllYssy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh, @Param("adminId") String adminId);
     BigDecimal getAllSjsy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh, @Param("adminId") String adminId);
+
+    int updateResult(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
 }

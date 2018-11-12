@@ -18,4 +18,6 @@ public interface StatusRequestMapper {
 
     int selectByTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo,
                       @Param("fitNo") int fitNo, @Param("status") int status);
+
+    StatusRequest getLastStatusRequest(@Param("id") Integer id, @Param("tableNo") int tableNo);
 }

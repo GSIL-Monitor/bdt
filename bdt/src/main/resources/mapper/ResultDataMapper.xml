@@ -36,6 +36,23 @@
       #{tzjg,jdbcType=INTEGER}, #{yxje,jdbcType=DECIMAL}, #{yssy,jdbcType=DECIMAL}, #{sjsy,jdbcType=DECIMAL}
       )
   </insert>
+
+  <insert id="insertList" parameterType="cn.com.infaith.module.model.ResultData">
+    insert into result_data (create_time, table_no,
+      battle_no, fit_no, tzfx,
+      tzxt, tzzh, tzje, tzzt,
+      tzjg, yxje, yssy, sjsy
+      )
+    values
+     <foreach collection="list" item="item" index="index" separator=",">
+       (NOW(), #{item.tableNo,jdbcType=INTEGER},
+       #{item.battleNo,jdbcType=INTEGER}, #{item.fitNo,jdbcType=INTEGER}, #{item.tzfx,jdbcType=INTEGER},
+       #{item.tzxt,jdbcType=INTEGER}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=VARCHAR}, #{item.tzzt,jdbcType=BIT},
+       #{item.tzjg,jdbcType=INTEGER}, #{item.yxje,jdbcType=DECIMAL}, #{item.yssy,jdbcType=DECIMAL}, #{item.sjsy,jdbcType=DECIMAL}
+       )
+     </foreach>
+  </insert>
+
   <update id="updateById" parameterType="cn.com.infaith.module.model.ResultData">
     update result_data
     set
@@ -62,7 +79,7 @@
     a.tzjg, a.yxje, a.yssy, a.sjsy
     from result_data a, user_account b
     WHERE a.table_no = #{tableNo} AND a.battle_no = #{battleNo} AND a.fit_no = #{fitNo}
-    AND (a.tzjg IS NULL OR a.tzjg = '') AND a.tzzh = b.id AND a.tzzt IS NOT NULL
+    AND (a.tzjg IS NULL OR a.tzjg = '') AND a.tzzh = b.id AND a.tzzt IS NOT NULL AND a.is_delete = 0
     ORDER BY b.account ASC limit 1
   </select>
 
@@ -73,6 +90,7 @@
     WHERE
     (a.tzjg IS NULL OR a.tzjg = '') AND a.tzzt = 1
     AND a.create_time >= date_add(NOW(),interval -15 MINUTE )
+    AND a.is_delete = 0
     AND a.tzzh IN
     <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
       #{item}
@@ -84,6 +102,7 @@
     a.tzjg, a.yxje, a.yssy, a.sjsy, b.name, b.account
     from result_data a, user_account b
     WHERE 1 = 1
+    AND a.is_delete = 0
     <if test="createTime != null">
       AND a.create_time >= #{createTime}
       AND a.create_time <![CDATA[ < ]]> date_add(#{createTime},interval 1 day)
@@ -113,6 +132,7 @@
       AND tzzh = #{tzzh}
     </if>
     AND create_time >= DATE_ADD(NOW(),INTERVAL -15 MINUTE)
+    AND is_delete = 0
     ORDER BY create_time DESC
   </select>
 
@@ -126,7 +146,7 @@
 
   <select id="getAllYxje" resultType="BigDecimal">
     SELECT SUM(a.yxje) FROM result_data a, user_account b where a.tzzh = b.id
-    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != ''
+    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != '' AND a.is_delete = 0
     <if test="createTime != null">
       AND a.create_time >= #{createTime}
       AND a.create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
@@ -144,7 +164,7 @@
 
   <select id="getAllYssy" resultType="BigDecimal">
     SELECT SUM(a.yssy) FROM result_data a, user_account b where a.tzzh = b.id
-    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != ''
+    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != '' AND a.is_delete = 0
     <if test="createTime != null">
       AND a.create_time >= #{createTime}
       AND a.create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
@@ -162,7 +182,7 @@
 
   <select id="getAllSjsy" resultType="BigDecimal">
     SELECT SUM(a.sjsy) FROM result_data a, user_account b where a.tzzh = b.id
-    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != ''
+    AND a.tzzt = 1 AND a.tzjg IS NOT NULL AND a.tzjg != '' AND a.is_delete = 0
     <if test="createTime != null">
       AND a.create_time >= #{createTime}
       AND a.create_time <![CDATA[ < ]]> date_sub(#{createTime},interval -1 day)
@@ -177,4 +197,11 @@
       AND b.admin_id = #{adminId}
     </if>
   </select>
+
+  <update id="updateResult">
+    UPDATE result_data SET is_delete = 1
+    WHERE table_no = #{tableNo} AND battle_no = #{battleNo} AND fit_no = #{fitNo}
+    AND create_time >= DATE_SUB(NOW(),INTERVAL 10 MINUTE)
+    AND create_time <![CDATA[ <= ]]> DATE_ADD(NOW(),INTERVAL 2 MINUTE)
+  </update>
 </mapper>

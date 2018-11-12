@@ -29,22 +29,22 @@ public class BJLDataService {
     @Autowired
     private UserAccountService userAccountService;
 
-    public static List<CalcXGLZGLServiceNotMap> calcList = new ArrayList<>();
+    public static Map<String,CalcXGLZGLServiceNotMap> calcList = new HashMap<>();
 
-    static {
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-        calcList.add(new CalcXGLZGLServiceNotMap());
-    }
+//    static {
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//        calcList.add(new CalcXGLZGLServiceNotMap());
+//    }
 
     /**
      * 生成桌子初始数据
@@ -91,13 +91,13 @@ public class BJLDataService {
                 if (bdtSystem.getStarted()) {
                         //当前状态为“可投注”（局号、副号不会变）。
                         if (tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
-                            tzStatus(tableData, adminId, true);
+                            tzStatus(tableData, adminId, true, statusRequest.getId());
                         }
                         //当前状态为“新局准备”（局号改变、副号变为1）。
                         if (tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
                             newReadyStatus(tableData);
                             //第一副，新增第一副时实时的投注
-                            tzStatus(tableData, adminId, false);
+                            tzStatus(tableData, adminId, false, statusRequest.getId());
                         }
                         //当前状态为“开牌”（局号、副号不会变）。
                         if (tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
@@ -112,21 +112,27 @@ public class BJLDataService {
     /**
      * 可投注状态
      */
-    public void tzStatus(TableData tableData, String adminId, Boolean tzNextFit) {
+    public void tzStatus(TableData tableData, String adminId, Boolean tzNextFit, int statusId) {
         //查询《TZ1同桌号下单表》中有无记录。
-        int step2Result = step2(tableData.getTableNo(), tableData.getFitNo(), 1, adminId);
-        if (step2Result == 0) {
-            //无记录，进入步骤4
+//        int step2Result = step2(tableData.getTableNo(), tableData.getFitNo(), 1, adminId);
+//        if (step2Result == 0) {
+//            //无记录，进入步骤4
+//            step4(tableData, adminId, tzNextFit);
+//        } else {
+            //有记录，当前副号=1
+            if (tzNextFit) {
+                //如果是第一副的新局准备，则需要把上一局最后一幅计算的下一幅给删除
+                StatusRequest status = tableDataService.getLastStatusRequest(statusId, tableData.getTableNo());
+                if (status != null) {
+                    tableDataService.updateResult(status.getTableNo(), status.getBattleNo(), status.getFitNo() + 1);
+                }
+            }
             step4(tableData, adminId, tzNextFit);
-        } else if (step2Result == 1) {
-            //有记录，当前副号=1。清除表中所有记录。进入步骤4。
-            tableDataService.clearAllDopeByTableNoAndTzSystem(tableData.getTableNo(), 1);
-            step4(tableData, adminId, tzNextFit);
-        } else {
+//        } else {
             //有记录，当前副号>1。进入步骤3。
-            step3(tableData.getTableNo(), adminId);
-            tzStatus(tableData, adminId, tzNextFit);
-        }
+//            step3(tableData.getTableNo(), adminId);
+//            tzStatus(tableData, adminId, tzNextFit);
+//        }
     }
 
     /**
@@ -245,13 +251,13 @@ public class BJLDataService {
                 step6(tableData.getTableNo(), tableData.getBattleNo(), tableData.getFitNo());
             } else {
                 step5_2(tableData, adminId, tzNextFit);
-                step5_3(tableData.getTableNo(), adminId);
-                int result = step5_4(tableData.getTableNo(), adminId);
-                if (result == 1) {
-                    step6(tableData.getTableNo(), tableData.getBattleNo(), tableData.getFitNo());
-                } else {
-                    step5_3(tableData.getTableNo(), adminId);
-                }
+//                step5_3(tableData.getTableNo(), adminId);
+//                int result = step5_4(tableData.getTableNo(), adminId);
+//                if (result > 0) {
+//                    for (int i = 0; i < result; i++) {
+//                        step5_3(tableData.getTableNo(), adminId);
+//                    }
+//                }
             }
         } else {
             //处于“关闭”状态。进入步骤6。
@@ -285,7 +291,7 @@ public class BJLDataService {
     public void step5_2(TableData tableData, String adminId, Boolean tzNextFit) {
         List<DopeManage> dopeManageList = tableDataService.getDopeManageByTableNoAndTzxt(tableData.getTableNo().toString(), 2, adminId);
         List<DopeManage> list = parseDopeManage(dopeManageList);
-        List<DopeData> dopeDataList = new ArrayList<>();
+        List<ResultData> resultDataList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(list)) {
             list.stream().forEach(dopeManage -> {
                 boolean checkTime = checkDopeInfo(tableData.getCreateTime(), dopeManage.getTzsjSection1());
@@ -293,7 +299,7 @@ public class BJLDataService {
                     checkTime = checkDopeInfo2(tableData.getCreateTime(), dopeManage.getTzsjSection2());
                 }
                 if (checkTime) {
-                    DopeData data = new DopeData();
+                    ResultData data = new ResultData();
                     data.setCreateTime(tableData.getCreateTime());
                     data.setTableNo(tableData.getTableNo());
                     data.setBattleNo(tableData.getBattleNo());
@@ -303,17 +309,17 @@ public class BJLDataService {
                         data.setFitNo(tableData.getFitNo());
                     }
                     data.setTzfx(dopeManage.getTzfx());
-                    data.setTzje(dopeManage.getTzje());
+                    data.setTzje(dopeManage.getTzje().toString());
 //                        data.setTzsjSection(dopeData.getTzsjSection1());
                     data.setTzxt(2);
                     data.setTzzh(dopeManage.getTzzh());
-                    data.setAdminId(adminId);
-                    dopeDataList.add(data);
+//                    data.setAdminId(adminId);
+                    resultDataList.add(data);
                 }
             });
         }
-        if (CollectionUtils.isNotEmpty(dopeDataList)) {
-            tableDataService.addDopeDataList(dopeDataList);
+        if (CollectionUtils.isNotEmpty(resultDataList)) {
+            tableDataService.addResultDataList(resultDataList);
         }
     }
 
@@ -340,11 +346,7 @@ public class BJLDataService {
      */
     public int step5_4(int tableNo, String adminId) {
         int count = tableDataService.getDopeCountByTableNo(tableNo, 2, adminId);
-        if (count == 0) {
-            return 1;
-        } else {
-            return 2;
-        }
+        return count;
     }
 
     /**
@@ -429,20 +431,20 @@ public class BJLDataService {
 
         BdtSystem system = tableDataService.getBdtSystem(adminId);
         Map<String, BigDecimal> map = new HashMap<>();
-        if (tableData.getFitNo() == 1) {
-            calcList.set(tableData.getTableNo() - 1, new CalcXGLZGLServiceNotMap());
+        if (tableData.getFitNo() == 1||calcList.get(adminId+(tableData.getTableNo() - 1))==null) {
+            calcList.put(adminId+(tableData.getTableNo() - 1), new CalcXGLZGLServiceNotMap());
         }
         String card = tableData.getCard() + tableData.getXianCard();
         try {
-            map = calcList.get(tableData.getTableNo() - 1).calcXgl(tableData.getFitNo(), system.getPs(), card, system.getPhxs());
+            map = calcList.get(adminId+(tableData.getTableNo() - 1)).calcXgl(tableData.getFitNo(), system.getPs(), card, system.getPhxs());
         } catch (Exception e) {
-            calcList.set(tableData.getTableNo() - 1, new CalcXGLZGLServiceNotMap());
+            calcList.put(adminId+(tableData.getTableNo() - 1), new CalcXGLZGLServiceNotMap());
             TableData fitOneTable = tableDataService.getFitOneTable(tableData.getTableNo(), tableData.getBattleNo(), adminId);
             if (fitOneTable != null) {
                 card = fitOneTable.getCard() + fitOneTable.getXianCard();
             }
-            calcList.get(tableData.getTableNo() - 1).calcXgl(1, system.getPs(), card, system.getPhxs());
-            map = calcList.get(tableData.getTableNo() - 1).calcXgl(tableData.getFitNo(), system.getPs(), card, system.getPhxs());
+            calcList.get(adminId+(tableData.getTableNo() - 1)).calcXgl(1, system.getPs(), card, system.getPhxs());
+            map = calcList.get(adminId+(tableData.getTableNo() - 1)).calcXgl(tableData.getFitNo(), system.getPs(), card, system.getPhxs());
         }
         tableData.setXgl(map.get("xgl").toPlainString());
         tableData.setXtsl(map.get("xtsl").toPlainString());
@@ -600,27 +602,26 @@ public class BJLDataService {
         List<DopeManage> list = parseDopeManage(dopeManage);
         //先获取该桌号、投注系统的账户
         if (!CollectionUtils.isEmpty(list)) {
-            List<DopeData> dopeDataList = new ArrayList<>();
+            List<ResultData> resultDataList = new ArrayList<>();
             TableData tableDataNew = tableDataService.getNewestTableData(tableData.getTableNo(), adminId);
             list.stream().forEach(dopeData -> {
                 //判断当前时间是否满足投注时间限制且投注桌号一致
                 boolean timeResult = checkDopeInfo(tableData.getCreateTime(), dopeData.getTzsjSection1());
                 if (timeResult) {
-                    DopeData data = new DopeData();
+                    ResultData data = new ResultData();
                     data.setCreateTime(tableDataNew.getCreateTime());
                     data.setTableNo(tableDataNew.getTableNo());
                     data.setBattleNo(tableDataNew.getBattleNo());
                     data.setFitNo(tableDataNew.getFitNo() + 1);
-                    data.setTzje(dopeData.getTzje());
+                    data.setTzje(dopeData.getTzje().toString());
                     data.setTzxt(1);
                     data.setTzfx(TableResultEnum.Z.getIndex());
                     data.setTzzh(dopeData.getTzzh());
-                    data.setAdminId(adminId);
-                    dopeDataList.add(data);
+                    resultDataList.add(data);
                 }
             });
-            if (CollectionUtils.isNotEmpty(dopeDataList)) {
-                tableDataService.addDopeDataList(dopeDataList);
+            if (CollectionUtils.isNotEmpty(resultDataList)) {
+                tableDataService.addResultDataList(resultDataList);
             }
         }
     }

@@ -13,7 +13,7 @@
     delete from status_request
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.com.infaith.module.model.StatusRequest">
+  <insert id="insert" parameterType="cn.com.infaith.module.model.StatusRequest" useGeneratedKeys="true" keyProperty="id">
     insert into status_request (table_no, battle_no,
       fit_no, status, update_time
       )
@@ -21,6 +21,14 @@
       #{fitNo,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, now()
       )
   </insert>
+
+  <select id="getLastStatusRequest" resultMap="BaseResultMap">
+    select id, table_no, battle_no, fit_no, status, update_time
+    from status_request
+    where id != #{id,jdbcType=INTEGER} AND table_no = #{tableNo}
+    ORDER BY update_time DESC limit 1
+  </select>
+
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.StatusRequest">
     update status_request
     set table_no = #{tableNo,jdbcType=INTEGER},

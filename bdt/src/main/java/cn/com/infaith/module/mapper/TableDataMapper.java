@@ -41,4 +41,5 @@ public interface TableDataMapper {
 
     TableData getFitOneTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("adminId") String adminId);
 
+    List<TableData> getTestData();
 }

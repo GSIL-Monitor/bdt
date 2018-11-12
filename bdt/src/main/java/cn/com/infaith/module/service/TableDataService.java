@@ -133,6 +133,8 @@ public interface TableDataService {
      */
     Boolean addDopeDataList(List<DopeData> list);
 
+    Boolean addResultDataList(List<ResultData> list);
+
     /**
      * 通过桌号、局号、副号查询投注结果表里为结果为空的信息
      * @param tableNo
@@ -277,4 +279,10 @@ public interface TableDataService {
     int selectStatusByTable(int tableNo, int battleNo, int fitNo, int status);
 
     int addStatusRequest(StatusRequest statusRequest);
+
+    StatusRequest getLastStatusRequest(int id, int tableNo);
+
+    int updateResult(int tableNo, int battleNo, int fitNo);
+
+    List<TableData> getTestData();
 }
