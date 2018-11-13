@@ -417,8 +417,11 @@ public class BJLDataService {
     public TableData step8_1(TableData tableData) {
         //去最新一条记录
         String card = tableData.getCard();
-        card = card.replace("k", "0").replace("q", "0").replace("j", "0");
+        card = card.replaceAll("k|K|q|Q|j|J", "0");
+        String xianCard = tableData.getXianCard();
+        xianCard = xianCard.replaceAll("k|K|q|Q|j|J", "0");
         tableData.setCard(card);
+        tableData.setXianCard(xianCard);
         return tableData;
     }
 
