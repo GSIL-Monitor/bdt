@@ -246,12 +246,12 @@ function chrome_login() {
           $('._1h40X ._2kLct').eq(1).click();
           document.querySelectorAll('._1h40X ._2kLct')[1].click();
           //
-          setTimeout(function () {
-            // 每过6小时就会从新登陆
-            window.close();
-            // _parent
-            window.open(window.WANGZHANURL, "_blank", '', true);
-          }, 1000 * 60 * 60 * 6);
+          // setTimeout(function () {
+          //   // 每过6小时就会从新登陆
+          //   window.close();
+          //   // _parent
+          //   window.open(window.WANGZHANURL, "_blank", '', true);
+          // }, 1000 * 60 * 60 * 6);
           //
           startListen();
         }, 1000 * 6)
