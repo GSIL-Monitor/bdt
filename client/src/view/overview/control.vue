@@ -4,10 +4,6 @@
       <i-col span="24">
         <example></example>
         <br>
-        <tz-system-info></tz-system-info>
-        <br>
-        <tz2-system-info></tz2-system-info>
-        <br>
       </i-col>
     </Row>
   </div>
@@ -15,9 +11,6 @@
 
 <script>
   import Example from './components/example.vue'
-  import tzSystemInfo from './components/tzSystemInfo.vue'
-  import tz2SystemInfo from './components/tz2SystemInfo.vue'
-  import {setToken, getToken, setInfo} from '@/libs/util'
 
   export default {
     name: 'overview',
@@ -26,9 +19,7 @@
       }
     },
     components: {
-      Example,
-      tzSystemInfo,
-      tz2SystemInfo
+      Example
     },
     watch: {
       $route: function (to, form) {

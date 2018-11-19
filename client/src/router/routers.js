@@ -41,24 +41,35 @@ export default [
   },
   {
     path: '/',
-    name: '读牌',
+    name: '投注',
     component: Main,
     children: [{
       path: '/overview',
       name: 'overview',
-      meta: {icon: 'ios-home', title: '读牌', beforeCloseName: 'before_close_normal'},
+      meta: {icon: 'ios-home', title: '投注', beforeCloseName: 'before_close_normal'},
       component: () => import('@/view/overview/overview.vue')
     }]
   },
   {
     path: '/',
-    name: '投注',
+    name: '读牌',
     component: Main,
     children: [{
-      path: '/tz',
-      name: 'tz',
-      meta: {icon: 'ios-build', title: '投注', beforeCloseName: 'before_close_normal'},
-      component: () => import('@/view/overview/tz.vue')
+      path: '/read',
+      name: 'read',
+      meta: {icon: 'ios-cloud', title: '读牌', beforeCloseName: 'before_close_normal'},
+      component: () => import('@/view/overview/read.vue')
+    }]
+  },
+  {
+    path: '/',
+    name: '图形监控',
+    component: Main,
+    children: [{
+      path: '/control',
+      name: 'control',
+      meta: {icon: 'ios-build', title: '图形监控', beforeCloseName: 'before_close_normal'},
+      component: () => import('@/view/overview/control.vue')
     }]
   },
   {

@@ -11,17 +11,24 @@
     <div class="" style="position: relative">
       <Card v-for="(item, index) in isLoginOverviewData" :key="index" style="margin-bottom: 15px">
         <div slot="title" class="header-box" style="font-size: 16px">
-          <div class="col" style="font-weight: bold;">{{item.name}}</div>
+          <div class="col" style="font-weight: bold;">{{item.account}}</div>
           <div class="col">
             <Button v-if="item.loginStatus" type="primary" ghost size="small">{{' 已登陆'}}</Button>
             <Button v-else type="error" ghost size="small">{{'未登录'}}</Button>
+          </div>
+          <div class="col">
+            <Button v-if="item.loginStatus" type="primary" ghost size="small">{{'读牌中'}}</Button>
+            <Button v-else type="error" ghost size="small">{{'未读牌'}}</Button>
           </div>
           <div class="col" style="text-align: right;flex: inherit">
             <Button type="primary" size="small" @click="editUserHome(index)">编辑</Button>
           </div>
         </div>
         <!--<div class="header-box" style="height: 20px"><span class="col">{{item.ipRegion}}/{{item.ipAddress}}</span>-->
-        <div class="header-box" style="height: 20px"><span class="col">账号：{{item.account}}</span>
+        <div class="header-box" style="height: 20px">
+          <span class="col">账号：{{item.account}}</span>
+          <span class="col" style="text-align: right;flex: inherit">
+            <Button type="primary" size="small" @click="editUserHome(index)">重新登陆</Button></span>
         </div>
         <div class="header-box">
           <b class="col">有效金额：{{item.effectiveAmount}}</b>
