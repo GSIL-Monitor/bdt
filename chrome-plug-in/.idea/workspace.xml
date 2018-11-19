@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../client/src/router/routers.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/routers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/store/module/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/store/module/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -39,8 +41,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/content-script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+            <state relative-caret-position="468">
+              <caret line="54" column="12" lean-forward="true" selection-start-line="54" selection-start-column="12" selection-end-line="54" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -121,12 +123,13 @@
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" />
         <option value="$PROJECT_DIR$/js/tzxt.js" />
-        <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/tz.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/read.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/control.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/overview.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
+        <option value="$PROJECT_DIR$/../client/src/store/module/app.js" />
+        <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
       </list>
     </option>
   </component>
@@ -318,12 +321,12 @@
       <workItem from="1541859179640" duration="607000" />
       <workItem from="1541949418205" duration="2424000" />
       <workItem from="1542377472989" duration="1761000" />
-      <workItem from="1542636105908" duration="4198000" />
+      <workItem from="1542636105908" duration="4848000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="162047000" />
+    <option name="totallyTimeSpent" value="162697000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -449,8 +452,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/content-script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+        <state relative-caret-position="468">
+          <caret line="54" column="12" lean-forward="true" selection-start-line="54" selection-start-column="12" selection-end-line="54" selection-end-column="12" />
         </state>
       </provider>
     </entry>

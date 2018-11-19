@@ -217,8 +217,10 @@
           }
         })
       },
-      editUserLogin() {
-        //
+      editUserLogin(index) {
+        this.formEdit = this.isLoginOverviewData[index];
+        this.formEdit.loginStatus = String(this.formEdit.loginStatus);
+        console.log('3453534', this.isLoginOverviewData[index]);
       },
       editUser() {
         let params = this.formEdit;
