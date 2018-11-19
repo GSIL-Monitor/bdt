@@ -113,7 +113,6 @@ function getUserAccount() {
   }, 1000 * 5)
 }
 
-//
 function setUserId() {
   // console.log($('.inject-from #innerUserId').val());
   window.localStorage.setItem('Chrome_Inner_User_Id', $.trim($('.inject-from #innerUserId').val()));
@@ -164,7 +163,7 @@ function formatterDateTime() {
   return datetime;
 }
 
-var imgCloseFlg = false;
+var imgCloseFlg = true;
 
 function injectClose() {
   if (imgCloseFlg) {
@@ -197,6 +196,9 @@ function editUserAccount() {
 
 function chrome_login() {
   let base64Img = document.querySelector('._3IDPG ._1CgIs._1I2Om img').src; // 验证码
+  if (!!!base64Img) {
+    return false
+  }
   $.ajax({
     type: 'post',
     url: 'https://route.showapi.com/184-5',

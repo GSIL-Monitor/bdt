@@ -41,20 +41,31 @@ export default [
   },
   {
     path: '/',
-    name: '总览',
+    name: '读牌',
     component: Main,
     children: [{
       path: '/overview',
       name: 'overview',
-      meta: {icon: 'ios-home', title: '总览', beforeCloseName: 'before_close_normal'},
+      meta: {icon: 'ios-home', title: '读牌', beforeCloseName: 'before_close_normal'},
       component: () => import('@/view/overview/overview.vue')
+    }]
+  },
+  {
+    path: '/',
+    name: '投注',
+    component: Main,
+    children: [{
+      path: '/tz',
+      name: 'tz',
+      meta: {icon: 'ios-build', title: '投注', beforeCloseName: 'before_close_normal'},
+      component: () => import('@/view/overview/tz.vue')
     }]
   },
   {
     path: '/',
     name: '数据管理',
     component: Main,
-    meta: {icon: 'ios-keypad', title: '数据管理',  beforeCloseName: 'before_close_normal'},
+    meta: {icon: 'ios-keypad', title: '数据管理', beforeCloseName: 'before_close_normal'},
     children: [
       {
         path: '/desktop',

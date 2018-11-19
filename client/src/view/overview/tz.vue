@@ -1,13 +1,12 @@
 <template>
-  <div class="bdt-overview">
+  <div class="tz-overview">
     <Row :gutter="16">
-      <i-col span="5">
-        <bdt-run></bdt-run>
+      <i-col span="24">
+        <example></example>
         <br>
-        <login-out></login-out>
-      </i-col>
-      <i-col span="19">
-        <table12 @on-change="tableDataChange"></table12>
+        <tz-system-info></tz-system-info>
+        <br>
+        <tz2-system-info></tz2-system-info>
         <br>
       </i-col>
     </Row>
@@ -15,9 +14,10 @@
 </template>
 
 <script>
-  import bdtRun from './components/bdt-run.vue'
-  import loginOut from './components/loginOut.vue'
-  import table12 from './components/table12'
+  import Example from './components/example.vue'
+  import tzSystemInfo from './components/tzSystemInfo.vue'
+  import tz2SystemInfo from './components/tz2SystemInfo.vue'
+  import {setToken, getToken, setInfo} from '@/libs/util'
 
   export default {
     name: 'overview',
@@ -26,9 +26,9 @@
       }
     },
     components: {
-      bdtRun,
-      loginOut,
-      table12
+      Example,
+      tzSystemInfo,
+      tz2SystemInfo
     },
     watch: {
       $route: function (to, form) {
@@ -38,7 +38,7 @@
     created() {
       console.log(process.env);
 
-     // this.getAdminAccount();
+      // this.getAdminAccount();
       //
     },
     activated() {
@@ -56,7 +56,7 @@
 </script>
 
 <style lang="less" scoped>
-  .bdt-overview {
+  .tz-overview {
     min-width: 1300px;
 
     .header-box {
