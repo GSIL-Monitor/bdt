@@ -12,6 +12,7 @@
     <result column="result" jdbcType="INTEGER" property="result" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from table_request
@@ -20,11 +21,11 @@
   <insert id="insert" parameterType="cn.com.infaith.module.model.TableRequest">
     insert into table_request (create_time, table_no,
       battle_no, fit_no, card, 
-      xian_card, result, status, remark
+      xian_card, result, status, remark, user_id
       )
     values (#{createTime,jdbcType=TIMESTAMP}, #{tableNo,jdbcType=INTEGER},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{card,jdbcType=VARCHAR}, 
-      #{xianCard,jdbcType=VARCHAR}, #{result,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark}
+      #{xianCard,jdbcType=VARCHAR}, #{result,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark}, #{userId}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TableRequest">

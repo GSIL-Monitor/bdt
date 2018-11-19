@@ -29,6 +29,10 @@ public class UserAccount {
 
     private Boolean updateStatus;
 
+    private Boolean requestStatus;
+
+    private String remark;
+
     public String getId() {
         return id;
     }
@@ -131,5 +135,21 @@ public class UserAccount {
 
     public void setUpdateStatus(Boolean updateStatus) {
         this.updateStatus = updateStatus;
+    }
+
+    public Boolean getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(Boolean requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

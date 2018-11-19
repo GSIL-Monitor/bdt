@@ -31,4 +31,8 @@ public interface UserAccountMapper {
     int updateLoginStatusTrue();
 
     int updateLoginStatusFalse();
+
+    int updateRequestStatus(@Param("userId") String userId, @Param("requestStatus") Boolean requestStatus);
+
+    int selectRequestCount(String userId);
 }

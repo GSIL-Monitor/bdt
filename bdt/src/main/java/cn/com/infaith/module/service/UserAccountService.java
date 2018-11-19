@@ -132,5 +132,11 @@ public interface UserAccountService {
 
     int updateLoginStatusFalse();
 
+    int updateRequestStatus(String userId, Boolean requestStatus);
+
     List<AdminAccount> selectAllAdmin();
+
+    List<UserAccount> selectAll();
+
+    int selectRequestCount(String userId);
 }

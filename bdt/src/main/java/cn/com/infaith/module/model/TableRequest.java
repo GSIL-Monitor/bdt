@@ -23,6 +23,8 @@ public class TableRequest {
 
     private String remark;
 
+    private String userId;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class TableRequest {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

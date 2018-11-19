@@ -1,5 +1,6 @@
 package cn.com.infaith.module.service;
 
+import cn.com.infaith.module.model.UserAccount;
 import cn.com.infaith.module.util.LogUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,19 @@ public class TimeJobService {
         LogUtil.info(this.getClass(), "更新用户状态开始》》》》》");
         userAccountService.updateLoginStatusTrue();
         userAccountService.updateLoginStatusFalse();
+    }
+
+    @Scheduled(cron = "*/20 * * * * ?")
+    public void calUpdateRequestStatus() {
+        LogUtil.info(this.getClass(), "更新用户请求状态》》》》》");
+        List<UserAccount> list = userAccountService.selectAll();
+        for (int i = 0; i < list.size(); i++) {
+            int count = userAccountService.selectRequestCount(list.get(i).getId());
+            if (count > 0) {
+                userAccountService.updateRequestStatus(list.get(i).getId(),true);
+            } else {
+                userAccountService.updateRequestStatus(list.get(i).getId(),false);
+            }
+        }
     }
 }

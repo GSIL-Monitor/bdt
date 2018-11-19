@@ -182,7 +182,22 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public int updateRequestStatus(String userId, Boolean requestStatus) {
+        return userAccountMapper.updateRequestStatus(userId, requestStatus);
+    }
+
+    @Override
     public List<AdminAccount> selectAllAdmin() {
         return adminAccountMapper.selectAll();
+    }
+
+    @Override
+    public List<UserAccount> selectAll() {
+        return userAccountMapper.selectAll();
+    }
+
+    @Override
+    public int selectRequestCount(String userId) {
+        return userAccountMapper.selectRequestCount(userId);
     }
 }
