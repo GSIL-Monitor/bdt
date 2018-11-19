@@ -28,7 +28,7 @@
         <div class="header-box" style="height: 20px">
           <span class="col">账号：{{item.account}}</span>
           <span class="col" style="text-align: right;flex: inherit">
-            <Button type="primary" size="small" @click="editUserHome(index)">重新登陆</Button></span>
+            <Button type="primary" size="small" @click="editUserLogin(index)">重新登陆</Button></span>
         </div>
         <div class="header-box">
           <b class="col">有效金额：{{item.effectiveAmount}}</b>
@@ -216,6 +216,9 @@
             this.getUserByAdmin();
           }
         })
+      },
+      editUserLogin() {
+        //
       },
       editUser() {
         let params = this.formEdit;

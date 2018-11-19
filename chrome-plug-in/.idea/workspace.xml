@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../client/src/router/routers.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/routers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/overview.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/view/overview/overview.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/view/overview/tz.vue" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -124,12 +121,12 @@
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tz2SystemInfo.vue" />
         <option value="$PROJECT_DIR$/js/tzxt.js" />
-        <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
         <option value="$PROJECT_DIR$/../client/src/router/routers.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/tz.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/read.vue" />
-        <option value="$PROJECT_DIR$/../client/src/view/overview/overview.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/control.vue" />
+        <option value="$PROJECT_DIR$/../client/src/view/overview/overview.vue" />
+        <option value="$PROJECT_DIR$/../client/src/view/overview/components/loginOut.vue" />
       </list>
     </option>
   </component>
