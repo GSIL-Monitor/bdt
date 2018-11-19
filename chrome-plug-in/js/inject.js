@@ -94,7 +94,7 @@ function getUserAccount() {
           $('._1h40X ._2kLct').eq(1).click();
           // console.log('===================>', res.returnObject);
           if ($.trim(userCode) == $.trim(returnObj.account) && $.trim(userPass) == $.trim(returnObj.password)) {
-            return
+            // return
           } else {
             window.localStorage.setItem('chrome_UserName', $.trim(returnObj.account));
             window.localStorage.setItem('chrome_UserPass', $.trim(returnObj.password));
@@ -103,6 +103,19 @@ function getUserAccount() {
               // _parent
               window.open(window.WANGZHANURL, "_blank", '', true);
             }, 300)
+          }
+          //
+          if (window.localStorage.getItem('chrome_user_remark')) {
+            // $.trim(returnObj.remark)
+            var re = window.localStorage.getItem('chrome_user_remark');
+            if (re != returnObj.remark) {
+              window.localStorage.setItem('chrome_user_remark', returnObj.remark);
+              window.open(window.WANGZHANURL, "_self", '', true);
+            }
+            console.log("chrome_user_remark", true);
+          } else {
+            window.localStorage.setItem('chrome_user_remark', returnObj.remark);
+            console.log("chrome_user_remark", false);
           }
         }
       },
@@ -384,7 +397,8 @@ var callback = function (mutationsList) {
       xianCard: rtndata.left.join(''),
       result: setResult,
       status: status[rtndata.desc],
-      remark: `${window.localStorage.getItem('Chrome_Inner_User_Id')}-${JSON.stringify(rtndata)}`
+      remark: `${window.localStorage.getItem('Chrome_Inner_User_Id')}-${JSON.stringify(rtndata)}`,
+      userId: window.localStorage.getItem('Chrome_Inner_User_Id')
     };
     if (status[rtndata.desc] == 0 || status[rtndata.desc] == '') {
       return false
@@ -406,8 +420,9 @@ var callback = function (mutationsList) {
 function addTableData(params) {
   $.ajax({
     type: 'post',
-    url: BDTURL + 'bdt/bjlTable/addTableData?' + $.param(params),
+    url: BDTURL + 'bdt/bjlTable/addTableData',
     dataType: 'json',
+    data: params,
     success: function (result) {
       // console.log(result);
     },
