@@ -20,13 +20,13 @@
             <FormItem label="FH" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fh" :disabled="!disabledSet"
                      placeholder="Username">
-              <Icon type="ios-person-outline" slot="prepend"></Icon>
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
             <FormItem label="XH" prop="password" style="margin:0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
                      placeholder="Password">
-              <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
           </Form>
@@ -366,7 +366,9 @@
         };
         this.$api.tzSystemStarted(data).then((res) => {
           if (res.returnCode == 200) {
-            this.getTzSystemInfo(1);
+            if (!this.disabledSet) {
+              this.getTzSystemInfo(1);
+            }
           }
         }).catch(() => {
 
