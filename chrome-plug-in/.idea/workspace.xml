@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6b1d356-3f21-4aa5-9635-1bb71ea61274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/inject.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inject.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -13,15 +13,49 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-3052300">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="js" value="11" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JavaScript" value="11" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/inject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="502">
-              <caret line="278" column="58" lean-forward="true" selection-start-line="278" selection-start-column="58" selection-end-line="278" selection-end-column="58" />
+            <state relative-caret-position="-80">
+              <caret line="249" column="15" lean-forward="true" selection-start-line="249" selection-start-column="15" selection-end-line="249" selection-end-column="15" />
               <folding>
-                <element signature="e#4141#4678#0" />
+                <element signature="e#1804#3169#0" expanded="true" />
+                <element signature="e#1898#3156#0" expanded="true" />
+                <element signature="e#1914#1987#0" expanded="true" />
+                <element signature="e#2000#3151#0" expanded="true" />
+                <element signature="e#2163#3069#0" expanded="true" />
+                <element signature="e#2229#3061#0" expanded="true" />
+                <element signature="e#3728#3904#0" expanded="true" />
+                <element signature="e#3936#4104#0" expanded="true" />
+                <element signature="e#4070#4071#0" expanded="true" />
+                <element signature="e#4094#4095#0" expanded="true" />
+                <element signature="e#7773#7774#0" expanded="true" />
+                <element signature="e#7801#7802#0" expanded="true" />
+                <element signature="e#7839#8386#0" expanded="true" />
+                <element signature="e#8144#8338#0" expanded="true" />
+                <element signature="e#8229#8334#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -30,17 +64,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/tzxt.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1665">
-              <caret line="86" column="23" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/manifest.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="6" column="25" lean-forward="true" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+            <state relative-caret-position="323">
+              <caret line="124" column="21" selection-start-line="124" selection-start-column="21" selection-end-line="124" selection-end-column="21" />
+              <folding>
+                <element signature="e#45#96#0" expanded="true" />
+                <element signature="e#111#150#0" expanded="true" />
+                <element signature="e#200#430#0" expanded="true" />
+                <element signature="e#424#479#0" expanded="true" />
+                <element signature="n#!!block;n#isTZ#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,7 +80,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/popup.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
+            <state relative-caret-position="110">
               <caret line="5" column="72" selection-start-line="5" selection-start-column="72" selection-end-line="5" selection-end-column="72" />
             </state>
           </provider>
@@ -57,8 +89,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/content-script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="65" column="50" selection-start-line="65" selection-start-column="50" selection-end-line="65" selection-end-column="50" />
+            <state relative-caret-position="286">
+              <caret line="13" column="70" selection-start-line="13" selection-start-column="70" selection-end-line="13" selection-end-column="70" />
+              <folding>
+                <element signature="n#!!block;n#getCookie#0" expanded="true" />
+                <element signature="e#565#599#0" expanded="true" />
+                <element signature="e#605#627#0" expanded="true" />
+                <element signature="n#!!block;n#chrome_isLocation#0" expanded="true" />
+                <element signature="e#846#986#0" expanded="true" />
+                <element signature="e#908#982#0" expanded="true" />
+                <element signature="e#1145#1796#0" expanded="true" />
+                <element signature="e#1186#1723#0" expanded="true" />
+                <element signature="n#!!block;n#initCustomPanel#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -128,34 +171,92 @@
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/example.vue" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/components/tzSystemInfo.vue" />
         <option value="$PROJECT_DIR$/js/content-script.js" />
-        <option value="$PROJECT_DIR$/js/tzxt.js" />
         <option value="$PROJECT_DIR$/../client/src/view/overview/betting.vue" />
         <option value="$PROJECT_DIR$/popup.html" />
-        <option value="$PROJECT_DIR$/js/inject.js" />
         <option value="$PROJECT_DIR$/manifest.json" />
+        <option value="$PROJECT_DIR$/js/tzxt.js" />
+        <option value="$PROJECT_DIR$/js/inject.js" />
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
     <exe-path />
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="228" />
-    <option name="width" value="2328" />
-    <option name="height" value="1047" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectUserFactors">
+    <factor id="binaryFeature:liftShorter" />
+    <factor id="binaryFeature:liftShorterClasses" />
+    <factor id="binaryFeature:middleMatching" />
+    <factor id="binaryFeature:nonGeneric" />
+    <factor id="binaryFeature:prox_inResolveScope" />
+    <factor id="binaryFeature:prox_openedInEditor" />
+    <factor id="binaryFeature:prox_sameDirectory" />
+    <factor id="binaryFeature:prox_sameLogicalRoot" />
+    <factor id="binaryFeature:prox_sdkOrLibrary" />
+    <factor id="binaryFeature:templates" />
+    <factor id="categoricalFeature:accessible" />
+    <factor id="categoricalFeature:expectedType" />
+    <factor id="categoricalFeature:kind" />
+    <factor id="categoricalFeature:prox_groovyReferenceListWeigher" />
+    <factor id="categoricalFeature:prox_javaInheritance" />
+    <factor id="categoricalFeature:prox_referenceList" />
+    <factor id="categoricalFeature:recursion" />
+    <factor id="completionFinishedType">
+      <dailyData date="16-11-2018">
+        <observation name="cancelled" value="6.0" />
+      </dailyData>
+    </factor>
+    <factor id="completionType" />
+    <factor id="completionUsage">
+      <dailyData date="16-11-2018">
+        <observation name="count" value="6.0" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:explicitProximity" />
+    <factor id="doubleFeature:grouping" />
+    <factor id="doubleFeature:mostUsed" />
+    <factor id="doubleFeature:nameEnd" />
+    <factor id="doubleFeature:position" />
+    <factor id="doubleFeature:prefix" />
+    <factor id="doubleFeature:priority" />
+    <factor id="doubleFeature:prox_explicitlyImported" />
+    <factor id="doubleFeature:prox_knownElement" />
+    <factor id="doubleFeature:prox_sameModule" />
+    <factor id="doubleFeature:prox_samePsiMember" />
+    <factor id="doubleFeature:query_length" />
+    <factor id="doubleFeature:result_length" />
+    <factor id="doubleFeature:sameWords" />
+    <factor id="doubleFeature:shorter" />
+    <factor id="doubleFeature:simple" />
+    <factor id="doubleFeature:sorter" />
+    <factor id="doubleFeature:statics" />
+    <factor id="doubleFeature:stats" />
+    <factor id="itemPosition" />
+    <factor id="mnemonicsUsage" />
+    <factor id="prefixLength" />
+    <factor id="timeBetweenTyping" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -163,10 +264,16 @@
               <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="chrome-plug-in" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-plug-in" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -265,11 +372,12 @@
       <workItem from="1541858013791" duration="66000" />
       <workItem from="1541859179640" duration="607000" />
       <workItem from="1541949418205" duration="2424000" />
+      <workItem from="1542377472989" duration="1761000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155296000" />
+    <option name="totallyTimeSpent" value="157057000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -281,12 +389,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="228" y="0" width="2328" height="1047" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.496614" visible="true" weight="0.10858144" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.496614" visible="true" weight="0.11031519" />
       <window_info id="Structure" order="1" sideWeight="0.50281847" side_tool="true" weight="0.10848644" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="NativeScript" />
+      <window_info anchor="bottom" id="CSS-X-Fire" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295711" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -295,10 +405,15 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32919955" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.3295711" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
+      <window_info anchor="right" id="Nativescript Palette" />
+      <window_info anchor="right" id="JSON Viewer" />
+      <window_info anchor="right" id="Translate" />
+      <window_info anchor="right" id="JSON Utils" />
+      <window_info anchor="right" id="Json Parser" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -306,6 +421,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/global-types/node_modules/@types/jquery/index.d.ts">
@@ -349,41 +467,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/content-script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="65" column="50" selection-start-line="65" selection-start-column="50" selection-end-line="65" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/tzxt.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1665">
-          <caret line="86" column="23" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/popup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
+        <state relative-caret-position="110">
           <caret line="5" column="72" selection-start-line="5" selection-start-column="72" selection-end-line="5" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/inject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="502">
-          <caret line="278" column="58" lean-forward="true" selection-start-line="278" selection-start-column="58" selection-end-line="278" selection-end-column="58" />
-          <folding>
-            <element signature="e#4141#4678#0" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manifest.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="6" column="25" lean-forward="true" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+        <state relative-caret-position="132">
+          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/content-script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="70" selection-start-line="13" selection-start-column="70" selection-end-line="13" selection-end-column="70" />
+          <folding>
+            <element signature="n#!!block;n#getCookie#0" expanded="true" />
+            <element signature="e#565#599#0" expanded="true" />
+            <element signature="e#605#627#0" expanded="true" />
+            <element signature="n#!!block;n#chrome_isLocation#0" expanded="true" />
+            <element signature="e#846#986#0" expanded="true" />
+            <element signature="e#908#982#0" expanded="true" />
+            <element signature="e#1145#1796#0" expanded="true" />
+            <element signature="e#1186#1723#0" expanded="true" />
+            <element signature="n#!!block;n#initCustomPanel#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/tzxt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="124" column="21" selection-start-line="124" selection-start-column="21" selection-end-line="124" selection-end-column="21" />
+          <folding>
+            <element signature="e#45#96#0" expanded="true" />
+            <element signature="e#111#150#0" expanded="true" />
+            <element signature="e#200#430#0" expanded="true" />
+            <element signature="e#424#479#0" expanded="true" />
+            <element signature="n#!!block;n#isTZ#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/inject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-80">
+          <caret line="249" column="15" lean-forward="true" selection-start-line="249" selection-start-column="15" selection-end-line="249" selection-end-column="15" />
+          <folding>
+            <element signature="e#1804#3169#0" expanded="true" />
+            <element signature="e#1898#3156#0" expanded="true" />
+            <element signature="e#1914#1987#0" expanded="true" />
+            <element signature="e#2000#3151#0" expanded="true" />
+            <element signature="e#2163#3069#0" expanded="true" />
+            <element signature="e#2229#3061#0" expanded="true" />
+            <element signature="e#3728#3904#0" expanded="true" />
+            <element signature="e#3936#4104#0" expanded="true" />
+            <element signature="e#4070#4071#0" expanded="true" />
+            <element signature="e#4094#4095#0" expanded="true" />
+            <element signature="e#7773#7774#0" expanded="true" />
+            <element signature="e#7801#7802#0" expanded="true" />
+            <element signature="e#7839#8386#0" expanded="true" />
+            <element signature="e#8144#8338#0" expanded="true" />
+            <element signature="e#8229#8334#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
