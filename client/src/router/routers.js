@@ -21,16 +21,16 @@ export default [
   },
   {
     path: '/',
-    name: '首页',
+    name: '投注管理',
     redirect: '/home',
     component: Main,
     meta: {hideInMenu: true},
     children: [{
       path: '/home',
       name: 'home',
-      meta: {hideInMenu: true, title: '首页'},
-      component: () => import('@/view/single-page/home')
-    },
+      meta: {hideInMenu: true, title: '投注管理'},
+      component: () => import('@/view/overview/overview.vue')
+      },
       {
         path: '/super',
         name: 'super',
@@ -41,20 +41,35 @@ export default [
   },
   {
     path: '/',
-    name: '总览',
+    name: '投注管理',
     component: Main,
-    children: [{
-      path: '/overview',
-      name: 'overview',
-      meta: {icon: 'ios-home', title: '总览', beforeCloseName: 'before_close_normal'},
-      component: () => import('@/view/overview/overview.vue')
-    }]
+    meta: {icon: 'ios-keypad', title: '投注管理', beforeCloseName: 'before_close_normal'},
+    children: [
+      {
+        path: '/overview',
+        name: 'overview',
+        meta: {icon: 'ios-home', title: '投注', beforeCloseName: 'before_close_normal'},
+        component: () => import('@/view/overview/overview.vue')
+      },
+      {
+        path: '/read',
+        name: 'read',
+        meta: {icon: 'ios-cloud', title: '读牌', beforeCloseName: 'before_close_normal'},
+        component: () => import('@/view/overview/read.vue')
+      },
+      {
+        path: '/control',
+        name: 'control',
+        meta: {icon: 'ios-build', title: '图形监控', beforeCloseName: 'before_close_normal'},
+        component: () => import('@/view/overview/control.vue')
+      }
+    ]
   },
   {
     path: '/',
     name: '数据管理',
     component: Main,
-    meta: {icon: 'ios-keypad', title: '数据管理',  beforeCloseName: 'before_close_normal'},
+    meta: {icon: 'ios-keypad', title: '数据管理', beforeCloseName: 'before_close_normal'},
     children: [
       {
         path: '/desktop',

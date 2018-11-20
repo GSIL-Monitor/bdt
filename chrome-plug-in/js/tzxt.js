@@ -118,6 +118,8 @@ function isTZ(lists) {
 }
 
 function TZZL(tableCode, yuan, fx, list) {
+  // setTimeout(() => {
+  //   if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).children().length == 1) {
   $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
   // _1a9j- OBOwe ripple text-l center-block _10ZbI
   $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
@@ -127,6 +129,11 @@ function TZZL(tableCode, yuan, fx, list) {
   $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
   //
   console.warn(1111111111111111111111, isTZ(list));
+  // } else {
+  // console.log(5000 * Math.random());
+  //   }
+  // }, 5000 * Math.random());
+
   setTimeout(function () {
     if (!!!isTZ(list)) {
       // 没投注 isTZ(list)== false 代表还可以投注

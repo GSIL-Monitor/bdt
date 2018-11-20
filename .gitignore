@@ -1,1 +1,5 @@
 chrame-plug-in/.idea/
+*.xml
+##chrome-plug-in/.idea/workspace.xml
+*.xml
+*.xml

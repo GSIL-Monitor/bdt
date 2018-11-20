@@ -11,17 +11,24 @@
     <div class="" style="position: relative">
       <Card v-for="(item, index) in isLoginOverviewData" :key="index" style="margin-bottom: 15px">
         <div slot="title" class="header-box" style="font-size: 16px">
-          <div class="col" style="font-weight: bold;">{{item.name}}</div>
+          <div class="col" style="font-weight: bold;">{{item.account}}</div>
           <div class="col">
             <Button v-if="item.loginStatus" type="primary" ghost size="small">{{' 已登陆'}}</Button>
             <Button v-else type="error" ghost size="small">{{'未登录'}}</Button>
+          </div>
+          <div class="col">
+            <Button v-if="item.requestStatus" type="primary" ghost size="small">{{'读牌中'}}</Button>
+            <Button v-else type="error" ghost size="small">{{'未读牌'}}</Button>
           </div>
           <div class="col" style="text-align: right;flex: inherit">
             <Button type="primary" size="small" @click="editUserHome(index)">编辑</Button>
           </div>
         </div>
         <!--<div class="header-box" style="height: 20px"><span class="col">{{item.ipRegion}}/{{item.ipAddress}}</span>-->
-        <div class="header-box" style="height: 20px"><span class="col">账号：{{item.account}}</span>
+        <div class="header-box" style="height: 20px">
+          <span class="col">账号：{{item.account}}</span>
+          <span class="col" style="text-align: right;flex: inherit">
+            <Button type="error" size="small" @click="editUserLogin(index)">重新登陆</Button></span>
         </div>
         <div class="header-box">
           <b class="col">有效金额：{{item.effectiveAmount}}</b>
@@ -82,8 +89,7 @@
             <span>编辑账户</span>
           </p>
           <div style="text-align:center">
-            <Form ref="loginForm" :model="formEdit" label-position="right"
-                  :label-width="100">
+            <Form ref="loginForm" :model="formEdit" label-position="right" :label-width="100">
               <FormItem label="ID">
                 <Input disabled v-model="formEdit.id"></Input>
               </FormItem>
@@ -115,7 +121,8 @@
             <Button type="error" size="large" long :loading="modal_loading" @click="delEditUser">
               删除账户
             </Button>
-            <Button type="primary" size="large" long :loading="modal_loading" @click="editUser">编辑账户
+            <Button type="primary" size="large" long :loading="modal_loading" @click="editUser">
+              编辑账户
             </Button>
           </div>
         </Modal>
@@ -143,7 +150,8 @@
           ipAddress: '',
           loginStatus: 'false',
           effectiveAmount: '',
-          ipAddressPublic: ''
+          ipAddressPublic: '',
+          remark: ''
         },
         formEdit: {
           id: '',
@@ -153,7 +161,8 @@
           ipAddress: '',
           loginStatus: 'true',
           effectiveAmount: '',
-          ipAddressPublic: ''
+          ipAddressPublic: '',
+          remark: ''
         }
       }
     },
@@ -200,7 +209,6 @@
         // this.formEdit.id
         let params = {
           userId: this.formEdit.id,
-
         };
         this.$api.deleteUserAccount(params).then((res) => {
           if (res.returnCode == 200) {
@@ -209,6 +217,26 @@
             this.getUserByAdmin();
           }
         })
+      },
+      editUserLogin(index) {
+
+        this.formEdit = this.isLoginOverviewData[index];
+        this.formEdit.loginStatus = String(this.formEdit.loginStatus);
+        console.log('3453534', this.isLoginOverviewData[index]);
+        this.formEdit.remark = Math.random();
+        //
+        let _this = this;
+        this.$Modal.confirm({
+          title: '提示',
+          content: "是否需要绑定账号重新登陆？",
+          onOk: function () {
+            _this.editUser();
+            // console.log(123123123123123123123123);
+          },
+          onCancel: function () {
+
+          }
+        });
       },
       editUser() {
         let params = this.formEdit;
