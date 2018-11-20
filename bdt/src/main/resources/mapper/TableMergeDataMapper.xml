@@ -85,4 +85,19 @@
     ORDER BY
     create_time DESC
   </select>
+
+  <select id="getLjzjzByDate" resultType="String">
+    SELECT
+    ljzjz
+    FROM
+    table_merge_data
+    WHERE
+    create_time <![CDATA[ >= ]]> #{createTime}
+    <if test="adminId != null and adminId != ''">
+      AND admin_id = #{adminId}
+    </if>
+    ORDER BY
+    create_time DESC
+    LIMIT 1
+  </select>
 </mapper>

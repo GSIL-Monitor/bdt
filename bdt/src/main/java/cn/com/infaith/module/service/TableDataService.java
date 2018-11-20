@@ -285,4 +285,6 @@ public interface TableDataService {
     int updateResult(int tableNo, int battleNo, int fitNo);
 
     List<TableData> getTestData();
+
+    String getLjzjzByDate(String adminId, Date createTime);
 }

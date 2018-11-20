@@ -309,6 +309,32 @@ public class BJLTableController {
         return ResponseJsonUtil.getResponseJson(200,"SUCCESS",null);
     }
 
+    @PostMapping("/getLjzjzByDate")
+    @ApiOperation(value = "通过时间获取累计ljzjz值", notes = "批量更新自动投注策略信息", httpMethod = "POST")
+    public JSONObject getLjzjzByDate(@RequestParam(required = false) String adminId,
+                                     @RequestParam String dateList) {
+
+        List<String> list = new ArrayList<>();
+        if (StringUtils.isBlank(dateList)) {
+            return ResponseJsonUtil.getResponseJson(200,"参数未填",list);
+        }
+        String[] str = dateList.split(",");
+        List<Long> dateLists = new ArrayList<>();
+        for (int i = 0; i < str.length; i++) {
+            dateLists.add(Long.valueOf(str[i]));
+        }
+        for (Long date : dateLists) {
+            Date createTime = new Date(date);
+            String ljzjz = tableDataService.getLjzjzByDate(adminId, createTime);
+            if (StringUtils.isBlank(ljzjz)) {
+                list.add("");
+            } else {
+                list.add(ljzjz);
+            }
+        }
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",list);
+    }
+
     @PostMapping("/cal")
     public JSONObject cal() {
         bjlDataService.calcTzResult("8ed7a38206bf4907ba880fbc059cb93f");

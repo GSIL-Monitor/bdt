@@ -447,4 +447,9 @@ public class TableDataServiceImpl implements TableDataService {
     public List<TableData> getTestData() {
         return tableDataMapper.getTestData();
     }
+
+    @Override
+    public String getLjzjzByDate(String adminId, Date createTime) {
+        return tableMergeDataMapper.getLjzjzByDate(adminId, createTime);
+    }
 }

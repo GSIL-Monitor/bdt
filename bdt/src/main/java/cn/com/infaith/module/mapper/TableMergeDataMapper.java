@@ -30,4 +30,6 @@ public interface TableMergeDataMapper {
 
     List<Map<Integer, String>> getLJZJZ(@Param("startDate") Date startDate, @Param("endDate") Date endDate,
                                         @Param("adminId") String adminId);
+
+    String getLjzjzByDate(@Param("adminId") String adminId, @Param("createTime") Date createTime);
 }
