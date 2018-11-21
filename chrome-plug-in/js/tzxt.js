@@ -32,7 +32,7 @@ fxOption = {
   '3': '._3xcd-'
 }
 //
-var BDTURL = 'https://www.bdt1314.xyz/';
+var BDTURL = 'https://test.bdt1314.xyz/';
 
 /*
 * todo
