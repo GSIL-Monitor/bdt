@@ -296,7 +296,7 @@ function getNeedTzDataList() {
                 //  数据不一样 需要投注
                 let daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
-                  if (daskStatus.time > 3) {
+                  if (daskStatus.time != 0) {
                     setLocalStorage.one[e.tableNo - 1] = e;
                     selectedYuan(e);
                   }
@@ -310,7 +310,7 @@ function getNeedTzDataList() {
                 //  数据不一样 需要投注
                 let daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
-                  if (daskStatus.time > 4) {
+                  if (daskStatus.time != 0) {
                     setLocalStorage.two[e.tableNo - 1] = e;
                     selectedYuan(e);
                   }
