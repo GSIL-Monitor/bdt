@@ -36,4 +36,6 @@ public interface ResultDataMapper {
     BigDecimal getAllSjsy(@Param("createTime") Date createTime, @Param("tzxt") Integer tzxt, @Param("tzzh") String tzzh, @Param("adminId") String adminId);
 
     int updateResult(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
+
+    int getAllResultCount(@Param("tzzt") int tzzt, @Param("userIdList") List<String> userIdList);
 }

@@ -4,6 +4,7 @@ import cn.com.infaith.module.model.*;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -287,4 +288,10 @@ public interface TableDataService {
     List<TableData> getTestData();
 
     String getLjzjzByDate(String adminId, Date createTime);
+
+    int getAllResultCount(int tzzt, String adminId);
+
+    File exportExcel();
+
+    File exportResultExcel();
 }

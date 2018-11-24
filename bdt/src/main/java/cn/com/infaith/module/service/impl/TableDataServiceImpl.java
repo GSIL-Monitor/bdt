@@ -1,8 +1,11 @@
 package cn.com.infaith.module.service.impl;
 
+import cn.com.infaith.module.enums.ResultTzJgEnum;
+import cn.com.infaith.module.enums.TableResultEnum;
 import cn.com.infaith.module.mapper.*;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.TableDataService;
+import cn.com.infaith.module.util.ExcelUtil;
 import cn.com.infaith.module.util.ResponseJsonUtil;
 import cn.com.infaith.module.util.TimeUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -13,11 +16,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class TableDataServiceImpl implements TableDataService {
@@ -46,6 +48,9 @@ public class TableDataServiceImpl implements TableDataService {
     private TableRequestMapper tableRequestMapper;
     @Autowired
     private StatusRequestMapper statusRequestMapper;
+
+    private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
 
     @Override
     public Integer addTableData(TableData tableData) {
@@ -451,5 +456,104 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public String getLjzjzByDate(String adminId, Date createTime) {
         return tableMergeDataMapper.getLjzjzByDate(adminId, createTime);
+    }
+
+    @Override
+    public int getAllResultCount(int tzzt, String adminId) {
+
+        List<String> userIdList = userAccountMapper.getUserIdByAdmin(adminId);
+        return resultDataMapper.getAllResultCount(tzzt, userIdList);
+    }
+
+    @Override
+    public File exportExcel() {
+
+        List<TableData> tableDataList = tableDataMapper.getAllTable();
+        List<Map<String, String>> mapList = parseTableInfo(tableDataList);
+        File file = null;
+        String fileName = "牌面数据_" + sf.format(Calendar.getInstance().getTime());
+        try {
+            file = ExcelUtil.toExcel(mapList,"牌面数据","/Users/lbj/Desktop/导出/" + fileName + ".xlsx");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    @Override
+    public File exportResultExcel() {
+
+        List<ResultData> resultDataList = resultDataMapper.searchResultData(null,null,null,null);
+        List<Map<String, String>> mapList = parseResultInfo(resultDataList);
+        File file = null;
+        String fileName = "投注数据_" + sf.format(Calendar.getInstance().getTime());
+        try {
+            file = ExcelUtil.toExcel(mapList,"投注数据","/Users/lbj/Desktop/导出/" + fileName + ".xlsx");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    private List<Map<String, String>> parseResultInfo(List<ResultData> list) {
+
+        List<Map<String, String>> mapList = new ArrayList<>();
+        if (org.apache.commons.collections4.CollectionUtils.isEmpty(list)) {
+            return mapList;
+        }
+        for (ResultData resultData : list) {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("ID", resultData.getId().toString());
+            map.put("创建时间", sf.format(resultData.getCreateTime()));
+            map.put("桌号", resultData.getTableNo().toString());
+            map.put("局号", resultData.getBattleNo().toString());
+            map.put("副号", resultData.getFitNo().toString());
+            map.put("投注方向", TableResultEnum.getName(resultData.getTzfx()));
+            map.put("投注账号ID", resultData.getTzzh());
+            map.put("投注账号", resultData.getAccount());
+            map.put("投注金额", resultData.getTzje());
+            Boolean zt = resultData.getTzzt();
+            String tzzt = "";
+            if (zt == null) {
+                tzzt = "超时or等待";
+            } else if (zt){
+                tzzt = "成功";
+            } else {
+                tzzt = "失败";
+            }
+            map.put("投注金额", tzzt);
+            map.put("投注结果", resultData.getTzjg() != null ? ResultTzJgEnum.getName(resultData.getTzjg()) : "");
+            map.put("有效金额", resultData.getYxje() != null ? resultData.getYxje().toString() : "");
+            map.put("原始输赢", resultData.getYssy() != null ? resultData.getYssy().toString() : "");
+            map.put("实际输赢", resultData.getSjsy() != null ? resultData.getSjsy().toString() : "");
+            mapList.add(map);
+        }
+        return mapList;
+    }
+
+    private List<Map<String, String>> parseTableInfo(List<TableData> list) {
+
+        List<Map<String, String>> mapList = new ArrayList<>();
+        if (org.apache.commons.collections4.CollectionUtils.isEmpty(list)) {
+            return mapList;
+        }
+        for (TableData tableData : list) {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("ID", tableData.getId().toString());
+            map.put("管理员ID", tableData.getAdminId());
+            map.put("创建时间", sf.format(tableData.getCreateTime()));
+            map.put("桌号", tableData.getTableNo().toString());
+            map.put("局号", tableData.getBattleNo().toString());
+            map.put("副号", tableData.getFitNo().toString());
+            map.put("庄牌", tableData.getCard());
+            map.put("闲牌", tableData.getXianCard());
+            map.put("开牌结果", TableResultEnum.getName(tableData.getResult()));
+            map.put("xgl", tableData.getXgl());
+            map.put("zgl", tableData.getZgl());
+            map.put("xtsl", tableData.getXtsl());
+            map.put("ztsl", tableData.getZtsl());
+            mapList.add(map);
+        }
+        return mapList;
     }
 }

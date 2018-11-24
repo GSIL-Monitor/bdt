@@ -113,6 +113,10 @@
     UPDATE  user_account SET login_status = 1 WHERE update_time > DATE_ADD(NOW(),INTERVAL -5 MINUTE);
   </update>
 
+  <update id="updateLoginStatusFalse">
+    UPDATE  user_account SET login_status = 0 WHERE update_time <![CDATA[ <= ]]> DATE_ADD(NOW(),INTERVAL -5 MINUTE);
+  </update>
+
   <update id="updateRequestStatus">
     UPDATE user_account SET request_status = #{requestStatus} WHERE id = #{userId}
   </update>

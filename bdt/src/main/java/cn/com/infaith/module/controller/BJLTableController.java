@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import scala.Int;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -177,9 +178,17 @@ public class BJLTableController {
         JSONObject json = new JSONObject();
         TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt, adminId);
         List<DopeManage> list = tableDataService.getDopeMangeList(tzxt, adminId);
+        int allTz = tableDataService.getAllResultCount(3, adminId);
+        int tzSuccess = tableDataService.getAllResultCount(1, adminId);
+        int tzFail = tableDataService.getAllResultCount(0, adminId);
+        int tzNone = tableDataService.getAllResultCount(2, adminId);
         if (tzSystem != null) {
             json.put("tzSystem", tzSystem);
             json.put("list", list);
+            json.put("allTz", allTz);
+            json.put("tzSuccess", tzSuccess);
+            json.put("tzFail", tzFail);
+            json.put("tzNone", tzNone);
             return ResponseJsonUtil.getResponseJson(200, "find data", json);
         } else {
             return ResponseJsonUtil.getResponseJson(404, "not find", null);
@@ -333,6 +342,17 @@ public class BJLTableController {
             }
         }
         return ResponseJsonUtil.getResponseJson(200,"SUCCESS",list);
+    }
+
+    @PostMapping("/exportTable")
+    public JSONObject exportTable() {
+
+        File file =tableDataService.exportExcel();
+        File file1 = tableDataService.exportResultExcel();
+        if (file == null || file1 == null) {
+            return ResponseJsonUtil.getResponseJson(-1,"fail",null);
+        }
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS", file.getPath() + "," + file1.getPath());
     }
 
     @PostMapping("/cal")

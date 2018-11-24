@@ -118,6 +118,7 @@
       AND b.admin_id = #{adminId}
     </if>
     ORDER BY a.create_time DESC
+    limit 100
   </select>
 
   <select id="getNeedTzDataList" resultMap="BaseResultMap">
@@ -204,4 +205,23 @@
     AND create_time >= DATE_SUB(NOW(),INTERVAL 10 MINUTE)
     AND create_time <![CDATA[ <= ]]> DATE_ADD(NOW(),INTERVAL 2 MINUTE)
   </update>
+
+  <select id="getAllResultCount" resultType="int">
+    SELECT COUNT(1) FROM result_data WHERE is_delete = 0
+    <if test="userIdList.size != 0">
+      AND tzzh IN
+      <foreach collection="userIdList" item="userId" index="index" separator="," open="(" close=")">
+        #{userId}
+      </foreach>
+    </if>
+    <if test="tzzt == 1">
+      AND tzzt = 1
+    </if>
+    <if test="tzzt == 0">
+      AND tzzt = 0
+    </if>
+    <if test="tzzt == 2">
+      AND tzzt IS NULL
+    </if>
+  </select>
 </mapper>
