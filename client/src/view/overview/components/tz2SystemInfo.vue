@@ -245,6 +245,7 @@
     methods: {
       saveApp(type) {
         if (type) {
+          this.$Notice.open({title: '提示', desc: '当前修改保存成功，从新启动投注系统可应用', duration: 2});
           this.updateTzCheck();
         } else {
           this.getTzSystemInfo(startTZXT);
@@ -266,7 +267,7 @@
         let params = this.tzListData
         this.$api.updateTzCheck(params).then(res => {
           if (res.returnCode == 200) {
-            this.$Message.success({content: '更新成功', duration: 10, closable: true});
+            // this.$Message.success({content: '更新成功', duration: 10, closable: true});
           }
         }).catch(err => {
 

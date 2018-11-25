@@ -6,7 +6,7 @@
       </Button>
     </Card>
     <!---->
-    <div style="height: 10px"></div>
+    <div style="height: 20px"></div>
     <Table ref="tables" :columns="tableTitle" :data="tableData"></Table>
     <div>
       <Modal title="Title" v-model="addModal" class-name="vertical-center-modal">
