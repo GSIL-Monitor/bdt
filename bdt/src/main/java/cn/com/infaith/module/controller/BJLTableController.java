@@ -182,7 +182,7 @@ public class BJLTableController {
         int tzSuccess = tableDataService.getAllResultCount(1, adminId);
         int tzFail = tableDataService.getAllResultCount(0, adminId);
         int tzNone = tableDataService.getAllResultCount(2, adminId);
-        int tzRepeat = tableDataService.getAllResultCount(2, adminId);
+        int tzRepeat = tableDataService.getAllResultCount(4, adminId);
         if (tzSystem != null) {
             json.put("tzSystem", tzSystem);
             json.put("list", list);
@@ -190,6 +190,7 @@ public class BJLTableController {
             json.put("tzSuccess", tzSuccess);
             json.put("tzFail", tzFail);
             json.put("tzNone", tzNone);
+            json.put("tzRepeat", tzRepeat);
             return ResponseJsonUtil.getResponseJson(200, "find data", json);
         } else {
             return ResponseJsonUtil.getResponseJson(404, "not find", null);
