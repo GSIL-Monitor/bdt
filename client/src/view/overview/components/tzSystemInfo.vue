@@ -223,6 +223,7 @@
     methods: {
       saveApp(type) {
         if (type) {
+          this.$Notice.open({title: '提示', desc: '当前修改保存成功，从新启动投注系统可应用', duration: 2});
           window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
           // this.tzSystem
           window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));

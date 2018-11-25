@@ -132,10 +132,10 @@
               }
             },
             grid: {
-              top: '5%',
-              left: '3%',
-              right: '3%',
-              bottom: '5%',
+              top: '1%',
+              left: '1%',
+              right: '1%',
+              bottom: '1%',
               containLabel: true
             },
             xAxis: [

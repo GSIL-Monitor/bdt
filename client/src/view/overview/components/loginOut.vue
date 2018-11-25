@@ -83,6 +83,7 @@
             </Button>
           </div>
         </Modal>
+        <!---->
         <Modal title="Title" v-model="editModal" class-name="vertical-center-modal">
           <p slot="header" style="text-align:center">
             <Icon type="ios-information-circle"></Icon>

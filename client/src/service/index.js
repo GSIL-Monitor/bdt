@@ -37,6 +37,13 @@ export default {
       params: Object.assign({adminId: Cookie.get('token')}, params)
     })
   },
+  editAdminAccount(params = {}) {
+    return Axios({
+      method: 'POST',
+      url: HOST + 'account/editAdminAccount',
+      params: Object.assign({adminId: Cookie.get('token')}, params)
+    })
+  },
   bdtSystemStarted(params = {}) {
     //
     return Axios({
@@ -54,6 +61,14 @@ export default {
     return Axios({
       method: 'POST',
       url: HOST + 'account/addUserAccount',
+      params: Object.assign({adminId: Cookie.get('token')}, params)
+    })
+  },
+  addAdminAccount(params = {}) {
+    //
+    return Axios({
+      method: 'POST',
+      url: HOST + 'account/addAdminAccount',
       params: Object.assign({adminId: Cookie.get('token')}, params)
     })
   },

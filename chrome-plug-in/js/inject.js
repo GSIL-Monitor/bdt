@@ -99,9 +99,8 @@ function getUserAccount() {
             window.localStorage.setItem('chrome_UserName', $.trim(returnObj.account));
             window.localStorage.setItem('chrome_UserPass', $.trim(returnObj.password));
             setTimeout(function () {
-              window.close();
               // _parent
-              window.open(window.WANGZHANURL, "_blank", '', true);
+              window.open(window.WANGZHANURL, "_self", '', true);
             }, 300)
           }
           //
@@ -255,7 +254,6 @@ function chrome_login() {
           window.editUserAccountInterval = setInterval(() => {
             editUserAccount();
             //
-            NEW_DATE_GET_DAY();
           }, 1000 * 3);
           //
           $('._1h40X ._2kLct').eq(1).click();
@@ -269,6 +267,9 @@ function chrome_login() {
           // }, 1000 * 60 * 60 * 6);
           //
           startListen();
+          setInterval(function () {
+            NEW_DATE_GET_DAY();
+          }, 1000 * 30)
         }, 1000 * 6)
       }, 1000 * 3)
     },
@@ -279,22 +280,40 @@ function chrome_login() {
 }
 
 function NEW_DATE_GET_DAY() {
-  //
+  function getDays() {
+    // 获取当前周的 next prev
+    var now = new Date;
+    var day = now.getDay();
+    var week = "7123456";
+    var first = 0 - week.indexOf(day);
+    var f = new Date;
+    f.setDate(f.getDate() + first);
+    var last = 6 - week.indexOf(day);
+    var l = new Date;
+    l.setDate(l.getDate() + last);
+    return [f.getTime(), l.getTime()];
+  }
+
+
   var myDate = new Date();
   var myDay = myDate.getDay();//获取存储当前日期
   var weekday = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
   var weekdayIndex = [0, 1, 2, 3, 4, 5, 6];
-  var newWeekday = weekday[myDay];
+  var newWeekday = weekdayIndex[myDay];
   var getTime = myDate.getTime();
-  if (newWeekday == 1 && myDate.getHours() == 13) {
-    // 是周一  并且现在是中午1点
-    if (myDate.getMinutes() > 0 && myDate.getMinutes() <= 1) {
-      window.close();
-      // _parent
-      window.open(window.WANGZHANURL, "_blank", '', true);
+  if (myDay == 1) {
+    // 是周一
+    if (myDate.getHours() === 13) {
+      // 且现在是中午1点
+      if (myDate.getMinutes() == 1) {
+        setTimeout(() => {
+          window.open(window.WANGZHANURL, "_self", '', true);
+        }, 1000 * 30)
+      }
+    } else if (myDate.getHours() > 13) {
+      // 大于1点
     }
   }
-  // document.write("今天是：" + weekday[myDay]);
 }
 
 var callback = function (mutationsList) {

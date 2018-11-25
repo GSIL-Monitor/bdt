@@ -1,21 +1,26 @@
 import Cookies from 'js-cookie'
 // cookie保存的天数
 import config from '@/config'
-import { forEach, hasOneOf, objEqual } from '@/libs/tools'
+import {forEach, hasOneOf, objEqual} from '@/libs/tools'
 
 export const TOKEN_KEY = 'token'
 export const INFO_KEY = 'USER_INFO'
 
 export const setToken = (token) => {
-  Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
+  Cookies.set(TOKEN_KEY, token, {expires: config.cookieExpires || 1})
 }
 export const setInfo = (info) => {
-  Cookies.set(INFO_KEY, info, { expires: config.cookieExpires || 1 })
+  Cookies.set(INFO_KEY, info, {expires: config.cookieExpires || 1})
 }
 
 export const getToken = () => {
   const token = Cookies.get(TOKEN_KEY)
   if (token) return token
+  else return false
+}
+export const getInfo = () => {
+  const info = Cookies.get(INFO_KEY)
+  if (info) return JSON.parse(info)
   else return false
 }
 
@@ -61,7 +66,7 @@ export const getBreadCrumbList = (route, homeRoute) => {
   let res = routeMetched.filter(item => {
     return item.meta === undefined || !item.meta.hide
   }).map(item => {
-    let meta = { ...item.meta }
+    let meta = {...item.meta}
     if (meta.title && typeof meta.title === 'function') meta.title = meta.title(route)
     let obj = {
       icon: (item.meta && item.meta.icon) || '',
@@ -73,12 +78,12 @@ export const getBreadCrumbList = (route, homeRoute) => {
   res = res.filter(item => {
     return !item.meta.hideInMenu
   })
-  return [Object.assign(homeRoute, { to: homeRoute.path }), ...res]
+  return [Object.assign(homeRoute, {to: homeRoute.path}), ...res]
 }
 
 export const getRouteTitleHandled = route => {
-  let router = { ...route }
-  let meta = { ...route.meta }
+  let router = {...route}
+  let meta = {...route.meta}
   if (meta.title && typeof meta.title === 'function') meta.title = meta.title(router)
   router.meta = meta
   return router
@@ -126,10 +131,10 @@ export const getHomeRoute = routers => {
  * @description 如果该newRoute已经存在则不再添加
  */
 export const getNewTagList = (list, newRoute) => {
-  const { name, path, meta } = newRoute
+  const {name, path, meta} = newRoute
   let newList = [...list]
   if (newList.findIndex(item => item.name === name) >= 0) return newList
-  else newList.push({ name, path, meta })
+  else newList.push({name, path, meta})
   return newList
 }
 
