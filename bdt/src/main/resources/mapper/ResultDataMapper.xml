@@ -19,6 +19,8 @@
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="tz_status" jdbcType="VARCHAR" property="tzStatus" />
+    <result column="tz_count" jdbcType="INTEGER" property="tzCount" />
+    <result column="tz_sjtzje" jdbcType="INTEGER" property="tzSjtzje" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from result_data
@@ -123,7 +125,7 @@
 
   <select id="getNeedTzDataList" resultMap="BaseResultMap">
     select id, create_time, table_no, battle_no, fit_no, tzfx, tzxt, tzzh, tzje, tzzt,
-    tzjg, yxje, yssy, sjsy, tz_status
+    tzjg, yxje, yssy, sjsy, tz_status, tz_count, tz_sjtzje
     from result_data
     WHERE tzzt IS NULL
     <if test="tableNo != null and tableNo != 0">
@@ -141,7 +143,9 @@
     update result_data
     set
       tzzt = #{tzzt},
-      tz_status = #{tzStatus}
+      tz_status = #{tzStatus},
+      tz_count = #{tzCount},
+      tz_sjtzje = #{tzSjtzje}
     where id = #{id}
   </update>
 
@@ -222,6 +226,9 @@
     </if>
     <if test="tzzt == 2">
       AND tzzt IS NULL
+    </if>
+    <if test="tzzt == 4">
+      AND tz_count >= 2
     </if>
   </select>
 </mapper>

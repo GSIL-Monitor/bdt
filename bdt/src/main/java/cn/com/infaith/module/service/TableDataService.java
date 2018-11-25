@@ -15,6 +15,7 @@ public interface TableDataService {
 
     /**
      * 添加桌面信息
+     *
      * @param tableData
      * @return
      */
@@ -28,20 +29,24 @@ public interface TableDataService {
 
     /**
      * 添加桌子状态
+     *
      * @param statusData
      * @return
      */
     Boolean addStatusData(StatusData statusData);
+
     Boolean addStatusDataList(List<StatusData> statusDataList);
 
     /**
      * 获取百家乐桌牌情况
+     *
      * @return
      */
     List<TableData> getTableInfo();
 
     /**
      * 通过桌号获取其最新的状态信息
+     *
      * @param tableNo
      * @return
      */
@@ -49,6 +54,7 @@ public interface TableDataService {
 
     /**
      * 通过桌号和投注系统获取其是否有数据
+     *
      * @param tableNo
      * @param tzSystem
      * @return
@@ -57,6 +63,7 @@ public interface TableDataService {
 
     /**
      * 清楚下单表中所有记录 by 桌号、投注系统
+     *
      * @param tableNo
      * @param tzSystem
      * @return
@@ -65,6 +72,7 @@ public interface TableDataService {
 
     /**
      * 根据桌号和投注系统取投注下单表的第1条记录中的“账号、投注方向、投注金额”进行投注。
+     *
      * @param tableNo
      * @param tzSystem
      * @return
@@ -73,6 +81,7 @@ public interface TableDataService {
 
     /**
      * 根据桌号和投注系统取投注下单表的第1条记录中的“账号、投注方向、投注金额”进行投注。
+     *
      * @param tableNo
      * @param tzSystem
      * @return
@@ -81,6 +90,7 @@ public interface TableDataService {
 
     /**
      * 根据桌号获取最新一条信息
+     *
      * @param tableNo
      * @return
      */
@@ -88,13 +98,15 @@ public interface TableDataService {
 
     /**
      * 添加合并数据
+     *
      * @param tableMergeData
-     * @return  主键id
+     * @return 主键id
      */
     int addTableMergeData(TableMergeData tableMergeData);
 
     /**
      * 获取除去当前id的最新一条合并数据
+     *
      * @param id
      * @return
      */
@@ -102,6 +114,7 @@ public interface TableDataService {
 
     /**
      * 更新合并数据
+     *
      * @param tableMergeData
      * @return
      */
@@ -109,6 +122,7 @@ public interface TableDataService {
 
     /**
      * 投注系统开关
+     *
      * @param started
      * @param id
      * @param fh
@@ -121,6 +135,7 @@ public interface TableDataService {
 
     /**
      * 获取当前桌号以及投注系统下的投注信息
+     *
      * @param tableNo
      * @param tzSystem
      * @return
@@ -129,6 +144,7 @@ public interface TableDataService {
 
     /**
      * 披露添加下单投注数据
+     *
      * @param list
      * @return
      */
@@ -138,6 +154,7 @@ public interface TableDataService {
 
     /**
      * 通过桌号、局号、副号查询投注结果表里为结果为空的信息
+     *
      * @param tableNo
      * @param battleNo
      * @param fitNo
@@ -149,6 +166,7 @@ public interface TableDataService {
 
     /**
      * 更新“投注结果”、“有效金额”、“原始输赢”、“实际输赢"   投注结果表
+     *
      * @param record
      * @return
      */
@@ -156,6 +174,7 @@ public interface TableDataService {
 
     /**
      * 更新状态表
+     *
      * @param tableNo
      * @param status
      * @param battleNo
@@ -166,6 +185,7 @@ public interface TableDataService {
 
     /**
      * 通过日期，桌号，句号查询桌面信息
+     *
      * @param createTime
      * @param tableNo
      * @param battleNo
@@ -175,6 +195,7 @@ public interface TableDataService {
 
     /**
      * 获取投注结果信息
+     *
      * @param createTime
      * @param tzxt
      * @param tzzh
@@ -184,6 +205,7 @@ public interface TableDataService {
 
     /**
      * bdt系统开关
+     *
      * @param started
      * @param ps
      * @param phxs
@@ -197,6 +219,7 @@ public interface TableDataService {
 
     /**
      * 通过id删除下单信息
+     *
      * @param id
      * @return
      */
@@ -204,6 +227,7 @@ public interface TableDataService {
 
     /**
      * 添加自动投注信息
+     *
      * @param list
      * @return
      */
@@ -211,12 +235,14 @@ public interface TableDataService {
 
     /**
      * 获取自动投注信息
+     *
      * @return
      */
     List<DopeManage> getDopeMangeList(int tzxt, String adminId);
 
     /**
      * 通过投注账号获取id
+     *
      * @param tzzh
      * @return
      */
@@ -236,6 +262,7 @@ public interface TableDataService {
 
     /**
      * 判断当前桌库里是否存在第一副牌的信息
+     *
      * @param tableNo
      * @return
      */
@@ -243,6 +270,7 @@ public interface TableDataService {
 
     /**
      * 获取需要进行投注的列表
+     *
      * @param tableNo
      * @return
      */
@@ -250,6 +278,7 @@ public interface TableDataService {
 
     /**
      * 批量更新投注状态
+     *
      * @param list
      * @return
      */
@@ -259,9 +288,11 @@ public interface TableDataService {
 
     String getCardTable(int tableNo, int battleNo, int fitNo, String adminId);
 
-    BigDecimal getTotalYxje(Date createTime,Integer tzxt,String tzzh, String adminId);
-    BigDecimal getTotalYssy(Date createTime,Integer tzxt,String tzzh, String adminId);
-    BigDecimal getTotalSjsy(Date createTime,Integer tzxt,String tzzh, String adminId);
+    BigDecimal getTotalYxje(Date createTime, Integer tzxt, String tzzh, String adminId);
+
+    BigDecimal getTotalYssy(Date createTime, Integer tzxt, String tzzh, String adminId);
+
+    BigDecimal getTotalSjsy(Date createTime, Integer tzxt, String tzzh, String adminId);
 
     int insertDopeManage(DopeManage dopeManage);
 
@@ -294,4 +325,5 @@ public interface TableDataService {
     File exportExcel();
 
     File exportResultExcel();
+
 }

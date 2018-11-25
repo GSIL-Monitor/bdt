@@ -182,6 +182,7 @@ public class BJLTableController {
         int tzSuccess = tableDataService.getAllResultCount(1, adminId);
         int tzFail = tableDataService.getAllResultCount(0, adminId);
         int tzNone = tableDataService.getAllResultCount(2, adminId);
+        int tzRepeat = tableDataService.getAllResultCount(2, adminId);
         if (tzSystem != null) {
             json.put("tzSystem", tzSystem);
             json.put("list", list);

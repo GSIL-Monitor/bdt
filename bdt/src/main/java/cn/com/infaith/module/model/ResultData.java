@@ -38,6 +38,26 @@ public class ResultData {
 
     private String tzStatus;
 
+    private Integer tzCount;
+
+    private Integer tzSjtzje;
+
+    public Integer getTzSjtzje() {
+        return tzSjtzje;
+    }
+
+    public void setTzSjtzje(Integer tzSjtzje) {
+        this.tzSjtzje = tzSjtzje;
+    }
+
+    public Integer getTzCount() {
+        return tzCount;
+    }
+
+    public void setTzCount(Integer tzCount) {
+        this.tzCount = tzCount;
+    }
+
     public Integer getId() {
         return id;
     }
