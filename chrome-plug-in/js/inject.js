@@ -71,7 +71,7 @@ deskstatemap["1"] = "开始投注";
 deskstatemap["2"] = "停止投注";
 deskstatemap["3"] = "开牌";
 
-var BDTURL = 'https://test.bdt1314.xyz/';
+var BDTURL = 'https://www.bdt1314.xyz/';
 
 // GET /account/getUserAccount
 function getUserAccount() {

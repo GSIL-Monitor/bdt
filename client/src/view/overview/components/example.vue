@@ -11,7 +11,7 @@
       </div>
     </div>
     <div id="overLine">
-      <div ref="dom" style="height: 310px"></div>
+      <div ref="dom" style="height: 410px"></div>
     </div>
   </Card>
 
@@ -43,12 +43,12 @@
       off(window, 'resize', this.resize())
     },
     created() {
-      let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 3));
+      let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 1));
       this.DateRange = pevTime;
       this.getLJInfo();
       clearInterval(window.setIngetLJInfo);
       window.setIngetLJInfo = setInterval(_ => {
-        let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 3));
+        let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 1));
         this.DateRange = pevTime;
         this.getLJInfo();
       }, 1000 * 5)
@@ -127,12 +127,13 @@
               axisPointer: {
                 type: 'cross',
                 label: {
+                  show: false,
                   backgroundColor: '#6a7985'
                 }
               }
             },
             grid: {
-              top: '1%',
+              top: '5%',
               left: '1%',
               right: '1%',
               bottom: '1%',
@@ -140,6 +141,7 @@
             },
             xAxis: [
               {
+                show: false,
                 type: 'category',
                 boundaryGap: false,
                 data: ljxjzName,
@@ -179,7 +181,8 @@
                 stack: '总量',
                 areaStyle: {
                   normal: {
-                    color: '#4608A6'
+                    // color: '',
+                    opacity: 0
                   }
                 },
                 data: ljxjzVal
@@ -196,7 +199,8 @@
                 },
                 areaStyle: {
                   normal: {
-                    color: '#398DBF'
+                    // color: '#398DBF',
+                    opacity: 0
                   }
                 },
                 data: ljzjzVal

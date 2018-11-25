@@ -86,15 +86,15 @@
             key: 'createdTime'
           },
           {
-            title: '总有效金额',
+            title: '有效金额',
             key: 'yxje'
           },
           {
-            title: '总原始输赢',
+            title: '原始输赢',
             key: 'yssy'
           },
           {
-            title: '总实际输赢',
+            title: '实际输赢',
             key: 'sjsy'
           },
           {
@@ -242,7 +242,12 @@
 
         this.$api.searchDopeData(params).then((res) => {
           if (res.returnCode == 200) {
-            this.page.total = res.total
+            this.page.total = res.total;
+            this.ztjData = {
+              sjsy: res.returnObject.sjsy,
+              yssy: res.returnObject.yssy,
+              yxje: res.returnObject.yxje
+            }
             this.tableData = res.returnObject.list;
             var timestamp = new Date().getTime();
             this.tableData.forEach((e, i) => {
