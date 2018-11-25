@@ -309,27 +309,13 @@ function getNeedTzDataList() {
                 //  数据不一样 需要投注
                 let daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
-                  // if (daskStatus.time == 0) {
-                  //   //
-                  //   let tzS = [];
-                  //   if (e.tzStatus) {
-                  //     tzS = tzS.concat();
-                  //   }
-                  //   updateTzztList(e)
-                  // }
                   if (daskStatus.time != 0) {
                     setLocalStorage.two[e.tableNo - 1] = e;
                     selectedYuan(e);
                   }
                 }
               }
-            });
-            //
-            // for (let i = 0; i < currentTZ.length; i++) {
-            //   setTimeout(_ => {
-            //     selectedYuan(currentTZ[i]);
-            //   }, 0)
-            // }
+            })
             // 设置 缓存
             window.localStorage.setItem('SETLocalStorage', window.JSON.stringify(setLocalStorage));
           }
