@@ -110,7 +110,7 @@
         this.$api.getAdminAccount(params).then(res => {
           console.log('q3eqwewqeqwe===>', res);
           if (res.returnCode == 200) {
-            setInfo.set(window.JSON.stringify(res.returnObject.token));
+            setInfo.set(window.JSON.stringify(res.returnObject));
             setToken.set(res.returnObject.token);
           }
         }).catch(err => {
