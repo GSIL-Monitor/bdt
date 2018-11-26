@@ -19,13 +19,13 @@
           <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
             <FormItem label="FHA" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fh" :disabled="!disabledSet"
-                     placeholder="FHA">
+                     placeholder="">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
             <FormItem label="FHB" prop="password" style="margin:0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
-                     placeholder="FHB">
+                     placeholder="">
                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
