@@ -120,7 +120,6 @@
       AND b.admin_id = #{adminId}
     </if>
     ORDER BY a.create_time DESC
-    limit 100
   </select>
 
   <select id="getNeedTzDataList" resultMap="BaseResultMap">
