@@ -104,7 +104,7 @@ function isTZ(lists) {
       console.log('===============>', flagType[j].type, lists.tzfx)
       if (parseInt(flagType[j].type) == parseInt(lists.tzfx)) {
         lists.tzCount = 1;
-        lists.tzCount = flagType[j].jine;
+        lists.tzSjtzje = flagType[j].jine;
         updateTzztList(lists, true);
         flag = true;
         break
