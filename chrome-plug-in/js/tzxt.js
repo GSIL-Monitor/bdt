@@ -220,7 +220,6 @@ function getArrDifference(arr1, arr2) {
   });
 }
 
-//
 function getNeedTzDataList() {
   clearInterval(window.getNeedTzDataListSetInv);
   $('._1h40X ._2kLct').eq(1).click();

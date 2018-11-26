@@ -73,6 +73,22 @@ deskstatemap["3"] = "开牌";
 
 var BDTURL = 'https://www.bdt1314.xyz/';
 
+window.chrome_login_User_Obj = {
+  // userName: 'nin23801',
+  // password: 'k8u3f4qd',
+  userName: window.localStorage.getItem('chrome_UserName'),
+  password: window.localStorage.getItem('chrome_UserPass')
+}
+//
+window.onload = function () {
+  //console.log('页面加载完毕111111');
+  var chrome_yzImg = $('._3IDPG ._1CgIs._1I2Om img');
+  getUserAccount();
+  setTimeout(function () {
+    chrome_login();
+  }, 3000)
+}
+
 // GET /account/getUserAccount
 function getUserAccount() {
   clearInterval(window.chrome_userAccount);
@@ -136,22 +152,6 @@ function setUserName() {
   // $('.inject-from #chrome_UserPass').val()
   window.localStorage.setItem('chrome_UserName', $.trim($('.inject-from #chrome_UserName').val()));
   window.localStorage.setItem('chrome_UserPass', $.trim($('.inject-from #chrome_UserPass').val()));
-}
-
-window.chrome_login_User_Obj = {
-  // userName: 'nin23801',
-  // password: 'k8u3f4qd',
-  userName: window.localStorage.getItem('chrome_UserName'),
-  password: window.localStorage.getItem('chrome_UserPass')
-}
-//
-window.onload = function () {
-  //console.log('页面加载完毕111111');
-  var chrome_yzImg = $('._3IDPG ._1CgIs._1I2Om img');
-  getUserAccount();
-  setTimeout(function () {
-    chrome_login();
-  }, 3000)
 }
 
 function formatterDateTime() {
