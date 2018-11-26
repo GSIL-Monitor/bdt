@@ -2,10 +2,10 @@
   <Card>
     <div slot="title" style="display: flex;align-items: center">
       <div style="flex: 1;text-align: left">
-        <span>现值：{{XJZ}}</span>&ensp;&ensp;&ensp;<span>现值：{{ZJZ}}</span>
+        <span>ljxjz：{{XJZ}}</span>&ensp;&ensp;&ensp;<span>ljzjz：{{ZJZ}}</span>
       </div>
       <div style="flex: 1;text-align: right">
-        起始&ensp;<DatePicker type="datetime" @on-change="daterangeChange" v-model="DateRange" confirm
+        起始&ensp;<DatePicker readonly type="datetime" disabled @on-change="daterangeChange" v-model="DateRange" confirm
                             :clearable="false" placement="bottom-end" placeholder="Select date"
                             style="width: 200px"></DatePicker>&ensp;-&ensp;当前&emsp;&emsp;&ensp;&ensp;
       </div>
@@ -28,7 +28,9 @@
         dom: null,
         XJZ: 0.00,
         ZJZ: 0.00,
-        DateRange: ''
+        DateRange: '',
+        minVal: 0,
+        maxVal: 0
       }
     },
     activated() {
@@ -48,8 +50,6 @@
       this.getLJInfo();
       clearInterval(window.setIngetLJInfo);
       window.setIngetLJInfo = setInterval(_ => {
-        let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 1));
-        this.DateRange = pevTime;
         this.getLJInfo();
       }, 1000 * 5)
     },
@@ -77,10 +77,11 @@
         this.dom.resize()
       },
       getLJInfo() {
+        let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 1));
+        this.DateRange = pevTime;
         // this.DateRange[1] = this.formatDate(new Date().getTime());
         let srartTime;
         srartTime = new Date(this.DateRange).getTime();
-        this.DateRange;
         let params = {
           startTime: srartTime,
           endTime: '',
@@ -120,16 +121,46 @@
           if (!!!this.$refs.dom) {
             return false
           }
+          let _this = this;
           this.dom = echarts.init(this.$refs.dom)
           const option = {
             tooltip: {
+              // 提示框
               trigger: 'axis',
-              axisPointer: {
-                type: 'cross',
+              // position: function (pt) {
+              //   return [pt[0], '10%'];
+              // },
+              backgroundColor: '#fff',
+              borderWidth: 1,
+              borderColor: '#e3e3e3',
+              confine: true,
+              axisPointer: { // 坐标轴指示器配置项
                 label: {
-                  show: false,
-                  backgroundColor: '#6a7985'
+                  show: false
+                },
+                type: 'cross', // 指示器类型，十字准星
+                crossStyle: {
+                  type: 'solid',
+                  color: '#e3e3e3'
+                },
+                lineStyle: {
+                  color: '#e3e3e3'
                 }
+              },
+              textStyle: {
+                color: "#aeaeae",
+                fontSize: 12
+              },
+              formatter: function (data) {
+                var html = ``;
+                data.forEach((item) => {
+                  if (item.seriesName.indexOf('率') > -1) {
+                    html += `<div style="display:flex;justify-content:space-between"><span>${item.seriesName}：</span><span style="color: ${item.color}">${item.value}%</span></div>`
+                  } else {
+                    html += `<div style="display:flex;justify-content:space-between"><span>${item.seriesName}：</span><span style="color: ${item.color}">${item.value}</span></div>`
+                  }
+                });
+                return html
               }
             },
             grid: {
@@ -152,24 +183,47 @@
             ],
             yAxis: [
               {
-                type: 'value',
+                type: "value",
+                name: "",
                 axisLabel: {
-                  color: '#aeaeae'
+                  textStyle: {
+                    color: "#8d8d8d",
+                    fontSize: 10
+                  }
+                },
+                splitLine: {
+                  show: false
+                },
+                axisTick: {
+                  length: 0
                 },
                 axisLine: {
+                  symbolSize: [0, 0],
                   lineStyle: {
-                    color: '#aeaeae'
+                    color: "#ccc"
                   }
                 }
               },
               {
-                type: 'value',
+                type: "value",
+                name: "",
                 axisLabel: {
-                  color: '#aeaeae'
+                  textStyle: {
+                    color: "#8d8d8d",
+                    fontSize: 10
+                  },
+                  formatter: ''
+                },
+                min: 0,
+                max: 100,
+                position: 'right',
+                axisTick: {
+                  length: 0
                 },
                 axisLine: {
+                  symbolSize: [0, 0],
                   lineStyle: {
-                    color: '#aeaeae'
+                    color: "#ccc"
                   }
                 }
               }
