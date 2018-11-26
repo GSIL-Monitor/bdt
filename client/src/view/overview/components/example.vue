@@ -11,7 +11,7 @@
       </div>
     </div>
     <div id="overLine">
-      <div ref="dom" style="height: 410px"></div>
+      <div ref="dom" style="height: 450px"></div>
     </div>
   </Card>
 
@@ -67,7 +67,7 @@
         var second = date.getSeconds();
         minute = minute < 10 ? ('0' + minute) : minute;
         second = second < 10 ? ('0' + second) : second;
-        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+        return `${y}-${m}-${d} 00:00:00`;
       },
       daterangeChange(val) {
         console.warn(this.DateRange)
@@ -77,9 +77,9 @@
         this.dom.resize()
       },
       getLJInfo() {
-        let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 1));
+        let pevTime = this.formatDate(new Date().getTime());
+        console.log(pevTime);
         this.DateRange = pevTime;
-        // this.DateRange[1] = this.formatDate(new Date().getTime());
         let srartTime;
         srartTime = new Date(this.DateRange).getTime();
         let params = {
@@ -124,6 +124,37 @@
           let _this = this;
           this.dom = echarts.init(this.$refs.dom)
           const option = {
+            toolbox: {
+              show: true,
+              feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+              }
+            },
+            dataZoom: [
+              {
+                show: true,
+                start: 94,
+                end: 100
+              },
+              {
+                type: 'inside',
+                start: 34,
+                end: 100
+              },
+              {
+                show: true,
+                yAxisIndex: 0,
+                filterMode: 'empty',
+                width: 30,
+                height: '80%',
+                showDataShadow: false,
+                left: '97%'
+              }
+            ],
             tooltip: {
               // 提示框
               trigger: 'axis',
@@ -164,11 +195,18 @@
               }
             },
             grid: {
-              top: '5%',
+              top: '10%',
               left: '1%',
-              right: '1%',
+              right: '3%',
               bottom: '1%',
               containLabel: true
+            },
+            legend: {
+              selectedMode: true,
+              align: 'left',
+              top: 10,
+              left: 0,
+              data: ['ljxjz', 'ljzjz']
             },
             xAxis: [
               {

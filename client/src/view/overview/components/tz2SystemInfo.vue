@@ -17,15 +17,15 @@
       <div style="display: flex;align-items: flex-end">
         <div style="flex: 1;text-align: left">
           <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
-            <FormItem label="FH" prop="user" style="margin:0 5px">
+            <FormItem label="FHA" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fh" :disabled="!disabledSet"
-                     placeholder="Username">
+                     placeholder="FHA">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="XH" prop="password" style="margin:0 5px">
+            <FormItem label="FHB" prop="password" style="margin:0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
-                     placeholder="Password">
+                     placeholder="FHB">
                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
