@@ -4,15 +4,29 @@
       <div style="flex: 1;text-align: left">
         <span>ljxjz：{{XJZ}}</span>&ensp;&ensp;&ensp;<span>ljzjz：{{ZJZ}}</span>
       </div>
-      <div style="flex: 1;text-align: right">
+      <div style="flex: inherit;text-align: right;margin-right: 15px">
+        <Button type="warning" @click="searchDopeData">刷新</Button>
+      </div>
+      <div style="flex: inherit;text-align: right;margin-right: 15px">
+        <Select v-model="model1" @on-change="weekChange" style="width:150px">
+          <Option v-for="item in weekList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </div>
+      <div style="flex: inherit;text-align: right">
         起始&ensp;<DatePicker readonly type="datetime" disabled @on-change="daterangeChange" v-model="DateRange" confirm
                             :clearable="false" placement="bottom-end" placeholder="Select date"
-                            style="width: 200px"></DatePicker>&ensp;-&ensp;当前&emsp;&emsp;&ensp;&ensp;
+                            style="width: 200px"></DatePicker>&ensp;-&ensp;
+        当前&ensp;<DatePicker readonly type="datetime" disabled v-model="DateRangeEnd" confirm
+                            :clearable="false" placement="bottom-end" placeholder="Select date"
+                            style="width: 200px"></DatePicker>&ensp;&ensp;
       </div>
     </div>
     <div id="overLine">
       <div ref="dom" style="height: 450px"></div>
     </div>
+    <Spin fix v-if="loading">
+      <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+    </Spin>
   </Card>
 
 </template>
@@ -25,12 +39,45 @@
     name: 'serviceRequests',
     data() {
       return {
+        loading: true,
+        weekList: [
+          {
+            value: '1',
+            label: '周一'
+          },
+          {
+            value: '2',
+            label: '周二'
+          },
+          {
+            value: '3',
+            label: '周三'
+          },
+          {
+            value: '4',
+            label: '周四'
+          },
+          {
+            value: '5',
+            label: '周五'
+          },
+          {
+            value: '6',
+            label: '周六'
+          },
+          {
+            value: '0',
+            label: '周天'
+          }
+        ],
+        model1: '',
         dom: null,
         XJZ: 0.00,
         ZJZ: 0.00,
         DateRange: '',
         minVal: 0,
-        maxVal: 0
+        maxVal: 0,
+        DateRangeEnd: ''
       }
     },
     activated() {
@@ -45,15 +92,56 @@
       off(window, 'resize', this.resize())
     },
     created() {
-      let pevTime = this.formatDate(new Date().getTime() - (1000 * 60 * 60 * 1));
-      this.DateRange = pevTime;
-      this.getLJInfo();
-      clearInterval(window.setIngetLJInfo);
-      window.setIngetLJInfo = setInterval(_ => {
-        this.getLJInfo();
-      }, 1000 * 5)
+      for (let i = 0; i < 7; i++) {
+        this.weekList[i] = {value: this.getWeek(i), label: `${this.getWeek(i)}-${this.weekList[i].label}`};
+        console.log(this.getWeek(i));
+      }
+      this.model1 = this.formatDateM()
+      this.getLJInfo(this.model1);
     },
     methods: {
+      weekChange(val) {
+        this.getLJInfo(val);
+      },
+      searchDopeData() {
+        this.getLJInfo(this.model1);
+      },
+      getWeek(i) {
+        let now = new Date();
+        let firstDay = new Date(now - (now.getDay() - 1) * 86400000);
+        firstDay.setDate(firstDay.getDate() + i);
+        let mon = Number(firstDay.getMonth()) + 1;
+        mon = mon < 10 ? ('0' + mon) : mon;
+        let d = firstDay.getDate()
+        d = d < 10 ? ('0' + d) : d;
+        return `${now.getFullYear()}-${mon}-${d}`;
+      },
+      getWeekGetTime(i) {
+        let now = new Date();
+        let firstDay = new Date(now - (now.getDay() - 1) * 86400000);
+        firstDay.setDate(firstDay.getDate() + i);
+        let mon = Number(firstDay.getMonth()) + 1;
+        mon = mon < 10 ? ('0' + mon) : mon;
+        let d = firstDay.getDate()
+        d = d < 10 ? ('0' + d) : d;
+        return firstDay.getTime();
+      },
+      //
+      formatDateM() {
+        var date = new Date();
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return `${y}-${m}-${d}`;
+      },
       formatDate(inputTime) {
         var date = new Date(inputTime);
         var y = date.getFullYear();
@@ -69,6 +157,21 @@
         second = second < 10 ? ('0' + second) : second;
         return `${y}-${m}-${d} 00:00:00`;
       },
+      formatDateEnd(inputTime) {
+        var date = new Date(inputTime);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return `${y}-${m}-${d} 23:59:59`;
+      },
       daterangeChange(val) {
         console.warn(this.DateRange)
         console.warn(val);
@@ -76,10 +179,13 @@
       resize() {
         this.dom.resize()
       },
-      getLJInfo() {
-        let pevTime = this.formatDate(new Date().getTime());
+      getLJInfo(model) {
+        this.loading = true;
+        let pevTime = this.formatDate(new Date(`${model} 00:00:00`).getTime());
+        let nextTime = this.formatDateEnd(new Date(`${model} 00:00:00`).getTime());
         console.log(pevTime);
         this.DateRange = pevTime;
+        this.DateRangeEnd = nextTime;
         let srartTime;
         srartTime = new Date(this.DateRange).getTime();
         let params = {
@@ -88,6 +194,7 @@
           tableNo: ''
         }
         this.$api.getLJInfo(params).then((res) => {
+          this.loading = false;
           if (res.returnCode == 200) {
             let data = res.returnObject;
             if (data.ljxjz[0]) {
@@ -99,7 +206,7 @@
             this.setECharts(data);
           }
         }).catch((err) => {
-
+          this.loading = false;
         })
       },
       //
@@ -328,3 +435,21 @@
     }
   }
 </script>
+<style lang="less">
+  #overLine {
+    position: relative;
+  }
+  .demo-spin-icon-load {
+    animation: ani-demo-spin 1s linear infinite;
+  }
+  @keyframes ani-demo-spin {
+    from { transform: rotate(0deg);}
+    50% { transform: rotate(180deg);}
+    to { transform: rotate(360deg);}
+  }
+  .demo-spin-col {
+    height: 100px;
+    position: relative;
+    border: 1px solid #eee;
+  }
+</style>
