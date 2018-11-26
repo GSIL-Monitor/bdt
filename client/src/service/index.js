@@ -3,7 +3,7 @@ import config from '@/config/index'
 import Cookie from 'js-cookie'
 
 const protocol = document.location.protocol == 'https:' ? 'https:' : 'http:'
-const HOST = config.baseUrl.pro
+const HOST = config.baseUrl[process.env.NODE_ENV]
 export default {
   //
   getTableInfo(params = {}) {

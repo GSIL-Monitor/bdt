@@ -14,6 +14,7 @@ export default {
    */
   baseUrl: {
     dev: 'http://139.198.177.39:8080/bdt/', // 页面请求的api
+    testing: 'http://139.198.177.39:18080/bdt/', // 页面请求的api
     pro: 'http://139.198.177.39:8080/bdt/'
   }
 }

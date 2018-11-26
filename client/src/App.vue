@@ -11,6 +11,7 @@
       return {};
     },
     created() {
+      console.log(process.env.NODE_ENV)
       // sdrsdrfwedrfgdfg
     }
   }

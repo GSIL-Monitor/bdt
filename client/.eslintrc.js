@@ -28,6 +28,7 @@ module.exports = {
     'handle-callback-err': 'off',
     'quotes': 'off',
     'no-extra-boolean-cast': 0,
-    'no-dupe-keys': 0
+    'no-dupe-keys': 0,
+    'comma-dangle': 0
   }
 }

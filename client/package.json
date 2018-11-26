@@ -4,9 +4,9 @@
   "author": "caiwendi88@gmail.com>",
   "private": false,
   "scripts": {
-    "dev": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vue-cli-service serve --mode dev",
+    "testing": "vue-cli-service build --mode testing",
+    "build": "vue-cli-service build --mode pro"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -39,6 +39,7 @@
     "@vue/eslint-config-standard": "^3.0.0-beta.10",
     "@vue/test-utils": "^1.0.0-beta.10",
     "chai": "^4.1.2",
+    "cross-env": "^5.2.0",
     "eslint-plugin-cypress": "^2.0.1",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
