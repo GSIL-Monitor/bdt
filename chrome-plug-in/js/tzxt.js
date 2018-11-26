@@ -77,7 +77,7 @@ function selectedYuan(list) {
 function isTZ(lists) {
   let XX = HQTZ();
   console.log('====================>XX', XX);
-  let flag = false
+  let flag = false;
   let flagType = [];
   for (let i = 0; i < XX.length; i++) {
     if (parseInt(XX[i].tableNo) == parseInt(lists.tableNo)) {
@@ -103,6 +103,8 @@ function isTZ(lists) {
     for (let j = 0; j < flagType.length; j++) {
       console.log('===============>', flagType[j].type, lists.tzfx)
       if (parseInt(flagType[j].type) == parseInt(lists.tzfx)) {
+        lists.tzCount = 1;
+        lists.tzCount = flagType[j].jine;
         updateTzztList(lists, true);
         flag = true;
         break
@@ -143,6 +145,7 @@ function TZZL(tableCode, yuan, fx, list) {
       window.globalTableCell[list.id] += 1;
       console.warn('==============>list.id', window.globalTableCell[list.id]);
       if (window.globalTableCell[list.id] > 3) {
+        list.tzCount = window.globalTableCell[list.id];
         updateTzztList(list, false);
       } else {
         TZZL(tableCode, yuan, fx, list);
@@ -162,7 +165,10 @@ function HQTZ() {
     let jtype = $('._2Gj3P .YjSrR').eq(i).find('._2T-ED').children();
     let typeList = [];
     for (let j = 0; j < jtype.length; j++) {
-      typeList.push({type: window.wads[jtype.eq(j).text().substring(0, 1)]});
+      typeList.push({
+        type: window.wads[jtype.eq(j).text().substring(0, 1)],
+        jine: parseInt(jtype.eq(j).text().substring(1, 10))
+      });
     }
     lArr.push({
       name: $('._2Gj3P .YjSrR').eq(i).find('._3au09').text().substring(0, 3),
@@ -238,7 +244,6 @@ function getArrDifference(arr1, arr2) {
   });
 }
 
-//
 function getNeedTzDataList() {
   clearInterval(window.getNeedTzDataListSetInv);
   $('._1h40X ._2kLct').eq(1).click();
@@ -368,7 +373,6 @@ function getNeedTzDataList() {
                 //
                 var daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
-                  //
                   if (daskStatus.time != 0) {
                     setLocalStorage.two[e.tableNo - 1] = e;
                     //
