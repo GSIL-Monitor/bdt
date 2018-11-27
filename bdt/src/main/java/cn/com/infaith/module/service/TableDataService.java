@@ -4,6 +4,7 @@ import cn.com.infaith.module.model.*;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -326,4 +327,14 @@ public interface TableDataService {
 
     File exportResultExcel();
 
+    boolean addUploadFileByFile(File file);
+
+    /**
+     * 上传数据至指定文件并保存至数据库
+     */
+    void addUploadFile();
+
+    List<UploadFile> getFileById(String ids);
+
+    JSONObject getAllUploadFile(Integer pageNum, Integer pageSize);
 }

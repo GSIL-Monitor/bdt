@@ -20,6 +20,8 @@ public class TimeJobService {
     BJLDataService bjlDataService;
     @Autowired
     UserAccountService userAccountService;
+    @Autowired
+    TableDataService tableDataService;
 
     @Scheduled(cron = "*/5 * * * * ?")
     public void calcTzResult() {
@@ -52,5 +54,13 @@ public class TimeJobService {
                 userAccountService.updateRequestStatus(list.get(i).getId(),false);
             }
         }
+    }
+
+    @Scheduled(cron = "0 0 12 ? * MON")
+    public void uploadExcel() {
+        LogUtil.info(this.getClass(), "导出至服务器开始》》》》》");
+        tableDataService.addUploadFile();
+        LogUtil.info(this.getClass(), "导出至服务器结束》》》》》");
+
     }
 }

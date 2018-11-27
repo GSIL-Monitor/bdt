@@ -206,6 +206,5 @@
     FROM table_data
     WHERE is_delete = 0
     ORDER BY create_time DESC
-    limit 100
   </select>
 </mapper>

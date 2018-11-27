@@ -5,9 +5,7 @@ import cn.com.infaith.module.enums.TableResultEnum;
 import cn.com.infaith.module.mapper.*;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.TableDataService;
-import cn.com.infaith.module.util.ExcelUtil;
-import cn.com.infaith.module.util.ResponseJsonUtil;
-import cn.com.infaith.module.util.TimeUtil;
+import cn.com.infaith.module.util.*;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -16,8 +14,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -48,8 +48,10 @@ public class TableDataServiceImpl implements TableDataService {
     private TableRequestMapper tableRequestMapper;
     @Autowired
     private StatusRequestMapper statusRequestMapper;
+    @Autowired
+    private UploadFileMapper uploadFileMapper;
 
-    private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy年MM月dd_HH时mm分ss秒");
 
 
     @Override
@@ -220,7 +222,7 @@ public class TableDataServiceImpl implements TableDataService {
         }
         Page<TableData> page = PageHelper.startPage(pageNum, pageSize, true);
         List<TableData> list = tableDataMapper.searchTableData(createDate, tableNo, battleNo, adminId);
-        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",list,pageNum,pageSize,page.getTotal());
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list, pageNum, pageSize, page.getTotal());
     }
 
     @Override
@@ -242,7 +244,7 @@ public class TableDataServiceImpl implements TableDataService {
         json.put("yxje", yxje);
         json.put("sjsy", sjsy);
         json.put("yssy", yssy);
-        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",json,pageNum,pageSize,page.getTotal());
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", json, pageNum, pageSize, page.getTotal());
     }
 
     @Override
@@ -468,12 +470,13 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public File exportExcel() {
 
+        String filePath = this.getClass().getClassLoader().getResource("").getPath();
         List<TableData> tableDataList = tableDataMapper.getAllTable();
         List<Map<String, String>> mapList = parseTableInfo(tableDataList);
         File file = null;
-        String fileName = "牌面数据_" + sf.format(Calendar.getInstance().getTime());
+        String fileName = "牌面数据_截止" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
         try {
-            file = ExcelUtil.toExcel(mapList,"牌面数据","/Users/lbj/Desktop/导出/" + fileName + ".xlsx");
+            file = ExcelUtil.toExcel(mapList, "牌面数据", filePath + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -483,16 +486,58 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public File exportResultExcel() {
 
-        List<ResultData> resultDataList = resultDataMapper.searchResultData(null,null,null,null);
+        String filePath = this.getClass().getClassLoader().getResource("").getPath();
+        List<ResultData> resultDataList = resultDataMapper.searchResultData(null, null, null, null);
         List<Map<String, String>> mapList = parseResultInfo(resultDataList);
         File file = null;
-        String fileName = "投注数据_" + sf.format(Calendar.getInstance().getTime());
+        String fileName = "投注数据_截止" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
         try {
-            file = ExcelUtil.toExcel(mapList,"投注数据","/Users/lbj/Desktop/导出/" + fileName + ".xlsx");
+            file = ExcelUtil.toExcel(mapList, "投注数据", filePath + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return file;
+    }
+
+    @Override
+    public boolean addUploadFileByFile(File file) {
+        if (file != null) {
+            UploadFile uploadFile = new UploadFile();
+            uploadFile.setName(file.getName());
+            uploadFile.setPath(file.getPath());
+            uploadFile.setFileSize(ZipUploadUtil.readableFileSize(file.length()));
+            int count = uploadFileMapper.insert(uploadFile);
+            if (count > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void addUploadFile() {
+        File tableFile = exportExcel();
+        addUploadFileByFile(tableFile);
+        File resultFile = exportResultExcel();
+        addUploadFileByFile(resultFile);
+    }
+
+    @Override
+    public List<UploadFile> getFileById(String ids) {
+
+        List<String> list = Arrays.asList(ids);
+        if (CollectionUtils.isEmpty(list)) {
+            return new ArrayList<>();
+        }
+        return uploadFileMapper.selectByIds(list);
+    }
+
+    @Override
+    public JSONObject getAllUploadFile(Integer pageNum, Integer pageSize) {
+
+        Page<UploadFile> page = PageHelper.startPage(pageNum, pageSize, true);
+        List<UploadFile> list = uploadFileMapper.selectAll();
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list, pageNum, pageSize, page.getTotal());
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {
@@ -516,7 +561,7 @@ public class TableDataServiceImpl implements TableDataService {
             String tzzt = "";
             if (zt == null) {
                 tzzt = "超时or等待";
-            } else if (zt){
+            } else if (zt) {
                 tzzt = "成功";
             } else {
                 tzzt = "失败";
