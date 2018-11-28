@@ -53,6 +53,9 @@ public class TableDataServiceImpl implements TableDataService {
 
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy年MM月dd_HH时mm分ss秒");
 
+    private final static String tomcat_path = "/hosts/tomcat/download/";
+
+
 
     @Override
     public Integer addTableData(TableData tableData) {
@@ -470,13 +473,12 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public File exportExcel() {
 
-        String filePath = this.getClass().getClassLoader().getResource("").getPath();
         List<TableData> tableDataList = tableDataMapper.getAllTable();
         List<Map<String, String>> mapList = parseTableInfo(tableDataList);
         File file = null;
         String fileName = "牌面数据_截止" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
         try {
-            file = ExcelUtil.toExcel(mapList, "牌面数据", filePath + fileName);
+            file = ExcelUtil.toExcel(mapList, "牌面数据", tomcat_path + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -486,13 +488,12 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public File exportResultExcel() {
 
-        String filePath = this.getClass().getClassLoader().getResource("").getPath();
         List<ResultData> resultDataList = resultDataMapper.searchResultData(null, null, null, null);
         List<Map<String, String>> mapList = parseResultInfo(resultDataList);
         File file = null;
         String fileName = "投注数据_截止" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
         try {
-            file = ExcelUtil.toExcel(mapList, "投注数据", filePath + fileName);
+            file = ExcelUtil.toExcel(mapList, "投注数据", tomcat_path + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
