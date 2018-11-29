@@ -473,7 +473,7 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public File exportExcel() {
 
-        List<TableData> tableDataList = tableDataMapper.getAllTable();
+        List<TableData> tableDataList = tableDataMapper.getAllTable(TimeUtil.getTodayZeroDate());
         List<Map<String, String>> mapList = parseTableInfo(tableDataList);
         File file = null;
         String fileName = "牌面数据_截止" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
@@ -488,7 +488,7 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public File exportResultExcel() {
 
-        List<ResultData> resultDataList = resultDataMapper.searchResultData(null, null, null, null);
+        List<ResultData> resultDataList = resultDataMapper.searchResultData(TimeUtil.getTodayZeroDate(), null, null, null);
         List<Map<String, String>> mapList = parseResultInfo(resultDataList);
         File file = null;
         String fileName = "投注数据_截止" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";

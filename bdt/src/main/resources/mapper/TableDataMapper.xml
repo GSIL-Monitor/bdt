@@ -200,12 +200,12 @@
     AND `battle_no` = '11' AND `id` >= '378177' ORDER BY `create_time` asc
   </select>
 
-  <select id="getAllTable" resultMap="BaseResultMap">
+  <select id="getAllTable" resultMap="BaseResultMap" parameterType="Date">
     SELECT id, admin_id, create_time, created, table_no, battle_no, fit_no, card, xian_card, result, xgl, zgl, xtsl,
     ztsl
     FROM table_data
     WHERE is_delete = 0
+    AND created = #{created}
     ORDER BY create_time DESC
-    limit 200
   </select>
 </mapper>
