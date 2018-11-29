@@ -56,7 +56,7 @@ public class TimeJobService {
         }
     }
 
-    @Scheduled(cron = "0 30 10 ? * 5")
+    @Scheduled(cron = "0 55 10 ? * 5")
     public void uploadExcel() {
         LogUtil.info(this.getClass(), "导出至服务器开始》》》》》");
         LogUtil.info(this.getClass(), "导出至服务器开始》》》》》");
