@@ -476,7 +476,7 @@ public class TableDataServiceImpl implements TableDataService {
         List<TableData> tableDataList = tableDataMapper.getAllTable(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(),-1));
         List<Map<String, String>> mapList = parseTableInfo(tableDataList);
         File file = null;
-        String fileName = "牌面数据_截止" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
+        String fileName = "牌面数据_" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
         try {
             file = ExcelUtil.toExcel(mapList, "牌面数据", tomcat_path + fileName);
         } catch (Exception e) {
@@ -491,7 +491,7 @@ public class TableDataServiceImpl implements TableDataService {
         List<ResultData> resultDataList = resultDataMapper.searchResultData(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(),-1), null, null, null);
         List<Map<String, String>> mapList = parseResultInfo(resultDataList);
         File file = null;
-        String fileName = "投注数据_截止" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
+        String fileName = "投注数据_" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
         try {
             file = ExcelUtil.toExcel(mapList, "投注数据", tomcat_path + fileName);
         } catch (Exception e) {
