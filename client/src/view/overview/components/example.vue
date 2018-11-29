@@ -80,13 +80,7 @@
         DateRangeEnd: ''
       }
     },
-    activated() {
-      this.getLJInfo();
-      clearInterval(window.setIngetLJInfo);
-      window.setIngetLJInfo = setInterval(_ => {
-        this.getLJInfo();
-      }, 1000 * 3)
-    },
+    activated() {},
     beforeDestroy() {
       clearInterval(window.setIngetLJInfo);
       off(window, 'resize', this.resize())
