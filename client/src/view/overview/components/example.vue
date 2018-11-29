@@ -82,7 +82,6 @@
     },
     activated() {},
     beforeDestroy() {
-      clearInterval(window.setIngetLJInfo);
       off(window, 'resize', this.resize())
     },
     created() {
