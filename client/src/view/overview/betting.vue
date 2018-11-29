@@ -286,7 +286,7 @@
         let params = {
           startTime: this.getWeek(0),
           endTime: this.getWeek(7),
-          type: 1
+          type: 2
         };
         this.$api.getAllUploadFile(params).then(res => {
           console.log(res);
