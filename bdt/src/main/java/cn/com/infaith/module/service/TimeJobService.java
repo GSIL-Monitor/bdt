@@ -56,15 +56,23 @@ public class TimeJobService {
         }
     }
 
-    @Scheduled(cron = "0 40 14 ? * THU")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void uploadExcel() {
-        LogUtil.info(this.getClass(), "导出至服务器开始》》》》》");
-        LogUtil.info(this.getClass(), "导出至服务器开始》》》》》");
-        LogUtil.info(this.getClass(), "导出至服务器开始》》》》》");
+        LogUtil.info(this.getClass(), "导出牌面信息至服务器开始》》》》》");
+        LogUtil.info(this.getClass(), "导出牌面信息至服务器开始》》》》》");
+        LogUtil.info(this.getClass(), "导出牌面信息至服务器开始》》》》》");
         tableDataService.addUploadFile();
-        LogUtil.info(this.getClass(), "导出至服务器结束》》》》》");
-        LogUtil.info(this.getClass(), "导出至服务器结束》》》》》");
-        LogUtil.info(this.getClass(), "导出至服务器结束》》》》》");
+        LogUtil.info(this.getClass(), "导出牌面信息至服务器结束》》》》》");
+        LogUtil.info(this.getClass(), "导出牌面信息至服务器结束》》》》》");
+        LogUtil.info(this.getClass(), "导出牌面信息至服务器结束》》》》》");
+    }
 
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void uploadResultFile() {
+        LogUtil.info(this.getClass(), "导出投注信息至服务器开始》》》》》");
+        LogUtil.info(this.getClass(), "导出投注信息至服务器开始》》》》》");
+        tableDataService.addUploadResultFile();
+        LogUtil.info(this.getClass(), "导出投注信息至服务器结束》》》》》");
+        LogUtil.info(this.getClass(), "导出投注信息至服务器结束》》》》》");
     }
 }

@@ -334,6 +334,8 @@ public interface TableDataService {
      */
     void addUploadFile();
 
+    void addUploadResultFile();
+
     List<UploadFile> getFileById(String ids);
 
     JSONObject getAllUploadFile(Integer pageNum, Integer pageSize);
