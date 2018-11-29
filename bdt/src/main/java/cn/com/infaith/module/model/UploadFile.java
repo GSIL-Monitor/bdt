@@ -11,9 +11,19 @@ public class UploadFile {
 
     private String fileSize;
 
+    private Integer type;
+
     private Date createTime;
 
     private Integer isDelete;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;

@@ -6,6 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="file_size" jdbcType="VARCHAR" property="fileSize" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
   </resultMap>
@@ -14,9 +15,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.UploadFile">
-    insert into upload_file (name, path, file_size,
+    insert into upload_file (name, path, file_size, type,
       create_time, is_delete)
-    values (#{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{fileSize},
+    values (#{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{fileSize}, #{type},
       now(), 0)
   </insert>
 
@@ -33,19 +34,30 @@
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, path, file_size, create_time, is_delete
+    select id, name, path, file_size, type, create_time, is_delete
     from upload_file
     where id = #{id,jdbcType=INTEGER}
   </select>
 
 
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, path, file_size, create_time, is_delete
-    from upload_file ORDER BY create_time DESC
+    select id, name, path, file_size, type, create_time, is_delete
+    from upload_file WHERE is_delete = 0
+    <if test="startTime != null">
+      AND create_time >= #{startTime}
+    </if>
+    <if test="endTime != null">
+      AND create_time <![CDATA[ <= ]]> #{endTime}
+    </if>
+    <if test="type != null">
+      AND type = #{type}
+    </if>
+    ORDER BY create_time DESC
+
   </select>
 
   <select id="selectByIds" parameterType="Integer" resultMap="BaseResultMap">
-    select id, name, path, file_size, create_time, is_delete
+    select id, name, path, file_size, type, create_time, is_delete
     from upload_file
     where id IN
     <foreach collection="list" index="index" item="id" open="(" separator="," close=")">

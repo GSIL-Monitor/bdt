@@ -501,12 +501,13 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public boolean addUploadFileByFile(File file) {
+    public boolean addUploadFileByFile(File file, int type) {
         if (file != null) {
             UploadFile uploadFile = new UploadFile();
             uploadFile.setName(file.getName());
             uploadFile.setPath(file.getPath());
             uploadFile.setFileSize(ZipUploadUtil.readableFileSize(file.length()));
+            uploadFile.setType(type);
             int count = uploadFileMapper.insert(uploadFile);
             if (count > 0) {
                 return true;
@@ -518,13 +519,13 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public void addUploadFile() {
         File tableFile = exportExcel();
-        addUploadFileByFile(tableFile);
+        addUploadFileByFile(tableFile, 1);
     }
 
     @Override
     public void addUploadResultFile() {
         File resultFile = exportResultExcel();
-        addUploadFileByFile(resultFile);
+        addUploadFileByFile(resultFile,2);
     }
 
     @Override
@@ -541,11 +542,9 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public JSONObject getAllUploadFile(Integer pageNum, Integer pageSize) {
-
-        Page<UploadFile> page = PageHelper.startPage(pageNum, pageSize, true);
-        List<UploadFile> list = uploadFileMapper.selectAll();
-        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list, pageNum, pageSize, page.getTotal());
+    public JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type) {
+        List<UploadFile> list = uploadFileMapper.selectAll(startTime, endTime, type);
+        return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {

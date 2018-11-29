@@ -327,7 +327,7 @@ public interface TableDataService {
 
     File exportResultExcel();
 
-    boolean addUploadFileByFile(File file);
+    boolean addUploadFileByFile(File file, int type);
 
     /**
      * 上传数据至指定文件并保存至数据库
@@ -338,5 +338,5 @@ public interface TableDataService {
 
     List<UploadFile> getFileById(String ids);
 
-    JSONObject getAllUploadFile(Integer pageNum, Integer pageSize);
+    JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type);
 }

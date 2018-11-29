@@ -348,8 +348,11 @@ public class BJLTableController {
 
     @GetMapping("/getAllUploadFile")
     @ApiOperation(value = "分页获取所有已上传的文件", notes = "分页获取所有已上传的文件", httpMethod = "GET")
-    public JSONObject getAllUploadFile(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
-        return tableDataService.getAllUploadFile(pageNum, pageSize);
+    public JSONObject getAllUploadFile(@RequestParam(required = false) Long startTime, @RequestParam(required = false) Long endTime,
+                                       @RequestParam(required = false) Integer type) {
+        Date startDate = startTime == null ? null : (new Date(startTime));
+        Date endDate = startTime == null ? null : (new Date(endTime));
+        return tableDataService.getAllUploadFile(startDate, endDate, type);
     }
 
     @PostMapping("/downZip")
