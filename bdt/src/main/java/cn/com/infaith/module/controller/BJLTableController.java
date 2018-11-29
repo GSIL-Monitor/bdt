@@ -355,9 +355,10 @@ public class BJLTableController {
         return tableDataService.getAllUploadFile(startDate, endDate, type);
     }
 
+    @ResponseBody
     @PostMapping("/downZip")
     @ApiOperation(value = "通过id打包下载文件", notes = "通过id打包下载文件", httpMethod = "POST")
-    public void downZip(@RequestParam String fileIds, HttpServletResponse response) throws Exception {
+    public HttpServletResponse downZip(@RequestParam String fileIds, HttpServletResponse response) throws Exception {
         List<UploadFile> uploadFileList = tableDataService.getFileById(fileIds);
         if (CollectionUtils.isNotEmpty(uploadFileList)) {
             List<File> fileList = new ArrayList<>();
@@ -370,8 +371,9 @@ public class BJLTableController {
                     continue;
                 }
             }
-            ZipUploadUtil.downLoadFiles(fileList, response);
+            return ZipUploadUtil.downLoadFiles(fileList, response);
         }
+        return null;
     }
 
     @PostMapping("/uploadExcel")
