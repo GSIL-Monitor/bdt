@@ -23,7 +23,7 @@ public class TimeJobService {
     @Autowired
     TableDataService tableDataService;
 
-//    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "*/5 * * * * ?")
     public void calcTzResult() {
         LogUtil.info(this.getClass(), "实时计算投注结果开始》》》》》");
         List<String> adminIdList = userAccountService.getAllAdminId();
@@ -35,14 +35,14 @@ public class TimeJobService {
         }
     }
 
-//    @Scheduled(cron = "*/30 * * * * ?")
+    @Scheduled(cron = "*/30 * * * * ?")
     public void calUserLoginStatus() {
         LogUtil.info(this.getClass(), "更新用户状态开始》》》》》");
         userAccountService.updateLoginStatusTrue();
         userAccountService.updateLoginStatusFalse();
     }
 
-//    @Scheduled(cron = "*/20 * * * * ?")
+    @Scheduled(cron = "*/20 * * * * ?")
     public void calUpdateRequestStatus() {
         LogUtil.info(this.getClass(), "更新用户请求状态》》》》》");
         List<UserAccount> list = userAccountService.selectAll();
