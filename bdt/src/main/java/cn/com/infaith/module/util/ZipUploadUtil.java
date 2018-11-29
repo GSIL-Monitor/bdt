@@ -1,5 +1,6 @@
 package cn.com.infaith.module.util;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -11,7 +12,8 @@ import java.util.zip.ZipOutputStream;
 public class ZipUploadUtil {
 
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-    private final static String zipName = "数据_";
+    private final static String tomcat_path = "/hosts/tomcat/download/";
+//    private final static String tomcat_path = "/Users/lbj/Desktop/wenjian/";
 
     /**
      * 文件打包下载
@@ -19,29 +21,25 @@ public class ZipUploadUtil {
      * @param files
      * @throws Exception
      */
-    public static void downLoadFiles(List<File> files, String filePath) throws Exception {
+    public static HttpServletResponse downLoadFiles(List<File> files, HttpServletResponse response) throws Exception {
         try {
-            String zipFilename;
-            String lastStr = filePath.substring(filePath.length() - 1, filePath.length());
-            if (lastStr.equals("/")) {
-                zipFilename = filePath + zipName + sf.format(Calendar.getInstance().getTime()) + ".zip";
-            } else {
-                zipFilename = filePath + "/" + zipName + sf.format(Calendar.getInstance().getTime()) + ".zip";
-            }
+            String zipFilename = tomcat_path + sf.format(Calendar.getInstance().getTime()) + ".zip";
             File file = new File(zipFilename);
             if (!file.exists()) {
                 file.createNewFile();
             }
+            response.reset();
             //创建文件输出流
             FileOutputStream fous = new FileOutputStream(file);
             ZipOutputStream zipOut = new ZipOutputStream(fous);
             zipFile(files, zipOut);
             zipOut.close();
             fous.close();
-            downloadZip(file);
+            return downloadZip(file, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return response;
     }
 
     public static void zipFile(List<File> files, ZipOutputStream outputStream) {
@@ -94,7 +92,7 @@ public class ZipUploadUtil {
      *
      * @param file
      */
-    public static void downloadZip(File file) {
+    public static HttpServletResponse downloadZip(File file, HttpServletResponse response) {
         if (file.exists() == false) {
             System.out.println("待压缩的文件目录：" + file + "不存在.");
         } else {
@@ -103,10 +101,21 @@ public class ZipUploadUtil {
                 byte[] buffer = new byte[fis.available()];
                 fis.read(buffer);
                 fis.close();
+                response.reset();
+                OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment;filename="
+                        + new String(file.getName()));
+                toClient.write(buffer);
+                toClient.flush();
+                toClient.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
+            } finally {
+                file.delete();
             }
         }
+        return response;
     }
 
     /**

@@ -44,7 +44,7 @@
     from upload_file ORDER BY create_time DESC
   </select>
 
-  <select id="selectByIds" parameterType="String" resultMap="BaseResultMap">
+  <select id="selectByIds" parameterType="Integer" resultMap="BaseResultMap">
     select id, name, path, file_size, create_time, is_delete
     from upload_file
     where id IN

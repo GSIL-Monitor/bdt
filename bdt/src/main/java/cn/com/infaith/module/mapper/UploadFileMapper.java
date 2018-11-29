@@ -16,5 +16,5 @@ public interface UploadFileMapper {
 
     int updateByPrimaryKey(UploadFile record);
 
-    List<UploadFile> selectByIds(@Param("list") List<String> list);
+    List<UploadFile> selectByIds(@Param("list") List<Integer> list);
 }

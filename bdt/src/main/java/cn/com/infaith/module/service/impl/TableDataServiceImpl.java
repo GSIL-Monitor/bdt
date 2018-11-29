@@ -51,11 +51,11 @@ public class TableDataServiceImpl implements TableDataService {
     @Autowired
     private UploadFileMapper uploadFileMapper;
 
-    private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy年MM月dd_HH时mm分ss秒");
+    private final static SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 
     private final static String tomcat_path = "/hosts/tomcat/download/";
 
-
+    private final static SimpleDateFormat excel_sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public Integer addTableData(TableData tableData) {
@@ -476,7 +476,7 @@ public class TableDataServiceImpl implements TableDataService {
         List<TableData> tableDataList = tableDataMapper.getAllTable(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(),-1));
         List<Map<String, String>> mapList = parseTableInfo(tableDataList);
         File file = null;
-        String fileName = "牌面数据_" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
+        String fileName = "table" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
         try {
             file = ExcelUtil.toExcel(mapList, "牌面数据", tomcat_path + fileName);
         } catch (Exception e) {
@@ -491,7 +491,7 @@ public class TableDataServiceImpl implements TableDataService {
         List<ResultData> resultDataList = resultDataMapper.searchResultData(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(),-1), null, null, null);
         List<Map<String, String>> mapList = parseResultInfo(resultDataList);
         File file = null;
-        String fileName = "投注数据_" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
+        String fileName = "tz" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
         try {
             file = ExcelUtil.toExcel(mapList, "投注数据", tomcat_path + fileName);
         } catch (Exception e) {
@@ -529,12 +529,15 @@ public class TableDataServiceImpl implements TableDataService {
 
     @Override
     public List<UploadFile> getFileById(String ids) {
-
-        List<String> list = Arrays.asList(ids);
+        List<String> list = Arrays.asList(ids.split(","));
         if (CollectionUtils.isEmpty(list)) {
             return new ArrayList<>();
         }
-        return uploadFileMapper.selectByIds(list);
+        List<Integer> idList = new ArrayList<>();
+        for (String id : list) {
+            idList.add(Integer.valueOf(id));
+        }
+        return uploadFileMapper.selectByIds(idList);
     }
 
     @Override
@@ -554,7 +557,7 @@ public class TableDataServiceImpl implements TableDataService {
         for (ResultData resultData : list) {
             Map<String, String> map = new LinkedHashMap<>();
             map.put("ID", resultData.getId().toString());
-            map.put("创建时间", sf.format(resultData.getCreateTime()));
+            map.put("创建时间", excel_sf.format(resultData.getCreateTime()));
             map.put("桌号", resultData.getTableNo().toString());
             map.put("局号", resultData.getBattleNo().toString());
             map.put("副号", resultData.getFitNo().toString());
@@ -591,7 +594,7 @@ public class TableDataServiceImpl implements TableDataService {
             Map<String, String> map = new LinkedHashMap<>();
             map.put("ID", tableData.getId().toString());
             map.put("管理员ID", tableData.getAdminId());
-            map.put("创建时间", sf.format(tableData.getCreateTime()));
+            map.put("创建时间", excel_sf.format(tableData.getCreateTime()));
             map.put("桌号", tableData.getTableNo().toString());
             map.put("局号", tableData.getBattleNo().toString());
             map.put("副号", tableData.getFitNo().toString());
