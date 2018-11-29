@@ -155,8 +155,8 @@
       getUserByAdmin() {
         let params = {adminId: this.$cookie.get('token')};
         this.$api.getUserByAdmin(params).then((res) => {
-          if (res.returnCode == 200) {
-            this.isLoginOverviewData = res.returnObject;
+          if (res.data.returnCode == 200) {
+            this.isLoginOverviewData = res.data.returnObject;
             this.isLoginOverviewData.forEach((e) => {
               e.value = e.account
             })
@@ -241,14 +241,14 @@
         };
 
         this.$api.searchDopeData(params).then((res) => {
-          if (res.returnCode == 200) {
-            this.page.total = res.total;
+          if (res.data.returnCode == 200) {
+            this.page.total = res.data.total;
             this.ztjData = {
-              sjsy: res.returnObject.sjsy,
-              yssy: res.returnObject.yssy,
-              yxje: res.returnObject.yxje
+              sjsy: res.data.returnObject.sjsy,
+              yssy: res.data.returnObject.yssy,
+              yxje: res.data.returnObject.yxje
             }
-            this.tableData = res.returnObject.list;
+            this.tableData = res.data.returnObject.list;
             var timestamp = new Date().getTime();
             this.tableData.forEach((e, i) => {
               e.setResult = this.wads[e.result]
@@ -271,9 +271,73 @@
           }
         })
       },
+      getWeek(i) {
+        let now = new Date();
+        let firstDay = new Date(now - (now.getDay() - 1) * 86400000);
+        firstDay.setDate(firstDay.getDate() + i);
+        let mon = Number(firstDay.getMonth()) + 1;
+        mon = mon < 10 ? ('0' + mon) : mon;
+        let d = firstDay.getDate()
+        d = d < 10 ? ('0' + d) : d;
+        // return `${now.getFullYear()}-${mon}-${d}`;
+        return new Date(`${now.getFullYear()}-${mon}-${d} 00:00:00`).getTime();
+      },
       exportExcel() {
-        this.$refs.tables.exportCsv({
-          filename: `table-${(new Date()).valueOf()}.csv`
+        let params = {
+          startTime: this.getWeek(0),
+          endTime: this.getWeek(7),
+          type: 1
+        };
+        this.$api.getAllUploadFile(params).then(res => {
+          console.log(res);
+          if (res.data.returnCode == 200) {
+            let data = res.data.returnObject.map(e => {
+              return e.id
+            });
+            console.log(data);
+            this.downZip(data.toString());
+          }
+        }).catch(err => {
+
+        })
+        // this.$refs.tables.exportCsv({
+        //   filename: `table-${(new Date()).valueOf()}.csv`
+        // })
+      },
+      downZip(id) {
+        let params = {
+          fileIds: id
+        };
+        this.$api.downZip(params).then(response => {
+          console.log(response);
+          var headers = response.headers();
+          var filename = headers['content-disposition'].split(';')[1].split('=')[1];
+          var contentType = headers['content-type'];
+
+          var linkElement = document.createElement('a');
+          try {
+            var blob = new Blob([response.data], {
+              type: contentType
+            });
+            var url = window.URL.createObjectURL(blob);
+            linkElement.setAttribute('href', url);
+            linkElement.setAttribute("download", filename);
+            if (typeof (MouseEvent) == 'function') {
+              var event = new MouseEvent("click", {
+                "view": window,
+                "bubbles": true,
+                "cancelable": false
+              });
+              linkElement.dispatchEvent(event);
+            } else if (navigator.appVersion.toString().indexOf('.NET') > 0) {
+              window.navigator.msSaveBlob(blob, filename);
+            }
+          } catch (err) {
+            console.log(err);
+            //console.log(ex);
+          }
+        }).catch(err => {
+
         })
       }
     }

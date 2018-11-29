@@ -75,10 +75,10 @@
       getTableInfo() {
         let params = {};
         this.$api.getTableInfo(params).then((res) => {
-          if (res.returnCode == 200) {
+          if (res.data.returnCode == 200) {
             this.getTableInfoStatus = true;
             this.rowsData = [];
-            this.rowsData = res.returnObject;
+            this.rowsData = res.data.returnObject;
             this.rowsData.forEach((e) => {
               e.setStatus = this.status[e.status]
               e.setResult = e.result

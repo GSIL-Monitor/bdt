@@ -236,9 +236,9 @@
           pageSize: this.page.size
         };
         this.$api.searchTableData(params).then((res) => {
-          if (res.returnCode == 200) {
-            this.page.total = res.total
-            this.tableData = res.returnObject;
+          if (res.data.returnCode == 200) {
+            this.page.total = res.data.total
+            this.tableData = res.data.returnObject;
             this.tableData.forEach((e, i) => {
               e.setResult = this.wads[e.result]
               e.created = this.formatDate(e.created)

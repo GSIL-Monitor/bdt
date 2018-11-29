@@ -9,11 +9,13 @@
       </div>
       <div style="flex: inherit;text-align: right;margin-right: 15px">
         <Select v-model="model1" @on-change="weekChange" style="width:150px">
-          <Option v-for="item in weekList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Option v-for="item in weekList" :value="item.value" :key="item.value">{{ item.label }}
+          </Option>
         </Select>
       </div>
       <div style="flex: inherit;text-align: right">
-        起始&ensp;<DatePicker readonly type="datetime" disabled @on-change="daterangeChange" v-model="DateRange" confirm
+        起始&ensp;<DatePicker readonly type="datetime" disabled @on-change="daterangeChange"
+                            v-model="DateRange" confirm
                             :clearable="false" placement="bottom-end" placeholder="Select date"
                             style="width: 200px"></DatePicker>&ensp;-&ensp;
         当前&ensp;<DatePicker readonly type="datetime" disabled v-model="DateRangeEnd" confirm
@@ -22,7 +24,7 @@
       </div>
     </div>
     <div id="overLine">
-      <div ref="dom" style="height: 450px"></div>
+      <div ref="dom" style="height: 550px"></div>
     </div>
     <Spin fix v-if="loading">
       <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
@@ -80,13 +82,17 @@
         DateRangeEnd: ''
       }
     },
-    activated() {},
+    activated() {
+    },
     beforeDestroy() {
       off(window, 'resize', this.resize())
     },
     created() {
       for (let i = 0; i < 7; i++) {
-        this.weekList[i] = {value: this.getWeek(i), label: `${this.getWeek(i)}-${this.weekList[i].label}`};
+        this.weekList[i] = {
+          value: this.getWeek(i),
+          label: `${this.getWeek(i)}-${this.weekList[i].label}`
+        };
         console.log(this.getWeek(i));
       }
       this.model1 = this.formatDateM()
@@ -188,8 +194,8 @@
         }
         this.$api.getLJInfo(params).then((res) => {
           this.loading = false;
-          if (res.returnCode == 200) {
-            let data = res.returnObject;
+          if (res.data.returnCode == 200) {
+            let data = res.data.returnObject;
             if (data.ljxjz[0]) {
               this.XJZ = data.ljxjz[0].ljxjz
             }
@@ -222,14 +228,13 @@
             return false
           }
           let _this = this;
-          this.dom = echarts.init(this.$refs.dom)
           const option = {
             toolbox: {
               show: true,
               feature: {
                 mark: {show: true},
                 dataView: {show: true, readOnly: false},
-                magicType: {show: true, type: ['line', 'bar']},
+                magicType: {show: true, type: ['line']},
                 restore: {show: true},
                 saveAsImage: {show: true}
               }
@@ -417,7 +422,11 @@
               }
             ]
           }
-          this.dom.setOption(option)
+          this.$nextTick(() => {
+            this.dom = echarts.init(this.$refs.dom)
+            this.dom.setOption(option)
+            on(window, 'resize', this.resize())
+          })
         })
       }
     },
@@ -432,14 +441,23 @@
   #overLine {
     position: relative;
   }
+
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
   }
+
   @keyframes ani-demo-spin {
-    from { transform: rotate(0deg);}
-    50% { transform: rotate(180deg);}
-    to { transform: rotate(360deg);}
+    from {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
+
   .demo-spin-col {
     height: 100px;
     position: relative;

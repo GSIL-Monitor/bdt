@@ -52,11 +52,11 @@
           tableNo: 0
         };
         this.$api.getBdtSystemInfo(params).then(res => {
-          if (res.returnCode == 200) {
+          if (res.data.returnCode == 200) {
             console.log('===================>', res)
-            this.start = res.returnObject.started;
-            this.formItem.ps = res.returnObject.ps;
-            this.formItem.phxs = res.returnObject.phxs;
+            this.start = res.data.returnObject.started;
+            this.formItem.ps = res.data.returnObject.ps;
+            this.formItem.phxs = res.data.returnObject.phxs;
           }
         })
       }

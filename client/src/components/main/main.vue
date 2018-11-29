@@ -109,9 +109,9 @@
         let params = {adminId: this.$cookie.get('token')};
         this.$api.getAdminAccount(params).then(res => {
           console.log('q3eqwewqeqwe===>', res);
-          if (res.returnCode == 200) {
-            setInfo.set(window.JSON.stringify(res.returnObject));
-            setToken.set(res.returnObject.token);
+          if (res.data.returnCode == 200) {
+            setInfo.set(window.JSON.stringify(res.data.returnObject));
+            setToken.set(res.data.returnObject.token);
           }
         }).catch(err => {
 

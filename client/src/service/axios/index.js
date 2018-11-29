@@ -30,7 +30,7 @@ Axios.interceptors.request.use(config => {
 // 响应拦截器
 Axios.interceptors.response.use(response => {
   // 8001 token 失效
-  return response.data
+  return response
 }, error => {
   if (error.config.message != 'none') {
     if (error.message == 'Network Error') {

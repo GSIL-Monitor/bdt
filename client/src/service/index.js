@@ -95,5 +95,18 @@ export default {
   deleteAdminAccount(params = {}) {
     // DELETE /account/deleteAdminAccount
     return Axios({method: 'delete', url: HOST + 'account/deleteAdminAccount', params: params})
+  },
+  getAllUploadFile(params = {}) {
+    // DELETE /account/deleteAdminAccount
+    return Axios({method: 'get', url: HOST + 'bjlTable/getAllUploadFile', params: params})
+  },
+  downZip(params = {}) {
+    // DELETE /account/deleteAdminAccount
+    return Axios({
+      method: 'POST',
+      url: HOST + 'bjlTable/downZip',
+      params: params,
+      responseType: 'arraybuffer'
+    })
   }
 }

@@ -266,7 +266,7 @@
         // };
         let params = this.tzListData
         this.$api.updateTzCheck(params).then(res => {
-          if (res.returnCode == 200) {
+          if (res.data.returnCode == 200) {
             // this.$Message.success({content: '更新成功', duration: 10, closable: true});
           }
         }).catch(err => {
@@ -320,8 +320,8 @@
         let params = {tzxt: type}
         this.$api.getTzSystemInfo(params).then(res => {
           console.log(res);
-          if (res.returnCode == 200) {
-            this.tzListData = res.returnObject.list;
+          if (res.data.returnCode == 200) {
+            this.tzListData = res.data.returnObject.list;
             this.tzListData.forEach((e) => {
               e.adminId = this.$cookie.get('token')
               if (e.tzsjSection1 == null) {
@@ -349,7 +349,7 @@
               console.log(e);
             });
             this.setCheckBoxAll();
-            this.tzSystem = res.returnObject.tzSystem;
+            this.tzSystem = res.data.returnObject.tzSystem;
             this.formInline.fh = this.tzSystem.fh;
             this.formInline.xh = this.tzSystem.xh;
             this.disabledSet = !this.tzSystem.started;
@@ -378,7 +378,7 @@
           "xh": this.formInline.xh
         };
         this.$api.tzSystemStarted(data).then((res) => {
-          if (res.returnCode == 200) {
+          if (res.data.returnCode == 200) {
             if (!this.disabledSet) {
               this.getTzSystemInfo(startTZXT);
             }

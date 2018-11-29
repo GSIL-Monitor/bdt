@@ -226,7 +226,7 @@
         // this.editModal = true;
         let params = this.formDate;
         this.$api.editAdminAccount(params).then((res) => {
-          if (res.returnCode == 200) {
+          if (res.data.returnCode == 200) {
             this.editModal = false;
             this.selectAllAdmin();
           }
@@ -240,15 +240,15 @@
             this.formRight.name = this.formRight.account;
             let params = Object.assign({}, this.formRight);
             this.$api.addAdminAccount(params).then(res => {
-              if (res.returnCode == 200) {
-                this.$Message.info(res.returnMsg);
+              if (res.data.returnCode == 200) {
+                this.$Message.info(res.data.returnMsg);
                 this.addModal = false;
                 this.formRight.name = '';
                 this.formRight.account = '';
                 this.formRight.password = '';
                 this.selectAllAdmin();
-              } else if (res.returnCode == -2) {
-                this.$Message.info(res.returnMsg);
+              } else if (res.data.returnCode == -2) {
+                this.$Message.info(res.data.returnMsg);
               }
             })
           } else {
@@ -262,7 +262,7 @@
           userId: userId
         };
         this.$api.deleteAdminAccount(params).then(res => {
-          if (res.returnCode == 200) {
+          if (res.data.returnCode == 200) {
             this.selectAllAdmin();
           }
         }).catch(err => {
@@ -273,8 +273,8 @@
       selectAllAdmin() {
         let params = {};
         this.$api.selectAllAdmin(params).then((res) => {
-          if (res.returnCode == 200) {
-            this.tableData = res.returnObject;
+          if (res.data.returnCode == 200) {
+            this.tableData = res.data.returnObject;
             let token = getToken()
             this.tableData.forEach((e) => {
               this.$set(e, 'isMe', false)

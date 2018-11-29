@@ -212,8 +212,8 @@
           userId: this.formEdit.id,
         };
         this.$api.deleteUserAccount(params).then((res) => {
-          if (res.returnCode == 200) {
-            this.$Message.info(res.returnMsg);
+          if (res.data.returnCode == 200) {
+            this.$Message.info(res.data.returnMsg);
             this.editModal = false;
             this.getUserByAdmin();
           }
@@ -242,7 +242,7 @@
       editUser() {
         let params = this.formEdit;
         this.$api.editUserAccount(params).then((res) => {
-          if (res.returnCode == 200) {
+          if (res.data.returnCode == 200) {
             this.editModal = false;
             this.getUserByAdmin();
           }
@@ -258,7 +258,7 @@
       loginStatusLook(index, type) {
         let params = Object.assign({}, this.isLoginOverviewData[index], {loginStatus: type});
         this.$api.editUserAccount(params).then((res) => {
-          if (res.returnCode == 200) {
+          if (res.data.returnCode == 200) {
             this.getUserByAdmin();
           }
         }).catch((err) => {
@@ -272,12 +272,12 @@
             this.formRight.name = this.formRight.account;
             let params = Object.assign({}, this.formRight);
             this.$api.addUserAccount(params).then(res => {
-              if (res.returnCode == 200) {
-                this.$Message.info(res.returnMsg);
+              if (res.data.returnCode == 200) {
+                this.$Message.info(res.data.returnMsg);
                 this.addModal = false;
                 this.getUserByAdmin();
-              } else if (res.returnCode == -2) {
-                this.$Message.info(res.returnMsg);
+              } else if (res.data.returnCode == -2) {
+                this.$Message.info(res.data.returnMsg);
               }
             })
           }
@@ -286,8 +286,8 @@
       getUserByAdmin() {
         let params = {adminId: this.$cookie.get('token')};
         this.$api.getUserByAdmin(params).then((res) => {
-          if (res.returnCode == 200) {
-            this.isLoginOverviewData = res.returnObject;
+          if (res.data.returnCode == 200) {
+            this.isLoginOverviewData = res.data.returnObject;
             console.log('1111=>', this.isLoginOverviewData);
           }
         }).catch((err) => {
