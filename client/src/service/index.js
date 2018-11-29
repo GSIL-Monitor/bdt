@@ -106,7 +106,7 @@ export default {
       method: 'POST',
       url: HOST + 'bjlTable/downZip',
       params: params,
-      responseType: 'arraybuffer'
+      responseType: 'blob'
     })
   }
 }

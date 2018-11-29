@@ -32,7 +32,7 @@
                   @on-page-size-change="pageSizeChange"></Page>
           </div>
           <div class="col btn">
-            <Button icon="md-download" :loading="exportLoading" @click="exportExcel">导出CVS</Button>
+            <Button icon="md-download" :loading="exportLoading" @click="exportExcel">导出数据</Button>
           </div>
         </div>
       </div>
@@ -310,18 +310,19 @@
         };
         this.$api.downZip(params).then(response => {
           console.log(response);
-          var headers = response.headers();
-          var filename = headers['content-disposition'].split(';')[1].split('=')[1];
+          var headers = response.headers;
+          console.log(headers);
+          // var filename = headers['content-disposition'].split(';')[1].split('=')[1];
           var contentType = headers['content-type'];
-
           var linkElement = document.createElement('a');
           try {
+            console.log(12312)
             var blob = new Blob([response.data], {
               type: contentType
             });
             var url = window.URL.createObjectURL(blob);
             linkElement.setAttribute('href', url);
-            linkElement.setAttribute("download", filename);
+            linkElement.setAttribute("download", "投注数据.zip");
             if (typeof (MouseEvent) == 'function') {
               var event = new MouseEvent("click", {
                 "view": window,
@@ -329,8 +330,10 @@
                 "cancelable": false
               });
               linkElement.dispatchEvent(event);
+              console.log('MouseEvent')
             } else if (navigator.appVersion.toString().indexOf('.NET') > 0) {
-              window.navigator.msSaveBlob(blob, filename);
+              window.navigator.msSaveBlob(blob, "投注数据.zip");
+              console.log('NET')
             }
           } catch (err) {
             console.log(err);
