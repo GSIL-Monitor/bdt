@@ -104,10 +104,11 @@ public class ZipUploadUtil {
                 response.reset();
                 OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
                 response.setCharacterEncoding("utf-8");
-                response.setContentType("application/octet-stream");
+                response.setContentType("multipart/form-data");
                 response.setHeader("Content-Disposition", "attachment;filename="
                         + new String(file.getName()));
                 response.setHeader("Access-Control-Allow-Origin","*");
+                response.setHeader("Access-Control-Expose-Headers","token,uid");
                 toClient.write(buffer);
                 toClient.flush();
                 toClient.close();
