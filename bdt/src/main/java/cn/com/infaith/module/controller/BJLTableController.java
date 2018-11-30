@@ -7,16 +7,16 @@ import cn.com.infaith.module.service.CalcXGLZGLServiceNotMap;
 import cn.com.infaith.module.service.TableDataService;
 import cn.com.infaith.module.util.LogUtil;
 import cn.com.infaith.module.util.ResponseJsonUtil;
+import cn.com.infaith.module.util.ZipUploadUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.docx4j.wml.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import scala.Int;
+import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -346,15 +346,40 @@ public class BJLTableController {
         return ResponseJsonUtil.getResponseJson(200,"SUCCESS",list);
     }
 
-    @PostMapping("/exportTable")
-    public JSONObject exportTable() {
+    @GetMapping("/getAllUploadFile")
+    @ApiOperation(value = "分页获取所有已上传的文件", notes = "分页获取所有已上传的文件", httpMethod = "GET")
+    public JSONObject getAllUploadFile(@RequestParam(required = false) Long startTime, @RequestParam(required = false) Long endTime,
+                                       @RequestParam(required = false) Integer type) {
+        Date startDate = startTime == null ? null : (new Date(startTime));
+        Date endDate = startTime == null ? null : (new Date(endTime));
+        return tableDataService.getAllUploadFile(startDate, endDate, type);
+    }
 
-        File file =tableDataService.exportExcel();
-        File file1 = tableDataService.exportResultExcel();
-        if (file == null || file1 == null) {
-            return ResponseJsonUtil.getResponseJson(-1,"fail",null);
+    @ResponseBody
+    @PostMapping("/downZip")
+    @ApiOperation(value = "通过id打包下载文件", notes = "通过id打包下载文件", httpMethod = "POST")
+    public HttpServletResponse downZip(@RequestParam String fileIds, HttpServletResponse response) throws Exception {
+        List<UploadFile> uploadFileList = tableDataService.getFileById(fileIds);
+        if (CollectionUtils.isNotEmpty(uploadFileList)) {
+            List<File> fileList = new ArrayList<>();
+            for (UploadFile uploadFile : uploadFileList) {
+                try {
+                    File file = new File(uploadFile.getPath());
+                    fileList.add(file);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    continue;
+                }
+            }
+            return ZipUploadUtil.downLoadFiles(fileList, response);
         }
-        return ResponseJsonUtil.getResponseJson(200,"SUCCESS", file.getPath() + "," + file1.getPath());
+        return null;
+    }
+
+    @PostMapping("/uploadExcel")
+    public JSONObject uploadExcel() {
+        tableDataService.addUploadFile();
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS", null);
     }
 
     @PostMapping("/cal")
