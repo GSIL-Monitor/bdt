@@ -13,7 +13,8 @@ public interface UploadFileMapper {
 
     UploadFile selectByPrimaryKey(Integer id);
 
-    List<UploadFile> selectAll(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("type") Integer type);
+    List<UploadFile> selectAll(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("type") Integer type,
+                               @Param("adminId") String adminId);
 
     int updateByPrimaryKey(UploadFile record);
 

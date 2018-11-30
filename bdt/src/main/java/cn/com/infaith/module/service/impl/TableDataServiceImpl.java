@@ -5,6 +5,7 @@ import cn.com.infaith.module.enums.TableResultEnum;
 import cn.com.infaith.module.mapper.*;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.TableDataService;
+import cn.com.infaith.module.service.UserAccountService;
 import cn.com.infaith.module.util.*;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TableDataServiceImpl implements TableDataService {
@@ -52,6 +54,8 @@ public class TableDataServiceImpl implements TableDataService {
     private UploadFileMapper uploadFileMapper;
     @Autowired
     private DopeManageLogoMapper dopeManageLogoMapper;
+    @Autowired
+    private UserAccountService userAccountService;
 
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -473,9 +477,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public File exportExcel() {
-
-        List<TableData> tableDataList = tableDataMapper.getAllTable(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(),-1));
+    public File exportExcel(List<TableData> tableDataList) {
         List<Map<String, String>> mapList = parseTableInfo(tableDataList);
         File file = null;
         String fileName = "table" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
@@ -488,9 +490,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public File exportResultExcel() {
+    public File exportResultExcel(List<ResultData> resultDataList) {
 
-        List<ResultData> resultDataList = resultDataMapper.searchResultData(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(),-1), null, null, null);
         List<Map<String, String>> mapList = parseResultInfo(resultDataList);
         File file = null;
         String fileName = "tz" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
@@ -503,9 +504,10 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public boolean addUploadFileByFile(File file, int type) {
+    public boolean addUploadFileByFile(String adminId, File file, int type) {
         if (file != null) {
             UploadFile uploadFile = new UploadFile();
+            uploadFile.setAdminId(adminId);
             uploadFile.setName(file.getName());
             uploadFile.setPath(file.getPath());
             uploadFile.setFileSize(ZipUploadUtil.readableFileSize(file.length()));
@@ -520,14 +522,22 @@ public class TableDataServiceImpl implements TableDataService {
 
     @Override
     public void addUploadFile() {
-        File tableFile = exportExcel();
-        addUploadFileByFile(tableFile, 1);
+        List<TableData> tableDataList = tableDataMapper.getAllTable(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1));
+        Map<String, List<TableData>> map = tableDataList.stream().collect(Collectors.groupingBy(TableData::getAdminId));
+        for (String adminId : map.keySet()) {
+            File tableFile = exportExcel(map.get(adminId));
+            addUploadFileByFile(adminId, tableFile, 1);
+        }
     }
 
     @Override
     public void addUploadResultFile() {
-        File resultFile = exportResultExcel();
-        addUploadFileByFile(resultFile,2);
+        List<String> adminIds = userAccountService.getAllAdminId();
+        for (String adminId : adminIds) {
+            List<ResultData> resultDataList = resultDataMapper.searchResultData(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1), null, null, adminId);
+            File resultFile = exportResultExcel(resultDataList);
+            addUploadFileByFile(adminId, resultFile, 2);
+        }
     }
 
     @Override
@@ -544,8 +554,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type) {
-        List<UploadFile> list = uploadFileMapper.selectAll(startTime, endTime, type);
+    public JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type, String adminId) {
+        List<UploadFile> list = uploadFileMapper.selectAll(startTime, endTime, type, adminId);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
     }
 
@@ -599,7 +609,6 @@ public class TableDataServiceImpl implements TableDataService {
         for (TableData tableData : list) {
             Map<String, String> map = new LinkedHashMap<>();
             map.put("ID", tableData.getId().toString());
-            map.put("管理员ID", tableData.getAdminId());
             map.put("创建时间", excel_sf.format(tableData.getCreateTime()));
             map.put("桌号", tableData.getTableNo().toString());
             map.put("局号", tableData.getBattleNo().toString());

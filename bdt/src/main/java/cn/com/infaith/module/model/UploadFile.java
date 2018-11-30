@@ -5,6 +5,8 @@ import java.util.Date;
 public class UploadFile {
     private Integer id;
 
+    private String adminId;
+
     private String name;
 
     private String path;
@@ -16,6 +18,14 @@ public class UploadFile {
     private Date createTime;
 
     private Integer isDelete;
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
 
     public Integer getType() {
         return type;

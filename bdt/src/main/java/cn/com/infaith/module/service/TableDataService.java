@@ -323,11 +323,11 @@ public interface TableDataService {
 
     int getAllResultCount(int tzzt, String adminId);
 
-    File exportExcel();
+    File exportExcel(List<TableData> tableDataList);
 
-    File exportResultExcel();
+    File exportResultExcel(List<ResultData> resultDataList);
 
-    boolean addUploadFileByFile(File file, int type);
+    boolean addUploadFileByFile(String adminId, File file, int type);
 
     /**
      * 上传数据至指定文件并保存至数据库
@@ -338,7 +338,7 @@ public interface TableDataService {
 
     List<UploadFile> getFileById(String ids);
 
-    JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type);
+    JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type, String adminId);
 
     Boolean addDopeManageLog(DopeManageLogo manageLogo);
 }
