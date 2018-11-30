@@ -56,7 +56,7 @@ public class TimeJobService {
         }
     }
 
-    @Scheduled(cron = "0 35 1 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void uploadExcel() {
         LogUtil.info(this.getClass(), "导出牌面信息至服务器开始》》》》》");
         LogUtil.info(this.getClass(), "导出牌面信息至服务器开始》》》》》");
@@ -67,7 +67,7 @@ public class TimeJobService {
         LogUtil.info(this.getClass(), "导出牌面信息至服务器结束》》》》》");
     }
 
-    @Scheduled(cron = "0 35 1 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void uploadResultFile() {
         LogUtil.info(this.getClass(), "导出投注信息至服务器开始》》》》》");
         LogUtil.info(this.getClass(), "导出投注信息至服务器开始》》》》》");
