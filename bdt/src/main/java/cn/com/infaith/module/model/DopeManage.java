@@ -145,4 +145,24 @@ public class DopeManage {
     public void setHasCheck(Boolean hasCheck) {
         this.hasCheck = hasCheck;
     }
+
+    @Override
+    public String toString() {
+        return "DopeManage{" +
+                "id=" + id +
+                ", adminId='" + adminId + '\'' +
+                ", tzxt=" + tzxt +
+                ", tzzh='" + tzzh + '\'' +
+                ", name='" + name + '\'' +
+                ", account='" + account + '\'' +
+                ", hasCheck=" + hasCheck +
+                ", tzje=" + tzje +
+                ", tzfx=" + tzfx +
+                ", tzsjSection1='" + tzsjSection1 + '\'' +
+                ", tzsjSection2='" + tzsjSection2 + '\'' +
+                ", tableNo='" + tableNo + '\'' +
+                ", isDelete=" + isDelete +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

@@ -50,6 +50,8 @@ public class TableDataServiceImpl implements TableDataService {
     private StatusRequestMapper statusRequestMapper;
     @Autowired
     private UploadFileMapper uploadFileMapper;
+    @Autowired
+    private DopeManageLogoMapper dopeManageLogoMapper;
 
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -545,6 +547,11 @@ public class TableDataServiceImpl implements TableDataService {
     public JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type) {
         List<UploadFile> list = uploadFileMapper.selectAll(startTime, endTime, type);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
+    }
+
+    @Override
+    public Boolean addDopeManageLog(DopeManageLogo manageLogo) {
+        return dopeManageLogoMapper.insert(manageLogo) > 0 ? true : false;
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {

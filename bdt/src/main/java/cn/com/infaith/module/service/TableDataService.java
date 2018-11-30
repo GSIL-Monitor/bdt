@@ -339,4 +339,6 @@ public interface TableDataService {
     List<UploadFile> getFileById(String ids);
 
     JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type);
+
+    Boolean addDopeManageLog(DopeManageLogo manageLogo);
 }
