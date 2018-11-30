@@ -568,10 +568,25 @@ public class TableDataServiceImpl implements TableDataService {
 
         List<Map<String, String>> mapList = new ArrayList<>();
         if (org.apache.commons.collections4.CollectionUtils.isEmpty(list)) {
+            Map<String, String> map = new HashMap<>();
+            map.put("ID", "");
+            map.put("创建时间", "");
+            map.put("桌号", "");
+            map.put("局号", "");
+            map.put("副号", "");
+            map.put("投注方向", "");
+            map.put("投注账号ID", "");
+            map.put("投注账号", "");
+            map.put("投注金额", "");
+            map.put("投注状态", "");
+            map.put("投注结果", "");
+            map.put("有效金额", "");
+            map.put("原始输赢", "");
+            map.put("实际输赢", "");
             return mapList;
         }
         for (ResultData resultData : list) {
-            Map<String, String> map = new LinkedHashMap<>();
+            Map<String, String> map = new HashMap<>();
             map.put("ID", resultData.getId().toString());
             map.put("创建时间", excel_sf.format(resultData.getCreateTime()));
             map.put("桌号", resultData.getTableNo().toString());
@@ -590,7 +605,7 @@ public class TableDataServiceImpl implements TableDataService {
             } else {
                 tzzt = "失败";
             }
-            map.put("投注金额", tzzt);
+            map.put("投注状态", tzzt);
             map.put("投注结果", resultData.getTzjg() != null ? ResultTzJgEnum.getName(resultData.getTzjg()) : "");
             map.put("有效金额", resultData.getYxje() != null ? resultData.getYxje().toString() : "");
             map.put("原始输赢", resultData.getYssy() != null ? resultData.getYssy().toString() : "");
