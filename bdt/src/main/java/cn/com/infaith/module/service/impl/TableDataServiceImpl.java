@@ -583,6 +583,7 @@ public class TableDataServiceImpl implements TableDataService {
             map.put("有效金额", "");
             map.put("原始输赢", "");
             map.put("实际输赢", "");
+            mapList.add(map);
             return mapList;
         }
         for (ResultData resultData : list) {
