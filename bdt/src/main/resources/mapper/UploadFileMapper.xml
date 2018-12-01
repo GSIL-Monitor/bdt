@@ -3,6 +3,7 @@
 <mapper namespace="cn.com.infaith.module.mapper.UploadFileMapper">
   <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.UploadFile">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="file_size" jdbcType="VARCHAR" property="fileSize" />
@@ -15,9 +16,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.UploadFile">
-    insert into upload_file (name, path, file_size, type,
+    insert into upload_file (admin_id, name, path, file_size, type,
       create_time, is_delete)
-    values (#{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{fileSize}, #{type},
+    values (#{adminId}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{fileSize}, #{type},
       now(), 0)
   </insert>
 
@@ -41,7 +42,7 @@
 
 
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, path, file_size, type, create_time, is_delete
+    select id, admin_id, name, path, file_size, type, create_time, is_delete
     from upload_file WHERE is_delete = 0
     <if test="startTime != null">
       AND create_time >= #{startTime}
@@ -51,6 +52,9 @@
     </if>
     <if test="type != null">
       AND type = #{type}
+    </if>
+    <if test="adminId != null">
+      AND admin_id = #{adminId}
     </if>
     ORDER BY create_time DESC
 

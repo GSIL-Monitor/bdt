@@ -43,7 +43,7 @@
         <!--<table tableName="dope_data"></table>-->
         <!--<table tableName="result_data"></table>-->
         <!--<table tableName="status_data"></table>-->
-        <table tableName="upload_file"></table>
+        <table tableName="dope_manage_logo"></table>
 
 
 

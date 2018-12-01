@@ -160,6 +160,17 @@ public class BJLTableController {
                 }
             });
         }
+        //添加操作日志
+        try {
+            DopeManageLogo manageLogo = new DopeManageLogo();
+            manageLogo.setAdminId(tzInfo.getAdminId());
+            manageLogo.setType(2);
+            manageLogo.setRemark(tzInfo.toString());
+            tableDataService.addDopeManageLog(manageLogo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.error(this.getClass(),"添加日志报错");
+        }
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         } else {
@@ -316,6 +327,17 @@ public class BJLTableController {
                     tableDataService.updateDopeManage(x);
                 }
             });
+            //添加操作日志
+            try {
+                DopeManageLogo manageLogo = new DopeManageLogo();
+                manageLogo.setAdminId(list.get(0).getAdminId());
+                manageLogo.setType(1);
+                manageLogo.setRemark(list.toString());
+                tableDataService.addDopeManageLog(manageLogo);
+            } catch (Exception e) {
+                e.printStackTrace();
+                LogUtil.error(this.getClass(),"添加日志报错");
+            }
         }
         return ResponseJsonUtil.getResponseJson(200,"SUCCESS",null);
     }
@@ -349,10 +371,11 @@ public class BJLTableController {
     @GetMapping("/getAllUploadFile")
     @ApiOperation(value = "分页获取所有已上传的文件", notes = "分页获取所有已上传的文件", httpMethod = "GET")
     public JSONObject getAllUploadFile(@RequestParam(required = false) Long startTime, @RequestParam(required = false) Long endTime,
-                                       @RequestParam(required = false) Integer type) {
+                                       @RequestParam(required = false) Integer type,
+                                       @RequestParam(required = false) String adminId) {
         Date startDate = startTime == null ? null : (new Date(startTime));
         Date endDate = startTime == null ? null : (new Date(endTime));
-        return tableDataService.getAllUploadFile(startDate, endDate, type);
+        return tableDataService.getAllUploadFile(startDate, endDate, type, adminId);
     }
 
     @ResponseBody

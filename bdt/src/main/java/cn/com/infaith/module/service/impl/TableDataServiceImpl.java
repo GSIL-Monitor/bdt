@@ -5,6 +5,7 @@ import cn.com.infaith.module.enums.TableResultEnum;
 import cn.com.infaith.module.mapper.*;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.TableDataService;
+import cn.com.infaith.module.service.UserAccountService;
 import cn.com.infaith.module.util.*;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TableDataServiceImpl implements TableDataService {
@@ -50,6 +52,10 @@ public class TableDataServiceImpl implements TableDataService {
     private StatusRequestMapper statusRequestMapper;
     @Autowired
     private UploadFileMapper uploadFileMapper;
+    @Autowired
+    private DopeManageLogoMapper dopeManageLogoMapper;
+    @Autowired
+    private UserAccountService userAccountService;
 
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -471,9 +477,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public File exportExcel() {
-
-        List<TableData> tableDataList = tableDataMapper.getAllTable(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(),-1));
+    public File exportExcel(List<TableData> tableDataList) {
         List<Map<String, String>> mapList = parseTableInfo(tableDataList);
         File file = null;
         String fileName = "table" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
@@ -486,9 +490,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public File exportResultExcel() {
+    public File exportResultExcel(List<ResultData> resultDataList) {
 
-        List<ResultData> resultDataList = resultDataMapper.searchResultData(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(),-1), null, null, null);
         List<Map<String, String>> mapList = parseResultInfo(resultDataList);
         File file = null;
         String fileName = "tz" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
@@ -501,9 +504,10 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public boolean addUploadFileByFile(File file, int type) {
+    public boolean addUploadFileByFile(String adminId, File file, int type) {
         if (file != null) {
             UploadFile uploadFile = new UploadFile();
+            uploadFile.setAdminId(adminId);
             uploadFile.setName(file.getName());
             uploadFile.setPath(file.getPath());
             uploadFile.setFileSize(ZipUploadUtil.readableFileSize(file.length()));
@@ -518,14 +522,22 @@ public class TableDataServiceImpl implements TableDataService {
 
     @Override
     public void addUploadFile() {
-        File tableFile = exportExcel();
-        addUploadFileByFile(tableFile, 1);
+        List<TableData> tableDataList = tableDataMapper.getAllTable(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1));
+        Map<String, List<TableData>> map = tableDataList.stream().collect(Collectors.groupingBy(TableData::getAdminId));
+        for (String adminId : map.keySet()) {
+            File tableFile = exportExcel(map.get(adminId));
+            addUploadFileByFile(adminId, tableFile, 1);
+        }
     }
 
     @Override
     public void addUploadResultFile() {
-        File resultFile = exportResultExcel();
-        addUploadFileByFile(resultFile,2);
+        List<String> adminIds = userAccountService.getAllAdminId();
+        for (String adminId : adminIds) {
+            List<ResultData> resultDataList = resultDataMapper.searchResultData(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1), null, null, adminId);
+            File resultFile = exportResultExcel(resultDataList);
+            addUploadFileByFile(adminId, resultFile, 2);
+        }
     }
 
     @Override
@@ -542,19 +554,40 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type) {
-        List<UploadFile> list = uploadFileMapper.selectAll(startTime, endTime, type);
+    public JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type, String adminId) {
+        List<UploadFile> list = uploadFileMapper.selectAll(startTime, endTime, type, adminId);
         return ResponseJsonUtil.getResponseJson(200, "SUCCESS", list);
+    }
+
+    @Override
+    public Boolean addDopeManageLog(DopeManageLogo manageLogo) {
+        return dopeManageLogoMapper.insert(manageLogo) > 0 ? true : false;
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {
 
         List<Map<String, String>> mapList = new ArrayList<>();
         if (org.apache.commons.collections4.CollectionUtils.isEmpty(list)) {
+            Map<String, String> map = new HashMap<>();
+            map.put("ID", "");
+            map.put("创建时间", "");
+            map.put("桌号", "");
+            map.put("局号", "");
+            map.put("副号", "");
+            map.put("投注方向", "");
+            map.put("投注账号ID", "");
+            map.put("投注账号", "");
+            map.put("投注金额", "");
+            map.put("投注状态", "");
+            map.put("投注结果", "");
+            map.put("有效金额", "");
+            map.put("原始输赢", "");
+            map.put("实际输赢", "");
+            mapList.add(map);
             return mapList;
         }
         for (ResultData resultData : list) {
-            Map<String, String> map = new LinkedHashMap<>();
+            Map<String, String> map = new HashMap<>();
             map.put("ID", resultData.getId().toString());
             map.put("创建时间", excel_sf.format(resultData.getCreateTime()));
             map.put("桌号", resultData.getTableNo().toString());
@@ -573,7 +606,7 @@ public class TableDataServiceImpl implements TableDataService {
             } else {
                 tzzt = "失败";
             }
-            map.put("投注金额", tzzt);
+            map.put("投注状态", tzzt);
             map.put("投注结果", resultData.getTzjg() != null ? ResultTzJgEnum.getName(resultData.getTzjg()) : "");
             map.put("有效金额", resultData.getYxje() != null ? resultData.getYxje().toString() : "");
             map.put("原始输赢", resultData.getYssy() != null ? resultData.getYssy().toString() : "");
@@ -592,7 +625,6 @@ public class TableDataServiceImpl implements TableDataService {
         for (TableData tableData : list) {
             Map<String, String> map = new LinkedHashMap<>();
             map.put("ID", tableData.getId().toString());
-            map.put("管理员ID", tableData.getAdminId());
             map.put("创建时间", excel_sf.format(tableData.getCreateTime()));
             map.put("桌号", tableData.getTableNo().toString());
             map.put("局号", tableData.getBattleNo().toString());

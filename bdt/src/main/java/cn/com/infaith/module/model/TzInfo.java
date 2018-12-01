@@ -63,4 +63,16 @@ public class TzInfo {
     public void setList(List<DopeManage> list) {
         this.list = list;
     }
+
+    @Override
+    public String toString() {
+        return "TzInfo{" +
+                "adminId='" + adminId + '\'' +
+                ", tzxt=" + tzxt +
+                ", started=" + started +
+                ", fh=" + fh +
+                ", xh='" + xh + '\'' +
+                ", list=" + list +
+                '}';
+    }
 }
