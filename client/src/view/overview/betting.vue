@@ -273,7 +273,12 @@
       },
       getWeek(i) {
         let now = new Date();
-        let firstDay = new Date(now - (now.getDay() - 1) * 86400000);
+        let getDay = 0;
+        if (now.getDay() == 0) {
+          getDay = 7;
+        }
+        let firstDay = new Date(now - (getDay) * 86400000);
+        console.log(now, firstDay.getTime(), getDay, (now.getDay() - 1) * 86400000);
         firstDay.setDate(firstDay.getDate() + i);
         let mon = Number(firstDay.getMonth()) + 1;
         mon = mon < 10 ? ('0' + mon) : mon;
@@ -284,7 +289,7 @@
       },
       exportExcel() {
         let params = {
-          startTime: this.getWeek(0),
+          startTime: this.getWeek(1),
           endTime: this.getWeek(7),
           type: 2
         };
