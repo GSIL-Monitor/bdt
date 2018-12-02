@@ -273,12 +273,12 @@
       },
       getWeek(i) {
         let now = new Date();
-        let getDay = 0;
+        let getDay = now.getDay();
         if (now.getDay() == 0) {
           getDay = 7;
         }
         let firstDay = new Date(now - (getDay) * 86400000);
-        console.log(now, firstDay.getTime(), getDay, (now.getDay() - 1) * 86400000);
+        // console.log(now, firstDay.getTime(), getDay, (now.getDay() - 1) * 86400000);
         firstDay.setDate(firstDay.getDate() + i);
         let mon = Number(firstDay.getMonth()) + 1;
         mon = mon < 10 ? ('0' + mon) : mon;

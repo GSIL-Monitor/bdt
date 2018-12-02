@@ -244,7 +244,7 @@
       },
       getWeek(i) {
         let now = new Date();
-        let getDay = 0;
+        let getDay = now.getDay();
         if (now.getDay() == 0) {
           getDay = 7;
         }
