@@ -38,7 +38,17 @@
           <Button type="error" @click="saveApp(false)" :disabled="!disabledSave">重置修改</Button>
         </div>
       </div>
-
+      <!--allTz  所有  tzSuccess成功  tzFail失败   tzNone未投  tzRepeat 重投-->
+      <div
+        style="width:100%;color:#000000;border-radius:4px;font-size:15px;height:45px;padding:0 5px;margin:14px 0 0;display: flex;align-items: center;background-color: rgba(0,0,0,0.1)">
+        <div style="margin-right: 10px;flex: 1;">投注总数&ensp;<span
+          style="">{{tz1AllData.allTz}}</span></div>
+        <div style="margin-right: 10px;flex: 1;">未投注&ensp;<span
+          style="">{{tz1AllData.tzNone}}</span></div>
+        <div style="margin-right: 10px;flex: 1;">投注失败数&ensp;<span
+          style="">{{tz1AllData.tzFail}}</span></div>
+        <div style="flex: 1;">重复投注数&ensp;<span style="">{{tz1AllData.tzRepeat}}</span></div>
+      </div>
     </div>
     <div class="" style="position: relative;">
       <table class="bdt-table">
@@ -184,6 +194,7 @@
             tab: '1'
           }
         ],
+        tz1AllData: {},
         tzListData: [],
         tzSystem: {}
       }
@@ -331,6 +342,7 @@
             });
             console.log('12312312==>', this.tzListData);
             this.setCheckBoxAll();
+            this.tz1AllData = res.data.returnObject;
             this.tzSystem = res.data.returnObject.tzSystem;
             this.formInline.fh = this.tzSystem.fh;
             this.formInline.xh = this.tzSystem.xh;
