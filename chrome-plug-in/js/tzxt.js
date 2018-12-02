@@ -1,3 +1,4 @@
+var BDTURL = 'https://test.bdt1314.xyz/';
 window.globalTableCell = {};
 window.status = {
   '开始投注': 2,
@@ -32,7 +33,7 @@ fxOption = {
   '3': '._3xcd-'
 }
 //
-var BDTURL = 'https://www.bdt1314.xyz/';
+
 
 /* *
 * todo
@@ -68,7 +69,7 @@ function selectedYuan(list) {
   let tableCode = list.tableNo;
   let fx = list.tzfx;
   if (daskStatus.time != 0 && daskStatus.count1 == list.battleNo && daskStatus.count2 == list.fitNo) {
-    window.globalTableCell[list.id] = 0;
+    window.globalTableCell[list.id] = 1;
     TZZL(tableCode, yuan, fx, list);
   }
 }
@@ -88,11 +89,13 @@ function isTZ(lists) {
   if (daskStatus.count1 == lists.battleNo && daskStatus.count2 == lists.fitNo) {
     if (daskStatus.time == 0) {
       flag = true;
+      lists.tzCount = window.globalTableCell[lists.id];
       updateTzztList(lists, false);
     } else {
       flag = false
     }
   } else {
+    lists.tzCount = window.globalTableCell[lists.id];
     updateTzztList(lists, false);
     flag = true;
   }
@@ -102,8 +105,8 @@ function isTZ(lists) {
     for (let j = 0; j < flagType.length; j++) {
       console.log('===============>', flagType[j].type, lists.tzfx)
       if (parseInt(flagType[j].type) == parseInt(lists.tzfx)) {
-        lists.tzCount = 1;
-        lists.tzCount = flagType[j].jine;
+        lists.tzCount = window.globalTableCell[lists.id];
+        lists.tzSjtzje = flagType[j].jine;
         updateTzztList(lists, true);
         flag = true;
         break
@@ -184,6 +187,29 @@ function updateTzztList(list, type) {
   list.tzzt = type;
   var array = [list];
 
+  var jsonString = array;
+  var listObj = {
+    list: jsonString
+  };
+  var listObject = JSON.stringify(listObj);
+  // console.log('1231231', listObj);
+  $.ajax({
+    type: 'post',
+    url: BDTURL + 'bdt/bjlTable/updateTzztList',
+    contentType: 'application/json;charset=utf-8;',
+    //  数据必须转换为字符串
+    data: JSON.stringify(array),
+    success: function (result) {
+      // console.log('更新状态成功');
+    },
+    error: function (XmlHttpRequest, textStatus, errorThrown) {
+      // console.log("操作失败!");
+    }
+  })
+}
+
+function updateTzztLists(list) {
+  var array = [list];
   var jsonString = array;
   var listObj = {
     list: jsonString
@@ -298,13 +324,43 @@ function getNeedTzDataList() {
               let newItem = setLocalStorage.one[e.tableNo - 1];
               if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
                 //  数据不一样 需要投注
-                let daskStatus = getWaitTime(e.tableNo - 1);
+                var tzs = [];
+                if (e.tzStatus) {
+                  tzs = JSON.parse(e.tzStatus)
+                }
+                //
+                var daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
+                  //
                   if (daskStatus.time != 0) {
                     setLocalStorage.one[e.tableNo - 1] = e;
+                    //
+                    tzs.push(Object.assign({}, daskStatus, {
+                      id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                      nowTime: new Date().getTime(),
+                      istz: true
+                    }));
+                    e.tzStatus = tzs
                     selectedYuan(e);
                   }
+                  //
+                  if (daskStatus.time == 0) {
+                    tzs.push(Object.assign({}, daskStatus, {
+                      id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                      nowTime: new Date().getTime(),
+                      istz: false
+                    }));
+                  }
+                } else {
+                  tzs.push(Object.assign({}, daskStatus, {
+                    id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                    nowTime: new Date().getTime(),
+                    istz: false
+                  }));
                 }
+                //
+                e.tzStatus = JSON.stringify(tzs)
+                updateTzztLists(e);
               }
             });
             //
@@ -312,13 +368,44 @@ function getNeedTzDataList() {
               let newItem = setLocalStorage.two[e.tableNo - 1];
               if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
                 //  数据不一样 需要投注
-                let daskStatus = getWaitTime(e.tableNo - 1);
+                var tzs = [];
+                if (e.tzStatus) {
+                  tzs = JSON.parse(e.tzStatus)
+                }
+                //
+                var daskStatus = getWaitTime(e.tableNo - 1);
                 if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
                   if (daskStatus.time != 0) {
                     setLocalStorage.two[e.tableNo - 1] = e;
+                    //
+                    tzs.push(Object.assign({}, daskStatus, {
+                      id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                      nowTime: new Date().getTime(),
+                      istz: true
+                    }));
+                    //
+                    e.tzStatus = tzs
                     selectedYuan(e);
                   }
+                  //
+                  if (daskStatus.time == 0) {
+                    /**/
+                    tzs.push(Object.assign({}, daskStatus, {
+                      id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                      nowTime: new Date().getTime(),
+                      istz: false
+                    }));
+                  }
+                } else {
+                  /**/
+                  tzs.push(Object.assign({}, daskStatus, {
+                    id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                    nowTime: new Date().getTime(),
+                    istz: false
+                  }));
                 }
+                e.tzStatus = JSON.stringify(tzs)
+                updateTzztLists(e);
               }
             })
             // 设置 缓存
