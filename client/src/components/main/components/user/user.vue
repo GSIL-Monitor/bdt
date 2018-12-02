@@ -5,6 +5,7 @@
       <span class="user-name">{{userName}}</span>
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
+        <DropdownItem name="edit">账户设置</DropdownItem>
         <DropdownItem name="logout">退出登录</DropdownItem>
       </DropdownMenu>
     </Dropdown>
@@ -12,35 +13,42 @@
 </template>
 
 <script>
-import './user.less'
-import { mapActions } from 'vuex'
-export default {
-  name: 'User',
-  props: {
-    userAvator: {
-      type: String,
-      default: ''
+  import './user.less'
+  import {mapActions} from 'vuex'
+
+  export default {
+    name: 'User',
+    props: {
+      userAvator: {
+        type: String,
+        default: ''
+      },
+      userName: {
+        type: String,
+        default: ''
+      }
     },
-    userName: {
-      type: String,
-      default: ''
-    }
-  },
-  methods: {
-    ...mapActions([
-      'handleLogOut'
-    ]),
-    handleClick (name) {
-      switch (name) {
-        case 'logout':
-          this.handleLogOut().then(() => {
-            this.$router.push({
-              name: 'login'
+    methods: {
+      ...mapActions([
+        'handleLogOut'
+      ]),
+      handleClick(name) {
+        switch (name) {
+          case 'logout':
+            this.handleLogOut().then(() => {
+              this.$router.push({
+                name: 'login'
+              })
             })
-          })
-          break
+            break
+          case 'edit':
+            this.$router.push({path: '/setting'});
+          // this.handleLogOut().then(() => {
+          //   this.$router.push({name: 'login'})
+          // })
+          // break
+        }
       }
     }
   }
-}
 </script>

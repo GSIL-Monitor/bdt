@@ -25,17 +25,24 @@ export default [
     redirect: '/home',
     component: Main,
     meta: {hideInMenu: true},
-    children: [{
-      path: '/home',
-      name: 'home',
-      meta: {hideInMenu: true, title: '投注管理'},
-      component: () => import('@/view/overview/overview.vue')
+    children: [
+      {
+        path: '/home',
+        name: 'home',
+        meta: {hideInMenu: true, title: '投注管理'},
+        component: () => import('@/view/overview/overview.vue')
       },
       {
         path: '/super',
         name: 'super',
-        meta: {title: '超级管理员', hideInMenu: true},
+        meta: {hideInMenu: true, title: '超级管理员'},
         component: () => import('@/view/overview/super.vue')
+      },
+      {
+        path: '/setting',
+        name: 'setting',
+        meta: {hideInMenu: true, title: '设置'},
+        component: () => import('@/view/setting/setting.vue')
       }
     ]
   },

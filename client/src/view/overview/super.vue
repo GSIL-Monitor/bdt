@@ -224,13 +224,23 @@
       },
       editUser() {
         // this.editModal = true;
-        let params = this.formDate;
-        this.$api.editAdminAccount(params).then((res) => {
-          if (res.data.returnCode == 200) {
-            this.editModal = false;
-            this.selectAllAdmin();
+        this.$refs.loginForms.validate(valid => {
+          console.log(valid);
+          if (valid) {
+            let params = this.formDate;
+            this.$api.editAdminAccount(params).then((res) => {
+              if (res.data.returnCode == 200) {
+                this.editModal = false;
+                this.selectAllAdmin();
+              }
+            })
+          } else {
+            this.$Notice.open({title: '提示', desc: '请填写完整信息再提交', duration: 2});
           }
         })
+
+
+
       },
       addUser() {
         //
