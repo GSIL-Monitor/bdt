@@ -105,6 +105,11 @@
     where admin_id = #{adminId} AND is_delete = 0
   </select>
 
+  <select id="getAllUserIdByAdmin" parameterType="String" resultType="String">
+    select id from user_account
+    where admin_id = #{adminId}
+  </select>
+
   <update id="editUpdateTime" parameterType="String">
     UPDATE user_account SET update_time = now() WHERE id = #{userId}
   </update>

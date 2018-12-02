@@ -321,7 +321,7 @@ public interface TableDataService {
 
     String getLjzjzByDate(String adminId, Date createTime);
 
-    int getAllResultCount(int tzzt, String adminId);
+    int getAllResultCount(int tzzt, String adminId, int tzxt);
 
     File exportExcel(List<TableData> tableDataList);
 

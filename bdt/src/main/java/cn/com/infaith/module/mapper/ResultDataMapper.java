@@ -37,5 +37,5 @@ public interface ResultDataMapper {
 
     int updateResult(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("fitNo") int fitNo);
 
-    int getAllResultCount(@Param("tzzt") int tzzt, @Param("userIdList") List<String> userIdList);
+    int getAllResultCount(@Param("tzzt") int tzzt, @Param("userIdList") List<String> userIdList, @Param("tzxt") int tzxt);
 }

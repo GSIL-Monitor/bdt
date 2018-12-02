@@ -211,6 +211,7 @@
 
   <select id="getAllResultCount" resultType="int">
     SELECT COUNT(1) FROM result_data WHERE is_delete = 0
+    AND tzxt = #{tzxt}
     <if test="userIdList.size != 0">
       AND tzzh IN
       <foreach collection="userIdList" item="userId" index="index" separator="," open="(" close=")">

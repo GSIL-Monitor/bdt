@@ -26,6 +26,8 @@ public interface UserAccountMapper {
 
     List<String> getUserIdByAdmin(String adminId);
 
+    List<String> getAllUserIdByAdmin(String adminId);
+
     int editUpdateTime(String userId);
 
     int updateLoginStatusTrue();

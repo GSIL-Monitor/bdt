@@ -189,11 +189,11 @@ public class BJLTableController {
         JSONObject json = new JSONObject();
         TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt, adminId);
         List<DopeManage> list = tableDataService.getDopeMangeList(tzxt, adminId);
-        int allTz = tableDataService.getAllResultCount(3, adminId);
-        int tzSuccess = tableDataService.getAllResultCount(1, adminId);
-        int tzFail = tableDataService.getAllResultCount(0, adminId);
-        int tzNone = tableDataService.getAllResultCount(2, adminId);
-        int tzRepeat = tableDataService.getAllResultCount(4, adminId);
+        int allTz = tableDataService.getAllResultCount(3, adminId, tzxt);
+        int tzSuccess = tableDataService.getAllResultCount(1, adminId, tzxt);
+        int tzFail = tableDataService.getAllResultCount(0, adminId, tzxt);
+        int tzNone = tableDataService.getAllResultCount(2, adminId, tzxt);
+        int tzRepeat = tableDataService.getAllResultCount(4, adminId, tzxt);
         if (tzSystem != null) {
             json.put("tzSystem", tzSystem);
             json.put("list", list);
@@ -213,8 +213,8 @@ public class BJLTableController {
     public JSONObject searchTableData(@RequestParam(required = false) Long createTime,
                                       @RequestParam(required = false) Integer tableNo,
                                       @RequestParam(required = false) Integer battleNo,
-                                      Integer pageNum, Integer pageSize) {
-        String adminId = "5e3463418a8b4b6a84af80b40c973087";
+                                      Integer pageNum, Integer pageSize,
+                                      @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
         return tableDataService.searchTableData(createTime, tableNo, battleNo, pageNum, pageSize, adminId);
     }
 

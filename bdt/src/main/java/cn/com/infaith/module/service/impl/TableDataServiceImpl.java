@@ -470,10 +470,10 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public int getAllResultCount(int tzzt, String adminId) {
+    public int getAllResultCount(int tzzt, String adminId, int tzxt) {
 
-        List<String> userIdList = userAccountMapper.getUserIdByAdmin(adminId);
-        return resultDataMapper.getAllResultCount(tzzt, userIdList);
+        List<String> userIdList = userAccountMapper.getAllUserIdByAdmin(adminId);
+        return resultDataMapper.getAllResultCount(tzzt, userIdList, tzxt);
     }
 
     @Override
