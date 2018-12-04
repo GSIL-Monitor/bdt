@@ -785,7 +785,7 @@ public class BJLDataService {
         String[] times = tzsjSection.split("~");
         Integer timeStart = Integer.valueOf(times[0].replace(":", ""));
         Integer timeEnd = Integer.valueOf(times[1].replace(":", ""));
-        if (time >= timeStart && time <= timeEnd) {
+        if (time >= timeStart && time < timeEnd) {
             return true;
         } else {
             return false;
@@ -808,7 +808,7 @@ public class BJLDataService {
             String[] times = tzsj2[i].split("-");
             Integer timeStart = Integer.valueOf(times[0]);
             Integer timeEnd = Integer.valueOf(times[1]);
-            if (time >= timeStart && time <= timeEnd) {
+            if (time >= timeStart && time < timeEnd) {
                 isTrue = true;
                 return isTrue;
             } else {
