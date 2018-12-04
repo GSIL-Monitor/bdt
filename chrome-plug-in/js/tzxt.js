@@ -1,4 +1,4 @@
-var BDTURL = 'https://www.bdt1314.xyz/';
+var BDTURL = 'https://test.bdt1314.xyz/';
 window.globalTableCell = {};
 window.status = {
   '开始投注': 2,
@@ -169,14 +169,14 @@ function HQTZ() {
     for (let j = 0; j < jtype.length; j++) {
       typeList.push({
         type: window.wads[jtype.eq(j).text().substring(0, 1)],
-        jine: parseInt(jtype.eq(j).text().substring(1, 10))
+        jine: parseInt(jtype.eq(j).text().substring(1, 10).replace(/,/gmi, ''))
       });
     }
     lArr.push({
       name: $('._2Gj3P .YjSrR').eq(i).find('._3au09').text().substring(0, 3),
       tableNo: parseInt($('._2Gj3P .YjSrR').eq(i).find('._3au09').text().substring(3, 6)),
       type: typeList,
-      jine: parseInt($('._2Gj3P .YjSrR').eq(i).find('._2T-ED').text().substring(1, 10)),
+      jine: parseInt($('._2Gj3P .YjSrR').eq(i).find('._2T-ED').text().substring(1, 100).replace(/,/gmi, '')),
     });
   }
   console.log(lArr);

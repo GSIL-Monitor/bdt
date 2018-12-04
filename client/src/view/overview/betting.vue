@@ -124,6 +124,14 @@
           {
             title: '投注状态',
             key: 'tzzt'
+          },
+          {
+            title: '投注次数',
+            key: 'tzCount'
+          },
+          {
+            title: '实际投注金额',
+            key: 'tzSjtzje'
           }
         ],
         wads: {

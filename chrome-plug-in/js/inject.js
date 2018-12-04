@@ -1,5 +1,5 @@
 window.WANGZHANURL = 'https://www.00rfd.com/';
-var BDTURL = 'https://www.bdt1314.xyz/';
+var BDTURL = 'https://test.bdt1314.xyz/';
 
 var datamap = {};
 datamap["_3m2-b"] = "1";
