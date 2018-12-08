@@ -126,10 +126,10 @@ function getUserAccount() {
               window.localStorage.setItem('chrome_user_remark', returnObj.remark);
               window.open(window.WANGZHANURL, "_self", '', true);
             }
-            console.log("chrome_user_remark", true);
+            // console.log("chrome_user_remark", true);
           } else {
             window.localStorage.setItem('chrome_user_remark', returnObj.remark);
-            console.log("chrome_user_remark", false);
+            // console.log("chrome_user_remark", false);
           }
         }
       },
@@ -197,7 +197,7 @@ function editUserAccount() {
     dataType: 'json',
     //  数据必须转换为字符串
     success: function (result) {
-      console.log(100);
+      // console.log(100);
     },
     error: function (XmlHttpRequest, textStatus, errorThrown) {
 
@@ -382,47 +382,10 @@ var callback = function (mutationsList) {
     console.log(JSON.stringify(rtndata));
     $('._1h40X ._2kLct').eq(1).click();
     document.querySelectorAll('._1h40X ._2kLct')[1].click();
-    let wads = {
-      '庄': '1',
-      '闲': '2',
-      '和': '3',
-    }
 
-    let status = {
-      '开始投注': 2,
-      '开牌': 3,
-      '停止投注': 0,
-      '洗牌中': 1
-    }
-    let setResult = "";
-    for (let i = 0; i < rtndata.windatas.length; i++) {
-      console.log('====>', rtndata.windatas[i]);
-      if ($.trim(rtndata.windatas[i]) == '庄') {
-        setResult = "1";
-      } else if ($.trim(rtndata.windatas[i]) == '闲') {
-        setResult = "2";
-      } else if ($.trim(rtndata.windatas[i]) == '和') {
-        setResult = "3";
-      }
-    }
-    console.log('result================>', setResult);
-    let params = {
-      createDate: new Date().getTime(),
-      tableNo: parseInt(rtndata.name2),
-      battleNo: rtndata.count1,
-      fitNo: rtndata.count2,
-      card: rtndata.right.join(''),
-      xianCard: rtndata.left.join(''),
-      result: setResult,
-      status: status[rtndata.desc],
-      remark: `${window.localStorage.getItem('Chrome_Inner_User_Id')}-${JSON.stringify(rtndata)}`,
-      userId: window.localStorage.getItem('Chrome_Inner_User_Id')
-    };
-    if (status[rtndata.desc] == 0 || status[rtndata.desc] == '') {
-      return false
-    }
     if ($.trim(rtndata.name1) == '百家乐') {
-      addTableData(params);
+      currentTableMsgFun();
+      addTableData(rtndata);
       //
       $("._1_GP_").css("display", "none");
       $("._9p7ST").css("display", "none");
@@ -431,11 +394,114 @@ var callback = function (mutationsList) {
       $("._1DaOE").css("display", "none");
       document.querySelector('.FlvPlayer__root video').pause();
     }
+
   }
 };
 
+function setStateTable(cls) {
+  // $($("._6VpXo").find('.qMFBr').eq(2).children().get(0)).text()  '具體中文數字 和提升文字'
+  var text = $($(cls).find('.qMFBr').children().get(0)).text(); // '具體中文數字 和提升文字'
+  var kaipai = $(cls).find('.i6ChJ').find('._3jUwm').length;
+
+  // 0"洗牌中";
+  // 1"开始投注";
+  // 2"停止投注";
+  // 3"开牌";
+  var state = -1;
+  if (text == '洗牌中') {
+    state = 0;
+  } else if (text == '停止投注') {
+    state = 2;
+  } else if (text == '结算中' && kaipai > 0) {
+    state = 3
+  } else {
+    state = 1;
+  }
+  return state
+}
+
+function currentTableMsgFun() {
+  var targets = $(".qMFBr");
+  var target12 = $("._6VpXo");
+  let Type = {};
+  var table12Arr = [];
+  for (var i = 0; i < target12.length; i++) {
+    // console.log($(target12[i]));
+    var rtndata = analysisData($(target12[i]), setStateTable($(target12[i])))
+    table12Arr.push(rtndata);
+  }
+
+  if (window.localStorage.getItem('CHROME_TABLE_DATA')) {
+    var CHROME_TABLE_DATA = window.JSON.parse(window.localStorage.getItem('CHROME_TABLE_DATA'));
+    CHROME_TABLE_DATA.forEach((e, i) => {
+      if (e.count1 == table12Arr[i].count1 && e.count2 == table12Arr[i].count2 && e.state == table12Arr[i].state) {
+        //   局号&&副号&&当前状态
+      } else {
+        e = table12Arr[i];
+        addTableData(e);
+      }
+    })
+    window.localStorage.setItem('CHROME_TABLE_DATA', window.JSON.stringify(table12Arr));
+  } else {
+    table12Arr.forEach((e, i) => {
+      addTableData(e);
+    })
+    window.localStorage.setItem('CHROME_TABLE_DATA', window.JSON.stringify(table12Arr));
+  }
+  // console.log('$(target12[i]============================>', table12Arr);
+  // if(t){
+  //
+  // }
+  // _34Nqi ZUikl _67CnM #### _3jUwm
+  // $("._6VpXo").eq(0).find('._3fFvD').text() 获取到的桌号（百家乐XX）
+  // $("._6VpXo").eq(0).find('._1tFN6').text()  获取到的句号和副号
+  // console.log(target12);
+  // console.log(targets);
+  // $($("._6VpXo").find('.qMFBr').eq(2).children().get(0)).text() 取到 狀態
+  // $($("._6VpXo").find('.qMFBr').eq(5).children().get(0)).children().attr('class')
+}
+
 // http://localhost:8763/bdt/bjlTable/addTableData
-function addTableData(params) {
+function addTableData(rtndata) {
+  let wads = {
+    '庄': '1',
+    '闲': '2',
+    '和': '3',
+  }
+  let status = {
+    '开始投注': 2,
+    '开牌': 3,
+    '停止投注': 0,
+    '洗牌中': 1
+  }
+  let setResult = "";
+  for (let i = 0; i < rtndata.windatas.length; i++) {
+    // console.log('====>', rtndata.windatas[i]);
+    if ($.trim(rtndata.windatas[i]) == '庄') {
+      setResult = "1";
+    } else if ($.trim(rtndata.windatas[i]) == '闲') {
+      setResult = "2";
+    } else if ($.trim(rtndata.windatas[i]) == '和') {
+      setResult = "3";
+    }
+  }
+  //console.log('result================>', setResult);
+  let params = {
+    createDate: new Date().getTime(),
+    tableNo: parseInt(rtndata.name2),
+    battleNo: rtndata.count1,
+    fitNo: rtndata.count2,
+    card: rtndata.right.join(''),
+    xianCard: rtndata.left.join(''),
+    result: setResult,
+    status: status[rtndata.desc],
+    remark: `${window.localStorage.getItem('Chrome_Inner_User_Id')}-${JSON.stringify(rtndata)}`,
+    userId: window.localStorage.getItem('Chrome_Inner_User_Id')
+  };
+  if (status[rtndata.desc] == 0 || status[rtndata.desc] == '') {
+    return false
+  }
+  //
   $.ajax({
     type: 'post',
     url: BDTURL + 'bdt/bjlTable/addTableData',
@@ -445,7 +511,7 @@ function addTableData(params) {
       // console.log(result);
     },
     error: function (XmlHttpRequest, textStatus, errorThrown) {
-      console.log("操作失败!");
+      //console.log("操作失败!");
     }
   })
 }
@@ -497,7 +563,7 @@ function startListen() {
   }
 }
 
-function analysisData(deskNode, classData, state) {
+function analysisData(deskNode, state) {
 
   //console.log("state:"+ statemap[classData]);
 
@@ -516,9 +582,9 @@ function analysisData(deskNode, classData, state) {
     }
   });
   $(left[1]).find("div").each(function (i, d) {
-    var clazz = $(d).attr("class");
-    if (clazz) {
-      var p = clazz.split(" ")[1];
+    var clazzL2 = $(d).attr("class");
+    if (clazzL2) {
+      var p = clazzL2.split(" ")[1];
       var data = datamap[p];
       arrleft.push(data);
       // console.log(data);
@@ -526,18 +592,18 @@ function analysisData(deskNode, classData, state) {
   });
   var arrright = [];
   $(right[0]).find("div").each(function (i, d) {
-    var clazz = $(d).attr("class");
-    if (clazz) {
-      var p = clazz.split(" ")[1];
+    var clazzR = $(d).attr("class");
+    if (clazzR) {
+      var p = clazzR.split(" ")[1];
       var data = datamap[p];
       arrright.push(data);
       // console.log(data);
     }
   });
   $(right[1]).find("div").each(function (i, d) {
-    var clazz = $(d).attr("class");
-    if (clazz) {
-      var p = clazz.split(" ")[1];
+    var clazzR2 = $(d).attr("class");
+    if (clazzR2) {
+      var p = clazzR2.split(" ")[1];
       var data = datamap[p];
       arrright.push(data);
       // console.log(data);
