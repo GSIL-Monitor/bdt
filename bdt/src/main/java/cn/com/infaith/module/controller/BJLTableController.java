@@ -50,6 +50,9 @@ public class BJLTableController {
             request.setRemark(tableData.getRemark());
             request.setUserId(tableData.getUserId());
             tableDataService.addTableRequest(request);
+            if (tableData.getStatus() == null) {
+                return ResponseJsonUtil.getResponseJson(-1,"状态为null",null);
+            }
             if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
                 return ResponseJsonUtil.getResponseJson(-1, "未获取开牌结果", null);
             }
