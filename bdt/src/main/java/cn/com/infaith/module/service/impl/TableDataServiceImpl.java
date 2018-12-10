@@ -523,8 +523,14 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public void addUploadFile() {
-        List<TableData> tableDataList = tableDataMapper.getAllTable(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1));
+    public void addUploadFile(Boolean today) {
+        Date created;
+        if (today) {
+            created = TimeUtil.getTodayZeroDate();
+        } else {
+            created = TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1);
+        }
+        List<TableData> tableDataList = tableDataMapper.getAllTable(created);
         Map<String, List<TableData>> map = tableDataList.stream().collect(Collectors.groupingBy(TableData::getAdminId));
         for (String adminId : map.keySet()) {
             File tableFile = exportExcel(map.get(adminId));
@@ -533,10 +539,16 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public void addUploadResultFile() {
+    public void addUploadResultFile(Boolean today) {
         List<String> adminIds = userAccountService.getAllAdminId();
+        Date created;
+        if (today) {
+            created = TimeUtil.getTodayZeroDate();
+        } else {
+            created = TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1);
+        }
         for (String adminId : adminIds) {
-            List<ResultData> resultDataList = resultDataMapper.searchResultData(TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1), null, null, adminId);
+            List<ResultData> resultDataList = resultDataMapper.searchResultData(created, null, null, adminId);
             File resultFile = exportResultExcel(resultDataList);
             addUploadFileByFile(adminId, resultFile, 2);
         }
