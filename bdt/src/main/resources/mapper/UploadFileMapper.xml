@@ -44,15 +44,6 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select id, admin_id, name, path, file_size, type, create_time, is_delete
     from upload_file WHERE is_delete = 0
-    <if test="startTime != null">
-      AND create_time >= #{startTime}
-    </if>
-    <if test="endTime != null">
-      AND create_time <![CDATA[ <= ]]> #{endTime}
-    </if>
-    <if test="type != null">
-      AND type = #{type}
-    </if>
     <if test="adminId != null">
       AND admin_id = #{adminId}
     </if>
