@@ -61,7 +61,7 @@ public class TimeJobService {
         LogUtil.info(this.getClass(), "导出牌面信息至服务器开始》》》》》");
         LogUtil.info(this.getClass(), "导出牌面信息至服务器开始》》》》》");
         LogUtil.info(this.getClass(), "导出牌面信息至服务器开始》》》》》");
-        tableDataService.addUploadFile();
+        tableDataService.addUploadFile(false);
         LogUtil.info(this.getClass(), "导出牌面信息至服务器结束》》》》》");
         LogUtil.info(this.getClass(), "导出牌面信息至服务器结束》》》》》");
         LogUtil.info(this.getClass(), "导出牌面信息至服务器结束》》》》》");
@@ -71,8 +71,14 @@ public class TimeJobService {
     public void uploadResultFile() {
         LogUtil.info(this.getClass(), "导出投注信息至服务器开始》》》》》");
         LogUtil.info(this.getClass(), "导出投注信息至服务器开始》》》》》");
-        tableDataService.addUploadResultFile();
+        tableDataService.addUploadResultFile(false);
         LogUtil.info(this.getClass(), "导出投注信息至服务器结束》》》》》");
         LogUtil.info(this.getClass(), "导出投注信息至服务器结束》》》》》");
+    }
+
+    @Scheduled(cron = "0 0 12 ? * MON")
+    public void uploadFile() {
+        tableDataService.addUploadResultFile(true);
+        tableDataService.addUploadFile(true);
     }
 }

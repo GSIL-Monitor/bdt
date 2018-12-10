@@ -404,7 +404,7 @@ public class BJLTableController {
 
     @PostMapping("/uploadExcel")
     public JSONObject uploadExcel() {
-        tableDataService.addUploadFile();
+        tableDataService.addUploadFile(true);
         return ResponseJsonUtil.getResponseJson(200,"SUCCESS", null);
     }
 

@@ -332,9 +332,9 @@ public interface TableDataService {
     /**
      * 上传数据至指定文件并保存至数据库
      */
-    void addUploadFile();
+    void addUploadFile(Boolean today);
 
-    void addUploadResultFile();
+    void addUploadResultFile(Boolean today);
 
     List<UploadFile> getFileById(String ids);
 
