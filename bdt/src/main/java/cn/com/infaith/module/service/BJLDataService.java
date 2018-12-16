@@ -29,7 +29,7 @@ public class BJLDataService {
     @Autowired
     private UserAccountService userAccountService;
 
-    public static Map<String,CalcXGLZGLServiceNotMap> calcList = new HashMap<>();
+    public static Map<String, CalcXGLZGLServiceNotMap> calcList = new HashMap<>();
 
 //    static {
 //        calcList.add(new CalcXGLZGLServiceNotMap());
@@ -89,21 +89,21 @@ public class BJLDataService {
                 tableData.setAdminId(adminId);
                 BdtSystem bdtSystem = tableDataService.getBdtSystem(adminId);
                 if (bdtSystem.getStarted()) {
-                        //当前状态为“可投注”（局号、副号不会变）。
-                        if (tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
-                            tzStatus(tableData, adminId, true, statusRequest.getId());
-                        }
-                        //当前状态为“新局准备”（局号改变、副号变为1）。
-                        if (tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
-                            newReadyStatus(tableData);
-                            //第一副，新增第一副时实时的投注
-                            tzStatus(tableData, adminId, false, statusRequest.getId());
-                        }
-                        //当前状态为“开牌”（局号、副号不会变）。
-                        if (tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
-                            openCard(tableData, bdtSystem);
-                        }
-                        LogUtil.info(this.getClass(), "计算结束：>>>>>time:" + System.currentTimeMillis());
+                    //当前状态为“可投注”（局号、副号不会变）。
+                    if (tableData.getStatus() == TableStatusEnum.TZ.getIndex()) {
+                        tzStatus(tableData, adminId, true, statusRequest.getId());
+                    }
+                    //当前状态为“新局准备”（局号改变、副号变为1）。
+                    if (tableData.getStatus() == TableStatusEnum.NEW.getIndex()) {
+//                        newReadyStatus(tableData);
+                        //第一副，新增第一副时实时的投注
+                        tzStatus(tableData, adminId, false, statusRequest.getId());
+                    }
+                    //当前状态为“开牌”（局号、副号不会变）。
+                    if (tableData.getStatus() == TableStatusEnum.KP.getIndex()) {
+                        openCard(tableData, bdtSystem);
+                    }
+                    LogUtil.info(this.getClass(), "计算结束：>>>>>time:" + System.currentTimeMillis());
                 }
             });
         }
@@ -119,17 +119,17 @@ public class BJLDataService {
 //            //无记录，进入步骤4
 //            step4(tableData, adminId, tzNextFit);
 //        } else {
-            //有记录，当前副号=1
-            if (!tzNextFit) {
-                //如果是第一副的新局准备，则需要把上一局最后一幅计算的下一幅给删除
-                StatusRequest status = tableDataService.getLastStatusRequest(statusId, tableData.getTableNo());
-                if (status != null) {
-                    tableDataService.updateResult(status.getTableNo(), status.getBattleNo(), status.getFitNo() + 1);
-                }
+        if (!tzNextFit) {
+            //如果是第一副的新局准备，则需要把上一局最后一幅计算的下一幅给删除
+//            StatusRequest status = tableDataService.getLastStatusRequest(statusId, tableData.getTableNo());
+            TableData lastedTable = tableDataService.getNewestTableData(tableData.getTableNo(), adminId);
+            if (lastedTable != null) {
+                tableDataService.updateResult(lastedTable.getTableNo(), lastedTable.getBattleNo(), lastedTable.getFitNo() + 1);
             }
-            step4(tableData, adminId, tzNextFit);
+        }
+        step4(tableData, adminId, tzNextFit);
 //        } else {
-            //有记录，当前副号>1。进入步骤3。
+        //有记录，当前副号>1。进入步骤3。
 //            step3(tableData.getTableNo(), adminId);
 //            tzStatus(tableData, adminId, tzNextFit);
 //        }
@@ -434,20 +434,20 @@ public class BJLDataService {
 
         BdtSystem system = tableDataService.getBdtSystem(adminId);
         Map<String, BigDecimal> map = new HashMap<>();
-        if (tableData.getFitNo() == 1||calcList.get(adminId+(tableData.getTableNo() - 1))==null) {
-            calcList.put(adminId+(tableData.getTableNo() - 1), new CalcXGLZGLServiceNotMap());
+        if (tableData.getFitNo() == 1 || calcList.get(adminId + (tableData.getTableNo() - 1)) == null) {
+            calcList.put(adminId + (tableData.getTableNo() - 1), new CalcXGLZGLServiceNotMap());
         }
         String card = tableData.getCard() + tableData.getXianCard();
         try {
-            map = calcList.get(adminId+(tableData.getTableNo() - 1)).calcXgl(tableData.getFitNo(), system.getPs(), card, system.getPhxs());
+            map = calcList.get(adminId + (tableData.getTableNo() - 1)).calcXgl(tableData.getFitNo(), system.getPs(), card, system.getPhxs());
         } catch (Exception e) {
-            calcList.put(adminId+(tableData.getTableNo() - 1), new CalcXGLZGLServiceNotMap());
+            calcList.put(adminId + (tableData.getTableNo() - 1), new CalcXGLZGLServiceNotMap());
             TableData fitOneTable = tableDataService.getFitOneTable(tableData.getTableNo(), tableData.getBattleNo(), adminId);
             if (fitOneTable != null) {
                 card = fitOneTable.getCard() + fitOneTable.getXianCard();
             }
-            calcList.get(adminId+(tableData.getTableNo() - 1)).calcXgl(1, system.getPs(), card, system.getPhxs());
-            map = calcList.get(adminId+(tableData.getTableNo() - 1)).calcXgl(tableData.getFitNo(), system.getPs(), card, system.getPhxs());
+            calcList.get(adminId + (tableData.getTableNo() - 1)).calcXgl(1, system.getPs(), card, system.getPhxs());
+            map = calcList.get(adminId + (tableData.getTableNo() - 1)).calcXgl(tableData.getFitNo(), system.getPs(), card, system.getPhxs());
         }
         tableData.setXgl(map.get("xgl").toPlainString());
         tableData.setXtsl(map.get("xtsl").toPlainString());
