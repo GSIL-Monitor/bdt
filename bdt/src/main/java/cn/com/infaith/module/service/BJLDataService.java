@@ -141,7 +141,7 @@ public class BJLDataService {
     public void newReadyStatus(TableData tableData) {
         int result = step13(tableData.getTableNo());
         if (result == 1) {
-            step14(tableData);
+//            step14(tableData);
         } else {
             tableDataService.clearAllDopeByTableNoAndTzSystem(tableData.getTableNo(), 1);
             step14(tableData);
