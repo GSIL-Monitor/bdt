@@ -176,8 +176,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean updateTzStartOrClose(Boolean started, int tzxt, int fh, String xh, String adminId) {
-        return tzSystemMapper.updateStartOrClose(started, tzxt, fh, xh, adminId) > 0 ? true : false;
+    public Boolean updateTzStartOrClose(Boolean started, int tzxt, int fha, int fhb, int fhc, int fhd, String xh, String adminId) {
+        return tzSystemMapper.updateStartOrClose(started, tzxt, fha, fhb, fhc, fhd, xh, adminId) > 0 ? true : false;
     }
 
     @Override

@@ -273,7 +273,7 @@ public class BJLDataService {
      * @return 1 进入步骤6。  2  进入步骤5-2。
      */
     public int step5_1(int fitNo, TzSystem tzSystem) {
-        if (fitNo < tzSystem.getFh() || fitNo > Integer.valueOf(tzSystem.getXh())) {
+        if (fitNo < tzSystem.getFha() || fitNo > Integer.valueOf(tzSystem.getXh())) {
             return 1;
         } else {
             return 2;
@@ -377,16 +377,14 @@ public class BJLDataService {
         if (tz1System.getStarted()) {
             //投注子系统1启动
             TableData tableDataNew = step10_1(tableData.getTableNo(), tableData.getAdminId());
-            //1）副号<TZ1FH，进入步骤11-1。  2）副号>=TZ1FH，进入步骤10-3。
+            //比较ZTSL与TZ1XH
             int step10_2Result = step10_2(tableDataNew, tz1System);
             if (step10_2Result == 1) {
 //                step11_1(tableData, phxs);
             } else {
-                //1）ZTSL>TZ1XH，进入步骤11-1。  2）ZTSL<=TZ1XH，进入步骤10-4。
+                //1）比较副号与TZ1FHA、TZ1FHB、TZ1FHC、TZ1FHD
                 int step10_3Result = step10_3(tableDataNew, tz1System);
                 if (step10_3Result == 1) {
-//                    step11_1(tableData, phxs);
-                } else {
                     step10_4(tableData, bdtSystem.getAdminId());
                 }
             }
@@ -530,14 +528,17 @@ public class BJLDataService {
     }
 
     /**
-     * 步骤10-2，比较副号与TZ1FH。
+     * 步骤10-2，比较ZTSL与TZ1XH
      *
      * @param tableData
      * @param tzSystem
-     * @return 1：副号<TZ1FH  2：副号>=TZ1FH
+     * @return 1）ZTSL>TZ1XH，进入步骤11-1。2）ZTSL<=TZ1XH，进入步骤10-3。
      */
     public int step10_2(TableData tableData, TzSystem tzSystem) {
-        if (tableData.getFitNo() < tzSystem.getFh()) {
+        BigDecimal ztsl = new BigDecimal(tableData.getZtsl());
+        BigDecimal xh = new BigDecimal(tzSystem.getXh());
+        int result = ztsl.compareTo(xh);
+        if (result == 1) {
             return 1;
         } else {
             return 2;
@@ -549,13 +550,15 @@ public class BJLDataService {
      *
      * @param tableData
      * @param tzSystem
-     * @return 1）ZTSL>TZ1XH    2）ZTSL<=TZ1XH
+     * @return 1）TZ1FHA<=副号<=TZ1FHB或者TZ1FHC<=副号<=TZ1FHD，进入步骤10-4。
+     *         2）副号不在1）的两个区间，进入步骤11-1。
      */
     public int step10_3(TableData tableData, TzSystem tzSystem) {
-        BigDecimal ztsl = new BigDecimal(tableData.getZtsl());
-        BigDecimal xh = new BigDecimal(tzSystem.getXh());
-        int result = ztsl.compareTo(xh);
-        if (result == 1) {
+        Boolean result1 = tableData.getFitNo().compareTo(tzSystem.getFha()) >= 0 ? true : false;
+        Boolean result2 = tableData.getFitNo().compareTo(tzSystem.getFhb()) <= 0 ? true : false;
+        Boolean result3 = tableData.getFitNo().compareTo(tzSystem.getFhc()) >= 0 ? true : false;
+        Boolean result4 = tableData.getFitNo().compareTo(tzSystem.getFhd()) <= 0 ? true : false;
+        if ((result1 && result2) || (result3 && result4)) {
             return 1;
         } else {
             return 2;

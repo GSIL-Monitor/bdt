@@ -1037,7 +1037,8 @@ public class CalcXGLZGLServiceNotMap {
 //        System.out.println(xglAddzgl);
 //        System.out.println(xglPoint);
         BigDecimal xtsl = zglSubtractxglResult.divide(xglAddzgl, 5, RoundingMode.HALF_UP);
-        BigDecimal ztsl = xglPoint.divide(xglAddzgl, 5, RoundingMode.HALF_UP);
+        BigDecimal xglAddzgl2 = xgl.add(new BigDecimal(0.95).multiply(zgl));
+        BigDecimal ztsl = xglPoint.divide(xglAddzgl2, 5, RoundingMode.HALF_UP);
 //        BigDecimal xsy = xgl.subtract(zgl).add((xgl.add(zgl).multiply(new BigDecimal(0.001))));
 //        BigDecimal zsy = new BigDecimal(0.95).multiply(zgl).subtract(xgl).add((xgl.add(zgl).multiply(pshx)));
         calcResult.put("xgl", xgl);

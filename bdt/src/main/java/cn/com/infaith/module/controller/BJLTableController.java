@@ -139,8 +139,11 @@ public class BJLTableController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tzxt", value = "投注系统", required = true, paramType = "query"),
             @ApiImplicitParam(name = "started", value = "开关", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "fh", value = "fh值，当为关闭时可不填", paramType = "query"),
-            @ApiImplicitParam(name = "xh", value = "xh值，当为关闭时可不填", paramType = "query"),
+            @ApiImplicitParam(name = "fha", value = "fha值，必传", paramType = "query"),
+            @ApiImplicitParam(name = "fhb", value = "fhb值，仅投注1必传", paramType = "query"),
+            @ApiImplicitParam(name = "fhc", value = "fhc值，仅投注1必传", paramType = "query"),
+            @ApiImplicitParam(name = "fhd", value = "fhd值，仅投注1必传", paramType = "query"),
+            @ApiImplicitParam(name = "xh", value = "xh值，必传", paramType = "query"),
             @ApiImplicitParam(name = "list", value = "账号信息list，当为关闭时可不填", paramType = "query"),
     })
     public JSONObject tzSystemStarted(@RequestBody TzInfo tzInfo) {
@@ -148,12 +151,9 @@ public class BJLTableController {
         if (StringUtils.isBlank(tzInfo.getAdminId())) {
             tzInfo.setAdminId("5e3463418a8b4b6a84af80b40c973087");
         }
-        if (tzInfo.getStarted()) {
-            if (tzInfo.getFh() == null || tzInfo.getFh() == 0 || StringUtils.isBlank(tzInfo.getXh()) || CollectionUtils.isEmpty(tzInfo.getList())) {
-                return ResponseJsonUtil.getResponseJson(400, "缺少fh或xh参数", null);
-            }
-        }
-        Boolean result = tableDataService.updateTzStartOrClose(tzInfo.getStarted(), tzInfo.getTzxt(), tzInfo.getFh(), tzInfo.getXh(), tzInfo.getAdminId());
+        Boolean result = tableDataService.updateTzStartOrClose(tzInfo.getStarted(), tzInfo.getTzxt(),
+                tzInfo.getFha(), tzInfo.getFhb(), tzInfo.getFhc(), tzInfo.getFhd(),
+                tzInfo.getXh(), tzInfo.getAdminId());
         if (tzInfo.getStarted()) {
             tzInfo.getList().forEach(x -> {
                 if (x.getId() != null) {

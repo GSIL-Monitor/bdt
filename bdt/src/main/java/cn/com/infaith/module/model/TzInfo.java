@@ -10,7 +10,10 @@ public class TzInfo {
 
     private Boolean started;
 
-    private Integer fh;
+    private Integer fha;
+    private Integer fhb;
+    private Integer fhc;
+    private Integer fhd;
 
     private String xh;
 
@@ -40,12 +43,36 @@ public class TzInfo {
         this.started = started;
     }
 
-    public Integer getFh() {
-        return fh;
+    public Integer getFha() {
+        return fha;
     }
 
-    public void setFh(Integer fh) {
-        this.fh = fh;
+    public void setFha(Integer fha) {
+        this.fha = fha;
+    }
+
+    public Integer getFhb() {
+        return fhb;
+    }
+
+    public void setFhb(Integer fhb) {
+        this.fhb = fhb;
+    }
+
+    public Integer getFhc() {
+        return fhc;
+    }
+
+    public void setFhc(Integer fhc) {
+        this.fhc = fhc;
+    }
+
+    public Integer getFhd() {
+        return fhd;
+    }
+
+    public void setFhd(Integer fhd) {
+        this.fhd = fhd;
     }
 
     public String getXh() {
@@ -70,7 +97,10 @@ public class TzInfo {
                 "adminId='" + adminId + '\'' +
                 ", tzxt=" + tzxt +
                 ", started=" + started +
-                ", fh=" + fh +
+                ", fha=" + fha +
+                ", fhb=" + fhb +
+                ", fhc=" + fhc +
+                ", fhd=" + fhd +
                 ", xh='" + xh + '\'' +
                 ", list=" + list +
                 '}';

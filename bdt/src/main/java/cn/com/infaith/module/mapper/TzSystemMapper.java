@@ -17,7 +17,10 @@ public interface TzSystemMapper {
     int updateByPrimaryKey(TzSystem record);
 
     int updateStartOrClose(@Param("started") Boolean started, @Param("tzxt") int tzxt,
-                           @Param("fh") Integer fh,
+                           @Param("fha") Integer fha,
+                           @Param("fhb") Integer fhb,
+                           @Param("fhc") Integer fhc,
+                           @Param("fhd") Integer fhd,
                            @Param("xh") String xh,
                            @Param("adminId") String adminId);
 

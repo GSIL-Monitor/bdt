@@ -5,7 +5,10 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="tzxt" jdbcType="INTEGER" property="tzxt" />
     <result column="started" jdbcType="BIT" property="started" />
-    <result column="fh" jdbcType="INTEGER" property="fh" />
+    <result column="fha" jdbcType="INTEGER" property="fha" />
+    <result column="fhb" jdbcType="INTEGER" property="fhb" />
+    <result column="fhc" jdbcType="INTEGER" property="fhc" />
+    <result column="fhd" jdbcType="INTEGER" property="fhd" />
     <result column="xh" jdbcType="VARCHAR" property="xh" />
     <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
   </resultMap>
@@ -14,34 +17,47 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.TzSystem">
-    insert into tz_system (id, tzxt, started, fh, xh, admin_id
+    insert into tz_system (id, tzxt, started, fha, fhb, fhc, fhd, xh, admin_id
       )
-    values (#{id,jdbcType=INTEGER}, #{tzxt,jdbcType=INTEGER}, #{started,jdbcType=BIT}, #{fh}, #{xh}, #{adminId}
+    values (#{id,jdbcType=INTEGER}, #{tzxt,jdbcType=INTEGER}, #{started,jdbcType=BIT},
+    #{fha}, #{fhb}, #{fhc}, #{fhd}, #{xh}, #{adminId}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TzSystem">
     update tz_system
     set tzxt = #{tzxt,jdbcType=INTEGER},
       started = #{started,jdbcType=BIT},
-      fh = #{fh},
+      fha = #{fha},
+      fhb = #{fhb},
+      fhc = #{fhc},
+      fhd = #{fhd},
       xh = #{xh}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, tzxt, started, fh, xh, admin_id
+    select id, tzxt, started, fha, fhb, fhc, fhd, xh, admin_id
     from tz_system
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, tzxt, started, fh, xh, admin_id
+    select id, tzxt, started, fha, fhb, fhc, fhd, xh, admin_id
     from tz_system
   </select>
 
   <update id="updateStartOrClose">
     update tz_system
     set started = #{started}
-    <if test="fh != null and fh != 0">
-      ,fh = #{fh}
+    <if test="fha != null">
+      ,fha = #{fha}
+    </if>
+    <if test="fhb != null">
+      ,fhb = #{fhb}
+    </if>
+    <if test="fhc != null">
+      ,fhc = #{fhc}
+    </if>
+    <if test="fhd != null">
+      ,fhd = #{fhd}
     </if>
     <if test="xh != null and xh != ''">
       ,xh = #{xh}
@@ -50,7 +66,7 @@
   </update>
 
   <select id="getTzSystemInfo" resultMap="BaseResultMap">
-    select id, tzxt, started, fh, xh
+    select id, tzxt, started, fha, fhb, fhc, fhd, xh
     from tz_system
     WHERE tzxt = #{tzxt} AND admin_id = #{adminId}
   </select>
