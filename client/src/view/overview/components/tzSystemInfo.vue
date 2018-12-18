@@ -16,14 +16,33 @@
       </div>
       <div style="display: flex;align-items: flex-end;">
         <div style="flex: 1">
-          <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
-            <FormItem label="FH" prop="user" style="margin:0 5px">
-              <Input type="text" v-model="formInline.fh" :disabled="!disabledSet"
+          <Form style="margin: 5px 0 0 0;display: flex;" ref="formInline" :model="formInline"
+                inline>
+            <FormItem label="FHA" prop="user" style="margin:0 5px">
+              <Input type="text" v-model="formInline.fha" :disabled="!disabledSet"
                      placeholder="Username">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="XH" prop="password" style="margin:0 5px">
+            <FormItem label="FHB" prop="user" style="margin:0 5px">
+              <Input type="text" v-model="formInline.fhb" :disabled="!disabledSet"
+                     placeholder="Username">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem label="FHC" prop="user" style="margin:0 5px">
+              <Input type="text" v-model="formInline.fhc" :disabled="!disabledSet"
+                     placeholder="Username">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem label="FHD" prop="user" style="margin:0 5px">
+              <Input type="text" v-model="formInline.fhd" :disabled="!disabledSet"
+                     placeholder="Username">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem label="XH" prop="password" style="margin:0 0 0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
                      placeholder="Password">
                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
@@ -31,6 +50,8 @@
             </FormItem>
           </Form>
         </div>
+      </div>
+      <div style="display: flex;margin-top: 10px">
         <div class="" style="flex: 1;text-align: right">
           <Button type="success" @click="saveApp(true)" :disabled="!disabledSave">
             {{'保存修改'}}
@@ -182,7 +203,10 @@
           }
         ],
         formInline: {
-          fh: '',
+          fha: '',
+          fhb: '',
+          fhc: '',
+          fhd: '',
           xh: ''
         },
         checkBoxAll: false,
@@ -216,8 +240,7 @@
         this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
         this.tzSystem = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzSystem'));
         this.setCheckBoxAll();
-        this.formInline.fh = this.tzSystem.fh;
-        this.formInline.xh = this.tzSystem.xh;
+        this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
         this.disabledSet = !this.tzSystem.started;
       } else {
         this.getTzSystemInfo(1);
@@ -344,8 +367,7 @@
             this.setCheckBoxAll();
             this.tz1AllData = res.data.returnObject;
             this.tzSystem = res.data.returnObject.tzSystem;
-            this.formInline.fh = this.tzSystem.fh;
-            this.formInline.xh = this.tzSystem.xh;
+            this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
             this.disabledSet = !this.tzSystem.started;
             window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
             // this.tzSystem
@@ -369,22 +391,18 @@
         });
         //
         //
-        let data = {
+        let data = Object.assign({}, this.formInline, {
           adminId: this.$cookie.get('token'),
-          "fh": this.formInline.fh,
           "list": this.tzListData,
           "started": !this.disabledSet,
           "tzxt": tzxt,
-          "xh": this.formInline.xh
-        };
+        });
         this.$api.tzSystemStarted(data).then((res) => {
           if (res.data.returnCode == 200) {
             if (!this.disabledSet) {
               this.getTzSystemInfo(1);
             }
           }
-        }).catch(() => {
-
         })
       }
     }

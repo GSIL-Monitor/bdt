@@ -18,7 +18,7 @@
         <div style="flex: 1;text-align: left">
           <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
             <FormItem label="FHA" prop="user" style="margin:0 5px">
-              <Input type="text" v-model="formInline.fh" :disabled="!disabledSet"
+              <Input type="text" v-model="formInline.fha" :disabled="!disabledSet"
                      placeholder="">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
@@ -219,7 +219,7 @@
           }
         ],
         formInline: {
-          fh: '',
+          fha: '',
           xh: ''
         },
         checkBoxAll: false,
@@ -362,8 +362,7 @@
             this.setCheckBoxAll();
             this.tz2AllData = res.data.returnObject;
             this.tzSystem = res.data.returnObject.tzSystem;
-            this.formInline.fh = this.tzSystem.fh;
-            this.formInline.xh = this.tzSystem.xh;
+            this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
             this.disabledSet = !this.tzSystem.started;
           }
         }).catch(err => {
@@ -381,14 +380,12 @@
         });
         //
         //
-        let data = {
+        let data = Object.assign({}, this.formInline, {
           adminId: this.$cookie.get('token'),
-          "fh": this.formInline.fh,
           "list": this.tzListData,
           "started": !this.disabledSet,
           "tzxt": tzxt,
-          "xh": this.formInline.xh
-        };
+        });
         this.$api.tzSystemStarted(data).then((res) => {
           if (res.data.returnCode == 200) {
             if (!this.disabledSet) {
