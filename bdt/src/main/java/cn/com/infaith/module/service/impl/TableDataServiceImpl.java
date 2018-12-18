@@ -600,10 +600,11 @@ public class TableDataServiceImpl implements TableDataService {
             mapList.add(map);
             return mapList;
         }
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (ResultData resultData : list) {
             Map<String, String> map = new HashMap<>();
             map.put("ID", resultData.getId().toString());
-            map.put("创建时间", excel_sf.format(resultData.getCreateTime()));
+            map.put("创建时间", sf.format(resultData.getCreateTime()));
             map.put("桌号", resultData.getTableNo().toString());
             map.put("局号", resultData.getBattleNo().toString());
             map.put("副号", resultData.getFitNo().toString());
@@ -636,10 +637,11 @@ public class TableDataServiceImpl implements TableDataService {
         if (org.apache.commons.collections4.CollectionUtils.isEmpty(list)) {
             return mapList;
         }
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (TableData tableData : list) {
             Map<String, String> map = new LinkedHashMap<>();
             map.put("ID", tableData.getId().toString());
-            map.put("创建时间", excel_sf.format(tableData.getCreateTime()));
+            map.put("创建时间", sf.format(tableData.getCreateTime()));
             map.put("桌号", tableData.getTableNo().toString());
             map.put("局号", tableData.getBattleNo().toString());
             map.put("副号", tableData.getFitNo().toString());
