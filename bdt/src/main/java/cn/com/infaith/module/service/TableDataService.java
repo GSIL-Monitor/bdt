@@ -125,12 +125,10 @@ public interface TableDataService {
      * 投注系统开关
      *
      * @param started
-     * @param id
-     * @param fh
      * @param xh
      * @return
      */
-    Boolean updateTzStartOrClose(Boolean started, int id, int fh, String xh, String adminId);
+    Boolean updateTzStartOrClose(Boolean started, int tzxt, int fha, int fhb, int fhc, int fhd, String xh, String adminId);
 
     TzSystem getTzSystemInfo(int tzxt, String adminId);
 
