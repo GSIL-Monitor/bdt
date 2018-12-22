@@ -66,6 +66,42 @@ public class BJLTableController {
         }
     }
 
+    @ApiOperation(value = "批量读取百家乐桌面信息", notes = "批量读取百家乐桌面信息", httpMethod = "POST")
+    @PostMapping("/addTableDataList")
+    public JSONObject addTableDataList(@RequestBody List<TableData> dataList) {
+        synchronized (this) {
+            for (int i = 0; i < dataList.size(); i++) {
+                LogUtil.info(this.getClass(), "读牌开始>>>>>>>time:" + System.currentTimeMillis());
+                TableData tableData = dataList.get(i);
+                TableRequest request = new TableRequest();
+                request.setCreateTime(new Date(tableData.getCreateDate()));
+                request.setTableNo(tableData.getTableNo());
+                request.setBattleNo(tableData.getBattleNo());
+                request.setFitNo(tableData.getFitNo());
+                request.setCard(tableData.getCard());
+                request.setXianCard(tableData.getXianCard());
+                request.setResult(tableData.getResult());
+                request.setStatus(tableData.getStatus());
+                request.setRemark(tableData.getRemark());
+                request.setUserId(tableData.getUserId());
+                tableDataService.addTableRequest(request);
+                if (tableData.getStatus() == null) {
+                    continue;
+                }
+                if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
+                    return ResponseJsonUtil.getResponseJson(-1, "未获取开牌结果", null);
+                }
+                try {
+                    bjlDataService.JudgeState(tableData);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    continue;
+                }
+            }
+        }
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",null);
+    }
+
     @PostMapping("testKP")
     public JSONObject testKP() {
         CalcXGLZGLServiceNotMap serviceNotMap1=new CalcXGLZGLServiceNotMap();
