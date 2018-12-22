@@ -56,6 +56,8 @@ public class TableDataServiceImpl implements TableDataService {
     private DopeManageLogoMapper dopeManageLogoMapper;
     @Autowired
     private UserAccountService userAccountService;
+    @Autowired
+    private TzStatusInfoMapper tzStatusInfoMapper;
 
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -576,6 +578,31 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public Boolean addDopeManageLog(DopeManageLogo manageLogo) {
         return dopeManageLogoMapper.insert(manageLogo) > 0 ? true : false;
+    }
+
+    @Override
+    public int addTzStatusInfo(TzStatusInfo tzStatusInfo) {
+        return tzStatusInfoMapper.insert(tzStatusInfo);
+    }
+
+    @Override
+    public TzStatusInfo getTzStatus(String adminId, int tableNo, int tzxt) {
+        return tzStatusInfoMapper.selectByPrimaryKey(adminId, tableNo, tzxt);
+    }
+
+    @Override
+    public int updateTzStatus(int id, int tzStatus) {
+        return tzStatusInfoMapper.updateStatus(id, tzStatus);
+    }
+
+    @Override
+    public String getZtslByTable(String adminId, int tableNo, int battleNo, int fitNo) {
+        return tableDataMapper.getZtslByTable(tableNo, battleNo, fitNo, adminId);
+    }
+
+    @Override
+    public int getTableResultCalCount(int tableNo, int battleNo, int fha) {
+        return tableDataMapper.getTableResultCalCount(tableNo, battleNo, fha);
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {

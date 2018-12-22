@@ -6,6 +6,7 @@
     <result column="ps" jdbcType="INTEGER" property="ps" />
     <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="phxs" jdbcType="DECIMAL" property="phxs" />
+    <result column="txxs" jdbcType="DECIMAL" property="txxs" />
     <result column="started" jdbcType="BIT" property="started" />
     <result column="yxje" jdbcType="DECIMAL" property="yxje" />
     <result column="ysje" jdbcType="DECIMAL" property="ysje" />
@@ -16,25 +17,26 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.BdtSystem">
-    insert into bdt_system (id, admin_id, ps, phxs,
+    insert into bdt_system (id, admin_id, ps, phxs, txxs,
       started)
-    values (#{id,jdbcType=INTEGER}, #{adminId}, #{ps,jdbcType=INTEGER}, #{phxs,jdbcType=DECIMAL},
+    values (#{id,jdbcType=INTEGER}, #{adminId}, #{ps,jdbcType=INTEGER}, #{phxs,jdbcType=DECIMAL}, #{txxs},
       #{started,jdbcType=BIT})
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.BdtSystem">
     update bdt_system
     set ps = #{ps,jdbcType=INTEGER},
       phxs = #{phxs,jdbcType=DECIMAL},
-      started = #{started,jdbcType=BIT}
+      started = #{started,jdbcType=BIT},
+      txxs = #{txxs},
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, ps, phxs, started, admin_id
+    select id, ps, phxs, started, admin_id, txxs
     from bdt_system
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, ps, phxs, started, admin_id
+    select id, ps, phxs, started, admin_id, txxs
     from bdt_system
   </select>
 
@@ -48,11 +50,14 @@
       <if test="phxs != null">
         ,phxs = #{phxs,jdbcType=DECIMAL}
       </if>
+      <if test="txxs != null">
+        ,txxs = #{txxs}
+      </if>
     WHERE admin_id = #{adminId}
   </update>
 
   <select id="getBdtSystem" resultMap="BaseResultMap" parameterType="String">
-    select id, ps, phxs, started, admin_id
+    select id, ps, phxs, started, admin_id, txxs
     from bdt_system
     WHERE admin_id = #{adminId}
   </select>

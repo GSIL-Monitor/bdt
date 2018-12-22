@@ -273,7 +273,7 @@ public class BJLDataService {
      * @return 1 进入步骤6。  2  进入步骤5-2。
      */
     public int step5_1(int fitNo, TzSystem tzSystem) {
-        if (fitNo < tzSystem.getFha() || fitNo > Integer.valueOf(tzSystem.getXh())) {
+        if (fitNo < Integer.valueOf(tzSystem.getFha()) || fitNo > Integer.valueOf(tzSystem.getXh())) {
             return 1;
         } else {
             return 2;
@@ -371,28 +371,165 @@ public class BJLDataService {
         }
         tableData = step8_1(tableData);
         tableData = step8_2(tableData, bdtSystem.getAdminId());
-        TableMergeData tableMergeData = step8_3(tableData, bdtSystem.getPhxs());
-        step8_4(tableMergeData);
-        TzSystem tz1System = step9(bdtSystem.getAdminId());
-        if (tz1System.getStarted()) {
-            //投注子系统1启动
-            TableData tableDataNew = step10_1(tableData.getTableNo(), tableData.getAdminId());
+        TableMergeData tableMergeData = step8_3(tableData, bdtSystem);
+        if (tableMergeData != null) {
+            step8_4(tableMergeData);
+        }
+        TzSystem tz11System = tableDataService.getTzSystemInfo(11, tableData.getAdminId());
+        TableData tableDataNew = step10_1(tableData.getTableNo(), tableData.getAdminId());
+        if (tz11System.getStarted()) {
+            //投注子系统11启动
             //比较ZTSL与TZ1XH
-            int step10_2Result = step10_2(tableDataNew, tz1System);
+            int step10_2Result = step10_2(tableDataNew.getZtsl(), tz11System);
             if (step10_2Result == 1) {
-//                step11_1(tableData, phxs);
+                //ZTSL>TZ1XH，进入步骤9-2
+                step9_2(tableDataNew);
             } else {
-                //1）比较副号与TZ1FHA、TZ1FHB、TZ1FHC、TZ1FHD
-                int step10_3Result = step10_3(tableDataNew, tz1System);
-                if (step10_3Result == 1) {
-                    step10_4(tableData, bdtSystem.getAdminId());
+                //生成投注记录
+                step10_4(tableData, bdtSystem.getAdminId(), 11, TableResultEnum.Z.getIndex());
+                //进入步骤9-2
+                step9_2(tableDataNew);
+            }
+        } else {
+            //处于“关闭”状态。进入步骤9-2。
+            step9_2(tableDataNew);
+        }
+    }
+
+    public void step9_2(TableData tableData) {
+        TzSystem tz12System = tableDataService.getTzSystemInfo(12, tableData.getAdminId());
+        if (tz12System.getStarted()) {
+            //处于“启动”状态，进入步骤10-4。
+            BigDecimal ztsl = new BigDecimal(tableData.getZtsl());
+            BigDecimal xh = new BigDecimal(tz12System.getXh());
+            int result = ztsl.compareTo(xh);
+            if (result == 1) {
+                //1）ZTSL>TZ12XH，进入步骤9-3。
+                step9_3(tableData);
+            } else {
+                //2）ZTSL<=TZ12XH，进入步骤10-6。
+                int status12 = step10_3(tableData, tz12System);
+                if (status12 == 1) {
+                    //1）TZ12FHA<=副号<=TZ12FHB或者TZ12FHC<=副号<=TZ12FHD，进入步骤10-7。
+                    step10_4(tableData, tableData.getAdminId(), 12, TableResultEnum.Z.getIndex());
+                    //进入步骤9-3。
+                    step9_3(tableData);
+                } else {
+                    //2）副号不在1）的两个区间，进入步骤9-3。
+                    step9_3(tableData);
                 }
             }
         } else {
-            //投注子系统1关闭--进入11-1
-//            step11_1(tableData, phxs);
+            //处于“关闭”状态。进入步骤9-3。
+            step9_3(tableData);
+        }
+    }
+
+    public void step9_3(TableData tableData) {
+        TzSystem tz13System = tableDataService.getTzSystemInfo(13, tableData.getAdminId());
+        if (tz13System.getStarted()) {
+            //处于“启动”状态，进入步骤10-8。
+            int result = step10_9(tableData, tz13System);
+            if (result == 1) {
+                //进入步骤10-10  : 生成投注记录
+                step10_4(tableData, tableData.getAdminId(), 13, TableResultEnum.X.getIndex());
+                //进入步骤9-4。
+                step9_4(tableData);
+            } else {
+                //进入步骤9-4。
+                step9_4(tableData);
+            }
+        } else {
+            //处于“关闭”状态。进入步骤9-4。
+            step9_4(tableData);
+        }
+    }
+
+    public void step9_4(TableData tableData) {
+        TzSystem tz14System = tableDataService.getTzSystemInfo(14, tableData.getAdminId());
+        if (tz14System.getStarted()) {
+            //比较XTSL与TZ14XH。
+            int step10_2Result = step10_2(tableData.getXtsl(), tz14System);
+            if (step10_2Result == 1) {
+                //XTSL>TZ14XH，进入步骤9-5
+                step9_5(tableData);
+            } else {
+                //生成投注记录
+                step10_4(tableData, tableData.getAdminId(), 14, TableResultEnum.X.getIndex());
+                //进入步骤9-5
+                step9_5(tableData);
+            }
+        } else {
+            //处于“关闭”状态。进入步骤9-2。
+            step9_5(tableData);
+        }
+    }
+
+    public void step9_5(TableData tableData) {
+        TzSystem tz3System = tableDataService.getTzSystemInfo(3, tableData.getAdminId());
+        if (tz3System.getStarted()) {
+            //处于“启动”状态，进入步骤10-14。
+            int result = step10_14(tableData, tz3System);
+            if (result == 1) {
+                step11_1();
+            } else if (result == 2) {
+                int result2 = step10_16(tableData, tz3System);
+                if (result2 == 1) {
+                    //生成投注记录
+                    step10_4(tableData, tableData.getAdminId(), 3, TableResultEnum.X.getIndex());
+                } else {
+                    step11_1();
+                }
+            } else if (result == 3) {
+                TzStatusInfo tzStatusInfo = tableDataService.getTzStatus(tableData.getAdminId(), tableData.getTableNo(), 3);
+                if (tzStatusInfo.getTzStatus() == 1) {
+                    //生成投注记录
+                    step10_4(tableData, tableData.getAdminId(), 3, TableResultEnum.X.getIndex());
+                } else {
+                    step11_1();
+                }
+            } else if (result == 4) {
+                TzStatusInfo tzStatusInfo = tableDataService.getTzStatus(tableData.getAdminId(), tableData.getTableNo(), 3);
+                if (tzStatusInfo.getTzStatus() == 1) {
+                    tableDataService.updateTzStatus(tzStatusInfo.getId(), 0);
+                }
+                step11_1();
+            } else {
+                step11_1();
+            }
+        } else {
+            //处于“关闭”状态。进入步骤11-1。
+            step11_1();
         }
 
+    }
+
+    /**
+     * 1）TZ3CHC<=差值<=TZ3CHD，将《TZ3控制表》同桌号状态改为“可投注”，进入步骤10-20。
+     * 2）差值<TZ3CHC或差值>TZ3CHD，将《TZ3控制表》同桌号状态改为“不投注”，进入步骤11-1。
+     *
+     * @param tableData
+     * @param tzSystem
+     */
+    public int step10_16(TableData tableData, TzSystem tzSystem) {
+        int count = tableDataService.getTableResultCalCount(tableData.getTableNo(), tableData.getBattleNo(), Integer.valueOf(tzSystem.getFha()));
+        TzStatusInfo tzStatusInfo = tableDataService.getTzStatus(tableData.getAdminId(), tableData.getTableNo(), 3);
+        if (count >= Integer.valueOf(tzSystem.getFhc()) && count <= Integer.valueOf(tzSystem.getFhd())) {
+            if (tzStatusInfo.getTzStatus() == 0) {
+                tableDataService.updateTzStatus(tzStatusInfo.getId(), 1);
+            }
+            return 1;
+        } else {
+            if (tzStatusInfo.getTzStatus() == 1) {
+                tableDataService.updateTzStatus(tzStatusInfo.getId(), 0);
+            }
+            return 2;
+        }
+    }
+
+    //投注并计算结果（已用job计算）
+    public void step11_1() {
+        //无
     }
 
     /**
@@ -463,27 +600,72 @@ public class BJLDataService {
      * @param tableData
      * @return
      */
-    public TableMergeData step8_3(TableData tableData, BigDecimal phxs) {
+    public TableMergeData step8_3(TableData tableData, BdtSystem bdtSystem) {
 
-        String xjz = "0";
-        String zjz = "0";
-        int result = tableData.getResult();
-        if (result == TableResultEnum.Z.getIndex()) {
-            xjz = new BigDecimal(-1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
-            zjz = new BigDecimal(0.95).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
-        } else if (result == TableResultEnum.X.getIndex()) {
-            xjz = new BigDecimal(1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
-            zjz = new BigDecimal(-1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
-        }
         TableMergeData tableMergeData = new TableMergeData();
         tableMergeData.setCreateTime(tableData.getCreateTime());
         tableMergeData.setTableNo(tableData.getTableNo());
         tableMergeData.setBattleNo(tableData.getBattleNo());
         tableMergeData.setFitNo(tableData.getFitNo());
-        tableMergeData.setXjz(xjz);
-        tableMergeData.setZjz(zjz);
         tableMergeData.setIsDelete(false);
         tableMergeData.setAdminId(tableData.getAdminId());
+        BigDecimal txxsCompare = new BigDecimal(0.012);
+        //1）副号=1，且TXXS>=0.012，进入步骤8-3-5。
+        //2）副号=1，且TXXS<0.012，不计算ZJZ、LJZJZ，进入步骤9-1。
+        //3）副号>1，进入步骤8-3-3。
+        if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) >= 0) {
+            //进入步骤8-3-5。
+            return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
+        } else if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) == -1) {
+            //进入步骤9-1。
+            return null;
+        } else if (tableData.getFitNo() > 1) {
+            //进入步骤8-3-3。
+            String ztslStr = tableDataService.getZtslByTable(tableData.getAdminId(), tableData.getTableNo(),
+                    tableData.getBattleNo(), tableData.getFitNo());
+            if (StringUtils.isNotBlank(ztslStr)) {
+                return null;
+            }
+            BigDecimal ztsl = new BigDecimal(ztslStr);
+            if (ztsl.compareTo(bdtSystem.getTxxs()) <= 0) {
+                //进入步骤8-3-5。
+                return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+//        int result = tableData.getResult();
+//        if (result == TableResultEnum.Z.getIndex()) {
+//            xjz = new BigDecimal(-1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
+//            zjz = new BigDecimal(0.95).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
+//        } else if (result == TableResultEnum.X.getIndex()) {
+//            xjz = new BigDecimal(1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
+//            zjz = new BigDecimal(-1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
+//        }
+    }
+
+    /**
+     * 计算ZJZ
+     *
+     * @param result
+     * @param phxs
+     * @param tableMergeData
+     * @return
+     */
+    public TableMergeData step8_3_5(int result, BigDecimal phxs, TableMergeData tableMergeData) {
+
+        String xjz = "0";
+        String zjz = "0";
+        BigDecimal s = new BigDecimal(0.95);
+        if (result == TableResultEnum.X.getIndex()) {
+            zjz = BigDecimal.ONE.subtract(phxs).toPlainString();
+        } else if (result == TableResultEnum.Z.getIndex()) {
+            zjz = s.add(s.multiply(phxs).setScale(4, BigDecimal.ROUND_DOWN)).toPlainString();
+        }
+        tableMergeData.setXjz(xjz);
+        tableMergeData.setZjz(zjz);
         tableDataService.addTableMergeData(tableMergeData);
         return tableMergeData;
     }
@@ -503,8 +685,8 @@ public class BJLDataService {
             BigDecimal zjz = new BigDecimal(tableMergeData.getZjz());
             BigDecimal ljxjz = new BigDecimal(data.getLjxjz());
             BigDecimal ljzjz = new BigDecimal(data.getLjzjz());
-            tableMergeData.setLjxjz(xjz.add(ljxjz).setScale(3, BigDecimal.ROUND_DOWN).toPlainString());
-            tableMergeData.setLjzjz(zjz.add(ljzjz).setScale(3, BigDecimal.ROUND_DOWN).toPlainString());
+            tableMergeData.setLjxjz(xjz.add(ljxjz).setScale(4, BigDecimal.ROUND_DOWN).toPlainString());
+            tableMergeData.setLjzjz(zjz.add(ljzjz).setScale(4, BigDecimal.ROUND_DOWN).toPlainString());
         }
         tableDataService.updateTableMergeData(tableMergeData);
     }
@@ -528,14 +710,15 @@ public class BJLDataService {
     }
 
     /**
-     * 步骤10-2，比较ZTSL与TZ1XH
+     * 步骤10-2，比较 _tsl 与TZ1XH
      *
-     * @param tableData
+     * @param tsl
      * @param tzSystem
-     * @return 1）ZTSL>TZ1XH，进入步骤11-1。2）ZTSL<=TZ1XH，进入步骤10-3。
+     * @return 1）ZTSL>TZ1XH，进入步骤9-2。
+     * 2）ZTSL<=TZ11XH，进入步骤10-3。
      */
-    public int step10_2(TableData tableData, TzSystem tzSystem) {
-        BigDecimal ztsl = new BigDecimal(tableData.getZtsl());
+    public int step10_2(String tsl, TzSystem tzSystem) {
+        BigDecimal ztsl = new BigDecimal(tsl);
         BigDecimal xh = new BigDecimal(tzSystem.getXh());
         int result = ztsl.compareTo(xh);
         if (result == 1) {
@@ -551,17 +734,72 @@ public class BJLDataService {
      * @param tableData
      * @param tzSystem
      * @return 1）TZ1FHA<=副号<=TZ1FHB或者TZ1FHC<=副号<=TZ1FHD，进入步骤10-4。
-     *         2）副号不在1）的两个区间，进入步骤11-1。
+     * 2）副号不在1）的两个区间，进入步骤11-1。
      */
     public int step10_3(TableData tableData, TzSystem tzSystem) {
-        Boolean result1 = tableData.getFitNo().compareTo(tzSystem.getFha()) >= 0 ? true : false;
-        Boolean result2 = tableData.getFitNo().compareTo(tzSystem.getFhb()) <= 0 ? true : false;
-        Boolean result3 = tableData.getFitNo().compareTo(tzSystem.getFhc()) >= 0 ? true : false;
-        Boolean result4 = tableData.getFitNo().compareTo(tzSystem.getFhd()) <= 0 ? true : false;
+        Boolean result1 = tableData.getFitNo().compareTo(Integer.valueOf(tzSystem.getFha())) >= 0 ? true : false;
+        Boolean result2 = tableData.getFitNo().compareTo(Integer.valueOf(tzSystem.getFhb())) <= 0 ? true : false;
+        Boolean result3 = tableData.getFitNo().compareTo(Integer.valueOf(tzSystem.getFhc())) >= 0 ? true : false;
+        Boolean result4 = tableData.getFitNo().compareTo(Integer.valueOf(tzSystem.getFhd())) <= 0 ? true : false;
         if ((result1 && result2) || (result3 && result4)) {
             return 1;
         } else {
             return 2;
+        }
+    }
+
+    /**
+     * 步骤10-9，比较ZTSL与TZ13XHA、TZ13XHB、TZ13XHC、TZ13XHD。
+     * 1）TZ13XHA<ZTSL<=TZ13XHB或者TZ13XHC<ZTSL<=TZ13XHD，进入步骤10-10。
+     * 2）ZTSL不在1）的两个区间，进入步骤9-4。
+     *
+     * @param tableData
+     * @param tzSystem
+     * @return
+     */
+    public int step10_9(TableData tableData, TzSystem tzSystem) {
+        BigDecimal ztsl = new BigDecimal(tableData.getZtsl());
+        BigDecimal xha = new BigDecimal(tzSystem.getFha());
+        BigDecimal xhb = new BigDecimal(tzSystem.getFha());
+        BigDecimal xhc = new BigDecimal(tzSystem.getFha());
+        BigDecimal xhd = new BigDecimal(tzSystem.getFha());
+        Boolean result1 = ztsl.compareTo(xha) == 1 ? true : false;
+        Boolean result2 = ztsl.compareTo(xhb) <= 0 ? true : false;
+        Boolean result3 = ztsl.compareTo(xhc) == 1 ? true : false;
+        Boolean result4 = ztsl.compareTo(xhd) <= 0 ? true : false;
+        if ((result1 && result2) || (result3 && result4)) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    /**
+     * 步骤10-15，比较副号与TZ3FHA、TZ3FHB。
+     * <p>
+     * 1）副号<TZ3FHA，进入步骤11-1。
+     * 2）副号=TZ3FHA，进入步骤10-16。
+     * 3) TZ3FHA<副号<TZ3FHB，进入步骤10-19。
+     * 4) 副号=TZ3FHB，进入步骤10-21。
+     * 5) 副号>TZ3FHB，进入步骤11-1。
+     *
+     * @param tableData
+     * @param tzSystem
+     * @return
+     */
+    public int step10_14(TableData tableData, TzSystem tzSystem) {
+        Integer fha = Integer.valueOf(tzSystem.getFha());
+        Integer fhb = Integer.valueOf(tzSystem.getFhb());
+        if (tableData.getFitNo() < fha) {
+            return 1;
+        } else if (tableData.getFitNo() == fha) {
+            return 2;
+        } else if (tableData.getFitNo() > fha && tableData.getFitNo() < fhb) {
+            return 3;
+        } else if (tableData.getFitNo() == fhb) {
+            return 4;
+        } else {
+            return 5;
         }
     }
 
@@ -602,7 +840,7 @@ public class BJLDataService {
      *
      * @param tableData
      */
-    public void step10_4(TableData tableData, String adminId) {
+    public void step10_4(TableData tableData, String adminId, int tzxt, int tzfx) {
 
         List<DopeManage> dopeManage = tableDataService.getDopeManageByTableNoAndTzxt(tableData.getTableNo().toString(), 1, adminId);
         List<DopeManage> list = parseDopeManage(dopeManage);
@@ -620,9 +858,10 @@ public class BJLDataService {
                     data.setBattleNo(tableDataNew.getBattleNo());
                     data.setFitNo(tableDataNew.getFitNo() + 1);
                     data.setTzje(dopeData.getTzje().toString());
-                    data.setTzxt(1);
-                    data.setTzfx(TableResultEnum.Z.getIndex());
+                    data.setTzxt(tzxt);
+                    data.setTzfx(tzfx);
                     data.setTzzh(dopeData.getTzzh());
+                    data.setAdminId(adminId);
                     resultDataList.add(data);
                 }
             });

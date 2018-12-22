@@ -6,6 +6,8 @@ import java.util.Date;
 public class ResultData {
     private Integer id;
 
+    private String adminId;
+
     private Date createTime;
 
     private Integer tableNo;
@@ -41,6 +43,14 @@ public class ResultData {
     private Integer tzCount;
 
     private Integer tzSjtzje;
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
 
     public Integer getTzSjtzje() {
         return tzSjtzje;

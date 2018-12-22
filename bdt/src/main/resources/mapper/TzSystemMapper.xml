@@ -5,10 +5,10 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="tzxt" jdbcType="INTEGER" property="tzxt" />
     <result column="started" jdbcType="BIT" property="started" />
-    <result column="fha" jdbcType="INTEGER" property="fha" />
-    <result column="fhb" jdbcType="INTEGER" property="fhb" />
-    <result column="fhc" jdbcType="INTEGER" property="fhc" />
-    <result column="fhd" jdbcType="INTEGER" property="fhd" />
+    <result column="fha" jdbcType="VARCHAR" property="fha" />
+    <result column="fhb" jdbcType="VARCHAR" property="fhb" />
+    <result column="fhc" jdbcType="VARCHAR" property="fhc" />
+    <result column="fhd" jdbcType="VARCHAR" property="fhd" />
     <result column="xh" jdbcType="VARCHAR" property="xh" />
     <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
   </resultMap>

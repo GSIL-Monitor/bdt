@@ -208,4 +208,59 @@
     AND created = #{created}
     ORDER BY create_time DESC
   </select>
+
+  <select id="getZtslByTable" resultType="String">
+    SELECT
+        ztsl
+    FROM
+        table_data
+    WHERE
+        is_delete = 0
+        AND admin_id = #{adminId}
+        AND table_no = #{tableNo}
+        AND battle_no = #{battleNo}
+        AND fit_no != #{fitNo}
+    ORDER BY
+        create_time DESC
+        LIMIT 1
+  </select>
+
+  <select id="getTableResultCalCount" resultType="int">
+    SELECT
+        a.zCount - a.xCount
+    FROM
+        (
+        SELECT
+            (
+            SELECT
+                IFNULL( COUNT( 1 ), 0 )
+            FROM
+                table_data
+            WHERE
+                table_no = #{tableNo}
+                AND battle_no = #{battleNo}
+                AND result = 1
+                AND fitNo <![CDATA[ <= ]]> #{fha}
+                AND create_time BETWEEN DATE_SUB( NOW( ), INTERVAL 4 HOUR )
+                AND NOW()
+            ORDER BY
+                create_time DESC
+            ) zCount,
+            (
+            SELECT
+                IFNULL( COUNT( 1 ), 0 )
+            FROM
+                table_data
+            WHERE
+                table_no = #{tableNo}
+                AND battle_no = #{battleNo}
+                AND result = 2
+                AND fitNo <![CDATA[ <= ]]> #{fha}
+                AND create_time BETWEEN DATE_SUB( NOW( ), INTERVAL 4 HOUR )
+                AND NOW()
+            ORDER BY
+                create_time DESC
+            ) xCount
+        ) a
+  </select>
 </mapper>

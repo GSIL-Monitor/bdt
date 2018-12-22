@@ -11,6 +11,8 @@ public class AdminAccount {
 
     private Boolean superAdmin;
 
+    private String mainAdminId;
+
     private Boolean isDelete;
 
     public String getId() {
@@ -59,5 +61,13 @@ public class AdminAccount {
 
     public void setSuperAdmin(Boolean superAdmin) {
         this.superAdmin = superAdmin;
+    }
+
+    public String getMainAdminId() {
+        return mainAdminId;
+    }
+
+    public void setMainAdminId(String mainAdminId) {
+        this.mainAdminId = mainAdminId;
     }
 }

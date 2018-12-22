@@ -339,4 +339,20 @@ public interface TableDataService {
     JSONObject getAllUploadFile(Date startTime, Date endTime, Integer type, String adminId);
 
     Boolean addDopeManageLog(DopeManageLogo manageLogo);
+
+    /**    **/
+
+    int addTzStatusInfo(TzStatusInfo tzStatusInfo);
+
+    TzStatusInfo getTzStatus(String adminId, int tableNo, int tzxt);
+
+    int updateTzStatus(int id, int tzStatus);
+
+    String getZtslByTable(String adminId, int tableNo, int battleNo, int fitNo);
+
+    //副号满足1<=副号<=TZ3FHA的记录中的“结果”，统计“庄”、“闲”的个数，并计算差值，差值=“庄”的个数-“闲”的个数
+    int getTableResultCalCount(int tableNo, int battleNo, int fha);
+
+
+
 }
