@@ -3,7 +3,7 @@
     <div slot="title">
       <div>
         <Row :gutter="0" type="flex" align="middle">
-          <i-col span="5"><span style="font-size: 16px;font-weight: bold">投注子系统TZ1</span>
+          <i-col span="5"><span style="font-size: 16px;font-weight: bold">投注子系统TZ3</span>
           </i-col>
           <i-col span="19" style="text-align: right">
             <span>状态：{{!disabledSet?'正常':'停止'}}运行</span>&ensp;
@@ -14,44 +14,23 @@
           </i-col>
         </Row>
       </div>
-      <div style="display: flex;align-items: flex-end;">
-        <div style="flex: 1">
-          <Form style="margin: 5px 0 0 0;display: flex;" ref="formInline" :model="formInline"
-                inline>
+      <div style="display: flex;align-items: flex-end">
+        <div style="flex: 1;text-align: left">
+          <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
             <FormItem label="FHA" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fha" :disabled="!disabledSet"
-                     placeholder="Username">
+                     placeholder="">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="FHB" prop="user" style="margin:0 5px">
-              <Input type="text" v-model="formInline.fhb" :disabled="!disabledSet"
-                     placeholder="Username">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
-              </Input>
-            </FormItem>
-            <FormItem label="FHC" prop="user" style="margin:0 5px">
-              <Input type="text" v-model="formInline.fhc" :disabled="!disabledSet"
-                     placeholder="Username">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
-              </Input>
-            </FormItem>
-            <FormItem label="FHD" prop="user" style="margin:0 5px">
-              <Input type="text" v-model="formInline.fhd" :disabled="!disabledSet"
-                     placeholder="Username">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
-              </Input>
-            </FormItem>
-            <FormItem label="XH" prop="password" style="margin:0 0 0 5px">
+            <FormItem label="FHB" prop="password" style="margin:0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
-                     placeholder="Password">
+                     placeholder="">
                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
           </Form>
         </div>
-      </div>
-      <div style="display: flex;margin-top: 10px">
         <div class="" style="flex: 1;text-align: right">
           <Button type="success" @click="saveApp(true)" :disabled="!disabledSave">
             {{'保存修改'}}
@@ -59,16 +38,15 @@
           <Button type="error" @click="saveApp(false)" :disabled="!disabledSave">重置修改</Button>
         </div>
       </div>
-      <!--allTz  所有  tzSuccess成功  tzFail失败   tzNone未投  tzRepeat 重投-->
       <div
         style="width:100%;color:#000000;border-radius:4px;font-size:15px;height:45px;padding:0 5px;margin:14px 0 0;display: flex;align-items: center;background-color: rgba(0,0,0,0.1)">
         <div style="margin-right: 10px;flex: 1;">投注总数&ensp;<span
-          style="">{{tz1AllData.allTz}}</span></div>
+          style="">{{tz2AllData.allTz}}</span></div>
         <div style="margin-right: 10px;flex: 1;">未投注&ensp;<span
-          style="">{{tz1AllData.tzNone}}</span></div>
+          style="">{{tz2AllData.tzNone}}</span></div>
         <div style="margin-right: 10px;flex: 1;">投注失败数&ensp;<span
-          style="">{{tz1AllData.tzFail}}</span></div>
-        <div style="flex: 1;">重复投注数&ensp;<span style="">{{tz1AllData.tzRepeat}}</span></div>
+          style="">{{tz2AllData.tzFail}}</span></div>
+        <div style="flex: 1;">重复投注数&ensp;<span style="">{{tz2AllData.tzRepeat}}</span></div>
       </div>
     </div>
     <div class="" style="position: relative;">
@@ -80,17 +58,23 @@
               &emsp;<Checkbox @on-change="checkBoxAllChange" v-model="checkBoxAll">全选</Checkbox>
             </div>
           </th>
-          <th width="10%" align="left">
+          <th width="8%" align="left">
             <div class="row">账号</div>
           </th>
           <th width="10%">
             <div class="row">投注金额</div>
           </th>
-          <th width="55%" align="center">
-            <div class="row">投注时间限制</div>
+          <th width="30%" align="center">
+            <div class="row">投注时间限制1</div>
+          </th>
+          <th width="17%" align="center">
+            <div class="row">投注时间限制2</div>
           </th>
           <th width="15%">
             <div class="row">投注桌号</div>
+          </th>
+          <th width="15%">
+            <div class="row">投注方向</div>
           </th>
         </tr>
         </thead>
@@ -102,21 +86,32 @@
             </div>
           </td>
           <td class="name">
-            <div class="row">{{item.account}}</div>
+            <div class="row">
+              {{item.account}}
+            </div>
           </td>
           <td>
             <div class="row">
-              <Select :key="index+'tzje'" v-model="item.tzje" style="width:100%"
-                      @on-change="tabJinEChange">
+              <Select :key="index+Math.random()" v-model="item.tzje" style="width:100%">
                 <Option v-for="opt in tabJinE" :value="opt" :key="opt">{{opt}}</Option>
               </Select>
             </div>
           </td>
           <td class="time">
             <div class="row">
-              <Select :key="index+'time'" v-model="item.time" multiple clearable
-                      style="width:100%" @on-change="tabJinEChange">
+              <Select :key="index+Math.random()" v-model="item.time" multiple clearable
+                      style="width:100%">
                 <Option v-for="opt in timelineDataFun" :disabled="opt.disabled" :value="opt.value"
+                        :key="opt.value">{{opt.name }}
+                </Option>
+              </Select>
+            </div>
+          </td>
+          <td class="time2">
+            <div class="row">
+              <Select :key="index+Math.random()" v-model="item.time2" multiple clearable
+                      style="width:100%">
+                <Option v-for="opt in tz2Option" :disabled="opt.disabled" :value="opt.value"
                         :key="opt.value">{{opt.name }}
                 </Option>
               </Select>
@@ -132,6 +127,15 @@
               </span>
             </div>
           </td>
+          <td align="center">
+            <div class="row">
+              <span>
+                <Select :key="index" v-model="item.tzfx" clearable style="width:100%">
+                  <Option v-for="opt in tzfx2Option" :value="opt.value" :key="opt.value">{{opt.name}}</Option>
+                </Select>
+              </span>
+            </div>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -142,12 +146,24 @@
 </template>
 
 <script>
+  const startTZXT = 3;
   export default {
     name: "tzSystemInfo",
     data() {
       return {
-        disabledSave: true,
+        tzfx2Option: [
+          {name: '庄', value: '1'},
+          {name: '闲', value: '2'},
+          {name: '和', value: '3'}
+        ],
+        tz2Option: [
+          {name: '00-20', value: '00-20'},
+          {name: '20-40', value: '20-40'},
+          {name: '40-60', value: '40-60'}
+        ],
+        tz2AllData: {},
         disabledSet: true,
+        disabledSave: true,
         tabJinE: [50, 100, 200, 500, 1000, 5000, 10000],
         tablineData: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
         timelineData: [
@@ -204,9 +220,6 @@
         ],
         formInline: {
           fha: '',
-          fhb: '',
-          fhc: '',
-          fhd: '',
           xh: ''
         },
         checkBoxAll: false,
@@ -218,10 +231,12 @@
             tab: '1'
           }
         ],
-        tz1AllData: {},
         tzListData: [],
         tzSystem: {}
       }
+    },
+    activated() {
+
     },
     computed: {
       timelineDataFun() {
@@ -236,36 +251,17 @@
       }
     },
     created() {
-      if (window.sessionStorage.getItem('getTzSystemInfo')) {
-        this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
-        this.tzSystem = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzSystem'));
-        this.setCheckBoxAll();
-        this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
-        this.disabledSet = !this.tzSystem.started;
-      } else {
-        this.getTzSystemInfo(11);
-      }
-    },
-    watch: {
-      tzListData: function (val) {
-        console.log('3245234', val);
-      }
-    },
-    activated() {
-
+      this.getTzSystemInfo(startTZXT);
     },
     methods: {
       saveApp(type) {
         if (type) {
           this.$Notice.open({title: '提示', desc: '当前修改保存成功，从新启动投注系统可应用', duration: 2});
-          window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
-          // this.tzSystem
-          window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
-          // this.updateTzCheck();
+          this.updateTzCheck();
         } else {
-          this.getTzSystemInfo(1);
+          this.getTzSystemInfo(startTZXT);
           setTimeout(_ => {
-            this.$Message.success({content: 'TZXT1更新成功', duration: 10, closable: true});
+            this.$Message.success({content: 'TZXT2更新成功', duration: 10, closable: true});
           }, 500)
         }
       },
@@ -273,18 +269,21 @@
         this.tzListData.forEach((e) => {
           e.adminId = this.$cookie.get('token')
           e.tzsjSection1 = e.time.join(',');
+          e.tzsjSection2 = e.time2.join(',');
           e.tableNo = e.tableCode.join(',');
         });
+        // let params = {
+        //   list: this.tzListData
+        // };
         let params = this.tzListData
         this.$api.updateTzCheck(params).then(res => {
           if (res.data.returnCode == 200) {
-            this.$Message.success({content: '更新成功', duration: 10, closable: true});
+            // this.$Message.success({content: '更新成功', duration: 10, closable: true});
           }
         }).catch(err => {
 
         })
       },
-      //
       setCheckBoxAll() {
         setTimeout(() => {
           let setBox = true;
@@ -297,54 +296,45 @@
           console.log(setBox);
         })
       },
+      //
       dataClick(index) {
         //
         this.setCheckBoxAll();
         //
         console.log(this.tzListData[index]);
       },
+      //
       tableCodeChange(val) {
-
         if (val.length > 6) {
           this.$Message.info({content: '最多选择6桌', duration: 10, closable: true});
         }
         console.log(val);
-        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
-        // this.tzSystem
-        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
       },
-      tabJinEChange() {
-        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
-        // this.tzSystem
-        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
-      },
+      //
       checkBoxChange(val) {
-
         console.log(val);
-        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
-        // this.tzSystem
-        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
       },
+      //
       checkBoxAllChange(val) {
         console.log(val);
         this.tzListData.forEach((e) => {
           e.hasCheck = val;
         })
-        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
-        // this.tzSystem
-        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
       },
+      //
       startApp(start) {
         this.disabledSet = !start;
-        this.tzSystemStarted(1);
+        this.tzSystemStarted(2);
       },
+      //
       getTzSystemInfo(type) {
         let params = {tzxt: type}
         this.$api.getTzSystemInfo(params).then(res => {
-          console.log(res.data);
+          console.log(res);
           if (res.data.returnCode == 200) {
             this.tzListData = res.data.returnObject.list;
             this.tzListData.forEach((e) => {
+              e.adminId = this.$cookie.get('token')
               if (e.tzsjSection1 == null) {
                 e.tzsjSection1 = '';
               }
@@ -357,21 +347,23 @@
               if (e.tzje == null) {
                 e.tzje = '50';
               }
+              if (e.tzfx == null) {
+                e.tzfx = '1';
+              }
+              e.tzfx = e.tzfx.toString()
               if (e.hasCheck == null) {
                 e.hasCheck = false;
               }
               e.time = e.tzsjSection1.split(',');
+              e.time2 = e.tzsjSection2.split(',');
               e.tableCode = e.tableNo.split(',');
+              console.log(e);
             });
-            console.log('12312312==>', this.tzListData);
             this.setCheckBoxAll();
-            this.tz1AllData = res.data.returnObject;
+            this.tz2AllData = res.data.returnObject;
             this.tzSystem = res.data.returnObject.tzSystem;
             this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
             this.disabledSet = !this.tzSystem.started;
-            window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
-            // this.tzSystem
-            window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
           }
         }).catch(err => {
 
@@ -380,13 +372,10 @@
       //
       tzSystemStarted(tzxt) {
         //
-        this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
-        this.tzSystem = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzSystem'));
-        // this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
-
         this.tzListData.forEach((e) => {
           e.adminId = this.$cookie.get('token')
           e.tzsjSection1 = e.time.join(',');
+          e.tzsjSection2 = e.time2.join(',');
           e.tableNo = e.tableCode.join(',');
         });
         //
@@ -400,9 +389,11 @@
         this.$api.tzSystemStarted(data).then((res) => {
           if (res.data.returnCode == 200) {
             if (!this.disabledSet) {
-              this.getTzSystemInfo(1);
+              this.getTzSystemInfo(startTZXT);
             }
           }
+        }).catch(() => {
+
         })
       }
     }

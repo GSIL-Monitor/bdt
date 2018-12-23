@@ -1,5 +1,5 @@
 <template>
-  <Card class="tzSystemInfo" style="margin-bottom: 40px">
+  <Card class="tzSystemInfo">
     <div slot="title">
       <div>
         <Row :gutter="0" type="flex" align="middle">

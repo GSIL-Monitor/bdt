@@ -3,7 +3,7 @@
     <div slot="title">
       <div>
         <Row :gutter="0" type="flex" align="middle">
-          <i-col span="5"><span style="font-size: 16px;font-weight: bold">投注子系统TZ1</span>
+          <i-col span="5"><span style="font-size: 16px;font-weight: bold">投注子系统TZ1-3</span>
           </i-col>
           <i-col span="19" style="text-align: right">
             <span>状态：{{!disabledSet?'正常':'停止'}}运行</span>&ensp;
