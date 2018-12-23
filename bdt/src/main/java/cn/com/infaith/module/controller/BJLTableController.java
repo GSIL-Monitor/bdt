@@ -130,10 +130,16 @@ public class BJLTableController {
     public JSONObject getTableInfo(@RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
 
         List<StatusData> list = tableDataService.selectStatusAll();
-        TzSystem tzSystem1 = tableDataService.getTzSystemInfo(1, adminId);
+        TzSystem tzSystem11 = tableDataService.getTzSystemInfo(11, adminId);
+        TzSystem tzSystem12 = tableDataService.getTzSystemInfo(12, adminId);
+        TzSystem tzSystem13 = tableDataService.getTzSystemInfo(13, adminId);
+        TzSystem tzSystem14 = tableDataService.getTzSystemInfo(14, adminId);
         TzSystem tzSystem2 = tableDataService.getTzSystemInfo(2, adminId);
+        TzSystem tzSystem3 = tableDataService.getTzSystemInfo(3, adminId);
         long date = 15 * 60 * 1000;
-        String tz = "TZ1(" + (tzSystem1.getStarted()?"开启":"关闭") + ")" + " " + "TZ2(" + (tzSystem2.getStarted()?"开启":"关闭") + ")";
+        String tz = "TZ11(" + (tzSystem11.getStarted()?"开启":"关闭") + ")" + " " + "TZ12(" + (tzSystem12.getStarted()?"开启":"关闭") + ")" + "\n"
+                + " " + "TZ13(" + (tzSystem13.getStarted()?"开启":"关闭") + ")"+ " " + "TZ14(" + (tzSystem14.getStarted()?"开启":"关闭") + ")" + "\n"
+                + " " + "TZ2(" + (tzSystem2.getStarted()?"开启":"关闭") + ")"+ " " + "TZ3(" + (tzSystem3.getStarted()?"开启":"关闭") + ")";
         if (CollectionUtils.isNotEmpty(list)) {
             list.stream().forEach(statusData -> {
                 //如果15分钟未进入读牌接口里
