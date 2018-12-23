@@ -18,7 +18,13 @@ Axios.interceptors.request.use(config => {
     if (!config.params) {
       config.params = {}
     }
+    let mainAdminId = '';
+    let userInfo = JSON.parse(Cookie.get('USER_INFO'));
+    if (userInfo.mainAdminId) {
+      mainAdminId = userInfo.mainAdminId;
+    }
     config.params.adminId = Cookie.get('token')
+    config.params.mainAdminId = mainAdminId
     config.params.t = new Date().getTime()
   }
 
