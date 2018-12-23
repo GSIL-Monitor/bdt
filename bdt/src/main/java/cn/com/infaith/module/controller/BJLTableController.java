@@ -227,7 +227,12 @@ public class BJLTableController {
 
         JSONObject json = new JSONObject();
         TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt, adminId);
-        List<DopeManage> list = tableDataService.getDopeMangeList(tzxt, adminId);
+        List<DopeManage> list = new ArrayList<>();
+        if (tzxt == 11 || tzxt == 12 || tzxt == 13 || tzxt == 14) {
+            list = tableDataService.getDopeMangeList(1, adminId);
+        } else {
+            list = tableDataService.getDopeMangeList(tzxt, adminId);
+        }
         int allTz = tableDataService.getAllResultCount(3, adminId, tzxt);
         int tzSuccess = tableDataService.getAllResultCount(1, adminId, tzxt);
         int tzFail = tableDataService.getAllResultCount(0, adminId, tzxt);
