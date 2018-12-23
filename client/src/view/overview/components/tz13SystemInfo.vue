@@ -142,6 +142,9 @@
 </template>
 
 <script>
+  const startTZXT = 13;
+  const getTzSystemInfo_tzListData = 'getTzSystemInfo13_tzListData';
+  const getTzSystemInfo_tzSystem = 'getTzSystemInfo13_tzSystem';
   export default {
     name: "tzSystemInfo",
     data() {
@@ -237,13 +240,13 @@
     },
     created() {
       if (window.sessionStorage.getItem('getTzSystemInfo')) {
-        this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
-        this.tzSystem = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzSystem'));
+        this.tzListData = window.JSON.parse(window.sessionStorage.getItem(getTzSystemInfo_tzListData));
+        this.tzSystem = window.JSON.parse(window.sessionStorage.getItem(getTzSystemInfo_tzSystem));
         this.setCheckBoxAll();
         this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
         this.disabledSet = !this.tzSystem.started;
       } else {
-        this.getTzSystemInfo(11);
+        this.getTzSystemInfo(startTZXT);
       }
     },
     watch: {
@@ -258,12 +261,12 @@
       saveApp(type) {
         if (type) {
           this.$Notice.open({title: '提示', desc: '当前修改保存成功，从新启动投注系统可应用', duration: 2});
-          window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+          window.sessionStorage.setItem(getTzSystemInfo_tzListData, window.JSON.stringify(this.tzListData));
           // this.tzSystem
-          window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
+          window.sessionStorage.setItem(getTzSystemInfo_tzSystem, window.JSON.stringify(this.tzSystem));
           // this.updateTzCheck();
         } else {
-          this.getTzSystemInfo(1);
+          this.getTzSystemInfo(startTZXT);
           setTimeout(_ => {
             this.$Message.success({content: 'TZXT1更新成功', duration: 10, closable: true});
           }, 500)
@@ -309,34 +312,34 @@
           this.$Message.info({content: '最多选择6桌', duration: 10, closable: true});
         }
         console.log(val);
-        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+        window.sessionStorage.setItem(getTzSystemInfo_tzListData, window.JSON.stringify(this.tzListData));
         // this.tzSystem
-        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
+        window.sessionStorage.setItem(getTzSystemInfo_tzSystem, window.JSON.stringify(this.tzSystem));
       },
       tabJinEChange() {
-        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+        window.sessionStorage.setItem(getTzSystemInfo_tzListData, window.JSON.stringify(this.tzListData));
         // this.tzSystem
-        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
+        window.sessionStorage.setItem(getTzSystemInfo_tzSystem, window.JSON.stringify(this.tzSystem));
       },
       checkBoxChange(val) {
 
         console.log(val);
-        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+        window.sessionStorage.setItem(getTzSystemInfo_tzListData, window.JSON.stringify(this.tzListData));
         // this.tzSystem
-        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
+        window.sessionStorage.setItem(getTzSystemInfo_tzSystem, window.JSON.stringify(this.tzSystem));
       },
       checkBoxAllChange(val) {
         console.log(val);
         this.tzListData.forEach((e) => {
           e.hasCheck = val;
         })
-        window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+        window.sessionStorage.setItem(getTzSystemInfo_tzListData, window.JSON.stringify(this.tzListData));
         // this.tzSystem
-        window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
+        window.sessionStorage.setItem(getTzSystemInfo_tzSystem, window.JSON.stringify(this.tzSystem));
       },
       startApp(start) {
         this.disabledSet = !start;
-        this.tzSystemStarted(1);
+        this.tzSystemStarted(startTZXT);
       },
       getTzSystemInfo(type) {
         let params = {tzxt: type}
@@ -369,9 +372,9 @@
             this.tzSystem = res.data.returnObject.tzSystem;
             this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
             this.disabledSet = !this.tzSystem.started;
-            window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
+            window.sessionStorage.setItem(getTzSystemInfo_tzListData, window.JSON.stringify(this.tzListData));
             // this.tzSystem
-            window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
+            window.sessionStorage.setItem(getTzSystemInfo_tzSystem, window.JSON.stringify(this.tzSystem));
           }
         }).catch(err => {
 
@@ -380,9 +383,13 @@
       //
       tzSystemStarted(tzxt) {
         //
-        this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
-        this.tzSystem = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzSystem'));
-        // this.tzListData = window.JSON.parse(window.sessionStorage.getItem('getTzSystemInfo_tzListData'));
+        if (window.sessionStorage.getItem(getTzSystemInfo_tzListData)) {
+          this.tzListData = window.JSON.parse(window.sessionStorage.getItem(getTzSystemInfo_tzListData));
+        }
+        if (window.sessionStorage.getItem(getTzSystemInfo_tzSystem)) {
+          this.tzSystem = window.JSON.parse(window.sessionStorage.getItem(getTzSystemInfo_tzSystem));
+        }
+        // this.tzListData = window.JSON.parse(window.sessionStorage.getItem(getTzSystemInfo_tzListData));
 
         this.tzListData.forEach((e) => {
           e.adminId = this.$cookie.get('token')
@@ -400,7 +407,7 @@
         this.$api.tzSystemStarted(data).then((res) => {
           if (res.data.returnCode == 200) {
             if (!this.disabledSet) {
-              this.getTzSystemInfo(1);
+              this.getTzSystemInfo(startTZXT);
             }
           }
         })
