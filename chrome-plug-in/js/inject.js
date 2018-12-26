@@ -1,5 +1,5 @@
 window.WANGZHANURL = 'https://www.00rfd.com/';
-var BDTURL = 'https://www.bdt1314.xyz/';
+var BDTURL = 'https://test.bdt1314.xyz/';
 
 var datamap = {};
 datamap["_3m2-b"] = "1";
@@ -316,6 +316,9 @@ function NEW_DATE_GET_DAY() {
 }
 
 var callback = function (mutationsList) {
+  setTimeout(() => {
+    currentTableMsgFun();
+  },3000)
   for (var mutation of mutationsList) {
     //过滤无用变更（庄和数字显示）
     // if('i6ChJ _2T18P' === mutation.oldValue || 'i6ChJ' === mutation.oldValue){
@@ -384,7 +387,6 @@ var callback = function (mutationsList) {
     document.querySelectorAll('._1h40X ._2kLct')[1].click();
 
     if ($.trim(rtndata.name1) == '百家乐') {
-      currentTableMsgFun();
       addTableData(rtndata);
       //
       $("._1_GP_").css("display", "none");

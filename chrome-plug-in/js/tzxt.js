@@ -1,4 +1,4 @@
-var BDTURL = 'https://www.bdt1314.xyz/';
+var BDTURL = 'https://test.bdt1314.xyz/';
 window.globalTableCell = {};
 window.status = {
   '开始投注': 2,
@@ -267,150 +267,64 @@ function getNeedTzDataList() {
             data = [];
           }
           // newData是 过滤出来的数据
-          var newData = data.filter((e, i) => {
-            return e.tzzh == getUserId;
-          });
+          // var newData = data.filter((e, i) => {
+          //   return e.tzzh == getUserId;
+          // });
           // 投注系统1传过来的数据
-          var newDataTZ = {
-            'one': [],
-            'two': []
-          }
-          newDataTZ.one = newData.filter((e, i) => {
-            return e.tzxt == 1;
-          });
-          // 投注系统2传过来的数据
-          newDataTZ.two = newData.filter((e, i) => {
-            return e.tzxt == 2;
-          });
+          var newDataTZ = data
           //
-          var setLocalStorage = {
-            'one': [],
-            'two': []
-          }
+          // var setLocalStorage = setLocalStoragefun('SETLocalStorage');
           /**
+           *
            * */
-          if (window.localStorage) {
-            if (window.localStorage.getItem('SETLocalStorage')) {
-              setLocalStorage = window.JSON.parse(window.localStorage.getItem('SETLocalStorage'));
-            } else {
-              for (let i = 0; i < 12; i++) {
-                //
-                setLocalStorage.one.push({
-                  battleNo: '',
-                  tzfx: '',
-                  fitNo: '',
-                  tableNo: '',
-                  tzje: '',
-                  tzxt: '',
-                  tzzh: '',
-                  id: ''
-                });
-                //
-                setLocalStorage.two.push({
-                  battleNo: '',
-                  tzfx: '',
-                  fitNo: '',
-                  tableNo: '',
-                  tzje: '',
-                  tzxt: '',
-                  tzzh: '',
-                  id: ''
-                });
+          var currentTZ = [];
+          newDataTZ.forEach((e, j) => {
+            let setLocalStorage = setLocalStoragefun(`SETLocalStorage${e.tzxt}`);
+            let newItem = setLocalStorage[e.tableNo - 1];
+            if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
+              //  数据不一样 需要投注
+              var tzs = [];
+              if (e.tzStatus) {
+                tzs = JSON.parse(e.tzStatus)
               }
+              //
+              var daskStatus = getWaitTime(e.tableNo - 1);
+              if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
+                //
+                if (daskStatus.time != 0) {
+                  setLocalStorage[e.tableNo - 1] = e;
+                  //
+                  tzs.push(Object.assign({}, daskStatus, {
+                    id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                    nowTime: new Date().getTime(),
+                    istz: true
+                  }));
+                  e.tzStatus = tzs
+                  selectedYuan(e);
+                }
+                //
+                if (daskStatus.time == 0) {
+                  tzs.push(Object.assign({}, daskStatus, {
+                    id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                    nowTime: new Date().getTime(),
+                    istz: false
+                  }));
+                }
+              } else {
+                tzs.push(Object.assign({}, daskStatus, {
+                  id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                  nowTime: new Date().getTime(),
+                  istz: false
+                }));
+              }
+              //
+              e.tzStatus = JSON.stringify(tzs)
+              updateTzztLists(e);
+              window.localStorage.setItem(`SETLocalStorage${e.tzxt}`, window.JSON.stringify(setLocalStorage));
             }
-            //
-            var currentTZ = [];
-            newDataTZ.one.forEach((e, j) => {
-              let newItem = setLocalStorage.one[e.tableNo - 1];
-              if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
-                //  数据不一样 需要投注
-                var tzs = [];
-                if (e.tzStatus) {
-                  tzs = JSON.parse(e.tzStatus)
-                }
-                //
-                var daskStatus = getWaitTime(e.tableNo - 1);
-                if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
-                  //
-                  if (daskStatus.time != 0) {
-                    setLocalStorage.one[e.tableNo - 1] = e;
-                    //
-                    tzs.push(Object.assign({}, daskStatus, {
-                      id: window.localStorage.getItem('Chrome_Inner_User_Id'),
-                      nowTime: new Date().getTime(),
-                      istz: true
-                    }));
-                    e.tzStatus = tzs
-                    selectedYuan(e);
-                  }
-                  //
-                  if (daskStatus.time == 0) {
-                    tzs.push(Object.assign({}, daskStatus, {
-                      id: window.localStorage.getItem('Chrome_Inner_User_Id'),
-                      nowTime: new Date().getTime(),
-                      istz: false
-                    }));
-                  }
-                } else {
-                  tzs.push(Object.assign({}, daskStatus, {
-                    id: window.localStorage.getItem('Chrome_Inner_User_Id'),
-                    nowTime: new Date().getTime(),
-                    istz: false
-                  }));
-                }
-                //
-                e.tzStatus = JSON.stringify(tzs)
-                updateTzztLists(e);
-              }
-            });
-            //
-            newDataTZ.two.forEach((e, j) => {
-              let newItem = setLocalStorage.two[e.tableNo - 1];
-              if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
-                //  数据不一样 需要投注
-                var tzs = [];
-                if (e.tzStatus) {
-                  tzs = JSON.parse(e.tzStatus)
-                }
-                //
-                var daskStatus = getWaitTime(e.tableNo - 1);
-                if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
-                  if (daskStatus.time != 0) {
-                    setLocalStorage.two[e.tableNo - 1] = e;
-                    //
-                    tzs.push(Object.assign({}, daskStatus, {
-                      id: window.localStorage.getItem('Chrome_Inner_User_Id'),
-                      nowTime: new Date().getTime(),
-                      istz: true
-                    }));
-                    //
-                    e.tzStatus = tzs
-                    selectedYuan(e);
-                  }
-                  //
-                  if (daskStatus.time == 0) {
-                    /**/
-                    tzs.push(Object.assign({}, daskStatus, {
-                      id: window.localStorage.getItem('Chrome_Inner_User_Id'),
-                      nowTime: new Date().getTime(),
-                      istz: false
-                    }));
-                  }
-                } else {
-                  /**/
-                  tzs.push(Object.assign({}, daskStatus, {
-                    id: window.localStorage.getItem('Chrome_Inner_User_Id'),
-                    nowTime: new Date().getTime(),
-                    istz: false
-                  }));
-                }
-                e.tzStatus = JSON.stringify(tzs)
-                updateTzztLists(e);
-              }
-            })
-            // 设置 缓存
-            window.localStorage.setItem('SETLocalStorage', window.JSON.stringify(setLocalStorage));
-          }
+          });
+          // 设置 缓存
+
         }
       },
       error: function (XmlHttpRequest, textStatus, errorThrown) {
@@ -419,3 +333,24 @@ function getNeedTzDataList() {
     })
   }, 3333)
 }
+
+function setLocalStoragefun(Storages) {
+  var Storage = [];
+  if (window.localStorage) {
+    if (window.localStorage.getItem(Storages)) {
+      Storage = window.JSON.parse(window.localStorage.getItem(Storages));
+    } else {
+      for (let i = 0; i < 12; i++) {
+        //
+        Storage.push({
+          battleNo: '', tzfx: '', fitNo: '', tableNo: '',
+          tzje: '', tzxt: '', tzzh: '', id: ''
+        });
+      }
+    }
+    return Storage
+  } else {
+    return Storage
+  }
+}
+
