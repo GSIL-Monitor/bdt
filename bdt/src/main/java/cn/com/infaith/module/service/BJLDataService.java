@@ -376,7 +376,8 @@ public class BJLDataService {
             step8_4(tableMergeData);
         }
         TzSystem tz11System = tableDataService.getTzSystemInfo(11, tableData.getAdminId());
-        TableData tableDataNew = step10_1(tableData.getTableNo(), tableData.getAdminId());
+//        TableData tableDataNew = step10_1(tableData.getTableNo(), tableData.getAdminId());
+        TableData tableDataNew = tableData;
         if (tz11System.getStarted()) {
             //投注子系统11启动
             //比较ZTSL与TZ1XH

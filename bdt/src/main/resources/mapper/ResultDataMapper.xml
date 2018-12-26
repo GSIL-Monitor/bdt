@@ -48,7 +48,7 @@
       )
     values
      <foreach collection="list" item="item" index="index" separator=",">
-       (#{adminId}, NOW(), #{item.tableNo,jdbcType=INTEGER},
+       (#{item.adminId}, NOW(), #{item.tableNo,jdbcType=INTEGER},
        #{item.battleNo,jdbcType=INTEGER}, #{item.fitNo,jdbcType=INTEGER}, #{item.tzfx,jdbcType=INTEGER},
        #{item.tzxt,jdbcType=INTEGER}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=VARCHAR}, #{item.tzzt,jdbcType=BIT},
        #{item.tzjg,jdbcType=INTEGER}, #{item.yxje,jdbcType=DECIMAL}, #{item.yssy,jdbcType=DECIMAL}, #{item.sjsy,jdbcType=DECIMAL}
