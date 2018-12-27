@@ -14,22 +14,46 @@
           </i-col>
         </Row>
       </div>
-      <div style="display: flex;align-items: flex-end">
-        <div style="flex: 1;text-align: left">
-          <Form style="margin: 5px 0 0 0" ref="formInline" :model="formInline" inline>
+      <div style="display: flex;align-items: flex-end;">
+        <div style="flex: 1">
+          <Form style="margin: 5px 0 0 0;display: flex;" ref="formInline" :model="formInline"
+                inline>
             <FormItem label="FHA" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fha" :disabled="!disabledSet"
-                     placeholder="">
+                     placeholder="Username">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="FHB" prop="password" style="margin:0 5px">
+            <FormItem label="FHB" prop="user" style="margin:0 5px">
+              <Input type="text" v-model="formInline.fhb" :disabled="!disabledSet"
+                     placeholder="Username">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem label="FHC" prop="user" style="margin:0 5px">
+              <Input type="text" v-model="formInline.fhc" :disabled="!disabledSet"
+                     placeholder="Username">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem label="FHD" prop="user" style="margin:0 5px">
+              <Input type="text" v-model="formInline.fhd" :disabled="!disabledSet"
+                     placeholder="Username">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem label="XH" prop="password" style="margin:0 0 0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
-                     placeholder="">
+                     placeholder="Password">
                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
           </Form>
+        </div>
+      </div>
+      <div style="display: flex;align-items: flex-end;margin-top: 10px">
+        <div style="flex: 1;text-align: left">
+
         </div>
         <div class="" style="flex: 1;text-align: right">
           <Button type="success" @click="saveApp(true)" :disabled="!disabledSave">
