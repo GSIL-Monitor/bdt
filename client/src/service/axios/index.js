@@ -22,9 +22,10 @@ Axios.interceptors.request.use(config => {
     let userInfo = JSON.parse(Cookie.get('USER_INFO'));
     if (userInfo.mainAdminId) {
       mainAdminId = userInfo.mainAdminId;
+      config.params.adminId = mainAdminId
+    } else {
+      config.params.adminId = Cookie.get('token')
     }
-    config.params.adminId = Cookie.get('token')
-    config.params.mainAdminId = mainAdminId
     config.params.t = new Date().getTime()
   }
 
