@@ -21,31 +21,31 @@
             <FormItem label="FHA" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fha" :disabled="!disabledSet"
                      placeholder="Username">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
             <FormItem label="FHB" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fhb" :disabled="!disabledSet"
                      placeholder="Username">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
             <FormItem label="FHC" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fhc" :disabled="!disabledSet"
                      placeholder="Username">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
             <FormItem label="FHD" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fhd" :disabled="!disabledSet"
                      placeholder="Username">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
             <FormItem label="XH" prop="password" style="margin:0 0 0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
                      placeholder="Password">
-                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+              <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
           </Form>
@@ -304,7 +304,6 @@
         console.log(this.tzListData[index]);
       },
       tableCodeChange(val) {
-
         if (val.length > 6) {
           this.$Message.info({content: '最多选择6桌', duration: 10, closable: true});
         }
@@ -319,7 +318,6 @@
         window.sessionStorage.setItem('getTzSystemInfo_tzSystem', window.JSON.stringify(this.tzSystem));
       },
       checkBoxChange(val) {
-
         console.log(val);
         window.sessionStorage.setItem('getTzSystemInfo_tzListData', window.JSON.stringify(this.tzListData));
         // this.tzSystem

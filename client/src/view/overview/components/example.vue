@@ -90,8 +90,8 @@
     created() {
       for (let i = 0; i < 7; i++) {
         this.weekList[i] = {
-          value: this.getWeek(i+1),
-          label: `${this.getWeek(i+1)}-${this.weekList[i].label}`
+          value: this.getWeek(i + 1),
+          label: `${this.getWeek(i + 1)}-${this.weekList[i].label}`
         };
         console.log(this.getWeek(i));
       }
@@ -446,11 +446,9 @@
   #overLine {
     position: relative;
   }
-
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
   }
-
   @keyframes ani-demo-spin {
     from {
       transform: rotate(0deg);
@@ -462,7 +460,6 @@
       transform: rotate(360deg);
     }
   }
-
   .demo-spin-col {
     height: 100px;
     position: relative;
