@@ -2,8 +2,10 @@
   <div class="bdt-overview">
     <Row :gutter="16">
       <i-col span="6">
-        <bdt-run v-if="mainAdmin"></bdt-run>
-        <br>
+        <template v-if="mainAdmin">
+          <bdt-run></bdt-run>
+          <br>
+        </template>
         <login-out></login-out>
       </i-col>
       <i-col span="18" v-if="mainAdmin">
@@ -53,7 +55,7 @@
       tz3SystemInfo
     },
     watch: {
-      $route: function (to, form) {
+      $route(to, form) {
         // console.log(to);
       }
     },
@@ -65,7 +67,6 @@
       } else {
         this.mainAdmin = false;
       }
-      // this.getAdminAccount();
     },
     activated() {
 
