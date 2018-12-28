@@ -610,7 +610,7 @@ public class BJLDataService {
         tableMergeData.setFitNo(tableData.getFitNo());
         tableMergeData.setIsDelete(false);
         tableMergeData.setAdminId(tableData.getAdminId());
-        BigDecimal txxsCompare = new BigDecimal(0.012);
+        BigDecimal txxsCompare = new BigDecimal(0.012).setScale(3, BigDecimal.ROUND_DOWN);
         //1）副号=1，且TXXS>=0.012，进入步骤8-3-5。
         //2）副号=1，且TXXS<0.012，不计算ZJZ、LJZJZ，进入步骤9-1。
         //3）副号>1，进入步骤8-3-3。
@@ -624,7 +624,7 @@ public class BJLDataService {
             //进入步骤8-3-3。
             String ztslStr = tableDataService.getZtslByTable(tableData.getAdminId(), tableData.getTableNo(),
                     tableData.getBattleNo(), tableData.getFitNo());
-            if (StringUtils.isNotBlank(ztslStr)) {
+            if (StringUtils.isBlank(ztslStr)) {
                 return null;
             }
             BigDecimal ztsl = new BigDecimal(ztslStr);
@@ -659,7 +659,7 @@ public class BJLDataService {
 
         String xjz = "0";
         String zjz = "0";
-        BigDecimal s = new BigDecimal(0.95);
+        BigDecimal s = new BigDecimal(0.95).setScale(3, BigDecimal.ROUND_DOWN);
         if (result == TableResultEnum.X.getIndex()) {
             zjz = BigDecimal.ONE.subtract(phxs).toPlainString();
         } else if (result == TableResultEnum.Z.getIndex()) {
