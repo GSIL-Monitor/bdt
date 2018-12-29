@@ -353,6 +353,13 @@ public interface TableDataService {
     //副号满足1<=副号<=TZ3FHA的记录中的“结果”，统计“庄”、“闲”的个数，并计算差值，差值=“庄”的个数-“闲”的个数
     int getTableResultCalCount(int tableNo, int battleNo, int fha);
 
+    int addTableLjzjzData(TableLjzjzData ljzjzData);
 
+    List<TableLjzjzData> getLjzjzByAdmin(String adminId);
 
+    String getLastTableMergeData(String adminId);
+
+    Integer jobStarted();
+
+    int updateJobStarted(Boolean jobStarted);
 }

@@ -32,4 +32,6 @@ public interface TableMergeDataMapper {
                                         @Param("adminId") String adminId);
 
     String getLjzjzByDate(@Param("adminId") String adminId, @Param("createTime") Date createTime);
+
+    String getLastTableMergeData(String adminId);
 }

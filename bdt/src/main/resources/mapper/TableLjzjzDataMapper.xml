@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.TableLjzjzDataMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.TableLjzjzData">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
+    <result column="ljzjz" jdbcType="VARCHAR" property="ljzjz" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from table_ljzjz_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.TableLjzjzData">
+    insert into table_ljzjz_data (admin_id, ljzjz,
+      create_time)
+    values (#{adminId,jdbcType=VARCHAR}, #{ljzjz,jdbcType=VARCHAR},
+      NOW())
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TableLjzjzData">
+    update table_ljzjz_data
+    set admin_id = #{adminId,jdbcType=VARCHAR},
+      ljzjz = #{ljzjz,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, admin_id, ljzjz, create_time
+    from table_ljzjz_data
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="String">
+    select id, admin_id, ljzjz, create_time
+    from table_ljzjz_data WHERE admin_id = #{adminId}
+    ORDER BY create_time DESC
+  </select>
+</mapper>

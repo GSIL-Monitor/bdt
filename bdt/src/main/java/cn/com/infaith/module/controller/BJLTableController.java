@@ -324,10 +324,10 @@ public class BJLTableController {
                                 @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
 
         JSONObject json = new JSONObject();
-        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime, adminId);
-        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime, adminId);
-        json.put("ljxjz", ljxjz);
-        json.put("ljzjz", ljzjz);
+//        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime, adminId);
+//        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime, adminId);
+        List<TableLjzjzData> list = tableDataService.getLjzjzByAdmin(adminId);
+        json.put("ljzjz", list);
         return ResponseJsonUtil.getResponseJson(200, "success", json);
     }
 

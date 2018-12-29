@@ -58,6 +58,10 @@ public class TableDataServiceImpl implements TableDataService {
     private UserAccountService userAccountService;
     @Autowired
     private TzStatusInfoMapper tzStatusInfoMapper;
+    @Autowired
+    private TableLjzjzDataMapper tableLjzjzDataMapper;
+    @Autowired
+    private JobStartMapper jobStartMapper;
 
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -603,6 +607,31 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public int getTableResultCalCount(int tableNo, int battleNo, int fha) {
         return tableDataMapper.getTableResultCalCount(tableNo, battleNo, fha);
+    }
+
+    @Override
+    public int addTableLjzjzData(TableLjzjzData ljzjzData) {
+        return tableLjzjzDataMapper.insert(ljzjzData);
+    }
+
+    @Override
+    public List<TableLjzjzData> getLjzjzByAdmin(String adminId) {
+        return tableLjzjzDataMapper.selectAll(adminId);
+    }
+
+    @Override
+    public String getLastTableMergeData(String adminId) {
+        return tableMergeDataMapper.getLastTableMergeData(adminId);
+    }
+
+    @Override
+    public Integer jobStarted() {
+        return jobStartMapper.selectAll().get(0).getJobStarted();
+    }
+
+    @Override
+    public int updateJobStarted(Boolean jobStarted) {
+        return jobStartMapper.updateByPrimaryKey(jobStarted);
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {

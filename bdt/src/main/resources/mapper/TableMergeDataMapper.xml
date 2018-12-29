@@ -58,6 +58,13 @@
     ORDER BY create_time DESC limit 1
   </select>
 
+  <select id="getLastTableMergeData" resultType="String" parameterType="String">
+    select ljzjz
+    from table_merge_data
+    WHERE is_delete = 0 AND admin_id = #{adminId}
+    ORDER BY create_time DESC limit 1
+  </select>
+
   <select id="getResultInfo" resultType="java.util.HashMap">
     SELECT
     fit_no,

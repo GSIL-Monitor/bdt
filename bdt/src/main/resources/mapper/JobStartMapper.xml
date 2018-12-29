@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.infaith.module.mapper.JobStartMapper">
+  <resultMap id="BaseResultMap" type="cn.com.infaith.module.model.JobStart">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="job_started" jdbcType="INTEGER" property="jobStarted" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from job_start
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.infaith.module.model.JobStart">
+    insert into job_start (id, job_started)
+    values (#{id,jdbcType=INTEGER}, #{jobStarted,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey">
+    update job_start
+    set job_started = #{jobStarted}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, job_started
+    from job_start
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, job_started
+    from job_start
+  </select>
+</mapper>
