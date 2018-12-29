@@ -85,7 +85,6 @@
 <style lang="less" scoped>
   .bdt-overview {
     min-width: 1300px;
-
     .header-box {
       display: flex;
       align-items: center;

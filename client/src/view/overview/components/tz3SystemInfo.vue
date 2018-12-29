@@ -348,7 +348,7 @@
       //
       startApp(start) {
         this.disabledSet = !start;
-        this.tzSystemStarted(2);
+        this.tzSystemStarted(startTZXT);
       },
       //
       getTzSystemInfo(type) {

@@ -2,7 +2,7 @@
   <Card>
     <div slot="title" style="display: flex;align-items: center">
       <div style="flex: 1;text-align: left">
-        <span>ljxjz：{{XJZ}}</span>&ensp;&ensp;&ensp;<span>ljzjz：{{ZJZ}}</span>
+        <span>ljzjz：{{ZJZ}}</span>
       </div>
       <div style="flex: inherit;text-align: right;margin-right: 15px">
         <Button type="warning" @click="searchDopeData">刷新</Button>
@@ -99,6 +99,21 @@
       this.getLJInfo(this.model1);
     },
     methods: {
+
+      format(shijianchuo) {
+        let add0 = (m) => {
+          return m < 10 ? '0' + m : m
+        }
+        //shijianchuo是整数，否则要parseInt转换
+        var time = new Date(parseInt(shijianchuo));
+        var y = time.getFullYear();
+        var m = time.getMonth() + 1;
+        var d = time.getDate();
+        var h = time.getHours();
+        var mm = time.getMinutes();
+        var s = time.getSeconds();
+        return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
+      },
       weekChange(val) {
         this.getLJInfo(val);
       },
@@ -201,10 +216,7 @@
           this.loading = false;
           if (res.data.returnCode == 200) {
             let data = res.data.returnObject;
-            if (data.ljxjz[0]) {
-              this.XJZ = data.ljxjz[0].ljxjz
-            }
-            if (data.ljzjz[0]) {
+            if (data.ljzjz) {
               this.ZJZ = data.ljzjz[0].ljzjz
             }
             this.setECharts(data);
@@ -215,19 +227,15 @@
       },
       //
       setECharts(data) {
-        let ljxjzName = data.ljxjz.map(e => {
-          return '副号' + e.fit_no
+        let ljxjzName = data.ljzjz.map(e => {
+          return this.format(e.createTime)
         })
         ljxjzName = ljxjzName.reverse()
-        let ljxjzVal = data.ljxjz.map(e => {
-          return e.ljxjz
-        })
-        ljxjzVal = ljxjzVal.reverse()
         let ljzjzVal = data.ljzjz.map(e => {
           return e.ljzjz
         });
         ljzjzVal = ljzjzVal.reverse()
-        // console.log(ljxjzVal, ljzjzVal);
+        console.log(ljzjzVal);
         this.$nextTick(() => {
           if (!!!this.$refs.dom) {
             return false
@@ -247,7 +255,7 @@
             dataZoom: [
               {
                 show: true,
-                start: 94,
+                start: 50,
                 end: 100,
                 handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
                 handleSize: '80%',
@@ -405,7 +413,7 @@
                     opacity: 0
                   }
                 },
-                data: ljxjzVal
+                data: []
               },
               {
                 name: 'ljzjz',
