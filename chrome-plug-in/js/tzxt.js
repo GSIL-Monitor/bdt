@@ -153,7 +153,7 @@ function TZZL(tableCode, yuan, fx, list) {
         TZZL(tableCode, yuan, fx, list);
       }
     }
-  }, 3500)
+  }, 3700)
 }
 
 function HQTZ() {
