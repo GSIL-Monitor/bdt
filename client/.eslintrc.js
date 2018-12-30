@@ -29,6 +29,8 @@ module.exports = {
     'quotes': 'off',
     'no-extra-boolean-cast': 0,
     'no-dupe-keys': 0,
-    'comma-dangle': 0
+    'comma-dangle': 0,
+    'camelcase': 0,
+    'padded-blocks': 0
   }
 }

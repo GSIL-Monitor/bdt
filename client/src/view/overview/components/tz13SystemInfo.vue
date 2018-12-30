@@ -45,7 +45,7 @@
             <FormItem label="XH" prop="password" style="margin:0 0 0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
                      placeholder="Password">
-                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+              <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
           </Form>
@@ -322,7 +322,6 @@
         window.sessionStorage.setItem(getTzSystemInfo_tzSystem, window.JSON.stringify(this.tzSystem));
       },
       checkBoxChange(val) {
-
         console.log(val);
         window.sessionStorage.setItem(getTzSystemInfo_tzListData, window.JSON.stringify(this.tzListData));
         // this.tzSystem

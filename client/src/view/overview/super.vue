@@ -238,9 +238,6 @@
             this.$Notice.open({title: '提示', desc: '请填写完整信息再提交', duration: 2});
           }
         })
-
-
-
       },
       addUser() {
         //

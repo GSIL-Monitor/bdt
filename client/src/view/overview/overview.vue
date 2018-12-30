@@ -2,11 +2,13 @@
   <div class="bdt-overview">
     <Row :gutter="16">
       <i-col span="6">
-        <bdt-run></bdt-run>
-        <br>
+        <template v-if="mainAdmin">
+          <bdt-run></bdt-run>
+          <br>
+        </template>
         <login-out></login-out>
       </i-col>
-      <i-col span="18">
+      <i-col span="18" v-if="mainAdmin">
         <tz11-system-info></tz11-system-info>
         <br>
         <tz12-system-info></tz12-system-info>
@@ -34,11 +36,13 @@
   //
   import tz2SystemInfo from './components/tz2SystemInfo.vue'
   import tz3SystemInfo from './components/tz3SystemInfo.vue'
-
+  import {getInfo} from '../../libs/util'
   export default {
     name: 'overview',
     data() {
-      return {}
+      return {
+        mainAdmin: false
+      }
     },
     components: {
       bdtRun,
@@ -51,15 +55,18 @@
       tz3SystemInfo
     },
     watch: {
-      $route: function (to, form) {
+      $route(to, form) {
         // console.log(to);
       }
     },
     created() {
       console.log(process.env);
-
-      // this.getAdminAccount();
-      //
+      console.log(getInfo());
+      if (getInfo().mainAdminId == null || getInfo().mainAdminId == '') {
+        this.mainAdmin = true;
+      } else {
+        this.mainAdmin = false;
+      }
     },
     activated() {
 
@@ -78,7 +85,6 @@
 <style lang="less" scoped>
   .bdt-overview {
     min-width: 1300px;
-
     .header-box {
       display: flex;
       align-items: center;
@@ -88,13 +94,11 @@
       }
     }
   }
-
   .qq-group-img {
     display: block;
     margin: 0 auto;
     width: 240px;
   }
-
   .qq-group-intro {
     padding: 20px;
     font-size: 16px;

@@ -50,8 +50,6 @@
 </template>
 
 <script>
-  import excel from '@/libs/excel'
-
   export default {
     name: 'betting',
     data() {
@@ -67,8 +65,12 @@
         desktopUserVal: '0',
         desktopOption: [
           {name: '全部投注系统', value: '0'},
-          {name: 'TZXT1', value: '1'},
+          {name: 'TZXT1-1', value: '11'},
+          {name: 'TZXT1-2', value: '12'},
+          {name: 'TZXT1-3', value: '13'},
+          {name: 'TZXT1-4', value: '14'},
           {name: 'TZXT2', value: '2'},
+          {name: 'TZXT3', value: '3'},
         ],
         ztjData: {
           sjsy: 9867.98,

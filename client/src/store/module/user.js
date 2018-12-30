@@ -1,5 +1,5 @@
 import {login, logout, getUserInfo} from '@/api/user'
-import {setToken, getToken,setInfo} from '@/libs/util'
+import {setToken, getToken, setInfo} from '@/libs/util'
 import Vue from 'vue'
 import Cookie from 'js-cookie'
 
