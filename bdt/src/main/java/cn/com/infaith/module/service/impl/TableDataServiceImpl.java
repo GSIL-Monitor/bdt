@@ -263,8 +263,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, String adminId) {
-        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs, adminId);
+    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, String adminId, BigDecimal txxs) {
+        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs, adminId, txxs);
     }
 
     @Override

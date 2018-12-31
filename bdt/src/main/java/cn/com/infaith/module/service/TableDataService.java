@@ -210,7 +210,7 @@ public interface TableDataService {
      * @param phxs
      * @return
      */
-    Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, String adminId);
+    Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, String adminId, BigDecimal txxs);
 
     BdtSystem getBdtSystem(String adminId);
 

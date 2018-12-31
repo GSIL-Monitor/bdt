@@ -286,12 +286,14 @@ public class BJLTableController {
             @ApiImplicitParam(name = "ps", value = "ps值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "phxs", value = "phxs值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "adminId", value = "管理员id", paramType = "query"),
+            @ApiImplicitParam(name = "txxs", value = "txxs", paramType = "query"),
     })
     public JSONObject bdtSystemStarted(@RequestParam Boolean started,
                                        @RequestParam(required = false) Integer ps,
                                        @RequestParam(required = false) BigDecimal phxs,
-                                       @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
-        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs, adminId);
+                                       @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId,
+                                       @RequestParam BigDecimal txxs) {
+        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs, adminId, txxs);
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         } else {
