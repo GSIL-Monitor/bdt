@@ -16,6 +16,9 @@
       <FormItem label="PS">
         <Input v-model="formItem.ps" placeholder="warning" :disabled="start"></Input>
       </FormItem>
+      <FormItem label="TXXS">
+        <Input v-model="formItem.txxs" placeholder="warning" :disabled="start"></Input>
+      </FormItem>
       <FormItem label="PHXS">
         <Input v-model="formItem.phxs" placeholder="warning" :disabled="start"></Input>
       </FormItem>
@@ -31,7 +34,8 @@
         start: false,
         formItem: {
           ps: '',
-          phxs: ''
+          phxs: '',
+          txxs: ''
         }
       }
     },
