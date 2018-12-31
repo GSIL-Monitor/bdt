@@ -239,12 +239,13 @@
       }
     },
     created() {
-      if (window.sessionStorage.getItem('getTzSystemInfo')) {
+      if (window.sessionStorage.getItem(getTzSystemInfo_tzListData)) {
         this.tzListData = window.JSON.parse(window.sessionStorage.getItem(getTzSystemInfo_tzListData));
         this.tzSystem = window.JSON.parse(window.sessionStorage.getItem(getTzSystemInfo_tzSystem));
         this.setCheckBoxAll();
         this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
         this.disabledSet = !this.tzSystem.started;
+        this.getTzSystemInfo(startTZXT);
       } else {
         this.getTzSystemInfo(startTZXT);
       }

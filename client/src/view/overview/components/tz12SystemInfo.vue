@@ -245,6 +245,7 @@
         this.setCheckBoxAll();
         this.formInline = JSON.parse(JSON.stringify(this.tzSystem));
         this.disabledSet = !this.tzSystem.started;
+        this.getTzSystemInfo(startTZXT);
       } else {
         this.getTzSystemInfo(startTZXT);
       }
