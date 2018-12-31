@@ -61,6 +61,7 @@
             this.start = res.data.returnObject.started;
             this.formItem.ps = res.data.returnObject.ps;
             this.formItem.phxs = res.data.returnObject.phxs;
+            this.formItem.txxs = res.data.returnObject.txxs;
           }
         })
       }
