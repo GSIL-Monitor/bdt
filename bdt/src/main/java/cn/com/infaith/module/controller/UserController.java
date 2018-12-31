@@ -123,7 +123,7 @@ public class UserController {
     public JSONObject addAdminAccount(@ModelAttribute AdminAccount adminAccount) {
 
         String id = userAccountService.addAdminAccount(adminAccount);
-        if (StringUtils.isNotBlank(id)) {
+        if (StringUtils.isNotBlank(id) && StringUtils.isBlank(adminAccount.getMainAdminId())) {
             BdtSystem bdtSystem = new BdtSystem();
             bdtSystem.setAdminId(id);
             bdtSystem.setStarted(false);

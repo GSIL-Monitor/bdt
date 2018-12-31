@@ -16,7 +16,7 @@
   <insert id="insert" parameterType="cn.com.infaith.module.model.AdminAccount">
     insert into admin_account (id, name, account, password, main_admin_id,
       is_delete)
-    values (#{id,jdbcType=VARCHAR}, #{name}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{main_admin_id},
+    values (#{id,jdbcType=VARCHAR}, #{name}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mainAdminId},
       0)
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.AdminAccount">
