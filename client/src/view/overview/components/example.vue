@@ -342,7 +342,7 @@
               align: 'left',
               top: 10,
               left: 0,
-              data: ['ljxjz', 'ljzjz']
+              data: ['ljzjz']
             },
             xAxis: [
               {
