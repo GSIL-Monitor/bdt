@@ -843,7 +843,7 @@ public class BJLDataService {
      */
     public void step10_4(TableData tableData, String adminId, int tzxt, int tzfx) {
 
-        List<DopeManage> dopeManage = tableDataService.getDopeManageByTableNoAndTzxt(tableData.getTableNo().toString(), 1, adminId);
+        List<DopeManage> dopeManage = tableDataService.getDopeManageByTableNoAndTzxt(tableData.getTableNo().toString(), tzxt, adminId);
         List<DopeManage> list = parseDopeManage(dopeManage);
         //先获取该桌号、投注系统的账户
         if (!CollectionUtils.isEmpty(list)) {

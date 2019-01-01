@@ -80,6 +80,15 @@ public class UserController {
             dopeManage3.setHasCheck(false);
             dopeManage3.setAdminId(userAccount.getAdminId());
             tableDataService.insertDopeManage(dopeManage3);
+            for (int i = 11; i <= 14; i++) {
+                DopeManage dopeManages = new DopeManage();
+                dopeManages.setTzzh(userId);
+                dopeManages.setTzxt(i);
+                dopeManages.setHasCheck(false);
+                dopeManages.setAdminId(userAccount.getAdminId());
+                tableDataService.insertDopeManage(dopeManages);
+            }
+
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", userAccount);
         }
         return ResponseJsonUtil.getResponseJson(-2, "账号已存在", null);
