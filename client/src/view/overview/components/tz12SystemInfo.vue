@@ -18,7 +18,7 @@
         <div style="flex: 1">
           <Form style="margin: 5px 0 0 0;display: flex;" ref="formInline" :model="formInline"
                 inline>
-            <!--<FormItem label="FHA" prop="user" style="margin:0 5px">
+            <FormItem label="FHA" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fha" :disabled="!disabledSet"
                      placeholder="Username">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
@@ -41,7 +41,7 @@
                      placeholder="Username">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
-            </FormItem>-->
+            </FormItem>
             <FormItem label="XH" prop="password" style="margin:0 0 0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
                      placeholder="Password">
