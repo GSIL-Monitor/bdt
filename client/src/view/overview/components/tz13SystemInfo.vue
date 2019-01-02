@@ -18,25 +18,25 @@
         <div style="flex: 1">
           <Form style="margin: 5px 0 0 0;display: flex;" ref="formInline" :model="formInline"
                 inline>
-            <FormItem label="FHA" prop="user" style="margin:0 5px">
+            <FormItem label="XHA" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fha" :disabled="!disabledSet"
                      placeholder="Username">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="FHB" prop="user" style="margin:0 5px">
+            <FormItem label="XHB" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fhb" :disabled="!disabledSet"
                      placeholder="Username">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="FHC" prop="user" style="margin:0 5px">
+            <FormItem label="XHC" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fhc" :disabled="!disabledSet"
                      placeholder="Username">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="FHD" prop="user" style="margin:0 5px">
+            <FormItem label="XHD" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fhd" :disabled="!disabledSet"
                      placeholder="Username">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
