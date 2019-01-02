@@ -128,7 +128,7 @@ public interface TableDataService {
      * @param xh
      * @return
      */
-    Boolean updateTzStartOrClose(Boolean started, int tzxt, int fha, int fhb, int fhc, int fhd, String xh, String adminId);
+    Boolean updateTzStartOrClose(Boolean started, int tzxt, String fha, String fhb, String fhc, String fhd, String xh, String adminId);
 
     TzSystem getTzSystemInfo(int tzxt, String adminId);
 
