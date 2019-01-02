@@ -477,7 +477,7 @@ public class BJLDataService {
                 int result2 = step10_16(tableData, tz3System);
                 if (result2 == 1) {
                     //生成投注记录
-                    step10_4(tableData, tableData.getAdminId(), 3, TableResultEnum.X.getIndex());
+                    step10_4_1(tableData, tableData.getAdminId(), 3);
                 } else {
                     step11_1();
                 }
@@ -485,7 +485,7 @@ public class BJLDataService {
                 TzStatusInfo tzStatusInfo = tableDataService.getTzStatus(tableData.getAdminId(), tableData.getTableNo(), 3);
                 if (tzStatusInfo.getTzStatus() == 1) {
                     //生成投注记录
-                    step10_4(tableData, tableData.getAdminId(), 3, TableResultEnum.X.getIndex());
+                    step10_4_1(tableData, tableData.getAdminId(), 3);
                 } else {
                     step11_1();
                 }
@@ -861,6 +861,37 @@ public class BJLDataService {
                     data.setTzje(dopeData.getTzje().toString());
                     data.setTzxt(tzxt);
                     data.setTzfx(tzfx);
+                    data.setTzzh(dopeData.getTzzh());
+                    data.setAdminId(adminId);
+                    resultDataList.add(data);
+                }
+            });
+            if (CollectionUtils.isNotEmpty(resultDataList)) {
+                tableDataService.addResultDataList(resultDataList);
+            }
+        }
+    }
+
+    public void step10_4_1(TableData tableData, String adminId, int tzxt) {
+
+        List<DopeManage> dopeManage = tableDataService.getDopeManageByTableNoAndTzxt(tableData.getTableNo().toString(), tzxt, adminId);
+        List<DopeManage> list = parseDopeManage(dopeManage);
+        //先获取该桌号、投注系统的账户
+        if (!CollectionUtils.isEmpty(list)) {
+            List<ResultData> resultDataList = new ArrayList<>();
+            TableData tableDataNew = tableDataService.getNewestTableData(tableData.getTableNo(), adminId);
+            list.stream().forEach(dopeData -> {
+                //判断当前时间是否满足投注时间限制且投注桌号一致
+                boolean timeResult = checkDopeInfo(tableData.getCreateTime(), dopeData.getTzsjSection1());
+                if (timeResult) {
+                    ResultData data = new ResultData();
+                    data.setCreateTime(tableDataNew.getCreateTime());
+                    data.setTableNo(tableDataNew.getTableNo());
+                    data.setBattleNo(tableDataNew.getBattleNo());
+                    data.setFitNo(tableDataNew.getFitNo() + 1);
+                    data.setTzje(dopeData.getTzje().toString());
+                    data.setTzxt(tzxt);
+                    data.setTzfx(dopeData.getTzfx());
                     data.setTzzh(dopeData.getTzzh());
                     data.setAdminId(adminId);
                     resultDataList.add(data);
