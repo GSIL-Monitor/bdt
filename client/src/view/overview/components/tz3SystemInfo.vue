@@ -30,13 +30,13 @@
               <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="FHC" prop="user" style="margin:0 5px">
+            <FormItem label="CHC" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fhc" :disabled="!disabledSet"
                      placeholder="Username">
               <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
-            <FormItem label="FHD" prop="user" style="margin:0 5px">
+            <FormItem label="CHD" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fhd" :disabled="!disabledSet"
                      placeholder="Username">
               <Icon type="ios-person-outline" slot="prepend"></Icon>
