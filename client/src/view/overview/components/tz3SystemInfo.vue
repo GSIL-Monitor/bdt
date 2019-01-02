@@ -91,9 +91,9 @@
           <th width="30%" align="center">
             <div class="row">投注时间限制1</div>
           </th>
-          <th width="17%" align="center">
-            <div class="row">投注时间限制2</div>
-          </th>
+          <!--<th width="17%" align="center">-->
+            <!--<div class="row">投注时间限制2</div>-->
+          <!--</th>-->
           <th width="15%">
             <div class="row">投注桌号</div>
           </th>
@@ -131,16 +131,16 @@
               </Select>
             </div>
           </td>
-          <td class="time2">
-            <div class="row">
-              <Select :key="index+Math.random()" v-model="item.time2" multiple clearable
-                      style="width:100%">
-                <Option v-for="opt in tz2Option" :disabled="opt.disabled" :value="opt.value"
-                        :key="opt.value">{{opt.name }}
-                </Option>
-              </Select>
-            </div>
-          </td>
+          <!--<td class="time2">-->
+            <!--<div class="row">-->
+              <!--<Select :key="index+Math.random()" v-model="item.time2" multiple clearable-->
+                      <!--style="width:100%">-->
+                <!--<Option v-for="opt in tz2Option" :disabled="opt.disabled" :value="opt.value"-->
+                        <!--:key="opt.value">{{opt.name }}-->
+                <!--</Option>-->
+              <!--</Select>-->
+            <!--</div>-->
+          <!--</td>-->
           <td align="center">
             <div class="row">
               <span>
