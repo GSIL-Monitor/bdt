@@ -432,8 +432,8 @@ public class BJLDataService {
             //处于“启动”状态，进入步骤10-8。
             int result = step10_9(tableData, tz13System);
             if (result == 1) {
-                //进入步骤10-10  : 生成投注记录
-                step10_4(tableData, tableData.getAdminId(), 13, TableResultEnum.X.getIndex());
+                //进入步骤10-10  : 生成投注记录在
+                step10_4(tableData, tableData.getAdminId(), 13, TableResultEnum.Z.getIndex());
                 //进入步骤9-4。
                 step9_4(tableData);
             } else {
