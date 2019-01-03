@@ -761,9 +761,9 @@ public class BJLDataService {
     public int step10_9(TableData tableData, TzSystem tzSystem) {
         BigDecimal ztsl = new BigDecimal(tableData.getZtsl());
         BigDecimal xha = new BigDecimal(tzSystem.getFha());
-        BigDecimal xhb = new BigDecimal(tzSystem.getFha());
-        BigDecimal xhc = new BigDecimal(tzSystem.getFha());
-        BigDecimal xhd = new BigDecimal(tzSystem.getFha());
+        BigDecimal xhb = new BigDecimal(tzSystem.getFhb());
+        BigDecimal xhc = new BigDecimal(tzSystem.getFhc());
+        BigDecimal xhd = new BigDecimal(tzSystem.getFhd());
         Boolean result1 = ztsl.compareTo(xha) == 1 ? true : false;
         Boolean result2 = ztsl.compareTo(xhb) <= 0 ? true : false;
         Boolean result3 = ztsl.compareTo(xhc) == 1 ? true : false;
