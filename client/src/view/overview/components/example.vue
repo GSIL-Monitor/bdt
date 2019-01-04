@@ -7,7 +7,7 @@
       <div style="flex: inherit;text-align: right;margin-right: 15px">
         <Button type="warning" @click="searchDopeData">刷新</Button>
       </div>
-      <div style="flex: inherit;text-align: right;margin-right: 15px">
+      <div style="display:none;flex: inherit;text-align: right;margin-right: 15px">
         <Select v-model="model1" @on-change="weekChange" style="width:150px">
           <Option v-for="item in weekList" :value="item.value" :key="item.value">{{ item.label }}
           </Option>
@@ -79,7 +79,8 @@
         DateRange: '',
         minVal: 0,
         maxVal: 0,
-        DateRangeEnd: ''
+        DateRangeEnd: '',
+        dateArray: []
       }
     },
     activated() {
@@ -88,6 +89,24 @@
       off(window, 'resize', this.resize())
     },
     created() {
+      let dateA = this.getWeekStartDate();
+      this.dateArray = [];
+      for (let j = 0; j < 15; j++) {
+        if (j % 2 == 0) {
+          this.dateArray.push({
+            time: dateA + (j * 12 * 60 * 60 * 1000 - 1000),
+            date: this.getTime(dateA + (j * 12 * 60 * 60 * 1000 - 1000)),
+            list: []
+          });
+        } else {
+          this.dateArray.push({
+            time: dateA + (j * 12 * 60 * 60 * 1000),
+            date: this.getTime(dateA + (j * 12 * 60 * 60 * 1000)),
+            list: []
+          });
+        }
+      }
+      console.log(this.dateArray);
       for (let i = 0; i < 7; i++) {
         this.weekList[i] = {
           value: this.getWeek(i + 1),
@@ -95,12 +114,16 @@
         };
         console.log(this.getWeek(i));
       }
+      //
       this.model1 = this.formatDateM()
       this.getLJInfo(this.model1);
     },
     methods: {
 
       format(shijianchuo) {
+        if (shijianchuo == '' || shijianchuo == null) {
+          return shijianchuo
+        }
         let add0 = (m) => {
           return m < 10 ? '0' + m : m
         }
@@ -199,6 +222,7 @@
         this.dom.resize()
       },
       getLJInfo(model) {
+        //
         this.loading = true;
         let pevTime = this.formatDate(new Date(`${model} 00:00:00`).getTime());
         let nextTime = this.formatDateEnd(new Date(`${model} 00:00:00`).getTime());
@@ -219,23 +243,77 @@
             if (data.ljzjz) {
               this.ZJZ = data.ljzjz[0].ljzjz
             }
-            this.setECharts(data);
+            // this.dateArray.forEach((d, i) => {
+            //   if (this.dateArray.length > (i + 1)) {
+            //     let dc = this.dateArray[i + 1].time;
+            //     let darr = [];
+            //     data.ljzjz.forEach((b, j) => {
+            //       if (d.time <= b.createTime && b.createTime < dc) {
+            //         darr.push(b);
+            //       }
+            //     })
+            //     this.$set(d, 'list', darr);
+            //     // console.log(darr, d);
+            //   }
+            // })
+            // let arraty = [];
+            // this.dateArray.forEach((c, i) => {
+            //   c.list.forEach((v, j) => {
+            //     if (j == 0 || j == c.list - 1) {
+            //       //
+            //     } else {
+            //       v.createTime = '';
+            //     }
+            //   })
+            //   arraty = arraty.concat(c.list);
+            // })
+            console.log('213213213213====>', this.dateArray);
+            this.setECharts(data.ljzjz);
           }
         }).catch((err) => {
           this.loading = false;
         })
       },
+      getWeekStartDate() {
+        let now = new Date(); // 当前日期
+        let nowDayOfWeek = now.getDay(); // 今天本周的第几天
+        let nowDay = now.getDate(); // 当前日
+        let nowMonth = now.getMonth(); // 当前月
+        let nowYear = now.getFullYear(); // 当前年
+        let tmp = nowDay - nowDayOfWeek + 1;
+        if (nowDayOfWeek == 0) {
+          tmp = nowDay - 7;
+        }
+        let weekStartDate = new Date(nowYear, nowMonth, tmp);
+        console.log(weekStartDate);
+        return weekStartDate.getTime();
+      },
+      getTime(shijianchuo) {
+        var date = new Date(shijianchuo);
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+          month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+          strDate = "0" + strDate;
+        }
+        return date.getFullYear() + seperator1 + month + seperator1 + strDate + " " + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds();
+      },
       //
       setECharts(data) {
-        let ljxjzName = data.ljzjz.map(e => {
+        // console.log(data);
+        let ljxjzName = data.map(e => {
           return this.format(e.createTime)
         })
         ljxjzName = ljxjzName.reverse()
-        let ljzjzVal = data.ljzjz.map(e => {
+        let ljzjzVal = data.map(e => {
           return e.ljzjz
         });
         ljzjzVal = ljzjzVal.reverse()
-        console.log(ljzjzVal);
+        // console.log('1231313', ljzjzVal);
         this.$nextTick(() => {
           if (!!!this.$refs.dom) {
             return false
@@ -303,7 +381,7 @@
               confine: true,
               axisPointer: { // 坐标轴指示器配置项
                 label: {
-                  show: false
+                  show: true
                 },
                 type: 'cross', // 指示器类型，十字准星
                 crossStyle: {
@@ -325,7 +403,9 @@
                     html += `<div style="display:flex;justify-content:space-between"><span>${item.seriesName}：</span><span style="color: ${item.color}">${item.value}%</span></div>`
                   } else {
                     html += `<div style="display:flex;justify-content:space-between"><span>${item.seriesName}：</span><span style="color: ${item.color}">${item.value}</span></div>`
+                    html += `<div style="display:flex;justify-content:space-between"><span>${'时间'}：</span><span style="color: ${item.color}">${item.name}</span></div>`
                   }
+
                 });
                 return html
               }
@@ -334,7 +414,7 @@
               top: '10%',
               left: '1%',
               right: '3%',
-              bottom: '1%',
+              bottom: '10%',
               containLabel: true
             },
             legend: {
@@ -346,7 +426,7 @@
             },
             xAxis: [
               {
-                show: false,
+                show: true,
                 type: 'category',
                 boundaryGap: false,
                 data: ljxjzName,
