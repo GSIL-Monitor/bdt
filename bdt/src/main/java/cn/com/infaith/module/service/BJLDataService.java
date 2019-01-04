@@ -659,11 +659,11 @@ public class BJLDataService {
 
         String xjz = "0";
         String zjz = "0";
-        BigDecimal s = new BigDecimal(0.95).setScale(3, BigDecimal.ROUND_DOWN);
+        BigDecimal s = new BigDecimal(0.95).setScale(2, BigDecimal.ROUND_DOWN);
         if (result == TableResultEnum.X.getIndex()) {
-            zjz = BigDecimal.ONE.subtract(phxs).toPlainString();
+            zjz = phxs.subtract(BigDecimal.ONE).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
         } else if (result == TableResultEnum.Z.getIndex()) {
-            zjz = s.add(s.multiply(phxs).setScale(4, BigDecimal.ROUND_DOWN)).toPlainString();
+            zjz = s.multiply((phxs.add(BigDecimal.ONE))).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
         }
         tableMergeData.setXjz(xjz);
         tableMergeData.setZjz(zjz);
