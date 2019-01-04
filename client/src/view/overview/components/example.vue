@@ -222,13 +222,14 @@
         this.dom.resize()
       },
       getLJInfo(model) {
+        ///*
+        //   min: new Date(_this.getWeekStartDate()),
+        // max: new Date(_this.getWeekStartDate() + 7.5 * 24 * 60 * 60 * 1000),
         //
+        // */
         this.loading = true;
-        let pevTime = this.formatDate(new Date(`${model} 00:00:00`).getTime());
-        let nextTime = this.formatDateEnd(new Date(`${model} 00:00:00`).getTime());
-        console.log(pevTime);
-        this.DateRange = pevTime;
-        this.DateRangeEnd = nextTime;
+        this.DateRange = this.format(new Date(this.getWeekStartDate()).getTime()+ 0.5 * 24 * 60 * 60 * 1000);
+        this.DateRangeEnd = this.format(new Date(this.getWeekStartDate() + 7.5 * 24 * 60 * 60 * 1000).getTime());
         let srartTime;
         srartTime = new Date(this.DateRange).getTime();
         let params = {
@@ -305,15 +306,15 @@
       //
       setECharts(data) {
         // console.log(data);
-        let ljxjzName = data.map(e => {
-          return this.format(e.createTime)
-        })
-        ljxjzName = ljxjzName.reverse()
+        // let ljxjzName = data.map(e => {
+        //   return e.createTime
+        // })
+        // ljxjzName = ljxjzName.reverse()
         let ljzjzVal = data.map(e => {
-          return e.ljzjz
+          return [e.createTime, e.ljzjz]
         });
         ljzjzVal = ljzjzVal.reverse()
-        // console.log('1231313', ljzjzVal);
+        console.log('1231313', ljzjzVal);
         this.$nextTick(() => {
           if (!!!this.$refs.dom) {
             return false
@@ -402,8 +403,8 @@
                   if (item.seriesName.indexOf('率') > -1) {
                     html += `<div style="display:flex;justify-content:space-between"><span>${item.seriesName}：</span><span style="color: ${item.color}">${item.value}%</span></div>`
                   } else {
-                    html += `<div style="display:flex;justify-content:space-between"><span>${item.seriesName}：</span><span style="color: ${item.color}">${item.value}</span></div>`
-                    html += `<div style="display:flex;justify-content:space-between"><span>${'时间'}：</span><span style="color: ${item.color}">${item.name}</span></div>`
+                    html += `<div style="display:flex;justify-content:space-between"><span>${'时间'}：</span><span style="color: ${item.color}">${_this.format(item.axisValue)}</span></div>`
+                    html += `<div style="display:flex;justify-content:space-between"><span>${'数值'}：</span><span style="color: ${item.color}">${item.data[1]}</span></div>`
                   }
 
                 });
@@ -427,9 +428,13 @@
             xAxis: [
               {
                 show: true,
-                type: 'category',
+                type: 'time',
+                min: new Date(_this.getWeekStartDate()+ 0.5 * 24 * 60 * 60 * 1000),
+                max: new Date(_this.getWeekStartDate() + 7.5 * 24 * 60 * 60 * 1000),
+                // type: 'category',
+                splitNumber: 15,
                 boundaryGap: false,
-                data: ljxjzName,
+                data: ljzjzVal,
                 axisLabel: {
                   rotate: 20
                 }
@@ -534,9 +539,11 @@
   #overLine {
     position: relative;
   }
+
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
   }
+
   @keyframes ani-demo-spin {
     from {
       transform: rotate(0deg);
@@ -548,6 +555,7 @@
       transform: rotate(360deg);
     }
   }
+
   .demo-spin-col {
     height: 100px;
     position: relative;
