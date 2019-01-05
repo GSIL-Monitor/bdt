@@ -240,7 +240,7 @@
                 table_no = #{tableNo}
                 AND battle_no = #{battleNo}
                 AND result = 1
-                AND fitNo <![CDATA[ <= ]]> #{fha}
+                AND fit_no <![CDATA[ <= ]]> #{fha}
                 AND create_time BETWEEN DATE_SUB( NOW( ), INTERVAL 4 HOUR )
                 AND NOW()
             ORDER BY
@@ -255,7 +255,7 @@
                 table_no = #{tableNo}
                 AND battle_no = #{battleNo}
                 AND result = 2
-                AND fitNo <![CDATA[ <= ]]> #{fha}
+                AND fit_no <![CDATA[ <= ]]> #{fha}
                 AND create_time BETWEEN DATE_SUB( NOW( ), INTERVAL 4 HOUR )
                 AND NOW()
             ORDER BY
