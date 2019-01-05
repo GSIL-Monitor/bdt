@@ -188,7 +188,7 @@
         tz2AllData: {},
         disabledSet: true,
         disabledSave: true,
-        tabJinE: [50, 100, 200, 500, 1000, 5000, 10000],
+        tabJinE: [50, 100, 200, 500, 1000, 2000, 3000, 5000, 10000],
         tablineData: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
         timelineData: [
           {name: '00:00~01:00', value: '00:00~01:00', hours: '1'},
