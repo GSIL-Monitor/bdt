@@ -26,7 +26,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap">
     select id, tzxt, table_no, tz_status, admin_id
     from tz_status_info
-    where admin_id = #{adminId} AND table_no = #{tableNo} AND tz_status = #{tzStatus}
+    where admin_id = #{adminId} AND table_no = #{tableNo} AND tzxt = #{tzxt}
     limit 1
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
