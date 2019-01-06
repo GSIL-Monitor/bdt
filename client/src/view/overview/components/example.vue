@@ -228,7 +228,7 @@
         //
         // */
         this.loading = true;
-        this.DateRange = this.format(new Date(this.getWeekStartDate()).getTime()+ 0.5 * 24 * 60 * 60 * 1000);
+        this.DateRange = this.format(new Date(this.getWeekStartDate()).getTime() + 0.5 * 24 * 60 * 60 * 1000);
         this.DateRangeEnd = this.format(new Date(this.getWeekStartDate() + 7.5 * 24 * 60 * 60 * 1000).getTime());
         let srartTime;
         srartTime = new Date(this.DateRange).getTime();
@@ -283,10 +283,10 @@
         let nowYear = now.getFullYear(); // 当前年
         let tmp = nowDay - nowDayOfWeek + 1;
         if (nowDayOfWeek == 0) {
-          tmp = nowDay - 7;
+          tmp = nowDay - 6;
         }
         let weekStartDate = new Date(nowYear, nowMonth, tmp);
-        console.log(weekStartDate);
+        console.log('==1111111111111111111111111111111111======>', weekStartDate);
         return weekStartDate.getTime();
       },
       getTime(shijianchuo) {
@@ -429,7 +429,7 @@
               {
                 show: true,
                 type: 'time',
-                min: new Date(_this.getWeekStartDate()+ 0.5 * 24 * 60 * 60 * 1000),
+                min: new Date(_this.getWeekStartDate() + 0.5 * 24 * 60 * 60 * 1000),
                 max: new Date(_this.getWeekStartDate() + 7.5 * 24 * 60 * 60 * 1000),
                 // type: 'category',
                 splitNumber: 15,
