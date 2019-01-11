@@ -20,13 +20,13 @@
             <FormItem label="FHA" prop="user" style="margin:0 5px">
               <Input type="text" v-model="formInline.fha" :disabled="!disabledSet"
                      placeholder="">
-              <Icon type="ios-person-outline" slot="prepend"></Icon>
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
             <FormItem label="FHB" prop="password" style="margin:0 5px">
               <Input type="text" v-model="formInline.xh" :disabled="!disabledSet"
                      placeholder="">
-              <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </Input>
             </FormItem>
           </Form>
@@ -164,7 +164,7 @@
         tz2AllData: {},
         disabledSet: true,
         disabledSave: true,
-        tabJinE: [50, 100, 200, 500, 1000, 5000, 10000],
+        tabJinE: [50, 100, 200, 500, 1000, 2000, 5000, 10000],
         tablineData: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
         timelineData: [
           {name: '00:00~01:00', value: '00:00~01:00', hours: '1'},
