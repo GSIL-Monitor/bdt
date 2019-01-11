@@ -482,11 +482,14 @@
                 }
               }
             ],
+            color: ['#5eaeff'],
             series: [
               {
                 name: 'ljxjz',
                 type: 'line',
                 stack: '总量',
+                smooth: true,
+                symbol: 'circle',
                 areaStyle: {
                   normal: {
                     // color: '',
@@ -499,6 +502,8 @@
                 name: 'ljzjz',
                 type: 'line',
                 stack: '总量',
+                smooth: true,
+                symbol: 'circle',
                 label: {
                   normal: {
                     show: false,
