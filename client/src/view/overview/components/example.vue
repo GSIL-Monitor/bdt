@@ -487,7 +487,7 @@
                 }
               }
             ],
-            color: ['#5eaeff'],
+            color: ['#00c2ff'],
             series: [
               {
                 name: 'ljxjz',
@@ -507,18 +507,34 @@
                 name: 'ljzjz',
                 type: 'line',
                 stack: '总量',
-                smooth: true,
+                // smooth: true,
+                // symbol: 'none',
+                // hoverAnimation: true,
                 symbol: 'circle',
-                label: {
+                smooth: false, // 是否平滑曲线显示。
+                showSymbol: false,
+                sampling: 'average',
+                // 线条颜色
+                itemStyle: {
                   normal: {
-                    show: false,
-                    position: 'top'
+                    color: '#00c2ff',
+                    borderWidth: 0.1
+                    // borderColor: 'red'  // 拐点边框颜色
                   }
                 },
+                // 填充颜色
                 areaStyle: {
                   normal: {
-                    // color: '#398DBF',
-                    opacity: 0
+                    // color: 'rgba(255, 239, 217, 0.75)'
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                      offset: 0,
+                      color: '#ffefd9'
+                    }, {
+                      offset: 0.8,
+                      color: '#fffefe'
+                    }], false),
+                    shadowColor: 'rgba(0, 0, 0, 0.01)',
+                    shadowBlur: 10
                   }
                 },
                 data: ljzjzVal
