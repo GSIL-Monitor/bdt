@@ -718,6 +718,7 @@ public class BJLDataService {
         tableMergeData.setIsDelete(false);
         tableMergeData.setAdminId(tableData.getAdminId());
         tableMergeData.setZjz(zjz);
+        tableMergeData.setXjz("0");
         tableMergeData.setType(2);
         tableDataService.addTableMergeData(tableMergeData);
         step8_4(tableMergeData, 2);
