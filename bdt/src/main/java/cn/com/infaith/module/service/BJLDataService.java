@@ -373,7 +373,7 @@ public class BJLDataService {
         tableData = step8_2(tableData, bdtSystem.getAdminId());
         TableMergeData tableMergeData = step8_3(tableData, bdtSystem);
         if (tableMergeData != null) {
-            step8_4(tableMergeData);
+            step8_4(tableMergeData, 1);
         }
         TzSystem tz11System = tableDataService.getTzSystemInfo(11, tableData.getAdminId());
 //        TableData tableDataNew = step10_1(tableData.getTableNo(), tableData.getAdminId());
@@ -620,6 +620,7 @@ public class BJLDataService {
             return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
         } else if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) == -1) {
             //进入步骤9-1。
+            step8_5(tableData, bdtSystem);
             return null;
         } else if (tableData.getFitNo() > 1) {
             //进入步骤8-3-3。
@@ -633,9 +634,11 @@ public class BJLDataService {
                 //进入步骤8-3-5。
                 return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
             } else {
+                step8_5(tableData, bdtSystem);
                 return null;
             }
         } else {
+            step8_5(tableData, bdtSystem);
             return null;
         }
 //        int result = tableData.getResult();
@@ -668,6 +671,7 @@ public class BJLDataService {
         }
         tableMergeData.setXjz(xjz);
         tableMergeData.setZjz(zjz);
+        tableMergeData.setType(1);
         tableDataService.addTableMergeData(tableMergeData);
         return tableMergeData;
     }
@@ -677,8 +681,8 @@ public class BJLDataService {
      *
      * @param tableMergeData
      */
-    public void step8_4(TableMergeData tableMergeData) {
-        TableMergeData data = tableDataService.getLastTableMergeDataNotId(tableMergeData.getId(), tableMergeData.getAdminId());
+    public void step8_4(TableMergeData tableMergeData, int type) {
+        TableMergeData data = tableDataService.getLastTableMergeDataNotId(tableMergeData.getId(), tableMergeData.getAdminId(), type);
         if (data == null) {
             tableMergeData.setLjxjz(tableMergeData.getXjz());
             tableMergeData.setLjzjz(tableMergeData.getZjz());
@@ -691,6 +695,32 @@ public class BJLDataService {
             tableMergeData.setLjzjz(zjz.add(ljzjz).setScale(4, BigDecimal.ROUND_DOWN).toPlainString());
         }
         tableDataService.updateTableMergeData(tableMergeData);
+    }
+
+    /**
+     * 步骤8-5，计算该副AZJZ。取《同桌号数据表》同条记录中的“日期、时间、桌号、局号、副号、结果”，在管理界面、控制子系统中取参数PHXS。
+     * @param tableData
+     * @param bdtSystem
+     */
+    public void step8_5(TableData tableData, BdtSystem bdtSystem) {
+        String zjz = "0";
+        BigDecimal s = new BigDecimal("0.95");
+        if (tableData.getResult() == TableResultEnum.X.getIndex()) {
+            zjz = bdtSystem.getPhxs().subtract(BigDecimal.ONE).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
+        } else if (tableData.getResult() == TableResultEnum.Z.getIndex()) {
+            zjz = s.multiply((bdtSystem.getPhxs().add(BigDecimal.ONE))).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
+        }
+        TableMergeData tableMergeData = new TableMergeData();
+        tableMergeData.setCreateTime(tableData.getCreateTime());
+        tableMergeData.setTableNo(tableData.getTableNo());
+        tableMergeData.setBattleNo(tableData.getBattleNo());
+        tableMergeData.setFitNo(tableData.getFitNo());
+        tableMergeData.setIsDelete(false);
+        tableMergeData.setAdminId(tableData.getAdminId());
+        tableMergeData.setZjz(zjz);
+        tableMergeData.setType(2);
+        tableDataService.addTableMergeData(tableMergeData);
+        step8_4(tableMergeData, 2);
     }
 
     /**

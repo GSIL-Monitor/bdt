@@ -111,7 +111,7 @@ public interface TableDataService {
      * @param id
      * @return
      */
-    TableMergeData getLastTableMergeDataNotId(int id, String adminId);
+    TableMergeData getLastTableMergeDataNotId(int id, String adminId, int type);
 
     /**
      * 更新合并数据
@@ -355,9 +355,9 @@ public interface TableDataService {
 
     int addTableLjzjzData(TableLjzjzData ljzjzData);
 
-    List<TableLjzjzData> getLjzjzByAdmin(String adminId);
+    List<TableLjzjzData> getLjzjzByAdmin(String adminId, int type);
 
-    String getLastTableMergeData(String adminId);
+    String getLastTableMergeData(String adminId, int type);
 
     Integer jobStarted();
 

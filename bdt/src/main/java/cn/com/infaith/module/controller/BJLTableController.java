@@ -319,12 +319,13 @@ public class BJLTableController {
     })
     public JSONObject getLJInfo(@RequestParam(required = false) Long startTime,
                                 @RequestParam(required = false) Long endTime,
-                                @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
+                                @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId,
+                                @RequestParam(defaultValue = "1") int type) {
 
         JSONObject json = new JSONObject();
 //        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime, adminId);
 //        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime, adminId);
-        List<TableLjzjzData> list = tableDataService.getLjzjzByAdmin(adminId);
+        List<TableLjzjzData> list = tableDataService.getLjzjzByAdmin(adminId, type);
         json.put("ljzjz", list);
         return ResponseJsonUtil.getResponseJson(200, "success", json);
     }

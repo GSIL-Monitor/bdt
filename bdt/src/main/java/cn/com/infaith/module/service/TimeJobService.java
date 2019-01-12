@@ -90,11 +90,19 @@ public class TimeJobService {
             List<String> adminIdList = userAccountService.getAllAdminId();
             if (CollectionUtils.isNotEmpty(adminIdList)) {
                 adminIdList.stream().forEach(adminId -> {
-                    String ljzjz = tableDataService.getLastTableMergeData(adminId);
+                    String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
                     TableLjzjzData tableLjzjzData = new TableLjzjzData();
                     tableLjzjzData.setAdminId(adminId);
                     tableLjzjzData.setLjzjz(ljzjz);
+                    tableLjzjzData.setType(1);
                     tableDataService.addTableLjzjzData(tableLjzjzData);
+
+                    String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
+                    TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
+                    tableLjzjzData2.setAdminId(adminId);
+                    tableLjzjzData2.setLjzjz(ljzjz2);
+                    tableLjzjzData2.setType(2);
+                    tableDataService.addTableLjzjzData(tableLjzjzData2);
                 });
             }
         }
@@ -108,11 +116,19 @@ public class TimeJobService {
             List<String> adminIdList = userAccountService.getAllAdminId();
             if (CollectionUtils.isNotEmpty(adminIdList)) {
                 adminIdList.stream().forEach(adminId -> {
-                    String ljzjz = tableDataService.getLastTableMergeData(adminId);
+                    String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
                     TableLjzjzData tableLjzjzData = new TableLjzjzData();
                     tableLjzjzData.setAdminId(adminId);
                     tableLjzjzData.setLjzjz(ljzjz);
+                    tableLjzjzData.setType(1);
                     tableDataService.addTableLjzjzData(tableLjzjzData);
+
+                    String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
+                    TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
+                    tableLjzjzData2.setAdminId(adminId);
+                    tableLjzjzData2.setLjzjz(ljzjz2);
+                    tableLjzjzData2.setType(2);
+                    tableDataService.addTableLjzjzData(tableLjzjzData2);
                 });
             }
         }
@@ -125,11 +141,19 @@ public class TimeJobService {
         List<String> adminIdList = userAccountService.getAllAdminId();
         if (CollectionUtils.isNotEmpty(adminIdList)) {
             adminIdList.stream().forEach(adminId -> {
-                String ljzjz = tableDataService.getLastTableMergeData(adminId);
+                String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
                 TableLjzjzData tableLjzjzData = new TableLjzjzData();
                 tableLjzjzData.setAdminId(adminId);
                 tableLjzjzData.setLjzjz(ljzjz);
+                tableLjzjzData.setType(1);
                 tableDataService.addTableLjzjzData(tableLjzjzData);
+
+                String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
+                TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
+                tableLjzjzData2.setAdminId(adminId);
+                tableLjzjzData2.setLjzjz(ljzjz2);
+                tableLjzjzData2.setType(2);
+                tableDataService.addTableLjzjzData(tableLjzjzData2);
             });
         }
     }

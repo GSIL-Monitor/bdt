@@ -172,8 +172,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public TableMergeData getLastTableMergeDataNotId(int id, String adminId) {
-        return tableMergeDataMapper.getLastTableMergeDataNotId(id, adminId);
+    public TableMergeData getLastTableMergeDataNotId(int id, String adminId, int type) {
+        return tableMergeDataMapper.getLastTableMergeDataNotId(id, adminId, type);
     }
 
     @Override
@@ -615,13 +615,13 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public List<TableLjzjzData> getLjzjzByAdmin(String adminId) {
-        return tableLjzjzDataMapper.selectAll(adminId);
+    public List<TableLjzjzData> getLjzjzByAdmin(String adminId, int type) {
+        return tableLjzjzDataMapper.selectAll(adminId, type);
     }
 
     @Override
-    public String getLastTableMergeData(String adminId) {
-        return tableMergeDataMapper.getLastTableMergeData(adminId);
+    public String getLastTableMergeData(String adminId, int type) {
+        return tableMergeDataMapper.getLastTableMergeData(adminId, type);
     }
 
     @Override
