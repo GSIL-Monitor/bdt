@@ -235,7 +235,7 @@
         let params = {
           startTime: srartTime,
           endTime: '',
-          type: 1
+          type: 2
         }
         this.$api.getLJInfo(params).then((res) => {
           this.loading = false;
@@ -423,7 +423,7 @@
               align: 'left',
               top: 10,
               left: 0,
-              data: ['ljzjz']
+              data: ['ljxjz']
             },
             xAxis: [
               {
@@ -487,7 +487,7 @@
                 }
               }
             ],
-            color: ['#00c2ff'],
+            color: ['#ff0930'],
             series: [
               {
                 name: 'ljxjz',
@@ -504,7 +504,7 @@
                 data: []
               },
               {
-                name: 'ljzjz',
+                name: 'ljxjz',
                 type: 'line',
                 stack: '总量',
                 // smooth: true,
@@ -517,7 +517,7 @@
                 // 线条颜色
                 itemStyle: {
                   normal: {
-                    color: '#00c2ff',
+                    color: '#ff0930',
                     borderWidth: 0.1
                     // borderColor: 'red'  // 拐点边框颜色
                   }
@@ -528,7 +528,7 @@
                     // color: 'rgba(255, 239, 217, 0.75)'
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                       offset: 0,
-                      color: '#c1f0ff'
+                      color: '#ffc4cd'
                     }, {
                       offset: 0.8,
                       color: '#fffefe'
