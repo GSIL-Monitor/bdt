@@ -2,7 +2,7 @@
   <Card>
     <div slot="title" style="display: flex;align-items: center">
       <div style="flex: 1;text-align: left">
-        <span>ljzjz：{{ZJZ}}</span>
+        <span>ljxjz：{{ZJZ}}</span>
       </div>
       <div style="flex: inherit;text-align: right;margin-right: 15px">
         <Button type="warning" @click="searchDopeData">刷新</Button>
