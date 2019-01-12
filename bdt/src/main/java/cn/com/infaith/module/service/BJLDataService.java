@@ -615,12 +615,12 @@ public class BJLDataService {
         //1）副号=1，且TXXS>=0.012，进入步骤8-3-5。
         //2）副号=1，且TXXS<0.012，不计算ZJZ、LJZJZ，进入步骤9-1。
         //3）副号>1，进入步骤8-3-3。
+        step8_5(tableData, bdtSystem);
         if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) >= 0) {
             //进入步骤8-3-5。
             return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
         } else if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) == -1) {
             //进入步骤9-1。
-            step8_5(tableData, bdtSystem);
             return null;
         } else if (tableData.getFitNo() > 1) {
             //进入步骤8-3-3。
@@ -634,11 +634,9 @@ public class BJLDataService {
                 //进入步骤8-3-5。
                 return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
             } else {
-                step8_5(tableData, bdtSystem);
                 return null;
             }
         } else {
-            step8_5(tableData, bdtSystem);
             return null;
         }
 //        int result = tableData.getResult();
