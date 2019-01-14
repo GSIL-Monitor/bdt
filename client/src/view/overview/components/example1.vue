@@ -231,9 +231,9 @@
         this.DateRange = this.format(new Date(this.getWeekStartDate()).getTime() + 0.5 * 24 * 60 * 60 * 1000);
         this.DateRangeEnd = this.format(new Date(this.getWeekStartDate() + 7.5 * 24 * 60 * 60 * 1000).getTime());
         let srartTime;
-        srartTime = new Date(this.DateRange).getTime();
+        srartTime = new Date(this.getWeekStartDate()).getTime() + 0.5 * 24 * 60 * 60 * 1000;
         let params = {
-          startTime: srartTime,
+          startTime: '',
           endTime: '',
           type: 2
         }
@@ -286,7 +286,7 @@
           tmp = nowDay - 6;
         }
         let dayStartDate = new Date(nowYear, nowMonth, now.getDate()).getTime() + 12 * 60 * 60 * 1000;
-        console.log('qweqweqwe', dayStartDate, new Date().getTime());
+        // console.log('qweqweqwe', dayStartDate, new Date().getTime());
         if (nowDayOfWeek == 1 && new Date().getTime() < dayStartDate) {
           console.log(13123213312321);
           tmp = nowDay - 7;

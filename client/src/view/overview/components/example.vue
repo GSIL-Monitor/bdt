@@ -233,7 +233,7 @@
         let srartTime;
         srartTime = new Date(this.getWeekStartDate()).getTime() + 0.5 * 24 * 60 * 60 * 1000;
         let params = {
-          startTime: srartTime,
+          startTime: '',
           endTime: '',
           type: 1
         }
