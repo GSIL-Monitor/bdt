@@ -231,7 +231,7 @@
         this.DateRange = this.format(new Date(this.getWeekStartDate()).getTime() + 0.5 * 24 * 60 * 60 * 1000);
         this.DateRangeEnd = this.format(new Date(this.getWeekStartDate() + 7.5 * 24 * 60 * 60 * 1000).getTime());
         let srartTime;
-        srartTime = new Date(this.DateRange).getTime();
+        srartTime = new Date(this.getWeekStartDate()).getTime() + 0.5 * 24 * 60 * 60 * 1000;
         let params = {
           startTime: srartTime,
           endTime: '',
@@ -285,6 +285,13 @@
         if (nowDayOfWeek == 0) {
           tmp = nowDay - 6;
         }
+        let dayStartDate = new Date(nowYear, nowMonth, now.getDate()).getTime() + 12 * 60 * 60 * 1000;
+        console.log('qweqweqwe', dayStartDate, new Date().getTime());
+        if (nowDayOfWeek == 1 && new Date().getTime() < dayStartDate) {
+          console.log(13123213312321);
+          tmp = nowDay - 7;
+        }
+        //
         let weekStartDate = new Date(nowYear, nowMonth, tmp);
         console.log('==1111111111111111111111111111111111======>', weekStartDate);
         return weekStartDate.getTime();
@@ -560,11 +567,9 @@
   #overLine {
     position: relative;
   }
-
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
   }
-
   @keyframes ani-demo-spin {
     from {
       transform: rotate(0deg);
@@ -576,7 +581,6 @@
       transform: rotate(360deg);
     }
   }
-
   .demo-spin-col {
     height: 100px;
     position: relative;

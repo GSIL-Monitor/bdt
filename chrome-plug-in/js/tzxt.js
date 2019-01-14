@@ -1,4 +1,4 @@
-var BDTURL = 'https://test.bdt1314.xyz/';
+var BDTURL = 'https://www.bdt1314.xyz/';
 window.globalTableCell = {};
 window.status = {
   '开始投注': 2,
