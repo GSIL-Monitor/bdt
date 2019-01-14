@@ -65,13 +65,30 @@ public class UserController {
             DopeManage dopeManage = new DopeManage();
             dopeManage.setTzzh(userId);
             dopeManage.setTzxt(1);
+            dopeManage.setHasCheck(false);
             dopeManage.setAdminId(userAccount.getAdminId());
             tableDataService.insertDopeManage(dopeManage);
             DopeManage dopeManage2 = new DopeManage();
             dopeManage2.setTzzh(userId);
             dopeManage2.setTzxt(2);
+            dopeManage2.setHasCheck(false);
             dopeManage2.setAdminId(userAccount.getAdminId());
             tableDataService.insertDopeManage(dopeManage2);
+            DopeManage dopeManage3 = new DopeManage();
+            dopeManage3.setTzzh(userId);
+            dopeManage3.setTzxt(3);
+            dopeManage3.setHasCheck(false);
+            dopeManage3.setAdminId(userAccount.getAdminId());
+            tableDataService.insertDopeManage(dopeManage3);
+            for (int i = 11; i <= 14; i++) {
+                DopeManage dopeManages = new DopeManage();
+                dopeManages.setTzzh(userId);
+                dopeManages.setTzxt(i);
+                dopeManages.setHasCheck(false);
+                dopeManages.setAdminId(userAccount.getAdminId());
+                tableDataService.insertDopeManage(dopeManages);
+            }
+
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", userAccount);
         }
         return ResponseJsonUtil.getResponseJson(-2, "账号已存在", null);
@@ -115,33 +132,84 @@ public class UserController {
     public JSONObject addAdminAccount(@ModelAttribute AdminAccount adminAccount) {
 
         String id = userAccountService.addAdminAccount(adminAccount);
-        if (StringUtils.isNotBlank(id)) {
+        if (StringUtils.isNotBlank(id) && StringUtils.isBlank(adminAccount.getMainAdminId())) {
             BdtSystem bdtSystem = new BdtSystem();
             bdtSystem.setAdminId(id);
             bdtSystem.setStarted(false);
             bdtSystem.setPhxs(new BigDecimal(0));
             bdtSystem.setPs(0);
+            bdtSystem.setTxxs(new BigDecimal(0));
             tableDataService.addBdtSystem(bdtSystem);
             TzSystem tzSystem = new TzSystem();
             tzSystem.setAdminId(id);
-            tzSystem.setTzxt(1);
+            tzSystem.setTzxt(11);
             tzSystem.setStarted(false);
-            tzSystem.setFha(0);
-            tzSystem.setFhb(0);
-            tzSystem.setFhc(0);
-            tzSystem.setFhd(0);
+            tzSystem.setFha("0");
+            tzSystem.setFhb("0");
+            tzSystem.setFhc("0");
+            tzSystem.setFhd("0");
             tzSystem.setXh("0");
             tableDataService.addTzSystem(tzSystem);
+            TzSystem tzSystem12 = new TzSystem();
+            tzSystem12.setAdminId(id);
+            tzSystem12.setTzxt(12);
+            tzSystem12.setStarted(false);
+            tzSystem12.setFha("0");
+            tzSystem12.setFhb("0");
+            tzSystem12.setFhc("0");
+            tzSystem12.setFhd("0");
+            tzSystem12.setXh("0");
+            tableDataService.addTzSystem(tzSystem12);
+            TzSystem tzSystem13 = new TzSystem();
+            tzSystem13.setAdminId(id);
+            tzSystem13.setTzxt(13);
+            tzSystem13.setStarted(false);
+            tzSystem13.setFha("0");
+            tzSystem13.setFhb("0");
+            tzSystem13.setFhc("0");
+            tzSystem13.setFhd("0");
+            tzSystem13.setXh("0");
+            tableDataService.addTzSystem(tzSystem13);
+            TzSystem tzSystem14 = new TzSystem();
+            tzSystem14.setAdminId(id);
+            tzSystem14.setTzxt(14);
+            tzSystem14.setStarted(false);
+            tzSystem14.setFha("0");
+            tzSystem14.setFhb("0");
+            tzSystem14.setFhc("0");
+            tzSystem14.setFhd("0");
+            tzSystem14.setXh("0");
+            tableDataService.addTzSystem(tzSystem14);
             TzSystem tzSystem2 = new TzSystem();
             tzSystem2.setAdminId(id);
             tzSystem2.setTzxt(2);
             tzSystem2.setStarted(false);
-            tzSystem2.setFha(0);
-            tzSystem2.setFhb(0);
-            tzSystem2.setFhc(0);
-            tzSystem2.setFhd(0);
+            tzSystem2.setFha("0");
+            tzSystem2.setFhb("0");
+            tzSystem2.setFhc("0");
+            tzSystem2.setFhd("0");
             tzSystem2.setXh("0");
             tableDataService.addTzSystem(tzSystem2);
+            TzSystem tzSystem3 = new TzSystem();
+            tzSystem3.setAdminId(id);
+            tzSystem3.setTzxt(3);
+            tzSystem3.setStarted(false);
+            tzSystem3.setFha("0");
+            tzSystem3.setFhb("0");
+            tzSystem3.setFhc("0");
+            tzSystem3.setFhd("0");
+            tzSystem3.setXh("0");
+            tableDataService.addTzSystem(tzSystem3);
+            //添加投注3控制
+            for (int i = 1; i <= 12; i++) {
+                TzStatusInfo tzStatusInfo = new TzStatusInfo();
+                tzStatusInfo.setAdminId(id);
+                tzStatusInfo.setTzxt(3);
+                tzStatusInfo.setTzStatus(0);
+                tzStatusInfo.setTableNo(i);
+                tableDataService.addTzStatusInfo(tzStatusInfo);
+            }
+
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", adminAccount);
         }
         return ResponseJsonUtil.getResponseJson(-1, "fail", null);

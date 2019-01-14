@@ -1,5 +1,6 @@
 package cn.com.infaith.module.service;
 
+import cn.com.infaith.module.model.TableLjzjzData;
 import cn.com.infaith.module.model.UserAccount;
 import cn.com.infaith.module.util.LogUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -80,5 +81,86 @@ public class TimeJobService {
     public void uploadFile() {
         tableDataService.addUploadResultFile(true);
         tableDataService.addUploadFile(true);
+    }
+
+    @Scheduled(cron = "0 0/3 * * * ?")
+    public void addLjzjzData() {
+        if (tableDataService.jobStarted() == 1) {
+            LogUtil.info(this.getClass(), "合并数据开始执行》》》》》");
+            List<String> adminIdList = userAccountService.getAllAdminId();
+            if (CollectionUtils.isNotEmpty(adminIdList)) {
+                adminIdList.stream().forEach(adminId -> {
+                    String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
+                    TableLjzjzData tableLjzjzData = new TableLjzjzData();
+                    tableLjzjzData.setAdminId(adminId);
+                    tableLjzjzData.setLjzjz(ljzjz);
+                    tableLjzjzData.setType(1);
+                    tableDataService.addTableLjzjzData(tableLjzjzData);
+
+                    String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
+                    TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
+                    tableLjzjzData2.setAdminId(adminId);
+                    tableLjzjzData2.setLjzjz(ljzjz2);
+                    tableLjzjzData2.setType(2);
+                    tableDataService.addTableLjzjzData(tableLjzjzData2);
+                });
+            }
+        }
+
+    }
+
+    @Scheduled(cron = "30 1/3 * * * ?")
+    public void addLjzjzData2() {
+        if (tableDataService.jobStarted() == 1) {
+            LogUtil.info(this.getClass(), "合并数据开始执行》》》》》");
+            List<String> adminIdList = userAccountService.getAllAdminId();
+            if (CollectionUtils.isNotEmpty(adminIdList)) {
+                adminIdList.stream().forEach(adminId -> {
+                    String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
+                    TableLjzjzData tableLjzjzData = new TableLjzjzData();
+                    tableLjzjzData.setAdminId(adminId);
+                    tableLjzjzData.setLjzjz(ljzjz);
+                    tableLjzjzData.setType(1);
+                    tableDataService.addTableLjzjzData(tableLjzjzData);
+
+                    String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
+                    TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
+                    tableLjzjzData2.setAdminId(adminId);
+                    tableLjzjzData2.setLjzjz(ljzjz2);
+                    tableLjzjzData2.setType(2);
+                    tableDataService.addTableLjzjzData(tableLjzjzData2);
+                });
+            }
+        }
+    }
+
+    @Scheduled(cron = "0 15 13 ? * MON")
+    public void startedAddLjzjz() {
+        LogUtil.info(this.getClass(), "开启合并数据》》》》》");
+        tableDataService.updateJobStarted(true);
+        List<String> adminIdList = userAccountService.getAllAdminId();
+        if (CollectionUtils.isNotEmpty(adminIdList)) {
+            adminIdList.stream().forEach(adminId -> {
+                String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
+                TableLjzjzData tableLjzjzData = new TableLjzjzData();
+                tableLjzjzData.setAdminId(adminId);
+                tableLjzjzData.setLjzjz(ljzjz);
+                tableLjzjzData.setType(1);
+                tableDataService.addTableLjzjzData(tableLjzjzData);
+
+                String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
+                TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
+                tableLjzjzData2.setAdminId(adminId);
+                tableLjzjzData2.setLjzjz(ljzjz2);
+                tableLjzjzData2.setType(2);
+                tableDataService.addTableLjzjzData(tableLjzjzData2);
+            });
+        }
+    }
+
+    @Scheduled(cron = "0 0 11 ? * MON")
+    public void closedAddLjzjz() {
+        LogUtil.info(this.getClass(), "关闭合并数据》》》》》");
+        tableDataService.updateJobStarted(false);
     }
 }

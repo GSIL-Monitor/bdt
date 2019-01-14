@@ -10,10 +10,10 @@ public class TzInfo {
 
     private Boolean started;
 
-    private Integer fha;
-    private Integer fhb;
-    private Integer fhc;
-    private Integer fhd;
+    private String fha;
+    private String fhb;
+    private String fhc;
+    private String fhd;
 
     private String xh;
 
@@ -43,35 +43,35 @@ public class TzInfo {
         this.started = started;
     }
 
-    public Integer getFha() {
+    public String getFha() {
         return fha;
     }
 
-    public void setFha(Integer fha) {
+    public void setFha(String fha) {
         this.fha = fha;
     }
 
-    public Integer getFhb() {
+    public String getFhb() {
         return fhb;
     }
 
-    public void setFhb(Integer fhb) {
+    public void setFhb(String fhb) {
         this.fhb = fhb;
     }
 
-    public Integer getFhc() {
+    public String getFhc() {
         return fhc;
     }
 
-    public void setFhc(Integer fhc) {
+    public void setFhc(String fhc) {
         this.fhc = fhc;
     }
 
-    public Integer getFhd() {
+    public String getFhd() {
         return fhd;
     }
 
-    public void setFhd(Integer fhd) {
+    public void setFhd(String fhd) {
         this.fhd = fhd;
     }
 

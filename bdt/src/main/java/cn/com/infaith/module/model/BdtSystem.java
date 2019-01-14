@@ -10,6 +10,8 @@ public class BdtSystem {
 
     private BigDecimal phxs;
 
+    private BigDecimal txxs;
+
     private BigDecimal yxje;
     private BigDecimal ysje;
     private BigDecimal sjje;
@@ -17,6 +19,14 @@ public class BdtSystem {
     private Boolean started;
 
     private String adminId;
+
+    public BigDecimal getTxxs() {
+        return txxs;
+    }
+
+    public void setTxxs(BigDecimal txxs) {
+        this.txxs = txxs;
+    }
 
     public Integer getId() {
         return id;

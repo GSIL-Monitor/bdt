@@ -18,6 +18,7 @@
     <result column="sjsy" jdbcType="DECIMAL" property="sjsy" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="tz_status" jdbcType="VARCHAR" property="tzStatus" />
     <result column="tz_count" jdbcType="INTEGER" property="tzCount" />
     <result column="tz_sjtzje" jdbcType="INTEGER" property="tzSjtzje" />
@@ -27,12 +28,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.ResultData">
-    insert into result_data (id, create_time, table_no, 
+    insert into result_data (id, admin_id, create_time, table_no,
       battle_no, fit_no, tzfx, 
       tzxt, tzzh, tzje, tzzt, 
       tzjg, yxje, yssy, sjsy
       )
-    values (#{id,jdbcType=INTEGER}, NOW(), #{tableNo,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{adminId}, NOW(), #{tableNo,jdbcType=INTEGER},
       #{battleNo,jdbcType=INTEGER}, #{fitNo,jdbcType=INTEGER}, #{tzfx,jdbcType=INTEGER}, 
       #{tzxt,jdbcType=INTEGER}, #{tzzh,jdbcType=VARCHAR}, #{tzje,jdbcType=VARCHAR}, #{tzzt,jdbcType=BIT}, 
       #{tzjg,jdbcType=INTEGER}, #{yxje,jdbcType=DECIMAL}, #{yssy,jdbcType=DECIMAL}, #{sjsy,jdbcType=DECIMAL}
@@ -40,14 +41,14 @@
   </insert>
 
   <insert id="insertList" parameterType="cn.com.infaith.module.model.ResultData">
-    insert into result_data (create_time, table_no,
+    insert into result_data (admin_id, create_time, table_no,
       battle_no, fit_no, tzfx,
       tzxt, tzzh, tzje, tzzt,
       tzjg, yxje, yssy, sjsy
       )
     values
      <foreach collection="list" item="item" index="index" separator=",">
-       (NOW(), #{item.tableNo,jdbcType=INTEGER},
+       (#{item.adminId}, NOW(), #{item.tableNo,jdbcType=INTEGER},
        #{item.battleNo,jdbcType=INTEGER}, #{item.fitNo,jdbcType=INTEGER}, #{item.tzfx,jdbcType=INTEGER},
        #{item.tzxt,jdbcType=INTEGER}, #{item.tzzh,jdbcType=VARCHAR}, #{item.tzje,jdbcType=VARCHAR}, #{item.tzzt,jdbcType=BIT},
        #{item.tzjg,jdbcType=INTEGER}, #{item.yxje,jdbcType=DECIMAL}, #{item.yssy,jdbcType=DECIMAL}, #{item.sjsy,jdbcType=DECIMAL}

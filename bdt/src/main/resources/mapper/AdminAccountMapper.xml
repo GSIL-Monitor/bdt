@@ -8,14 +8,15 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
     <result column="super_admin" jdbcType="TINYINT" property="superAdmin" />
+    <result column="main_admin_id" jdbcType="VARCHAR" property="mainAdminId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     UPDATE admin_account SET is_delete = 1 WHERE id = #{id}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.AdminAccount">
-    insert into admin_account (id, name, account, password,
+    insert into admin_account (id, name, account, password, main_admin_id,
       is_delete)
-    values (#{id,jdbcType=VARCHAR}, #{name}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+    values (#{id,jdbcType=VARCHAR}, #{name}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mainAdminId},
       0)
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.AdminAccount">
@@ -34,22 +35,22 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, account, is_delete, super_admin
+    select id, name, account, is_delete, super_admin, main_admin_id
     from admin_account
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, account, password, is_delete, super_admin
+    select id, name, account, password, is_delete, super_admin, main_admin_id
     from admin_account WHERE is_delete = 0
   </select>
 
   <select id="getAdminByAccountAndPassword" resultMap="BaseResultMap">
-    select id, name, account, password, is_delete, super_admin
+    select id, name, account, password, is_delete, super_admin, main_admin_id
     from admin_account
     where account = #{account} AND password = #{password} AND is_delete = 0
   </select>
 
   <select id="getAllAdminId" resultType="String">
-    SELECT id FROM admin_account WHERE is_delete = 0
+    SELECT id FROM admin_account WHERE is_delete = 0 AND (main_admin_id IS NULL OR main_admin_id = '')
   </select>
 </mapper>

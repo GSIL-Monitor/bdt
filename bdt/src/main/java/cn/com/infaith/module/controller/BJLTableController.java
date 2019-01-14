@@ -66,6 +66,42 @@ public class BJLTableController {
         }
     }
 
+    @ApiOperation(value = "批量读取百家乐桌面信息", notes = "批量读取百家乐桌面信息", httpMethod = "POST")
+    @PostMapping("/addTableDataList")
+    public JSONObject addTableDataList(@RequestBody List<TableData> dataList) {
+        synchronized (this) {
+            for (int i = 0; i < dataList.size(); i++) {
+                LogUtil.info(this.getClass(), "读牌开始>>>>>>>time:" + System.currentTimeMillis());
+                TableData tableData = dataList.get(i);
+                TableRequest request = new TableRequest();
+                request.setCreateTime(new Date(tableData.getCreateDate()));
+                request.setTableNo(tableData.getTableNo());
+                request.setBattleNo(tableData.getBattleNo());
+                request.setFitNo(tableData.getFitNo());
+                request.setCard(tableData.getCard());
+                request.setXianCard(tableData.getXianCard());
+                request.setResult(tableData.getResult());
+                request.setStatus(tableData.getStatus());
+                request.setRemark(tableData.getRemark());
+                request.setUserId(tableData.getUserId());
+                tableDataService.addTableRequest(request);
+                if (tableData.getStatus() == null) {
+                    continue;
+                }
+                if (tableData.getStatus().equals(TableStatusEnum.KP.getIndex()) && tableData.getResult() == null) {
+                    return ResponseJsonUtil.getResponseJson(-1, "未获取开牌结果", null);
+                }
+                try {
+                    bjlDataService.JudgeState(tableData);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    continue;
+                }
+            }
+        }
+        return ResponseJsonUtil.getResponseJson(200,"SUCCESS",null);
+    }
+
     @PostMapping("testKP")
     public JSONObject testKP() {
         CalcXGLZGLServiceNotMap serviceNotMap1=new CalcXGLZGLServiceNotMap();
@@ -94,10 +130,16 @@ public class BJLTableController {
     public JSONObject getTableInfo(@RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
 
         List<StatusData> list = tableDataService.selectStatusAll();
-        TzSystem tzSystem1 = tableDataService.getTzSystemInfo(1, adminId);
+        TzSystem tzSystem11 = tableDataService.getTzSystemInfo(11, adminId);
+        TzSystem tzSystem12 = tableDataService.getTzSystemInfo(12, adminId);
+        TzSystem tzSystem13 = tableDataService.getTzSystemInfo(13, adminId);
+        TzSystem tzSystem14 = tableDataService.getTzSystemInfo(14, adminId);
         TzSystem tzSystem2 = tableDataService.getTzSystemInfo(2, adminId);
+        TzSystem tzSystem3 = tableDataService.getTzSystemInfo(3, adminId);
         long date = 15 * 60 * 1000;
-        String tz = "TZ1(" + (tzSystem1.getStarted()?"开启":"关闭") + ")" + " " + "TZ2(" + (tzSystem2.getStarted()?"开启":"关闭") + ")";
+        String tz = "TZ11(" + (tzSystem11.getStarted()?"开启":"关闭") + ")" + " " + "TZ12(" + (tzSystem12.getStarted()?"开启":"关闭") + ")" + "\n"
+                + " " + "TZ13(" + (tzSystem13.getStarted()?"开启":"关闭") + ")"+ " " + "TZ14(" + (tzSystem14.getStarted()?"开启":"关闭") + ")" + "\n"
+                + " " + "TZ2(" + (tzSystem2.getStarted()?"开启":"关闭") + ")"+ " " + "TZ3(" + (tzSystem3.getStarted()?"开启":"关闭") + ")";
         if (CollectionUtils.isNotEmpty(list)) {
             list.stream().forEach(statusData -> {
                 //如果15分钟未进入读牌接口里
@@ -191,7 +233,8 @@ public class BJLTableController {
 
         JSONObject json = new JSONObject();
         TzSystem tzSystem = tableDataService.getTzSystemInfo(tzxt, adminId);
-        List<DopeManage> list = tableDataService.getDopeMangeList(tzxt, adminId);
+        List<DopeManage> list = new ArrayList<>();
+        list = tableDataService.getDopeMangeList(tzxt, adminId);
         int allTz = tableDataService.getAllResultCount(3, adminId, tzxt);
         int tzSuccess = tableDataService.getAllResultCount(1, adminId, tzxt);
         int tzFail = tableDataService.getAllResultCount(0, adminId, tzxt);
@@ -239,12 +282,14 @@ public class BJLTableController {
             @ApiImplicitParam(name = "ps", value = "ps值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "phxs", value = "phxs值，当为关闭时可不填", paramType = "query"),
             @ApiImplicitParam(name = "adminId", value = "管理员id", paramType = "query"),
+            @ApiImplicitParam(name = "txxs", value = "txxs", paramType = "query"),
     })
     public JSONObject bdtSystemStarted(@RequestParam Boolean started,
                                        @RequestParam(required = false) Integer ps,
                                        @RequestParam(required = false) BigDecimal phxs,
-                                       @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
-        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs, adminId);
+                                       @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId,
+                                       @RequestParam BigDecimal txxs) {
+        Boolean result = tableDataService.bdtSystemStarted(started, ps, phxs, adminId, txxs);
         if (result) {
             return ResponseJsonUtil.getResponseJson(200, "SUCCESS", null);
         } else {
@@ -274,13 +319,14 @@ public class BJLTableController {
     })
     public JSONObject getLJInfo(@RequestParam(required = false) Long startTime,
                                 @RequestParam(required = false) Long endTime,
-                                @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId) {
+                                @RequestParam(defaultValue = "5e3463418a8b4b6a84af80b40c973087") String adminId,
+                                @RequestParam(defaultValue = "1") int type) {
 
         JSONObject json = new JSONObject();
-        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime, adminId);
-        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime, adminId);
-        json.put("ljxjz", ljxjz);
-        json.put("ljzjz", ljzjz);
+//        List<Map<Integer, String>> ljxjz = tableDataService.getLJXJZ(startTime, endTime, adminId);
+//        List<Map<Integer, String>> ljzjz = tableDataService.getLJZJZ(startTime, endTime, adminId);
+        List<TableLjzjzData> list = tableDataService.getLjzjzByAdmin(adminId, type);
+        json.put("ljzjz", list);
         return ResponseJsonUtil.getResponseJson(200, "success", json);
     }
 

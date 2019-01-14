@@ -7,6 +7,8 @@ public class TableMergeData {
 
     private String adminId;
 
+    private Integer type;
+
     private Date createTime;
 
     private Integer tableNo;
@@ -24,6 +26,14 @@ public class TableMergeData {
     private String ljzjz;
 
     private Boolean isDelete;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;

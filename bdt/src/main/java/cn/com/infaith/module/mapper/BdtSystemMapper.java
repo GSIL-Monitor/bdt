@@ -18,7 +18,8 @@ public interface BdtSystemMapper {
     int updateByPrimaryKey(BdtSystem record);
 
     Boolean bdtSystemStarted(@Param("started") Boolean started, @Param("ps") Integer ps,
-                             @Param("phxs") BigDecimal phxs, @Param("adminId") String adminId);
+                             @Param("phxs") BigDecimal phxs, @Param("adminId") String adminId,
+                             @Param("txxs") BigDecimal txxs);
 
     BdtSystem getBdtSystem(String adminId);
 }

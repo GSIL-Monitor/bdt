@@ -43,4 +43,9 @@ public interface TableDataMapper {
 
     List<TableData> getTestData();
     List<TableData> getAllTable(@Param("created") Date created);
+
+    String getZtslByTable(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo,
+                          @Param("fitNo") int fitNo, @Param("adminId") String adminId);
+
+    int getTableResultCalCount(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("fha") int fha);
 }

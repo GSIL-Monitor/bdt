@@ -56,6 +56,12 @@ public class TableDataServiceImpl implements TableDataService {
     private DopeManageLogoMapper dopeManageLogoMapper;
     @Autowired
     private UserAccountService userAccountService;
+    @Autowired
+    private TzStatusInfoMapper tzStatusInfoMapper;
+    @Autowired
+    private TableLjzjzDataMapper tableLjzjzDataMapper;
+    @Autowired
+    private JobStartMapper jobStartMapper;
 
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -166,8 +172,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public TableMergeData getLastTableMergeDataNotId(int id, String adminId) {
-        return tableMergeDataMapper.getLastTableMergeDataNotId(id, adminId);
+    public TableMergeData getLastTableMergeDataNotId(int id, String adminId, int type) {
+        return tableMergeDataMapper.getLastTableMergeDataNotId(id, adminId, type);
     }
 
     @Override
@@ -176,7 +182,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean updateTzStartOrClose(Boolean started, int tzxt, int fha, int fhb, int fhc, int fhd, String xh, String adminId) {
+    public Boolean updateTzStartOrClose(Boolean started, int tzxt, String fha, String fhb, String fhc, String fhd, String xh, String adminId) {
         return tzSystemMapper.updateStartOrClose(started, tzxt, fha, fhb, fhc, fhd, xh, adminId) > 0 ? true : false;
     }
 
@@ -257,8 +263,8 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, String adminId) {
-        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs, adminId);
+    public Boolean bdtSystemStarted(Boolean started, Integer ps, BigDecimal phxs, String adminId, BigDecimal txxs) {
+        return bdtSystemMapper.bdtSystemStarted(started, ps, phxs, adminId, txxs);
     }
 
     @Override
@@ -576,6 +582,56 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public Boolean addDopeManageLog(DopeManageLogo manageLogo) {
         return dopeManageLogoMapper.insert(manageLogo) > 0 ? true : false;
+    }
+
+    @Override
+    public int addTzStatusInfo(TzStatusInfo tzStatusInfo) {
+        return tzStatusInfoMapper.insert(tzStatusInfo);
+    }
+
+    @Override
+    public TzStatusInfo getTzStatus(String adminId, int tableNo, int tzxt) {
+        return tzStatusInfoMapper.selectByPrimaryKey(adminId, tableNo, tzxt);
+    }
+
+    @Override
+    public int updateTzStatus(int id, int tzStatus) {
+        return tzStatusInfoMapper.updateStatus(id, tzStatus);
+    }
+
+    @Override
+    public String getZtslByTable(String adminId, int tableNo, int battleNo, int fitNo) {
+        return tableDataMapper.getZtslByTable(tableNo, battleNo, fitNo, adminId);
+    }
+
+    @Override
+    public int getTableResultCalCount(int tableNo, int battleNo, int fha) {
+        return tableDataMapper.getTableResultCalCount(tableNo, battleNo, fha);
+    }
+
+    @Override
+    public int addTableLjzjzData(TableLjzjzData ljzjzData) {
+        return tableLjzjzDataMapper.insert(ljzjzData);
+    }
+
+    @Override
+    public List<TableLjzjzData> getLjzjzByAdmin(String adminId, int type) {
+        return tableLjzjzDataMapper.selectAll(adminId, type);
+    }
+
+    @Override
+    public String getLastTableMergeData(String adminId, int type) {
+        return tableMergeDataMapper.getLastTableMergeData(adminId, type);
+    }
+
+    @Override
+    public Integer jobStarted() {
+        return jobStartMapper.selectAll().get(0).getJobStarted();
+    }
+
+    @Override
+    public int updateJobStarted(Boolean jobStarted) {
+        return jobStartMapper.updateByPrimaryKey(jobStarted);
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {
