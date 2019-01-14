@@ -38,8 +38,7 @@
           <Button type="error" @click="saveApp(false)" :disabled="!disabledSave">重置修改</Button>
         </div>
       </div>
-      <div
-        style="width:100%;color:#000000;border-radius:4px;font-size:15px;height:45px;padding:0 5px;margin:14px 0 0;display: flex;align-items: center;background-color: rgba(0,0,0,0.1)">
+      <div class="tzSystemInfo-1">
         <div style="margin-right: 10px;flex: 1;">投注总数&ensp;<span
           style="">{{tz2AllData.allTz}}</span></div>
         <div style="margin-right: 10px;flex: 1;">未投注&ensp;<span
@@ -402,6 +401,19 @@
 
 <style lang="scss" scoped>
   .tzSystemInfo {
+    &-1 {
+      width: 100%;
+      color: #000000;
+      border-radius: 4px;
+      font-size: 15px;
+      height: 45px;
+      padding: 0 5px;
+      margin: 14px 0 0;
+      display: flex;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.1)
+    }
+
     .bdt-table {
       width: 100%;
       border-radius: 4px;

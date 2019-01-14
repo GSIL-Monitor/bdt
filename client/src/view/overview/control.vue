@@ -6,11 +6,18 @@
         <br>
       </i-col>
     </Row>
+    <Row :gutter="16">
+      <i-col span="24">
+        <example-1></example-1>
+        <br>
+      </i-col>
+    </Row>
   </div>
 </template>
 
 <script>
   import Example from './components/example.vue'
+  import Example1 from './components/example1.vue'
 
   export default {
     name: 'overview',
@@ -19,7 +26,8 @@
       }
     },
     components: {
-      Example
+      Example,
+      Example1
     },
     watch: {
       $route: function (to, form) {
