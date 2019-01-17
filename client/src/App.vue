@@ -18,6 +18,12 @@
 </script>
 
 <style lang="less">
+  .tabs-pane-box {
+    &.ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab-active {
+      background-color: #348EED;
+      color: white;
+    }
+  }
   .size {
     width: 100%;
     height: 100%;

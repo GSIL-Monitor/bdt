@@ -9,18 +9,28 @@
         <login-out></login-out>
       </i-col>
       <i-col span="18" v-if="mainAdmin">
-        <tz11-system-info></tz11-system-info>
-        <br>
-        <tz12-system-info></tz12-system-info>
-        <br>
-        <tz13-system-info></tz13-system-info>
-        <br>
-        <tz14-system-info></tz14-system-info>
-        <br>
-        <tz2-system-info></tz2-system-info>
-        <br>
-        <tz3-system-info></tz3-system-info>
-        <br>
+        <Card>
+          <Tabs type="card" class="tabs-pane-box">
+            <Tab-pane label="投注-TZ1-1">
+              <tz11-system-info></tz11-system-info>
+            </Tab-pane>
+            <Tab-pane label="投注-TZ1-2">
+              <tz12-system-info></tz12-system-info>
+            </Tab-pane>
+            <Tab-pane label="投注-TZ1-3">
+              <tz13-system-info></tz13-system-info>
+            </Tab-pane>
+            <Tab-pane label="投注-TZ1-4">
+              <tz14-system-info></tz14-system-info>
+            </Tab-pane>
+            <Tab-pane label="投注-TZ2">
+              <tz2-system-info></tz2-system-info>
+            </Tab-pane>
+            <Tab-pane label="投注-TZ3">
+              <tz3-system-info></tz3-system-info>
+            </Tab-pane>
+          </Tabs>
+        </Card>
       </i-col>
     </Row>
   </div>
