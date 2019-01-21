@@ -1,5 +1,7 @@
 const path = require('path')
-
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const productionGzipExtensions = ['js', 'css'];
 const resolve = dir => {
   return path.join(__dirname, dir)
 }
@@ -33,6 +35,36 @@ module.exports = {
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
       .set('_c', resolve('src/components'))
       .set('_conf', resolve('config'))
+  },
+  configureWebpack: config => {
+    config.plugins.push(
+      new CompressionWebpackPlugin({
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }),
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            warnings: false,
+            drop_debugger: true,
+            drop_console: true,
+          },
+        },
+        sourceMap: false,
+        parallel: true,
+      })
+    );
+  },
+  css: {
+    extract: true,
+    loaderOptions: {
+      // sass: {
+      // 全局注入通用样式
+      // data: fs.readFileSync('./src/assets/variables.scss', 'utf-8')
+      // }
+    }
   },
   // 打包时不生成.map文件
   productionSourceMap: false

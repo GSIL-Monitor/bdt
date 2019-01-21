@@ -17,7 +17,8 @@ export default [
     path: '/login',
     name: 'login',
     meta: {title: 'Login - 登录', hideInMenu: true},
-    component: () => import('@/view/login/login.vue')
+    // component: () => import('@/view/login/login.vue')
+    component: resolve => require(['@/view/login/login.vue'], resolve)
   },
   {
     path: '/',
@@ -30,19 +31,22 @@ export default [
         path: '/home',
         name: 'home',
         meta: {hideInMenu: true, title: '投注管理'},
-        component: () => import('@/view/overview/overview.vue')
+        // component: () => import('@/view/overview/overview.vue')
+        component: resolve => require(['@/view/overview/overview.vue'], resolve)
       },
       {
         path: '/super',
         name: 'super',
         meta: {hideInMenu: true, title: '超级管理员'},
-        component: () => import('@/view/overview/super.vue')
+        // component: () => import('@/view/overview/super.vue')
+        component: resolve => require(['@/view/overview/super.vue'], resolve)
       },
       {
         path: '/setting',
         name: 'setting',
         meta: {hideInMenu: true, title: '设置'},
-        component: () => import('@/view/setting/setting.vue')
+        // component: () => import('@/view/setting/setting.vue'),
+        component: resolve => require(['@/view/setting/setting.vue'], resolve)
       }
     ]
   },
@@ -56,19 +60,22 @@ export default [
         path: '/overview',
         name: 'overview',
         meta: {icon: 'ios-home', title: '投注', beforeCloseName: 'before_close_normal'},
-        component: () => import('@/view/overview/overview.vue')
+        // component: () => import('@/view/overview/overview.vue')
+        component: resolve => require(['@/view/overview/overview.vue'], resolve)
       },
       {
         path: '/read',
         name: 'read',
         meta: {icon: 'ios-cloud', title: '读牌', beforeCloseName: 'before_close_normal'},
-        component: () => import('@/view/overview/read.vue')
+        // component: () => import('@/view/overview/read.vue')
+        component: resolve => require(['@/view/overview/read.vue'], resolve)
       },
       {
         path: '/control',
         name: 'control',
         meta: {icon: 'ios-build', title: '图形监控', beforeCloseName: 'before_close_normal'},
-        component: () => import('@/view/overview/control.vue')
+        // component: () => import('@/view/overview/control.vue')
+        component: resolve => require(['@/view/overview/control.vue'], resolve)
       }
     ]
   },
@@ -82,13 +89,15 @@ export default [
         path: '/desktop',
         name: 'desktop',
         meta: {icon: 'ios-browsers', title: '桌面管理', beforeCloseName: 'before_close_normal'},
-        component: () => import('@/view/overview/desktop.vue')
+        // component: () => import('@/view/overview/desktop.vue')
+        component: resolve => require(['@/view/overview/desktop.vue'], resolve)
       },
       {
         path: '/betting',
         name: 'betting',
         meta: {icon: 'ios-analytics', title: '投注数据', beforeCloseName: 'before_close_normal'},
-        component: () => import('@/view/overview/betting.vue')
+        // component: () => import('@/view/overview/betting.vue')
+        component: resolve => require(['@/view/overview/betting.vue'], resolve)
       }
     ]
   }
