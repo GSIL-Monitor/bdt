@@ -1,4 +1,4 @@
-var BDTURL = 'https://www.bdt1314.xyz/';
+var BDTURL = 'https://test.bdt1314.xyz/';
 window.globalTableCell = {};
 window.status = {
   '开始投注': 2,
@@ -153,7 +153,7 @@ function TZZL(tableCode, yuan, fx, list) {
         TZZL(tableCode, yuan, fx, list);
       }
     }
-  }, 3700)
+  }, 4700)
 }
 
 function HQTZ() {
