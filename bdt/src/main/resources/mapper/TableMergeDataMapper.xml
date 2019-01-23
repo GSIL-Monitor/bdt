@@ -56,7 +56,7 @@
     select id, admin_id, type, create_time, table_no, battle_no, fit_no, xjz, zjz, ljxjz, ljzjz, is_delete
     from table_merge_data
     WHERE id != #{id} AND is_delete = 0 AND admin_id = #{adminId} AND type = #{type}
-    ORDER BY create_time DESC limit 1
+    ORDER BY id DESC limit 1
   </select>
 
   <select id="getLastTableMergeData" resultType="String">
