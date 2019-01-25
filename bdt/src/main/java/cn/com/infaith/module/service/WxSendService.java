@@ -121,14 +121,14 @@ public class WxSendService {
         map.put("messageContent", messageContent);
         map.put("remark", remark);
         map.put("toUrl", toUrl);
-        url = url.concat("?wxIds="+wxIds);
-        url = url.concat("&first="+first);
-        url = url.concat("&messageType="+messageType);
-        url = url.concat("&messageName="+messageName);
-        url = url.concat("&messageContent="+messageContent);
-        url = url.concat("&remark="+remark);
-        url = url.concat("&toUrl="+toUrl);
-        String result = HttpConnectionUtil.httpGet(url);
+//        url = url.concat("?wxIds="+wxIds);
+//        url = url.concat("&first="+first);
+//        url = url.concat("&messageType="+messageType);
+//        url = url.concat("&messageName="+messageName);
+//        url = url.concat("&messageContent="+messageContent);
+//        url = url.concat("&remark="+remark);
+//        url = url.concat("&toUrl="+toUrl);
+        String result = HttpConnectionUtil.httpPostSendMap(url, map);
         LogUtil.info(WxSendService.class, "微信发送" + result);
 
     }
