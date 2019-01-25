@@ -37,6 +37,11 @@ module.exports = {
       .set('_conf', resolve('config'))
   },
   configureWebpack: config => {
+    config.optimization = {
+      splitChunks: {
+        chunks: 'all'
+      }
+    };
     config.plugins.push(
       new CompressionWebpackPlugin({
         algorithm: 'gzip',
