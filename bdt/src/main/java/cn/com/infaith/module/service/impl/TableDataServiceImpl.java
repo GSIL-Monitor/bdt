@@ -378,6 +378,7 @@ public class TableDataServiceImpl implements TableDataService {
     public int updateTzztList(List<ResultData> list) {
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(x -> {
+                LogUtil.info(this.getClass(),"id" + x.getId() + "tzzt" + x.getTzzt() + "tz_status" + x.getTzStatus() + "tz_count" + x.getTzCount() + "tz_sjtzje" + x.getTzSjtzje());
                 if (x.getTzCount() != null && x.getTzCount() != 0 && x.getTzSjtzje() != null && x.getTzSjtzje() != 0) {
                     resultDataMapper.updateTzzt(x);
                 }
