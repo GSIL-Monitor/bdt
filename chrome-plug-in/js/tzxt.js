@@ -138,22 +138,22 @@ function TZZL(tableCode, yuan, fx, list) {
   //   }
   // }, 5000 * Math.random());
 
-  setTimeout(function () {
-    if (!!!isTZ(list)) {
-      // 没投注 isTZ(list)== false 代表还可以投注
-      if (isTZ(list)) {
-        return
-      }
-      window.globalTableCell[list.id] += 1;
-      console.warn('==============>list.id', window.globalTableCell[list.id]);
-      if (window.globalTableCell[list.id] > 3) {
-        list.tzCount = window.globalTableCell[list.id];
-        updateTzztList(list, false);
-      } else {
-        TZZL(tableCode, yuan, fx, list);
-      }
-    }
-  }, 4700)
+  // setTimeout(function () {
+  //   if (!!!isTZ(list)) {
+  //     // 没投注 isTZ(list)== false 代表还可以投注
+  //     if (isTZ(list)) {
+  //       return
+  //     }
+  //     window.globalTableCell[list.id] += 1;
+  //     console.warn('==============>list.id', window.globalTableCell[list.id]);
+  //     if (window.globalTableCell[list.id] > 3) {
+  //       list.tzCount = window.globalTableCell[list.id];
+  //       updateTzztList(list, false);
+  //     } else {
+  //       TZZL(tableCode, yuan, fx, list);
+  //     }
+  //   }
+  // }, 4700)
 }
 
 function HQTZ() {
@@ -290,6 +290,13 @@ function getNeedTzDataList() {
               //
               var daskStatus = getWaitTime(e.tableNo - 1);
               if (daskStatus.count1 == e.battleNo && daskStatus.count2 == e.fitNo) {
+                if (daskStatus.time == 0) {
+                  tzs.push(Object.assign({}, daskStatus, {
+                    id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+                    nowTime: new Date().getTime(),
+                    istz: false
+                  }));
+                }
                 //
                 if (daskStatus.time != 0) {
                   setLocalStorage[e.tableNo - 1] = e;
@@ -302,21 +309,14 @@ function getNeedTzDataList() {
                   e.tzStatus = tzs
                   selectedYuan(e);
                 }
-                //
-                if (daskStatus.time == 0) {
-                  tzs.push(Object.assign({}, daskStatus, {
-                    id: window.localStorage.getItem('Chrome_Inner_User_Id'),
-                    nowTime: new Date().getTime(),
-                    istz: false
-                  }));
-                }
-              } else {
-                tzs.push(Object.assign({}, daskStatus, {
-                  id: window.localStorage.getItem('Chrome_Inner_User_Id'),
-                  nowTime: new Date().getTime(),
-                  istz: false
-                }));
               }
+              // } else {
+              //   tzs.push(Object.assign({}, daskStatus, {
+              //     id: window.localStorage.getItem('Chrome_Inner_User_Id'),
+              //     nowTime: new Date().getTime(),
+              //     istz: false
+              //   }));
+              // }
               //
               e.tzStatus = JSON.stringify(tzs)
               updateTzztLists(e);
