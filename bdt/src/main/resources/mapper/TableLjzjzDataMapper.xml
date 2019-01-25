@@ -6,6 +6,7 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="ljzjz" jdbcType="VARCHAR" property="ljzjz" />
+    <result column="ljxjz" jdbcType="VARCHAR" property="ljxjz" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -13,9 +14,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.TableLjzjzData">
-    insert into table_ljzjz_data (admin_id, ljzjz, type,
+    insert into table_ljzjz_data (admin_id, ljzjz, ljxjz, type,
       create_time)
-    values (#{adminId,jdbcType=VARCHAR}, #{ljzjz,jdbcType=VARCHAR}, #{type},
+    values (#{adminId,jdbcType=VARCHAR}, #{ljzjz,jdbcType=VARCHAR}, #{ljxjz}, #{type},
       #{createTime})
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TableLjzjzData">
