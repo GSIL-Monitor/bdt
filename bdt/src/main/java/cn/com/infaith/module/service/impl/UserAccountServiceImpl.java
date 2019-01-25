@@ -172,6 +172,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public List<AdminAccount> getAllAdminInfo() {
+        return adminAccountMapper.getAllAdminInfo();
+    }
+
+    @Override
     public int updateLoginStatusTrue() {
         return userAccountMapper.updateLoginStatusTrue();
     }

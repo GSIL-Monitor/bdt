@@ -1,9 +1,6 @@
 package cn.com.infaith.module.service;
 
-import cn.com.infaith.module.enums.ResultTzJgEnum;
-import cn.com.infaith.module.enums.TableNoEnum;
-import cn.com.infaith.module.enums.TableResultEnum;
-import cn.com.infaith.module.enums.TableStatusEnum;
+import cn.com.infaith.module.enums.*;
 import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.util.LogUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -371,10 +368,10 @@ public class BJLDataService {
         }
         tableData = step8_1(tableData);
         tableData = step8_2(tableData, bdtSystem.getAdminId());
-        TableMergeData tableMergeData = step8_3(tableData, bdtSystem);
-        if (tableMergeData != null) {
-            step8_4(tableMergeData, 1);
-        }
+        step8_3(tableData, bdtSystem);
+//        if (tableMergeData != null) {
+//            step8_4(tableMergeData, 1);
+//        }
         TzSystem tz11System = tableDataService.getTzSystemInfo(11, tableData.getAdminId());
 //        TableData tableDataNew = step10_1(tableData.getTableNo(), tableData.getAdminId());
         TableData tableDataNew = tableData;
@@ -596,13 +593,12 @@ public class BJLDataService {
     }
 
     /**
-     * 步骤8-3   计算该副XJZ、ZJZ。取《同桌号数据表》同条记录中的“日期、时间、桌号、局号、副号、结果”
-     * ，在管理界面、控制子系统中取参数PHXS。
+     * 步骤8-3   计算图形数据
      *
      * @param tableData
      * @return
      */
-    public TableMergeData step8_3(TableData tableData, BdtSystem bdtSystem) {
+    public void step8_3(TableData tableData, BdtSystem bdtSystem) {
 
         TableMergeData tableMergeData = new TableMergeData();
         tableMergeData.setCreateTime(tableData.getCreateTime());
@@ -611,42 +607,90 @@ public class BJLDataService {
         tableMergeData.setFitNo(tableData.getFitNo());
         tableMergeData.setIsDelete(false);
         tableMergeData.setAdminId(tableData.getAdminId());
-        BigDecimal txxsCompare = new BigDecimal("0.012");
-        //1）副号=1，且TXXS>=0.012，进入步骤8-3-5。
-        //2）副号=1，且TXXS<0.012，不计算ZJZ、LJZJZ，进入步骤9-1。
-        //3）副号>1，进入步骤8-3-3。
-        step8_5(tableData, bdtSystem);
-        if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) >= 0) {
-            //进入步骤8-3-5。
-            return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
-        } else if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) == -1) {
-            //进入步骤9-1。
-            return null;
-        } else if (tableData.getFitNo() > 1) {
-            //进入步骤8-3-3。
-            String ztslStr = tableDataService.getZtslByTable(tableData.getAdminId(), tableData.getTableNo(),
-                    tableData.getBattleNo(), tableData.getFitNo());
-            if (StringUtils.isBlank(ztslStr)) {
-                return null;
-            }
-            BigDecimal ztsl = new BigDecimal(ztslStr);
-            if (ztsl.compareTo(bdtSystem.getTxxs()) <= 0) {
-                //进入步骤8-3-5。
-                return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
-            } else {
-                return null;
-            }
+//        1）副号<11，进入步骤8-3-2。
+//        2）10<副号<21，进入步骤8-3-4。
+//        3）20<副号<31，进入步骤8-3-6。
+//        4) 30<副号<41，进入步骤8-3-8。
+//        5) 40<副号<51，进入步骤8-3-10。
+//        6) 50<副号<61，进入步骤8-3-12。
+//        7) 副号>60，进入步骤8-3-14。
+        step8_3_2(tableData, bdtSystem, MergeXZEnum.ALL.getIndex());
+        if (tableData.getFitNo() < 11) {
+            step8_3_2(tableData, bdtSystem, MergeXZEnum.A.getIndex());
+        } else if (tableData.getFitNo() >= 11 && tableData.getFitNo() < 21) {
+            step8_3_2(tableData, bdtSystem, MergeXZEnum.B.getIndex()); //  B
+        } else if (tableData.getFitNo() >= 21 && tableData.getFitNo() < 31) {
+            step8_3_2(tableData, bdtSystem, MergeXZEnum.C.getIndex()); //  C
+        } else if (tableData.getFitNo() >= 31 && tableData.getFitNo() < 41) {
+            step8_3_2(tableData, bdtSystem, MergeXZEnum.D.getIndex()); //  D
+        } else if (tableData.getFitNo() >= 41 && tableData.getFitNo() < 51) {
+            step8_3_2(tableData, bdtSystem, MergeXZEnum.E.getIndex()); //  E
+        } else if (tableData.getFitNo() >= 51 && tableData.getFitNo() < 61) {
+            step8_3_2(tableData, bdtSystem, MergeXZEnum.F.getIndex()); //  F
         } else {
-            return null;
+            step8_3_2(tableData, bdtSystem, MergeXZEnum.G.getIndex()); //  G
         }
-//        int result = tableData.getResult();
-//        if (result == TableResultEnum.Z.getIndex()) {
-//            xjz = new BigDecimal(-1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
-//            zjz = new BigDecimal(0.95).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
-//        } else if (result == TableResultEnum.X.getIndex()) {
-//            xjz = new BigDecimal(1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
-//            zjz = new BigDecimal(-1).add(phxs).setScale(3, BigDecimal.ROUND_DOWN).toPlainString();
+
+//
+//        if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) >= 0) {
+//            //进入步骤8-3-5。
+//            return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
+//        } else if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) == -1) {
+//            //进入步骤9-1。
+//            return null;
+//        } else if (tableData.getFitNo() > 1) {
+//            //进入步骤8-3-3。
+//            String ztslStr = tableDataService.getZtslByTable(tableData.getAdminId(), tableData.getTableNo(),
+//                    tableData.getBattleNo(), tableData.getFitNo());
+//            if (StringUtils.isBlank(ztslStr)) {
+//                return null;
+//            }
+//            BigDecimal ztsl = new BigDecimal(ztslStr);
+//            if (ztsl.compareTo(bdtSystem.getTxxs()) <= 0) {
+//                //进入步骤8-3-5。
+//                return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
+//            } else {
+//                return null;
+//            }
+//        } else {
+//            return null;
 //        }
+    }
+
+    /**
+     * 计算AX、AZ
+     1）结果为“闲”，AX=1+PHXS，AZ=-1+PHXS。
+     2）结果为“和”，AX=0，AZ=0。
+     3）结果为“庄”，AX=-1+PHXS，AZ=0.95+0.95*PHXS。
+             AX、AZ取4位小数。
+            将AX、AZ的计算结果以及“日期、时间、桌号、局号、副号”记入《数据表LA》。进入步骤8-3-3。
+     * @return
+     */
+    private void step8_3_2(TableData tableData, BdtSystem bdtSystem, int type) {
+        TableMergeData tableMergeData = new TableMergeData();
+        tableMergeData.setCreateTime(tableData.getCreateTime());
+        tableMergeData.setTableNo(tableData.getTableNo());
+        tableMergeData.setBattleNo(tableData.getBattleNo());
+        tableMergeData.setFitNo(tableData.getFitNo());
+        tableMergeData.setIsDelete(false);
+        tableMergeData.setAdminId(tableData.getAdminId());
+        String ax = "0";
+        String az = "0";
+        BigDecimal s = new BigDecimal("0.95");
+        int result = tableData.getResult();
+        BigDecimal phxs = bdtSystem.getPhxs();
+        if (result == TableResultEnum.X.getIndex()) {
+            ax = s.multiply((phxs.add(BigDecimal.ONE))).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
+            az = phxs.subtract(BigDecimal.ONE).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
+        } else if (result == TableResultEnum.Z.getIndex()) {
+            ax = phxs.subtract(BigDecimal.ONE).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
+            az = s.multiply((phxs.add(BigDecimal.ONE))).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
+        }
+        tableMergeData.setXjz(ax);
+        tableMergeData.setZjz(az);
+        tableMergeData.setType(type);
+        tableDataService.addTableMergeData(tableMergeData);
+        step8_4(tableMergeData, type);
     }
 
     /**
@@ -717,9 +761,9 @@ public class BJLDataService {
         tableMergeData.setAdminId(tableData.getAdminId());
         tableMergeData.setZjz(zjz);
         tableMergeData.setXjz("0");
-        tableMergeData.setType(2);
+        tableMergeData.setType(1);
         tableDataService.addTableMergeData(tableMergeData);
-        step8_4(tableMergeData, 2);
+        step8_4(tableMergeData, 1);
     }
 
     /**

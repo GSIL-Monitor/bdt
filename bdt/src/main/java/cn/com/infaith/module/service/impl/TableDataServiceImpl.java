@@ -620,7 +620,7 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
-    public String getLastTableMergeData(String adminId, int type) {
+    public TableMergeData getLastTableMergeData(String adminId, int type) {
         return tableMergeDataMapper.getLastTableMergeData(adminId, type);
     }
 
@@ -632,6 +632,11 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public int updateJobStarted(Boolean jobStarted) {
         return jobStartMapper.updateByPrimaryKey(jobStarted);
+    }
+
+    @Override
+    public List<TableData> selectLasted10ByAdmin(String adminId, int tableNo) {
+        return tableDataMapper.selectLasted10ByAdmin(adminId, tableNo);
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {

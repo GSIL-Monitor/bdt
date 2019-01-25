@@ -11,7 +11,17 @@ public class TableLjzjzData {
 
     private String ljzjz;
 
+    private String ljxjz;
+
     private Date createTime;
+
+    public String getLjxjz() {
+        return ljxjz;
+    }
+
+    public void setLjxjz(String ljxjz) {
+        this.ljxjz = ljxjz;
+    }
 
     public Integer getId() {
         return id;

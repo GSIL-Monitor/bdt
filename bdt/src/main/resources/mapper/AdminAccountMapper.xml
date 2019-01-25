@@ -53,4 +53,9 @@
   <select id="getAllAdminId" resultType="String">
     SELECT id FROM admin_account WHERE is_delete = 0 AND (main_admin_id IS NULL OR main_admin_id = '')
   </select>
+
+  <select id="getAllAdminInfo" resultMap="BaseResultMap">
+    select id, name, account, password, is_delete, super_admin, main_admin_id
+    from admin_account WHERE is_delete = 0 AND (main_admin_id IS NULL OR main_admin_id = '')
+  </select>
 </mapper>

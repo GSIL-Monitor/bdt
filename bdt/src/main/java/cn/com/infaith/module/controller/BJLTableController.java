@@ -5,6 +5,7 @@ import cn.com.infaith.module.model.*;
 import cn.com.infaith.module.service.BJLDataService;
 import cn.com.infaith.module.service.CalcXGLZGLServiceNotMap;
 import cn.com.infaith.module.service.TableDataService;
+import cn.com.infaith.module.service.WxSendService;
 import cn.com.infaith.module.util.LogUtil;
 import cn.com.infaith.module.util.ResponseJsonUtil;
 import cn.com.infaith.module.util.ZipUploadUtil;
@@ -32,6 +33,13 @@ public class BJLTableController {
     private TableDataService tableDataService;
     @Autowired
     private BJLDataService bjlDataService;
+    @Autowired
+    private WxSendService wxSendService;
+
+    @GetMapping("/send")
+    public void send() {
+        wxSendService.sendReadMsg();
+    }
 
     @ApiOperation(value = "读取百家乐桌面信息", notes = "读取百家乐桌面信息", httpMethod = "POST")
     @PostMapping("/addTableData")

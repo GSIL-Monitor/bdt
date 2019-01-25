@@ -357,9 +357,11 @@ public interface TableDataService {
 
     List<TableLjzjzData> getLjzjzByAdmin(String adminId, int type);
 
-    String getLastTableMergeData(String adminId, int type);
+    TableMergeData getLastTableMergeData(String adminId, int type);
 
     Integer jobStarted();
 
     int updateJobStarted(Boolean jobStarted);
+
+    List<TableData> selectLasted10ByAdmin(String adminId, int tableNo);
 }

@@ -1,6 +1,8 @@
 package cn.com.infaith.module.service;
 
+import cn.com.infaith.module.enums.MergeXZEnum;
 import cn.com.infaith.module.model.TableLjzjzData;
+import cn.com.infaith.module.model.TableMergeData;
 import cn.com.infaith.module.model.UserAccount;
 import cn.com.infaith.module.util.LogUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -10,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @EnableScheduling
@@ -23,6 +26,8 @@ public class TimeJobService {
     UserAccountService userAccountService;
     @Autowired
     TableDataService tableDataService;
+    @Autowired
+    WxSendService wxSendService;
 
     @Scheduled(cron = "*/5 * * * * ?")
     public void calcTzResult() {
@@ -87,24 +92,7 @@ public class TimeJobService {
     public void addLjzjzData() {
         if (tableDataService.jobStarted() == 1) {
             LogUtil.info(this.getClass(), "合并数据开始执行》》》》》");
-            List<String> adminIdList = userAccountService.getAllAdminId();
-            if (CollectionUtils.isNotEmpty(adminIdList)) {
-                adminIdList.stream().forEach(adminId -> {
-                    String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
-                    TableLjzjzData tableLjzjzData = new TableLjzjzData();
-                    tableLjzjzData.setAdminId(adminId);
-                    tableLjzjzData.setLjzjz(ljzjz);
-                    tableLjzjzData.setType(1);
-                    tableDataService.addTableLjzjzData(tableLjzjzData);
-
-                    String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
-                    TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
-                    tableLjzjzData2.setAdminId(adminId);
-                    tableLjzjzData2.setLjzjz(ljzjz2);
-                    tableLjzjzData2.setType(2);
-                    tableDataService.addTableLjzjzData(tableLjzjzData2);
-                });
-            }
+            calAdminLjData();
         }
 
     }
@@ -113,24 +101,7 @@ public class TimeJobService {
     public void addLjzjzData2() {
         if (tableDataService.jobStarted() == 1) {
             LogUtil.info(this.getClass(), "合并数据开始执行》》》》》");
-            List<String> adminIdList = userAccountService.getAllAdminId();
-            if (CollectionUtils.isNotEmpty(adminIdList)) {
-                adminIdList.stream().forEach(adminId -> {
-                    String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
-                    TableLjzjzData tableLjzjzData = new TableLjzjzData();
-                    tableLjzjzData.setAdminId(adminId);
-                    tableLjzjzData.setLjzjz(ljzjz);
-                    tableLjzjzData.setType(1);
-                    tableDataService.addTableLjzjzData(tableLjzjzData);
-
-                    String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
-                    TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
-                    tableLjzjzData2.setAdminId(adminId);
-                    tableLjzjzData2.setLjzjz(ljzjz2);
-                    tableLjzjzData2.setType(2);
-                    tableDataService.addTableLjzjzData(tableLjzjzData2);
-                });
-            }
+            calAdminLjData();
         }
     }
 
@@ -138,29 +109,60 @@ public class TimeJobService {
     public void startedAddLjzjz() {
         LogUtil.info(this.getClass(), "开启合并数据》》》》》");
         tableDataService.updateJobStarted(true);
-        List<String> adminIdList = userAccountService.getAllAdminId();
-        if (CollectionUtils.isNotEmpty(adminIdList)) {
-            adminIdList.stream().forEach(adminId -> {
-                String ljzjz = tableDataService.getLastTableMergeData(adminId,1);
-                TableLjzjzData tableLjzjzData = new TableLjzjzData();
-                tableLjzjzData.setAdminId(adminId);
-                tableLjzjzData.setLjzjz(ljzjz);
-                tableLjzjzData.setType(1);
-                tableDataService.addTableLjzjzData(tableLjzjzData);
-
-                String ljzjz2 = tableDataService.getLastTableMergeData(adminId,2);
-                TableLjzjzData tableLjzjzData2 = new TableLjzjzData();
-                tableLjzjzData2.setAdminId(adminId);
-                tableLjzjzData2.setLjzjz(ljzjz2);
-                tableLjzjzData2.setType(2);
-                tableDataService.addTableLjzjzData(tableLjzjzData2);
-            });
-        }
+        calAdminLjData();
     }
 
     @Scheduled(cron = "0 0 11 ? * MON")
     public void closedAddLjzjz() {
         LogUtil.info(this.getClass(), "关闭合并数据》》》》》");
         tableDataService.updateJobStarted(false);
+    }
+
+    @Scheduled(cron = "*/30 * * ? * TUE-SAT")
+    public void sendLoginOutMsg() {
+        wxSendService.sendLoginOutMsg();
+    }
+
+    @Scheduled(cron = "*/30 * * ? * SUN")
+    public void sendLoginOutMsg4() {
+        wxSendService.sendLoginOutMsg();
+    }
+
+    @Scheduled(cron = "*/30 * 0-11 ? * MON")
+    public void sendLoginOutMsg2() {
+        wxSendService.sendLoginOutMsg();
+    }
+
+    @Scheduled(cron = "*/30 * 13-23 ? * MON")
+    public void sendLoginOutMsg3() {
+        wxSendService.sendLoginOutMsg();
+    }
+
+    @Scheduled(cron = "0 0/5 * * * ?")
+    public void sendReadMsg() {
+        wxSendService.sendReadMsg();
+    }
+
+    private void calAdminLjData() {
+        List<String> adminIdList = userAccountService.getAllAdminId();
+        if (CollectionUtils.isNotEmpty(adminIdList)) {
+            adminIdList.stream().forEach(adminId -> {
+                calLjData(adminId);
+            });
+        }
+    }
+
+    private void calLjData(String adminId) {
+        Date date = new Date();
+        for (MergeXZEnum xzEnum : MergeXZEnum.values()) {
+            TableMergeData data = tableDataService.getLastTableMergeData(adminId, xzEnum.getIndex());
+            TableLjzjzData tableLjzjzData = new TableLjzjzData();
+            tableLjzjzData.setAdminId(adminId);
+            tableLjzjzData.setLjzjz(data.getLjzjz());
+            tableLjzjzData.setLjxjz(data.getLjxjz());
+            tableLjzjzData.setType(xzEnum.getIndex());
+            tableLjzjzData.setCreateTime(date);
+            tableDataService.addTableLjzjzData(tableLjzjzData);
+        }
     }
 }

@@ -16,7 +16,7 @@
     insert into table_ljzjz_data (admin_id, ljzjz, type,
       create_time)
     values (#{adminId,jdbcType=VARCHAR}, #{ljzjz,jdbcType=VARCHAR}, #{type},
-      NOW())
+      #{createTime})
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TableLjzjzData">
     update table_ljzjz_data
@@ -31,7 +31,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, type, admin_id, ljzjz, create_time
+    select id, type, admin_id, ljzjz, ljxjz, create_time
     from table_ljzjz_data WHERE admin_id = #{adminId} AND type = #{type}
     ORDER BY create_time DESC
   </select>
