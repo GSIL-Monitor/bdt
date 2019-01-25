@@ -281,7 +281,7 @@ function getNeedTzDataList() {
           newDataTZ.forEach((e, j) => {
             let setLocalStorage = setLocalStoragefun(`SETLocalStorage${e.tzxt}`);
             let newItem = setLocalStorage[e.tableNo - 1];
-            if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
+            if (true) {
               //  数据不一样 需要投注
               var tzs = [];
               if (e.tzStatus) {
@@ -343,7 +343,7 @@ function setLocalStoragefun(Storages) {
       for (let i = 0; i < 12; i++) {
         //
         Storage.push({
-          battleNo: '', tzfx: '', fitNo: '', tableNo: '',
+          battleNo: '', tzfx: '', fitNo: '', tableNo: i + 1,
           tzje: '', tzxt: '', tzzh: '', id: ''
         });
       }
