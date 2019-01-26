@@ -4,7 +4,9 @@
       <Tab-pane v-for="(item, index) in tabsDataList" :key="index" :label="item.label"
                 :name="item.name"></Tab-pane>
     </Tabs>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </Card>
 </template>
 
