@@ -14,7 +14,6 @@
     "codemirror": "^5.38.0",
     "countup": "^1.8.2",
     "cropperjs": "^1.2.2",
-    "echarts": "^4.0.4",
     "es6-promise": "^4.2.5",
     "html2canvas": "^1.0.0-alpha.12",
     "iview": "^3.0.0",

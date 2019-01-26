@@ -2,7 +2,7 @@
   <Card>
     <div slot="title" style="display: flex;align-items: center">
       <div style="flex: 1;text-align: left">
-        <span>ljzjz：{{ZJZ}}</span>
+        <span>ljxjz：{{ZJZ}}</span>
       </div>
       <div style="flex: inherit;text-align: right;margin-right: 15px">
         <Button type="warning" @click="searchDopeData">刷新</Button>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import echarts from 'echarts'
+  // import echarts from 'echarts'
   import {on, off} from '@/libs/tools'
 
   export default {
@@ -235,7 +235,7 @@
         let params = {
           startTime: '',
           endTime: '',
-          type: 1
+          type: 2
         }
         this.$api.getLJInfo(params).then((res) => {
           this.loading = false;
@@ -286,12 +286,11 @@
           tmp = nowDay - 6;
         }
         let dayStartDate = new Date(nowYear, nowMonth, now.getDate()).getTime() + 12 * 60 * 60 * 1000;
-        console.log('qweqweqwe', dayStartDate, new Date().getTime());
+        // console.log('qweqweqwe', dayStartDate, new Date().getTime());
         if (nowDayOfWeek == 1 && new Date().getTime() < dayStartDate) {
           console.log(13123213312321);
           tmp = nowDay - 7;
         }
-        //
         let weekStartDate = new Date(nowYear, nowMonth, tmp);
         console.log('==1111111111111111111111111111111111======>', weekStartDate);
         return weekStartDate.getTime();
@@ -430,7 +429,7 @@
               align: 'left',
               top: 10,
               left: 0,
-              data: ['ljzjz']
+              data: ['ljxjz']
             },
             xAxis: [
               {
@@ -494,7 +493,7 @@
                 }
               }
             ],
-            color: ['#00c2ff'],
+            color: ['#ff0930'],
             series: [
               {
                 name: 'ljxjz',
@@ -511,7 +510,7 @@
                 data: []
               },
               {
-                name: 'ljzjz',
+                name: 'ljxjz',
                 type: 'line',
                 stack: '总量',
                 // smooth: true,
@@ -524,7 +523,7 @@
                 // 线条颜色
                 itemStyle: {
                   normal: {
-                    color: '#00c2ff',
+                    color: '#ff0930',
                     borderWidth: 0.1
                     // borderColor: 'red'  // 拐点边框颜色
                   }
@@ -535,7 +534,7 @@
                     // color: 'rgba(255, 239, 217, 0.75)'
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                       offset: 0,
-                      color: '#c1f0ff'
+                      color: '#ffc4cd'
                     }, {
                       offset: 0.8,
                       color: '#fffefe'
