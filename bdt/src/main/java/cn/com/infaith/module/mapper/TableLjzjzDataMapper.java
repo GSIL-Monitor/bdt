@@ -3,6 +3,7 @@ package cn.com.infaith.module.mapper;
 import cn.com.infaith.module.model.TableLjzjzData;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TableLjzjzDataMapper {
@@ -15,4 +16,6 @@ public interface TableLjzjzDataMapper {
     List<TableLjzjzData> selectAll(@Param("adminId") String adminId, @Param("type") int type);
 
     int updateByPrimaryKey(TableLjzjzData record);
+
+    List<TableLjzjzData> selectByAdmin(@Param("adminId") String adminId, @Param("createTime") Date createTime);
 }

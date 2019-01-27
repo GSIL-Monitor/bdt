@@ -82,10 +82,20 @@ public class TimeJobService {
         LogUtil.info(this.getClass(), "导出投注信息至服务器结束》》》》》");
     }
 
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void uploadTuFile() {
+        LogUtil.info(this.getClass(), "生成图信息至服务器开始》》》》》");
+        LogUtil.info(this.getClass(), "生成图信息至服务器开始》》》》》");
+        tableDataService.addUploadTuFile(false);
+        LogUtil.info(this.getClass(), "生成图信息至服务器结束》》》》》");
+        LogUtil.info(this.getClass(), "生成图信息至服务器结束》》》》》");
+    }
+
     @Scheduled(cron = "0 0 12 ? * MON")
     public void uploadFile() {
         tableDataService.addUploadResultFile(true);
         tableDataService.addUploadFile(true);
+        tableDataService.addUploadTuFile(true);
     }
 
     @Scheduled(cron = "0 0/3 * * * ?")

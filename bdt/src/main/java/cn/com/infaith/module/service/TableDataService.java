@@ -325,6 +325,8 @@ public interface TableDataService {
 
     File exportResultExcel(List<ResultData> resultDataList);
 
+    File exportTuExcel(List<TableLjzjzData> ljzjzDataList);
+
     boolean addUploadFileByFile(String adminId, File file, int type);
 
     /**
@@ -333,6 +335,8 @@ public interface TableDataService {
     void addUploadFile(Boolean today);
 
     void addUploadResultFile(Boolean today);
+
+    void addUploadTuFile(Boolean today);
 
     List<UploadFile> getFileById(String ids);
 

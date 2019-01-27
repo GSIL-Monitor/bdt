@@ -1,5 +1,6 @@
 package cn.com.infaith.module.service.impl;
 
+import cn.com.infaith.module.enums.MergeXZEnum;
 import cn.com.infaith.module.enums.ResultTzJgEnum;
 import cn.com.infaith.module.enums.TableResultEnum;
 import cn.com.infaith.module.mapper.*;
@@ -513,6 +514,20 @@ public class TableDataServiceImpl implements TableDataService {
     }
 
     @Override
+    public File exportTuExcel(List<TableLjzjzData> ljzjzDataList) {
+
+        ExcelData excelData = parseTuInfo(ljzjzDataList);
+        File file = null;
+        String fileName = "ZXdata" + sf.format(Calendar.getInstance().getTime()) + ".xlsx";
+        try {
+            file = ExcelUtil.toExcel(excelData, tomcat_path + fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    @Override
     public boolean addUploadFileByFile(String adminId, File file, int type) {
         if (file != null) {
             UploadFile uploadFile = new UploadFile();
@@ -558,6 +573,22 @@ public class TableDataServiceImpl implements TableDataService {
             List<ResultData> resultDataList = resultDataMapper.searchResultData(created, null, null, adminId);
             File resultFile = exportResultExcel(resultDataList);
             addUploadFileByFile(adminId, resultFile, 2);
+        }
+    }
+
+    @Override
+    public void addUploadTuFile(Boolean today) {
+        List<String> adminIds = userAccountService.getAllAdminId();
+        Date created;
+        if (today) {
+            created = TimeUtil.getTodayZeroDate();
+        } else {
+            created = TimeUtil.dateAddDays(TimeUtil.getTodayZeroDate(), -1);
+        }
+        for (String adminId : adminIds) {
+            List<TableLjzjzData> ljzjzDataList = tableLjzjzDataMapper.selectByAdmin(adminId, created);
+            File file = exportTuExcel(ljzjzDataList);
+            addUploadFileByFile(adminId, file, 3);
         }
     }
 
@@ -638,6 +669,32 @@ public class TableDataServiceImpl implements TableDataService {
     @Override
     public List<TableData> selectLasted10ByAdmin(String adminId, int tableNo) {
         return tableDataMapper.selectLasted10ByAdmin(adminId, tableNo);
+    }
+
+    private ExcelData parseTuInfo(List<TableLjzjzData> list) {
+
+        ExcelData excelData = new ExcelData();
+        excelData.setExcelName("图形数据汇总.xlsx");
+        List<ExcelSheetData> sheetDataList = new ArrayList<>();
+        for (MergeXZEnum mergeXZEnum :MergeXZEnum.values()) {
+            List<TableLjzjzData> dataList = list.stream().filter(data -> data.getType() == mergeXZEnum.getIndex()).collect(Collectors.toList());
+            ExcelSheetData sheetData = new ExcelSheetData();
+            sheetData.setSheetName(mergeXZEnum.name() + "图形数据");
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            List<Map<String, String>> mapList = new ArrayList<>();
+            for (TableLjzjzData data : dataList) {
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("ID", data.getId().toString());
+                map.put("创建时间", sf.format(data.getCreateTime()));
+                map.put("Z值", StringUtils.isNotBlank(data.getLjzjz()) ? data.getLjzjz().toString() : "");
+                map.put("X值", StringUtils.isNotBlank(data.getLjxjz()) ? data.getLjxjz().toString() : "");
+                mapList.add(map);
+            }
+            sheetData.setMapList(mapList);
+            sheetDataList.add(sheetData);
+        }
+        excelData.setSheetDataList(sheetDataList);
+        return excelData;
     }
 
     private List<Map<String, String>> parseResultInfo(List<ResultData> list) {

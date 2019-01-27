@@ -36,4 +36,14 @@
     from table_ljzjz_data WHERE admin_id = #{adminId} AND type = #{type}
     ORDER BY create_time DESC
   </select>
+
+  <select id="selectByAdmin" resultMap="BaseResultMap">
+    select id, type, admin_id, ljzjz, ljxjz, create_time
+    from table_ljzjz_data WHERE admin_id = #{adminId}
+    <if test="createTime != null">
+      AND create_time >= #{createTime}
+      AND create_time <![CDATA[ < ]]> date_add(#{createTime},interval 1 day)
+    </if>
+    ORDER BY create_time DESC
+  </select>
 </mapper>
