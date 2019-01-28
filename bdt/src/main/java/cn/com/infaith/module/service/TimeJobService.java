@@ -128,22 +128,22 @@ public class TimeJobService {
         tableDataService.updateJobStarted(false);
     }
 
-    @Scheduled(cron = "*/30 * * ? * TUE-SAT")
+    @Scheduled(cron = "0 0/1 * ? * TUE-SAT")
     public void sendLoginOutMsg() {
         wxSendService.sendLoginOutMsg();
     }
 
-    @Scheduled(cron = "*/30 * * ? * SUN")
+    @Scheduled(cron = "0 0/1 * ? * SUN")
     public void sendLoginOutMsg4() {
         wxSendService.sendLoginOutMsg();
     }
 
-    @Scheduled(cron = "*/30 * 0-11 ? * MON")
+    @Scheduled(cron = "0 0/1 1-11 ? * MON")
     public void sendLoginOutMsg2() {
         wxSendService.sendLoginOutMsg();
     }
 
-    @Scheduled(cron = "*/30 * 13-23 ? * MON")
+    @Scheduled(cron = "0 0/1 13-23 ? * MON")
     public void sendLoginOutMsg3() {
         wxSendService.sendLoginOutMsg();
     }
