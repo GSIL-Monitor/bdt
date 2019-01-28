@@ -54,6 +54,10 @@
             let data = res.data.returnObject.map(e => {
               return e.id
             });
+            if (data.length == 0) {
+              this.$Message.success({content: '没有下载数据', duration: 10, closable: true});
+              return false
+            }
             console.log(data);
             this.downZip(data.toString());
           }
