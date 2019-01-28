@@ -1,10 +1,11 @@
 const path = require('path')
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const productionGzipExtensions = ['js', 'css'];
+const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 const resolve = dir => {
   return path.join(__dirname, dir)
 }
+const IS_PROD = ['production', 'product', 'testing', 'development'].includes(process.env.NODE_ENV);
 
 // 项目部署基础
 // 默认情况下，我们假设你的应用将被部署在域的根目录下,
@@ -18,6 +19,7 @@ const BASE_URL = process.env.NODE_ENV === 'production'
   : '/'
 
 module.exports = {
+  assetsDir: 'static', // 相对于outputDir的静态资源(js、css、img、fonts)目录
   // Project deployment base
   // By default we assume your app will be deployed at the root of a domain,
   // e.g. https://www.my-app.com/
@@ -31,10 +33,14 @@ module.exports = {
   // 如果你不需要使用eslint，把lintOnSave设为false即可
   lintOnSave: true,
   chainWebpack: config => {
+    config.resolve.symlinks(true)
+    config.extensions = ['.js', '.vue', '.json']
+    config.output.chunkFilename(`static/js/[name].[hash:8].js`)
     config.resolve.alias
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
       .set('_c', resolve('src/components'))
       .set('_conf', resolve('config'))
+      .set('_static', resolve('static'))
   },
   configureWebpack: config => {
     config.optimization = {
@@ -42,28 +48,41 @@ module.exports = {
         chunks: 'all'
       }
     };
-    config.plugins.push(
-      new CompressionWebpackPlugin({
-        algorithm: 'gzip',
-        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
-        threshold: 10240,
-        minRatio: 0.8
-      }),
+    const plugins = [];
+    plugins.push(
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: {
             warnings: false,
-            drop_debugger: true,
             drop_console: true,
-          },
+            drop_debugger: false,
+            pure_funcs: ['console.log']//移除console
+          }
         },
         sourceMap: false,
-        parallel: true,
+        parallel: true
       })
     );
+    plugins.push(
+      new CompressionWebpackPlugin({
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: productionGzipExtensions,
+        threshold: 10240,
+        minRatio: 0.8
+      })
+    );
+    config.plugins = [
+      ...config.plugins,
+      ...plugins
+    ];
   },
   css: {
-    extract: true,
+    extract: {
+      filename: 'static/css/[name].[hash:8].css',
+      chunkFilename: 'static/css/[name].[hash:8].css'
+    },
+    sourceMap: false,
     loaderOptions: {
       // sass: {
       // 全局注入通用样式
@@ -71,6 +90,7 @@ module.exports = {
       // }
     }
   },
+  parallel: require('os').cpus().length > 1,
   // 打包时不生成.map文件
   productionSourceMap: false
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
