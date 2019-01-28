@@ -125,12 +125,16 @@ function TZZL(tableCode, yuan, fx, list) {
   // setTimeout(() => {
   //   if ($($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).children().length == 1) {
   $('._2oHIg ._2Eb76').find(yuanOption[yuan]).parent().click(); // 选择筹码
-  // _1a9j- OBOwe ripple text-l center-block _10ZbI
-  $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
-  $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-.OBOwe').click(); // 确认下注
-  $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
-  //
-  $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
+  if ($($('._3Y07G').children().eq(tableCode - 1)).find('._30x9W')) {
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
+  } else {
+    // _1a9j- OBOwe ripple text-l center-block _10ZbI
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-.OBOwe').click(); // 确认下注
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).click(); // 选择牌
+    $($('._3Y07G').children().eq(tableCode - 1)).find(fxOption[fx]).find('._1a9j-._1m_7V').click(); // 确认下注
+  }
   //
   console.warn(1111111111111111111111, isTZ(list));
   // } else {
@@ -138,22 +142,23 @@ function TZZL(tableCode, yuan, fx, list) {
   //   }
   // }, 5000 * Math.random());
 
-  // setTimeout(function () {
-  //   if (!!!isTZ(list)) {
-  //     // 没投注 isTZ(list)== false 代表还可以投注
-  //     if (isTZ(list)) {
-  //       return
-  //     }
-  //     window.globalTableCell[list.id] += 1;
-  //     console.warn('==============>list.id', window.globalTableCell[list.id]);
-  //     if (window.globalTableCell[list.id] > 3) {
-  //       list.tzCount = window.globalTableCell[list.id];
-  //       updateTzztList(list, false);
-  //     } else {
-  //       TZZL(tableCode, yuan, fx, list);
-  //     }
-  //   }
-  // }, 4700)
+  setTimeout(function () {
+    if (!!!isTZ(list)) {
+      // 没投注 isTZ(list)== false 代表还可以投注
+      if (isTZ(list)) {
+        return
+      } else {
+        window.globalTableCell[list.id] += 1;
+        console.warn('==============>list.id', window.globalTableCell[list.id]);
+        if (window.globalTableCell[list.id] > 3) {
+          list.tzCount = window.globalTableCell[list.id];
+          updateTzztList(list, false);
+        } else {
+          TZZL(tableCode, yuan, fx, list);
+        }
+      }
+    }
+  }, 4700)
 }
 
 function HQTZ() {
@@ -281,7 +286,7 @@ function getNeedTzDataList() {
           newDataTZ.forEach((e, j) => {
             let setLocalStorage = setLocalStoragefun(`SETLocalStorage${e.tzxt}`);
             let newItem = setLocalStorage[e.tableNo - 1];
-            if (true) {
+            if (!!!(e.tableNo == newItem.tableNo && e.id == newItem.id)) {
               //  数据不一样 需要投注
               var tzs = [];
               if (e.tzStatus) {
