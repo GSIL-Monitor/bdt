@@ -6,6 +6,7 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="admin_id" jdbcType="VARCHAR" property="adminId" />
     <result column="ljzjz" jdbcType="VARCHAR" property="ljzjz" />
+    <result column="ljxjz" jdbcType="VARCHAR" property="ljxjz" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -13,10 +14,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.infaith.module.model.TableLjzjzData">
-    insert into table_ljzjz_data (admin_id, ljzjz, type,
+    insert into table_ljzjz_data (admin_id, ljzjz, ljxjz, type,
       create_time)
-    values (#{adminId,jdbcType=VARCHAR}, #{ljzjz,jdbcType=VARCHAR}, #{type},
-      NOW())
+    values (#{adminId,jdbcType=VARCHAR}, #{ljzjz,jdbcType=VARCHAR}, #{ljxjz}, #{type},
+      #{createTime})
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.com.infaith.module.model.TableLjzjzData">
     update table_ljzjz_data
@@ -31,8 +32,18 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, type, admin_id, ljzjz, create_time
+    select id, type, admin_id, ljzjz, ljxjz, create_time
     from table_ljzjz_data WHERE admin_id = #{adminId} AND type = #{type}
+    ORDER BY create_time DESC
+  </select>
+
+  <select id="selectByAdmin" resultMap="BaseResultMap">
+    select id, type, admin_id, ljzjz, ljxjz, create_time
+    from table_ljzjz_data WHERE admin_id = #{adminId}
+    <if test="createTime != null">
+      AND create_time >= #{createTime}
+      AND create_time <![CDATA[ < ]]> date_add(#{createTime},interval 1 day)
+    </if>
     ORDER BY create_time DESC
   </select>
 </mapper>

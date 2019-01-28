@@ -33,5 +33,5 @@ public interface TableMergeDataMapper {
 
     String getLjzjzByDate(@Param("adminId") String adminId, @Param("createTime") Date createTime);
 
-    String getLastTableMergeData(@Param("adminId") String adminId, @Param("type") Integer type);
+    TableMergeData getLastTableMergeData(@Param("adminId") String adminId, @Param("type") Integer type);
 }

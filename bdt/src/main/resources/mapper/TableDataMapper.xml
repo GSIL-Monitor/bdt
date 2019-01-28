@@ -263,4 +263,9 @@
             ) xCount
         ) a
   </select>
+
+    <select id="selectLasted10ByAdmin" resultMap="BaseResultMap">
+        SELECT * FROM `table_data`
+        WHERE `admin_id` = #{adminId} AND table_no = #{tableNo} ORDER BY `create_time` DESC LIMIT 10
+    </select>
 </mapper>

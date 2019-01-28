@@ -325,6 +325,8 @@ public interface TableDataService {
 
     File exportResultExcel(List<ResultData> resultDataList);
 
+    File exportTuExcel(List<TableLjzjzData> ljzjzDataList);
+
     boolean addUploadFileByFile(String adminId, File file, int type);
 
     /**
@@ -333,6 +335,8 @@ public interface TableDataService {
     void addUploadFile(Boolean today);
 
     void addUploadResultFile(Boolean today);
+
+    void addUploadTuFile(Boolean today);
 
     List<UploadFile> getFileById(String ids);
 
@@ -357,9 +361,11 @@ public interface TableDataService {
 
     List<TableLjzjzData> getLjzjzByAdmin(String adminId, int type);
 
-    String getLastTableMergeData(String adminId, int type);
+    TableMergeData getLastTableMergeData(String adminId, int type);
 
     Integer jobStarted();
 
     int updateJobStarted(Boolean jobStarted);
+
+    List<TableData> selectLasted10ByAdmin(String adminId, int tableNo);
 }

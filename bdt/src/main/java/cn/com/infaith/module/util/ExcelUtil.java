@@ -1,10 +1,12 @@
 package cn.com.infaith.module.util;
 
+import cn.com.infaith.module.model.ExcelData;
+import cn.com.infaith.module.model.ExcelSheetData;
 import com.aliyun.oss.model.ObjectMetadata;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.springframework.util.CollectionUtils;
 
 import java.io.File;
@@ -16,6 +18,93 @@ import java.util.List;
 import java.util.Map;
 
 public class ExcelUtil {
+
+    /**
+     * 单个，多个sheet通用
+     *
+     * @param excelData
+     * @return
+     */
+    public static File toExcel(ExcelData excelData, String filePath) {
+        File file = null;
+        if (CollectionUtils.isEmpty(excelData.getSheetDataList())) {
+            return file;
+        }
+        XSSFWorkbook wb = new XSSFWorkbook();
+        List<ExcelSheetData> sheetDataList = excelData.getSheetDataList();
+        for (int i = 0; i < sheetDataList.size(); i++) {
+            ExcelSheetData sheetData = sheetDataList.get(i);
+            XSSFSheet sheet = wb.createSheet(sheetData.getSheetName());
+            //设置表头
+            XSSFRow row = sheet.createRow(0);
+            XSSFCellStyle style = wb.createCellStyle();
+            //设置表头高度
+            row.setHeightInPoints(40);
+            //设置表头样式
+            Font font = wb.createFont();
+            font.setFontName("黑体");
+            font.setBold(true);
+            style.setFont(font);
+            style.setAlignment(HorizontalAlignment.CENTER);
+            style.setVerticalAlignment(VerticalAlignment.CENTER);
+            style.setFillForegroundColor(new XSSFColor(new java.awt.Color(215, 220, 228)));
+            style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            style.setBorderBottom(BorderStyle.THIN);
+            style.setBottomBorderColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            style.setBorderLeft(BorderStyle.THIN);
+            style.setLeftBorderColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            style.setBorderRight(BorderStyle.THIN);
+            style.setRightBorderColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            style.setBorderTop(BorderStyle.THIN);
+            style.setRightBorderColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            style.setWrapText(true);
+            Map<String, String> map = sheetData.getMapList().get(0);
+            int titleIndex = 0;
+            //设置表头
+            for (String key : map.keySet()) {
+                XSSFCell cell = row.createCell((short) titleIndex);
+                cell.setCellValue(key);
+                cell.setCellStyle(style);
+//                if (!CollectionUtils.isEmpty(sheetData.getWidthMap())) {
+//                    sheet.setColumnWidth(titleIndex, sheetData.getWidthMap().get(key) * 256);
+//                }
+                titleIndex++;
+            }
+            int rowIndex = 1;
+            for (Map<String, String> maps : sheetData.getMapList()) {
+                int valueIndex = 0;
+                row = sheet.createRow(rowIndex);
+                //设置高度
+                row.setHeightInPoints(17);
+                //创建单元格并设置值
+                for (String key : maps.keySet()) {
+                    Cell cellValue = row.createCell((short) valueIndex);
+                    //设置值
+                    cellValue.setCellValue(maps.get(key));
+                    //设置样式
+                    CellStyle cellStyle = wb.createCellStyle();
+                    cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+//                    if (!CollectionUtils.isEmpty(sheetData.getAlignmentMap())) {
+//                        cellStyle.setAlignment(sheetData.getAlignmentMap().get(key));
+//                    }
+                    cellValue.setCellStyle(cellStyle);
+                    valueIndex++;
+                }
+                rowIndex++;
+            }
+        }
+        // 第六步，将文件存到指定位置
+        try {
+            file = new File(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            wb.write(fileOutputStream);
+            fileOutputStream.close();
+            return file;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
     /**
      * 创建临时的excel，调用完成后建议删除

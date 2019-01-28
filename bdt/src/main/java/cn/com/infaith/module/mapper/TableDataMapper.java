@@ -48,4 +48,6 @@ public interface TableDataMapper {
                           @Param("fitNo") int fitNo, @Param("adminId") String adminId);
 
     int getTableResultCalCount(@Param("tableNo") int tableNo, @Param("battleNo") int battleNo, @Param("fha") int fha);
+
+    List<TableData> selectLasted10ByAdmin(@Param("adminId") String adminId, @Param("tableNo") int tableNo);
 }

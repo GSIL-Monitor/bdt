@@ -128,6 +128,8 @@ public interface UserAccountService {
 
     List<String> getAllAdminId();
 
+    List<AdminAccount> getAllAdminInfo();
+
     int updateLoginStatusTrue();
 
     int updateLoginStatusFalse();

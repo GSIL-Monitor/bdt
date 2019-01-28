@@ -20,6 +20,8 @@ public interface AdminAccountMapper {
 
     List<String> getAllAdminId();
 
+    List<AdminAccount> getAllAdminInfo();
+
     int updateLoginStatusTrue();
 
     int updateLoginStatusFalse();
