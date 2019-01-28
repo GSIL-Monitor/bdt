@@ -49,7 +49,7 @@ public class WxSendService {
             Integer count = wxSendRecordMapper.selectByType(1);
             if (count == null || count == 0) {
                 HashSet<String> name = new HashSet(adminNameList);
-                sendWxMsg("ofZMgwmlrFE7R01ZOJKW5gJZiE6w", "管理员：" + name.toString(),
+                sendWxMsg("ofZMgwmlrFE7R01ZOJKW5gJZiE6w,ofZMgwt54mjaUne-64b4aGDHWa4k", "管理员：" + name.toString(),
                         "离线通知",
                         str,
                         string,
@@ -91,7 +91,7 @@ public class WxSendService {
                     for (String error : errorList) {
                         errorStr = errorStr.concat(error + ";");
                     }
-                    sendWxMsg("ofZMgwmlrFE7R01ZOJKW5gJZiE6w", "管理员：" + adminAccount.getAccount(),
+                    sendWxMsg("ofZMgwmlrFE7R01ZOJKW5gJZiE6w,ofZMgwt54mjaUne-64b4aGDHWa4k", "管理员：" + adminAccount.getAccount(),
                             "读牌错误通知",
                             "",
                             errorList.toString(),

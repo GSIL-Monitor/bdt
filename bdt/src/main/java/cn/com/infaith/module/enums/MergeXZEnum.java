@@ -6,13 +6,14 @@ package cn.com.infaith.module.enums;
 public enum MergeXZEnum {
 
     ALL(1),
-    A(2),
-    B(3),
-    C(4),
-    D(5),
-    E(6),
-    F(7),
-    G(8);
+    Other(2),
+    A(3),
+    B(4),
+    C(5),
+    D(6),
+    E(7),
+    F(8),
+    G(9);
 
     private int index;
 

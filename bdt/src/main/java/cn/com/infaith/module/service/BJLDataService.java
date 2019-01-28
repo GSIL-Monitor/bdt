@@ -368,7 +368,10 @@ public class BJLDataService {
         }
         tableData = step8_1(tableData);
         tableData = step8_2(tableData, bdtSystem.getAdminId());
+        //新14图计算
         step8_3(tableData, bdtSystem);
+        //旧图保留计算
+        step8_3_1(tableData, bdtSystem);
 //        if (tableMergeData != null) {
 //            step8_4(tableMergeData, 1);
 //        }
@@ -593,6 +596,42 @@ public class BJLDataService {
     }
 
     /**
+     * 计算 之前版本的图形数据
+     * @param tableData
+     * @param bdtSystem
+     */
+    public void step8_3_1(TableData tableData, BdtSystem bdtSystem) {
+
+        BigDecimal txxsCompare = new BigDecimal("0.012");
+        //1）副号=1，且TXXS>=0.012，进入步骤8-3-5。
+        //2）副号=1，且TXXS<0.012，不计算ZJZ、LJZJZ，进入步骤9-1。
+        //3）副号>1，进入步骤8-3-3。
+        if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) >= 0) {
+            //进入步骤8-3-5。
+            step8_3_5(tableData, bdtSystem.getPhxs());
+        } else if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) == -1) {
+            //无操作
+        } else if (tableData.getFitNo() > 1) {
+            //进入步骤8-3-3。
+            String ztslStr = tableDataService.getZtslByTable(tableData.getAdminId(), tableData.getTableNo(),
+                    tableData.getBattleNo(), tableData.getFitNo());
+            if (StringUtils.isBlank(ztslStr)) {
+                //无操作
+            }
+            BigDecimal ztsl = new BigDecimal(ztslStr);
+            if (ztsl.compareTo(bdtSystem.getTxxs()) <= 0) {
+                //进入步骤8-3-5。
+                step8_3_5(tableData, bdtSystem.getPhxs());
+            } else {
+                //无操作
+            }
+        } else {
+            //无操作
+        }
+
+    }
+
+    /**
      * 步骤8-3   计算图形数据
      *
      * @param tableData
@@ -631,7 +670,7 @@ public class BJLDataService {
             step8_3_2(tableData, bdtSystem, MergeXZEnum.G.getIndex()); //  G
         }
 
-//
+
 //        if (tableData.getFitNo() == 1 && bdtSystem.getTxxs().compareTo(txxsCompare) >= 0) {
 //            //进入步骤8-3-5。
 //            return step8_3_5(tableData.getResult(), bdtSystem.getPhxs(), tableMergeData);
@@ -680,7 +719,7 @@ public class BJLDataService {
         int result = tableData.getResult();
         BigDecimal phxs = bdtSystem.getPhxs();
         if (result == TableResultEnum.X.getIndex()) {
-            ax = s.multiply((phxs.add(BigDecimal.ONE))).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
+            ax = phxs.add(BigDecimal.ONE).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
             az = phxs.subtract(BigDecimal.ONE).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
         } else if (result == TableResultEnum.Z.getIndex()) {
             ax = phxs.subtract(BigDecimal.ONE).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
@@ -696,26 +735,32 @@ public class BJLDataService {
     /**
      * 计算ZJZ
      *
-     * @param result
+     * @param tableData
      * @param phxs
-     * @param tableMergeData
      * @return
      */
-    public TableMergeData step8_3_5(int result, BigDecimal phxs, TableMergeData tableMergeData) {
+    public void step8_3_5(TableData tableData, BigDecimal phxs) {
 
+        TableMergeData tableMergeData = new TableMergeData();
+        tableMergeData.setCreateTime(tableData.getCreateTime());
+        tableMergeData.setTableNo(tableData.getTableNo());
+        tableMergeData.setBattleNo(tableData.getBattleNo());
+        tableMergeData.setFitNo(tableData.getFitNo());
+        tableMergeData.setIsDelete(false);
+        tableMergeData.setAdminId(tableData.getAdminId());
         String xjz = "0";
         String zjz = "0";
         BigDecimal s = new BigDecimal("0.95");
-        if (result == TableResultEnum.X.getIndex()) {
+        if (tableData.getResult() == TableResultEnum.X.getIndex()) {
             zjz = phxs.subtract(BigDecimal.ONE).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
-        } else if (result == TableResultEnum.Z.getIndex()) {
+        } else if (tableData.getResult() == TableResultEnum.Z.getIndex()) {
             zjz = s.multiply((phxs.add(BigDecimal.ONE))).setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
         }
         tableMergeData.setXjz(xjz);
         tableMergeData.setZjz(zjz);
-        tableMergeData.setType(1);
+        tableMergeData.setType(MergeXZEnum.Other.getIndex());
         tableDataService.addTableMergeData(tableMergeData);
-        return tableMergeData;
+        step8_4(tableMergeData, MergeXZEnum.Other.getIndex());
     }
 
     /**
