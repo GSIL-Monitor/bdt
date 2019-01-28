@@ -1,14 +1,18 @@
 <template>
   <div>
-    <div style="padding-bottom: 16px">
-      <Button type="info" @click="updateData">{{`导出数据`}}</Button>
-    </div>
+    <!--<div style="padding-bottom: 16px">-->
+    <!--<Button type="info" @click="updateData">{{`导出数据`}}</Button>-->
+    <!--</div>-->
     <example prop-type="1" prop-name="ljzjz"></example>
+    <br>
+    <example1 prop-type="2" prop-name="ljzjz"></example1>
+    <br>
   </div>
 </template>
 
 <script>
   import Example from './example.vue'
+  import Example1 from './example1.vue'
 
   export default {
     name: "c_lz",
@@ -16,7 +20,7 @@
       return {}
     },
     components: {
-      Example
+      Example, Example1
     },
     mounted() {
 

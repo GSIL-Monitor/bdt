@@ -88,7 +88,16 @@
         return this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []
       },
       menuList() {
-        return this.$store.getters.menuList
+        //
+        let menu = this.$store.getters.menuList;
+        //  let menu = [];
+        let userInfo = JSON.parse(this.$cookie.get('USER_INFO'))
+        if (!!!userInfo.superAdmin) {
+          menu = menu.filter(item => {
+            return item.name != 'control-all';
+          })
+        }
+        return menu
       },
       local() {
         return this.$store.state.app.local
@@ -178,7 +187,8 @@
       this.setTagNavList()
       this.addTag({
         route: this.$store.state.app.homeRoute
-      })
+      });
+      console.log('====================>', this.menuList);
       this.setBreadCrumb(this.$route)
       // 设置初始语言
       this.setLocal(this.$i18n.locale)

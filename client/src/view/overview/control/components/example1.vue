@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card :dis-hover="true">
     <div slot="title" style="display: flex;align-items: center">
       <div style="flex: 1;text-align: left">
         <span>ljxjz：{{ZJZ}}</span>
@@ -22,6 +22,7 @@
                             :clearable="false" placement="bottom-end" placeholder="Select date"
                             style="width: 200px"></DatePicker>&ensp;&ensp;
       </div>
+      <!--<Button type="info" @click="updateData">{{propDownTitle}}</Button>-->
     </div>
     <div id="overLine">
       <div ref="dom" style="height: 550px"></div>
@@ -34,11 +35,32 @@
 </template>
 
 <script>
-  // import echarts from 'echarts'
   import {on, off} from '@/libs/tools'
 
   export default {
     name: 'serviceRequests',
+    props: {
+      propName: {
+        type: [Boolean, String, Array],
+        default: 'ljzjz'
+      },
+      propType: {
+        type: [Boolean, String, Array],
+        default: '1'
+      },
+      propColor: {
+        type: [Boolean, String, Array],
+        default: '#00c2ff'
+      },
+      propBgColor: {
+        type: [Boolean, String, Array],
+        default: '#c1f0ff'
+      },
+      propDownTitle: {
+        type: [Boolean, String, Array],
+        default: '下载'
+      },
+    },
     data() {
       return {
         loading: true,
@@ -86,7 +108,7 @@
     activated() {
     },
     beforeDestroy() {
-      off(window, 'resize', this.resize())
+      // off(window, 'resize', this.resize())
     },
     created() {
       let dateA = this.getWeekStartDate();
@@ -106,13 +128,13 @@
           });
         }
       }
-      console.log(this.dateArray);
+      // console.log(this.dateArray);
       for (let i = 0; i < 7; i++) {
         this.weekList[i] = {
           value: this.getWeek(i + 1),
           label: `${this.getWeek(i + 1)}-${this.weekList[i].label}`
         };
-        console.log(this.getWeek(i));
+        //console.log(this.getWeek(i));
       }
       //
       this.model1 = this.formatDateM()
@@ -150,7 +172,7 @@
           getDay = 7;
         }
         let firstDay = new Date(now - (getDay) * 86400000);
-        console.log(now, firstDay.getTime(), getDay, (now.getDay() - 1) * 86400000);
+        // console.log(now, firstDay.getTime(), getDay, (now.getDay() - 1) * 86400000);
         firstDay.setDate(firstDay.getDate() + i);
         let mon = Number(firstDay.getMonth()) + 1;
         mon = mon < 10 ? ('0' + mon) : mon;
@@ -215,8 +237,8 @@
         return `${y}-${m}-${d} 23:59:59`;
       },
       daterangeChange(val) {
-        console.warn(this.DateRange)
-        console.warn(val);
+        // console.warn(this.DateRange)
+        // console.warn(val);
       },
       resize() {
         this.dom.resize()
@@ -235,7 +257,7 @@
         let params = {
           startTime: '',
           endTime: '',
-          type: 2
+          type: this.propType
         }
         this.$api.getLJInfo(params).then((res) => {
           this.loading = false;
@@ -244,31 +266,6 @@
             if (data.ljzjz) {
               this.ZJZ = data.ljzjz[0].ljzjz
             }
-            // this.dateArray.forEach((d, i) => {
-            //   if (this.dateArray.length > (i + 1)) {
-            //     let dc = this.dateArray[i + 1].time;
-            //     let darr = [];
-            //     data.ljzjz.forEach((b, j) => {
-            //       if (d.time <= b.createTime && b.createTime < dc) {
-            //         darr.push(b);
-            //       }
-            //     })
-            //     this.$set(d, 'list', darr);
-            //     // console.log(darr, d);
-            //   }
-            // })
-            // let arraty = [];
-            // this.dateArray.forEach((c, i) => {
-            //   c.list.forEach((v, j) => {
-            //     if (j == 0 || j == c.list - 1) {
-            //       //
-            //     } else {
-            //       v.createTime = '';
-            //     }
-            //   })
-            //   arraty = arraty.concat(c.list);
-            // })
-            console.log('213213213213====>', this.dateArray);
             this.setECharts(data.ljzjz);
           }
         }).catch((err) => {
@@ -288,11 +285,12 @@
         let dayStartDate = new Date(nowYear, nowMonth, now.getDate()).getTime() + 12 * 60 * 60 * 1000;
         // console.log('qweqweqwe', dayStartDate, new Date().getTime());
         if (nowDayOfWeek == 1 && new Date().getTime() < dayStartDate) {
-          console.log(13123213312321);
+          // console.log(13123213312321);
           tmp = nowDay - 7;
         }
+        //
         let weekStartDate = new Date(nowYear, nowMonth, tmp);
-        console.log('==1111111111111111111111111111111111======>', weekStartDate);
+        // console.log('==1111111111111111111111111111111111======>', weekStartDate);
         return weekStartDate.getTime();
       },
       getTime(shijianchuo) {
@@ -311,16 +309,10 @@
       },
       //
       setECharts(data) {
-        // console.log(data);
-        // let ljxjzName = data.map(e => {
-        //   return e.createTime
-        // })
-        // ljxjzName = ljxjzName.reverse()
         let ljzjzVal = data.map(e => {
-          return [e.createTime, e.ljzjz]
+          return [e.createTime, e[this.propName]]
         });
         ljzjzVal = ljzjzVal.reverse()
-        console.log('1231313', ljzjzVal);
         this.$nextTick(() => {
           if (!!!this.$refs.dom) {
             return false
@@ -493,10 +485,10 @@
                 }
               }
             ],
-            color: ['#ff0930'],
+            color: [_this.propColor],
             series: [
               {
-                name: 'ljxjz',
+                name: _this.propType,
                 type: 'line',
                 stack: '总量',
                 smooth: true,
@@ -510,7 +502,7 @@
                 data: []
               },
               {
-                name: 'ljxjz',
+                name: _this.propType,
                 type: 'line',
                 stack: '总量',
                 // smooth: true,
@@ -523,7 +515,7 @@
                 // 线条颜色
                 itemStyle: {
                   normal: {
-                    color: '#ff0930',
+                    color: _this.propColor,
                     borderWidth: 0.1
                     // borderColor: 'red'  // 拐点边框颜色
                   }
@@ -534,7 +526,7 @@
                     // color: 'rgba(255, 239, 217, 0.75)'
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                       offset: 0,
-                      color: '#ffc4cd'
+                      color: _this.propBgColor
                     }, {
                       offset: 0.8,
                       color: '#fffefe'
@@ -553,12 +545,15 @@
             on(window, 'resize', this.resize())
           })
         })
+      },
+      updateData() {
+        alert('程序员还在加班开发中');
       }
     },
     mounted() {
     },
     destroyed() {
-      clearInterval(window.setIngetLJInfo);
+      // clearInterval(window.setIngetLJInfo);
     }
   }
 </script>

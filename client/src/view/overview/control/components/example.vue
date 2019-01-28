@@ -22,7 +22,7 @@
                             :clearable="false" placement="bottom-end" placeholder="Select date"
                             style="width: 200px"></DatePicker>&ensp;&ensp;
       </div>
-      <Button type="info" @click="updateData">{{propDownTitle}}</Button>
+      <!--<Button type="info" @click="updateData">{{propDownTitle}}</Button>-->
     </div>
     <div id="overLine">
       <div ref="dom" style="height: 550px"></div>
@@ -108,7 +108,7 @@
     activated() {
     },
     beforeDestroy() {
-      off(window, 'resize', this.resize())
+      // off(window, 'resize', this.resize())
     },
     created() {
       let dateA = this.getWeekStartDate();
@@ -128,13 +128,13 @@
           });
         }
       }
-      console.log(this.dateArray);
+      // console.log(this.dateArray);
       for (let i = 0; i < 7; i++) {
         this.weekList[i] = {
           value: this.getWeek(i + 1),
           label: `${this.getWeek(i + 1)}-${this.weekList[i].label}`
         };
-        console.log(this.getWeek(i));
+        //console.log(this.getWeek(i));
       }
       //
       this.model1 = this.formatDateM()
@@ -264,7 +264,7 @@
           if (res.data.returnCode == 200) {
             let data = res.data.returnObject;
             if (data.ljzjz) {
-              this.ZJZ = data.ljzjz[0].ljzjz
+              this.ZJZ = data.ljzjz[0][this.propName]
             }
             this.setECharts(data.ljzjz);
           }
@@ -285,7 +285,7 @@
         let dayStartDate = new Date(nowYear, nowMonth, now.getDate()).getTime() + 12 * 60 * 60 * 1000;
         // console.log('qweqweqwe', dayStartDate, new Date().getTime());
         if (nowDayOfWeek == 1 && new Date().getTime() < dayStartDate) {
-          console.log(13123213312321);
+          // console.log(13123213312321);
           tmp = nowDay - 7;
         }
         //
@@ -313,7 +313,6 @@
           return [e.createTime, e[this.propName]]
         });
         ljzjzVal = ljzjzVal.reverse()
-        // console.log('1231313', ljzjzVal);
         this.$nextTick(() => {
           if (!!!this.$refs.dom) {
             return false
@@ -562,11 +561,9 @@
   #overLine {
     position: relative;
   }
-
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
   }
-
   @keyframes ani-demo-spin {
     from {
       transform: rotate(0deg);
@@ -578,7 +575,6 @@
       transform: rotate(360deg);
     }
   }
-
   .demo-spin-col {
     height: 100px;
     position: relative;

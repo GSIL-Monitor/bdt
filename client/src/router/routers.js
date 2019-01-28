@@ -51,10 +51,10 @@ export default [
     ]
   },
   {
-    path: '/',
+    path: '/overview',
     name: '投注管理',
     component: Main,
-    meta: {icon: 'ios-keypad', title: '投注管理', beforeCloseName: 'before_close_normal'},
+    meta: {icon: 'ios-keypad', title: '投注管理'},
     children: [
       {
         path: '/overview',
@@ -73,96 +73,102 @@ export default [
       {
         path: '/control',
         name: 'control',
-        redirect: '/control/lz',
         meta: {icon: 'ios-build', title: '图形监控', beforeCloseName: 'before_close_normal'},
-        component: resolve => require(['@/view/overview/control/control.vue'], resolve),
-        children: [
-          {
-            path: '/control/lz',
-            name: 'control-lz',
-            meta: {
-              hideInMenu: true,
-              icon: 'ios-build',
-              title: '图形-LZ'
-            },
-            component: resolve => require(['@/view/overview/control/components/c_lz.vue'], resolve),
-          },
-          {
-            path: '/control/la',
-            name: 'control-la',
-            meta: {
-              hideInMenu: true,
-              icon: 'ios-build',
-              title: '图形-LA'
-            },
-            component: resolve => require(['@/view/overview/control/components/c_la.vue'], resolve),
-          },
-          {
-            path: '/control/lb',
-            name: 'control-lb',
-            meta: {
-              hideInMenu: true,
-              icon: 'ios-build',
-              title: '图形-LB'
-            },
-            component: resolve => require(['@/view/overview/control/components/c_lb.vue'], resolve),
-          },
-          {
-            path: '/control/lc',
-            name: 'control-lc',
-            meta: {
-              hideInMenu: true,
-              icon: 'ios-build',
-              title: '图形-LC'
-            },
-            component: resolve => require(['@/view/overview/control/components/c_lc.vue'], resolve),
-          },
-          {
-            path: '/control/ld',
-            name: 'control-ld',
-            meta: {
-              hideInMenu: true,
-              icon: 'ios-build',
-              title: '图形-LD'
-            },
-            component: resolve => require(['@/view/overview/control/components/c_ld.vue'], resolve),
-          },
-          {
-            path: '/control/le',
-            name: 'control-le',
-            meta: {
-              hideInMenu: true,
-              icon: 'ios-build',
-              title: '图形-LE'
-            },
-            component: resolve => require(['@/view/overview/control/components/c_le.vue'], resolve),
-          },
-          {
-            path: '/control/lf',
-            name: 'control-lf',
-            meta: {
-              hideInMenu: true,
-              icon: 'ios-build',
-              title: '图形-LF'
-            },
-            component: resolve => require(['@/view/overview/control/components/c_lf.vue'], resolve),
-          },
-          {
-            path: '/control/lg',
-            name: 'control-lg',
-            meta: {
-              hideInMenu: true,
-              icon: 'ios-build',
-              title: '图形-LG'
-            },
-            component: resolve => require(['@/view/overview/control/components/c_lg.vue'], resolve),
-          },
-        ]
+        component: resolve => require(['@/view/overview/control/components/c_lz_all.vue'], resolve),
       }
     ]
   },
   {
-    path: '/',
+    path: '/control/lz',
+    name: 'control-all',
+    component: Main,
+    redirect: '/control/lz',
+    meta: {icon: 'ios-build', title: '图形监控', beforeCloseName: 'before_close_normal'},
+    children: [
+      {
+        path: '/control/lz',
+        name: 'control-lz',
+        meta: {
+          hideInMenu: false,
+          icon: 'ios-build',
+          title: '图形-总览'
+        },
+        component: resolve => require(['@/view/overview/control/components/c_lz.vue'], resolve),
+      },
+      {
+        path: '/control/la',
+        name: 'control-la',
+        meta: {
+          hideInMenu: false,
+          icon: 'ios-build',
+          title: '图形-LA'
+        },
+        component: resolve => require(['@/view/overview/control/components/c_la.vue'], resolve),
+      },
+      {
+        path: '/control/lb',
+        name: 'control-lb',
+        meta: {
+          hideInMenu: false,
+          icon: 'ios-build',
+          title: '图形-LB'
+        },
+        component: resolve => require(['@/view/overview/control/components/c_lb.vue'], resolve),
+      },
+      {
+        path: '/control/lc',
+        name: 'control-lc',
+        meta: {
+          hideInMenu: false,
+          icon: 'ios-build',
+          title: '图形-LC'
+        },
+        component: resolve => require(['@/view/overview/control/components/c_lc.vue'], resolve),
+      },
+      {
+        path: '/control/ld',
+        name: 'control-ld',
+        meta: {
+          hideInMenu: false,
+          icon: 'ios-build',
+          title: '图形-LD'
+        },
+        component: resolve => require(['@/view/overview/control/components/c_ld.vue'], resolve),
+      },
+      {
+        path: '/control/le',
+        name: 'control-le',
+        meta: {
+          hideInMenu: false,
+          icon: 'ios-build',
+          title: '图形-LE'
+        },
+        component: resolve => require(['@/view/overview/control/components/c_le.vue'], resolve),
+      },
+      {
+        path: '/control/lf',
+        name: 'control-lf',
+        meta: {
+          hideInMenu: false,
+          icon: 'ios-build',
+          title: '图形-LF'
+        },
+        component: resolve => require(['@/view/overview/control/components/c_lf.vue'], resolve),
+      },
+      {
+        path: '/control/lg',
+        name: 'control-lg',
+        meta: {
+          hideInMenu: false,
+          icon: 'ios-build',
+          title: '图形-LG'
+        },
+        component: resolve => require(['@/view/overview/control/components/c_lg.vue'], resolve),
+      },
+    ]
+  },
+  {
+    path: '/desktop',
     name: '数据管理',
     component: Main,
     meta: {icon: 'ios-keypad', title: '数据管理', beforeCloseName: 'before_close_normal'},

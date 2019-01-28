@@ -281,9 +281,12 @@
         // })
       },
       downZip(id) {
-        let params = {
-          fileIds: id
-        };
+        let params = Object.assign({}, {params: {fileIds: id}}, {
+          onDownloadProgress: progressEvent => {
+            var complete = (progressEvent.loaded / progressEvent.total * 100 | 0);
+            console.log(progressEvent, complete);
+          }
+        })
         this.$api.downZip(params).then(response => {
           console.log(response);
           var headers = response.headers;

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-  import Example from './components/example.vue'
-  import Example1 from './components/example1.vue'
+  // import Example from './components/example.vue'
+  // import Example1 from './components/example1.vue'
 
   export default {
     name: 'overview',
@@ -28,25 +28,28 @@
           {label: "ljzjz-LE", name: "control-le"},
           {label: "ljzjz-LF", name: "control-lf"},
           {label: "ljzjz-LG", name: "control-lg"},
-        ]
+        ],
+        userInfo: {},
+        isSuper: false
       }
     },
     components: {
-      Example,
-      Example1
+      // Example,
+      // Example1
     },
     watch: {
       $route: function (to, form) {
-        // console.log(to);
+        this.tabsVal = to.name;
       }
     },
     created() {
       this.tabsVal = this.$route.name;
     },
     activated() {
-
+      this.tabsVal = this.$route.name;
     },
     mounted() {
+      //
       console.log(this.$config);
     },
     methods: {
@@ -74,13 +77,11 @@
       }
     }
   }
-
   .qq-group-img {
     display: block;
     margin: 0 auto;
     width: 240px;
   }
-
   .qq-group-intro {
     padding: 20px;
     font-size: 16px;

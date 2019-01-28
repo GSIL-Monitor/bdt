@@ -102,11 +102,12 @@ export default {
   },
   downZip(params = {}) {
     // DELETE /account/deleteAdminAccount
-    return Axios({
+    let api = Object.assign({}, params, {
       method: 'POST',
+      headers: {"Content-Type": "multipart/form-data"},
       url: HOST + 'bjlTable/downZip',
-      params: params,
       responseType: 'blob'
     })
+    return Axios(api)
   }
 }

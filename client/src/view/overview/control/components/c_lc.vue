@@ -1,8 +1,8 @@
 <template>
   <div>
-    <example prop-type="4" prop-name="ljzjz" prop-down-title="下载LC"></example>
+    <example prop-type="5" prop-name="ljzjz" prop-down-title="下载LC"></example>
     <br>
-    <example prop-type="4" prop-name="ljxjz" prop-color="#ff0930" prop-bg-color="#ffc4cd"
+    <example prop-type="5" prop-name="ljxjz" prop-color="#ff0930" prop-bg-color="#ffc4cd"
              prop-down-title="下载LC2"></example>
     <br>
   </div>
