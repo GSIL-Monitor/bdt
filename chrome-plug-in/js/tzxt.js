@@ -142,23 +142,23 @@ function TZZL(tableCode, yuan, fx, list) {
   //   }
   // }, 5000 * Math.random());
 
-  setTimeout(function () {
-    if (!!!isTZ(list)) {
-      // 没投注 isTZ(list)== false 代表还可以投注
-      if (isTZ(list)) {
-        return
-      } else {
-        window.globalTableCell[list.id] += 1;
-        console.warn('==============>list.id', window.globalTableCell[list.id]);
-        if (window.globalTableCell[list.id] > 3) {
-          list.tzCount = window.globalTableCell[list.id];
-          updateTzztList(list, false);
-        } else {
-          TZZL(tableCode, yuan, fx, list);
-        }
-      }
-    }
-  }, 4700)
+  // setTimeout(function () {
+  //   if (!!!isTZ(list)) {
+  //     // 没投注 isTZ(list)== false 代表还可以投注
+  //     if (isTZ(list)) {
+  //       return
+  //     } else {
+  //       window.globalTableCell[list.id] += 1;
+  //       console.warn('==============>list.id', window.globalTableCell[list.id]);
+  //       if (window.globalTableCell[list.id] > 3) {
+  //         list.tzCount = window.globalTableCell[list.id];
+  //         updateTzztList(list, false);
+  //       } else {
+  //         TZZL(tableCode, yuan, fx, list);
+  //       }
+  //     }
+  //   }
+  // }, 4700)
 }
 
 function HQTZ() {
